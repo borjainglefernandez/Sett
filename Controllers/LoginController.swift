@@ -65,7 +65,7 @@ extension LoginController: ASAuthorizationControllerDelegate, ASAuthorizationCon
             let email = appleIDCredential.email
             self.saveUserInKeychain(userIdentifier)
             let tabViewController = TabViewController()
-            navigationController?.setViewControllers([tabViewController], animated:true)
+            view.navigateToScreen(self.navigationController, tabViewController)
         }
     }
 }

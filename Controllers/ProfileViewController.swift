@@ -7,23 +7,30 @@
 
 import UIKit
 
-class ProfileViewController: UIViewController {
+final class ProfileViewController: UIViewController {
+
+    private let signOutButton: UIButton = {
+        let signOutButton = UIButton(type: .roundedRect)
+        signOutButton.frame = CGRect(x: 0, y: 0, width: 250, height: 50)
+        signOutButton.backgroundColor = .red
+        signOutButton.setTitle("Sign Out", for: .normal)
+        return signOutButton
+    }()
 
     override func viewDidLoad() {
         super.viewDidLoad()
-        view.backgroundColor = .systemTeal
-        // Do any additional setup after loading the view.
+        view.backgroundColor = .systemCyan
+        setUpSignOutButton()
     }
     
-
-    /*
-    // MARK: - Navigation
-
-    // In a storyboard-based application, you will often want to do a little preparation before navigation
-    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-        // Get the new view controller using segue.destination.
-        // Pass the selected object to the new view controller.
+    private func setUpSignOutButton() {
+        signOutButton.center = view.center
+        signOutButton.addTarget(self, action: #selector(signOut), for: .touchUpInside)
+        view.addSubview(signOutButton)
     }
-    */
-
+    
+    @objc func signOut() {
+        KeychainItem.deleteUserIdentifierFromKeychain()
+        view.navigateToScreenFromTabBar(self.tabBarController, LoginController())
+    }
 }

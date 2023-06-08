@@ -20,7 +20,6 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
         let window = UIWindow(windowScene: windowScene)
         let navigationController = UINavigationController()
         window.rootViewController = navigationController
-        window.makeKeyAndVisible()
 
         let appleIDProvider = ASAuthorizationAppleIDProvider()
         

@@ -60,5 +60,4 @@ final class TabViewController: UITabBarController {
             animated: true
         )
     }
-    
 }
