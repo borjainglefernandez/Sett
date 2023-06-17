@@ -12,17 +12,20 @@ class WorkoutListView: UIView {
     
     private let collectionView: UICollectionView = {
         let layout = UICollectionViewFlowLayout()
+        layout.sectionInset = UIEdgeInsets(top: 10, left: 10, bottom: 10, right: 10)
+        layout.scrollDirection = .vertical
         let collectionView = UICollectionView(frame: .zero, collectionViewLayout: layout)
         collectionView.translatesAutoresizingMaskIntoConstraints = false
-        collectionView.register(UICollectionViewCell.self, forCellWithReuseIdentifier: "Cell")
+        collectionView.register(MonthWorkoutListCell.self, forCellWithReuseIdentifier: MonthWorkoutListCell.cellIdentifier)
+        collectionView.backgroundColor = .systemCyan
         return collectionView
     }()
     
     
     override init(frame: CGRect) {
         super.init(frame: frame)
-        backgroundColor = .systemRed
         translatesAutoresizingMaskIntoConstraints = false
+        
         addSubview(collectionView)
         addConstraints()
         setUpCollectionView()
@@ -42,6 +45,7 @@ class WorkoutListView: UIView {
     
     private func setUpCollectionView() {
         collectionView.dataSource = viewModel
+        collectionView.delegate = viewModel
 
     }
 }
