@@ -8,7 +8,7 @@
 import AuthenticationServices
 import UIKit
 
-class LoginController: UIViewController {
+final class LoginController: UIViewController {
     
     private let signInButton = ASAuthorizationAppleIDButton()
     
