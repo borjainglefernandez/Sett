@@ -7,11 +7,11 @@
 
 import UIKit
 
-final class WorkoutListViewModel: NSObject {
+final class MonthListViewModel: NSObject {
     
 }
 
-extension WorkoutListViewModel: UICollectionViewDataSource, UICollectionViewDelegateFlowLayout {
+extension MonthListViewModel: UICollectionViewDataSource, UICollectionViewDelegateFlowLayout {
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
         return 20
     }

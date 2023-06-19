@@ -8,18 +8,18 @@
 import UIKit
 
 final class HomeViewController: UIViewController {
-    
-    private let workoutListView = WorkoutListView()
+
+    private let monthListView = MonthListView()
     
     override func viewDidLoad() {
         super.viewDidLoad()
         view.backgroundColor = .systemCyan
-        view.addSubview(workoutListView)
+        view.addSubview(monthListView)
         NSLayoutConstraint.activate([
-            workoutListView.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor),
-            workoutListView.leftAnchor.constraint(equalTo: view.safeAreaLayoutGuide.leftAnchor),
-            workoutListView.rightAnchor.constraint(equalTo: view.safeAreaLayoutGuide.rightAnchor),
-            workoutListView.bottomAnchor.constraint(equalTo: view.safeAreaLayoutGuide.bottomAnchor)
+            monthListView.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor),
+            monthListView.leftAnchor.constraint(equalTo: view.safeAreaLayoutGuide.leftAnchor),
+            monthListView.rightAnchor.constraint(equalTo: view.safeAreaLayoutGuide.rightAnchor),
+            monthListView.bottomAnchor.constraint(equalTo: view.safeAreaLayoutGuide.bottomAnchor)
         ])
     }
 

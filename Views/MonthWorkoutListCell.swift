@@ -12,38 +12,23 @@ final class MonthWorkoutListCell: UICollectionViewCell {
     
     private let toggleArrowButton: UIButton = {
         let iconButton = UIButton(type: .custom)
-        let iconImage = UIImage(named: "chevron.right") // Replace "iconImage" with the name of your icon image asset
-        
-        // Set the icon image for the normal state
+        let iconImage = UIImage(systemName: "chevron.right")
+        var config = UIImage.SymbolConfiguration(font: .systemFont(ofSize: 17.0, weight: .bold))
+        iconButton.tintColor = .white
+        iconButton.setPreferredSymbolConfiguration(config, forImageIn: .normal)
         iconButton.setImage(iconImage, for: .normal)
+        iconButton.translatesAutoresizingMaskIntoConstraints = false
         return iconButton
     }()
     
-    private let topBar: UIView = {
-        
-        let topBar = UIView()
-        let iconButton = UIButton(type: .custom)
-        let iconImage = UIImage(named: "chevron.right") // Replace "iconImage" with the name of your icon image asset
-        
-        // Set the icon image for the normal state
-        iconButton.setImage(iconImage, for: .normal)
-        topBar.addSubview(iconButton)
-
-        topBar.clipsToBounds = true
-        topBar.layer.cornerRadius = 15
-        topBar.layer.maskedCorners = [.layerMaxXMinYCorner, .layerMinXMinYCorner]
-
-        topBar.backgroundColor = .systemGray4
-        topBar.translatesAutoresizingMaskIntoConstraints = false
-        
-        return topBar
-    }()
+    private let monthWorkoutListView = MonthWorkoutListView()
     
     override init(frame: CGRect) {
         super.init(frame: frame)
-        contentView.backgroundColor = .systemGray3
+        contentView.backgroundColor = .systemGray4
         contentView.layer.cornerRadius = 15
-        addSubviews(topBar)
+        addSubview(toggleArrowButton)
+        addSubview(monthWorkoutListView)
         addConstraints()
     }
     
@@ -57,10 +42,11 @@ final class MonthWorkoutListCell: UICollectionViewCell {
     
     private func addConstraints() {
         NSLayoutConstraint.activate([
-            topBar.topAnchor.constraint(equalTo: topAnchor),
-            topBar.leftAnchor.constraint(equalTo: leftAnchor),
-            topBar.rightAnchor.constraint(equalTo: rightAnchor),
-            topBar.heightAnchor.constraint(equalTo: heightAnchor, multiplier: 0.25)
+            toggleArrowButton.rightAnchor.constraint(equalTo: rightAnchor, constant: -15),
+            monthWorkoutListView.heightAnchor.constraint(equalTo: heightAnchor, multiplier: 0.8),
+            monthWorkoutListView.bottomAnchor.constraint(equalTo: bottomAnchor),
+            monthWorkoutListView.rightAnchor.constraint(equalTo: rightAnchor),
+            monthWorkoutListView.leftAnchor.constraint(equalTo: leftAnchor),
         ])
     }
     

@@ -7,10 +7,10 @@
 
 import UIKit
 
-class WorkoutListView: UIView {
-    private let viewModel = WorkoutListViewModel()
-    
-    private let collectionView: UICollectionView = {
+class MonthListView: UIView {
+    private let viewModel = MonthListViewModel()
+
+    public let collectionView: UICollectionView = {
         let layout = UICollectionViewFlowLayout()
         layout.sectionInset = UIEdgeInsets(top: 10, left: 10, bottom: 10, right: 10)
         layout.scrollDirection = .vertical
@@ -42,7 +42,7 @@ class WorkoutListView: UIView {
             collectionView.bottomAnchor.constraint(equalTo: bottomAnchor)
         ])
     }
-    
+
     private func setUpCollectionView() {
         collectionView.dataSource = viewModel
         collectionView.delegate = viewModel
