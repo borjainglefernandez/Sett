@@ -28,6 +28,7 @@ class MonthListView: UIView {
         
         addSubview(collectionView)
         addConstraints()
+        viewModel.configure()
         setUpCollectionView()
     }
     required init?(coder: NSCoder) {
