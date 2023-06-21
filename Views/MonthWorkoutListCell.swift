@@ -43,7 +43,7 @@ final class MonthWorkoutListCell: UICollectionViewCell {
     private func addConstraints() {
         NSLayoutConstraint.activate([
             toggleArrowButton.rightAnchor.constraint(equalTo: rightAnchor, constant: -15),
-            monthWorkoutListView.heightAnchor.constraint(equalTo: heightAnchor, multiplier: 0.8),
+            monthWorkoutListView.heightAnchor.constraint(equalTo: heightAnchor, multiplier: 0.9),
             monthWorkoutListView.bottomAnchor.constraint(equalTo: bottomAnchor),
             monthWorkoutListView.rightAnchor.constraint(equalTo: rightAnchor),
             monthWorkoutListView.leftAnchor.constraint(equalTo: leftAnchor),
