@@ -8,9 +8,9 @@
 import UIKit
 import CoreData
 
-final class MonthListViewModel: NSObject {
+final class HomeViewModel: NSObject {
     
-    private var cellViewModels: [MonthWorkoutListCellViewModel] = []
+    private var cellViewModels: [MonthListCellViewModel] = []
     private var workoutsByMonth: [String: [Workout]] = [String: [Workout]]()
     
     
@@ -24,6 +24,9 @@ final class MonthListViewModel: NSObject {
             monthYearFetchRequest.resultType = .dictionaryResultType
             monthYearFetchRequest.propertiesToFetch = ["monthYear"]
             monthYearFetchRequest.propertiesToGroupBy = ["monthYear"]
+            let sortDescriptor = NSSortDescriptor(key: "monthYear", ascending: true)
+            monthYearFetchRequest.sortDescriptors = [sortDescriptor]
+
             
             let monthYears = try context.fetch(monthYearFetchRequest)
             
@@ -49,8 +52,9 @@ final class MonthListViewModel: NSObject {
                 monthYearWorkoutDict["\(month)/\(year)"]?.append(workout)
             }
             
-            for monthYear in monthYearWorkoutDict.keys {
-                let viewModel = MonthWorkoutListCellViewModel(monthName: monthYear, numWorkouts: monthYearWorkoutDict[monthYear]?.count ?? 0)
+            let sortedKeys = monthYearWorkoutDict.keys.sorted().reversed()
+            for monthYear in sortedKeys {
+                let viewModel = MonthListCellViewModel(monthName: monthYear, numWorkouts: monthYearWorkoutDict[monthYear]?.count ?? 0)
                 
                 self.cellViewModels.append(viewModel)
                 
@@ -64,16 +68,16 @@ final class MonthListViewModel: NSObject {
     
 }
 
-extension MonthListViewModel: UICollectionViewDataSource, UICollectionViewDelegateFlowLayout {
+extension HomeViewModel: UICollectionViewDataSource, UICollectionViewDelegateFlowLayout {
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
         return self.workoutsByMonth.count
     }
     
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         guard let cell = collectionView.dequeueReusableCell(
-            withReuseIdentifier: MonthWorkoutListCell.cellIdentifier,
+            withReuseIdentifier: MonthListCell.cellIdentifier,
             for: indexPath
-        ) as? MonthWorkoutListCell else {
+        ) as? MonthListCell else {
             fatalError("Unsupported cell")
         }
         
@@ -86,4 +90,5 @@ extension MonthListViewModel: UICollectionViewDataSource, UICollectionViewDelega
         
         return CGSize(width: (collectionView.safeAreaLayoutGuide.layoutFrame.width - 20), height: 320)
     }
+    
 }

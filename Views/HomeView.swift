@@ -7,8 +7,8 @@
 
 import UIKit
 
-class MonthListView: UIView {
-    private let viewModel = MonthListViewModel()
+class HomeView: UIView {
+    private let viewModel = HomeViewModel()
 
     public let collectionView: UICollectionView = {
         let layout = UICollectionViewFlowLayout()
@@ -16,7 +16,7 @@ class MonthListView: UIView {
         layout.scrollDirection = .vertical
         let collectionView = UICollectionView(frame: .zero, collectionViewLayout: layout)
         collectionView.translatesAutoresizingMaskIntoConstraints = false
-        collectionView.register(MonthWorkoutListCell.self, forCellWithReuseIdentifier: MonthWorkoutListCell.cellIdentifier)
+        collectionView.register(MonthListCell.self, forCellWithReuseIdentifier: MonthListCell.cellIdentifier)
         collectionView.backgroundColor = .systemCyan
         return collectionView
     }()

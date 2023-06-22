@@ -10,17 +10,17 @@ import CoreData
 
 final class HomeViewController: UIViewController {
     
-    private let monthListView = MonthListView()
+    private let homeView = HomeView()
     
     override func viewDidLoad() {
         super.viewDidLoad()
         view.backgroundColor = .systemCyan
-        view.addSubview(monthListView)
+        view.addSubview(homeView)
         NSLayoutConstraint.activate([
-            monthListView.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor),
-            monthListView.leftAnchor.constraint(equalTo: view.safeAreaLayoutGuide.leftAnchor),
-            monthListView.rightAnchor.constraint(equalTo: view.safeAreaLayoutGuide.rightAnchor),
-            monthListView.bottomAnchor.constraint(equalTo: view.safeAreaLayoutGuide.bottomAnchor)
+            homeView.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor),
+            homeView.leftAnchor.constraint(equalTo: view.safeAreaLayoutGuide.leftAnchor),
+            homeView.rightAnchor.constraint(equalTo: view.safeAreaLayoutGuide.rightAnchor),
+            homeView.bottomAnchor.constraint(equalTo: view.safeAreaLayoutGuide.bottomAnchor)
         ])
     }
     

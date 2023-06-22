@@ -8,13 +8,22 @@
 import UIKit
 
 class MonthWorkoutListView: UIView {
-    private let viewModel = MonthWorkoutListViewModel()
+    private var viewModel: MonthWorkoutListViewModel? {
+        didSet {
+            DispatchQueue.main.async {
+                self.tableView.reloadData()
+            }
+        }
+    }
     
     private let tableView: UITableView = {
         let tableView = UITableView()
-        tableView.backgroundColor = .systemGray3
+        tableView.backgroundColor = .systemGray3.withAlphaComponent(0.44)
         tableView.translatesAutoresizingMaskIntoConstraints = false
-        tableView.register(UITableViewCell.self, forCellReuseIdentifier: "Cell")
+        tableView.register(MonthWorkoutListCell.self, forCellReuseIdentifier: MonthWorkoutListCell.cellIdentifier)
+        tableView.layer.cornerRadius = 15
+        tableView.layer.maskedCorners = [.layerMaxXMaxYCorner, .layerMinXMaxYCorner]
+
         return tableView
     }()
     
@@ -24,7 +33,6 @@ class MonthWorkoutListView: UIView {
         translatesAutoresizingMaskIntoConstraints = false
         addSubview(tableView)
         addConstraints()
-        setUpTableView()
     }
     required init?(coder: NSCoder) {
         fatalError("Unsupported initializer")
@@ -42,6 +50,10 @@ class MonthWorkoutListView: UIView {
     private func setUpTableView() {
         tableView.dataSource = viewModel
         tableView.delegate = viewModel
-
+    }
+    
+    public func configure(with viewModel: MonthWorkoutListViewModel) {
+        self.viewModel = viewModel
+        setUpTableView()
     }
 }

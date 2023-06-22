@@ -1,14 +1,14 @@
 //
-//  MonthWorkoutListCell.swift
+//  MonthWorkoutTableViewCell.swift
 //  Sett
 //
-//  Created by Borja Ingle-Fernandez on 6/17/23.
+//  Created by Borja Ingle-Fernandez on 6/22/23.
 //
 
 import UIKit
 
-final class MonthWorkoutListCell: UICollectionViewCell {
-    static let cellIdentifier = "MonthWorkoutListCell"
+class MonthWorkoutListCell: UITableViewCell {
+    static let cellIdentifier = "MonthWorkoutTableViewCell"
     
     private let cellLabel: UILabel = {
         let label = UILabel()
@@ -18,31 +18,19 @@ final class MonthWorkoutListCell: UICollectionViewCell {
         return label
     }()
     
-    private let toggleArrowButton: UIButton = {
-        let iconButton = UIButton(type: .custom)
-        let iconImage = UIImage(systemName: "chevron.right")
-        var config = UIImage.SymbolConfiguration(font: .systemFont(ofSize: 14.0, weight: .bold))
-        iconButton.tintColor = .white
-        iconButton.setPreferredSymbolConfiguration(config, forImageIn: .normal)
-        iconButton.setImage(iconImage, for: .normal)
-        iconButton.translatesAutoresizingMaskIntoConstraints = false
-        return iconButton
-    }()
-    
-    private let monthWorkoutListView = MonthWorkoutListView()
-    
-    override init(frame: CGRect) {
-        super.init(frame: frame)
-        contentView.backgroundColor = .systemGray4
+    override init(style: UITableViewCell.CellStyle, reuseIdentifier: String?) {
+        super.init(style: style, reuseIdentifier: reuseIdentifier)
+        backgroundColor = UIColor.clear
+        contentView.backgroundColor = .systemGray2.withAlphaComponent(0.6)
+        contentView.layer.borderColor = UIColor.white.cgColor
+        contentView.layer.borderWidth = 1
         contentView.layer.cornerRadius = 15
-        addSubview(cellLabel)
-        addSubview(toggleArrowButton)
-        addSubview(monthWorkoutListView)
+        contentView.addSubview(cellLabel)
         addConstraints()
     }
     
     required init?(coder: NSCoder) {
-        fatalError("Unsupported constructor")
+        fatalError("Unsupported initializer")
     }
     
     override func prepareForReuse() {
@@ -54,20 +42,10 @@ final class MonthWorkoutListCell: UICollectionViewCell {
         NSLayoutConstraint.activate([
             cellLabel.leftAnchor.constraint(equalToSystemSpacingAfter: leftAnchor, multiplier: 2),
             cellLabel.topAnchor.constraint(equalToSystemSpacingBelow: topAnchor, multiplier: 1),
-            
-            toggleArrowButton.topAnchor.constraint(equalToSystemSpacingBelow: topAnchor, multiplier: 0.8),
-            toggleArrowButton.rightAnchor.constraint(equalTo: rightAnchor, constant: -15),
-            
-            monthWorkoutListView.heightAnchor.constraint(equalTo: heightAnchor, multiplier: 0.9),
-            monthWorkoutListView.bottomAnchor.constraint(equalTo: bottomAnchor),
-            monthWorkoutListView.rightAnchor.constraint(equalTo: rightAnchor),
-            monthWorkoutListView.leftAnchor.constraint(equalTo: leftAnchor),
         ])
     }
     
     public func configure(with viewModel: MonthWorkoutListCellViewModel) {
-        cellLabel.text = "\(viewModel.monthName) - \(viewModel.numWorkouts) Workouts"
+        cellLabel.text = "\(String(describing: viewModel.workout.startTime))"
     }
-    
-    
 }

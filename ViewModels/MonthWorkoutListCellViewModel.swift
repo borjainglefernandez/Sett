@@ -2,23 +2,19 @@
 //  MonthWorkoutListCellViewModel.swift
 //  Sett
 //
-//  Created by Borja Ingle-Fernandez on 6/17/23.
+//  Created by Borja Ingle-Fernandez on 6/22/23.
 //
 
 import Foundation
 
 final class MonthWorkoutListCellViewModel {
-    public let monthName: String
-    public let numWorkouts: Int
-    private let isCollapsed: Bool = false
+    public let workout: Workout
 
      // MARK: - Init
 
      init(
-        monthName: String,
-        numWorkouts: Int
+        workout: Workout
      ) {
-         self.monthName = monthName
-         self.numWorkouts = numWorkouts
+         self.workout = workout
      }
 }
