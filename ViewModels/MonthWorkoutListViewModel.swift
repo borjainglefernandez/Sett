@@ -69,7 +69,8 @@ extension MonthWorkoutListViewModel: UITableViewDataSource, UITableViewDelegate 
         }
         
         cell.configure(with: self.cellViewModels[indexPath.row])
-        
+        cell.clipsToBounds = true
+
         return cell
     }
     
@@ -80,7 +81,6 @@ extension MonthWorkoutListViewModel: UITableViewDataSource, UITableViewDelegate 
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         return 1
     }
-    
     func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
         return 43
     }

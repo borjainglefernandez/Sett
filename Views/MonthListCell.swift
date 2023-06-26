@@ -7,17 +7,19 @@
 
 import UIKit
 
+protocol ExpandedCellDelegate: NSObjectProtocol{
+    func collapseExpand(indexPath:IndexPath, collectionView: UICollectionView)
+}
+
 final class MonthListCell: UICollectionViewCell {
     static let cellIdentifier = "MonthListCell"
-    
-    private var isCollapsed: Bool = false
+    weak var delegate:ExpandedCellDelegate?
+    public var indexPath:IndexPath!
     
     private let topBox: UIView = {
         let topBox = UIView()
         topBox.translatesAutoresizingMaskIntoConstraints = false
         topBox.backgroundColor = .systemGray4
-        topBox.layer.cornerRadius = 15
-        topBox.layer.maskedCorners = [.layerMaxXMinYCorner, .layerMinXMinYCorner]
         return topBox
     }()
     
@@ -31,40 +33,32 @@ final class MonthListCell: UICollectionViewCell {
     
     private let toggleArrowButton: UIButton = {
         let iconButton = UIButton(type: .custom)
-        let iconImage = UIImage(systemName: "chevron.right")
-        var config = UIImage.SymbolConfiguration(font: .systemFont(ofSize: 14.0, weight: .bold))
+        var config = UIImage.SymbolConfiguration(font: .systemFont(ofSize: 17, weight: .bold))
         iconButton.tintColor = .white
         iconButton.setPreferredSymbolConfiguration(config, forImageIn: .normal)
-        iconButton.setImage(iconImage, for: .normal)
         iconButton.translatesAutoresizingMaskIntoConstraints = false
         
         return iconButton
     }()
     
-    private let monthWorkoutListView = MonthWorkoutListView()
+    public let monthWorkoutListView = MonthWorkoutListView()
     
     override init(frame: CGRect) {
         super.init(frame: frame)
         contentView.layer.cornerRadius = 15
         addSubviews(topBox, cellLabel, toggleArrowButton, monthWorkoutListView)
         toggleArrowButton.addTarget(self, action: #selector(collapseExpand), for: .touchUpInside)
-
         addConstraints()
     }
     
     @objc func collapseExpand() {
-       print("Here")
-        if !self.isCollapsed {
-            monthWorkoutListView.isHidden = true
-            monthWorkoutListView.layer.opacity = 0
-        } else {
-            monthWorkoutListView.isHidden = false
-            monthWorkoutListView.layer.opacity = 1
+        guard let collectionView = superview as? UICollectionView else {
+            return
         }
-        
-        self.isCollapsed = !self.isCollapsed
+        if let delegate = self.delegate {
+            delegate.collapseExpand(indexPath: self.indexPath, collectionView: collectionView)
+        }
 
-        
     }
     
     required init?(coder: NSCoder) {
@@ -78,18 +72,32 @@ final class MonthListCell: UICollectionViewCell {
     
     private func addConstraints() {
         NSLayoutConstraint.activate([
-            topBox.heightAnchor.constraint(equalTo: heightAnchor, multiplier: 0.1),
+            topBox.heightAnchor.constraint(equalToConstant: 30),
             topBox.leftAnchor.constraint(equalTo: leftAnchor),
             topBox.rightAnchor.constraint(equalTo: rightAnchor),
             cellLabel.leftAnchor.constraint(equalToSystemSpacingAfter: leftAnchor, multiplier: 2),
-            cellLabel.topAnchor.constraint(equalToSystemSpacingBelow: topAnchor, multiplier: 1),
-            toggleArrowButton.topAnchor.constraint(equalToSystemSpacingBelow: topAnchor, multiplier: 0.8),
+            cellLabel.centerYAnchor.constraint(equalTo: topBox.centerYAnchor),
+            toggleArrowButton.centerYAnchor.constraint(equalTo: topBox.centerYAnchor),
             toggleArrowButton.rightAnchor.constraint(equalTo: rightAnchor, constant: -15),
-            monthWorkoutListView.heightAnchor.constraint(equalTo: heightAnchor, multiplier: 0.9),
-            monthWorkoutListView.bottomAnchor.constraint(equalTo: bottomAnchor),
+            monthWorkoutListView.heightAnchor.constraint(equalTo: heightAnchor, multiplier: 1, constant: -30),            monthWorkoutListView.bottomAnchor.constraint(equalTo: bottomAnchor),
             monthWorkoutListView.rightAnchor.constraint(equalTo: rightAnchor),
             monthWorkoutListView.leftAnchor.constraint(equalTo: leftAnchor),
         ])
+    }
+    
+    public func showHideMonthListView(isExpanded: Bool) {
+        var iconImage: UIImage?
+        topBox.layer.cornerRadius = 15
+        monthWorkoutListView.isHidden = !isExpanded
+        if isExpanded {
+            topBox.layer.maskedCorners = [.layerMaxXMinYCorner, .layerMinXMinYCorner]
+            iconImage = UIImage(systemName: "chevron.up")
+        } else {
+            topBox.layer.maskedCorners = [.layerMaxXMinYCorner, .layerMinXMinYCorner, .layerMinXMaxYCorner, .layerMaxXMaxYCorner]
+            iconImage = UIImage(systemName: "chevron.down")
+        }
+        self.toggleArrowButton.setImage(iconImage, for: .normal)
+        
     }
     
     public func configure(with viewModel: MonthListCellViewModel) {
