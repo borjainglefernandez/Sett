@@ -8,12 +8,12 @@
 import UIKit
 import CoreData
 
-final class MonthWorkoutListViewModel:NSObject {
+final class MonthWorkoutListViewModel: NSObject {
     public var month: Int
     public var year: Int
     public var workouts: [Workout] = []
     private var cellViewModels: [MonthWorkoutListCellViewModel] = []
-
+    
     // MARK: - Init
     
     init(
@@ -26,51 +26,45 @@ final class MonthWorkoutListViewModel:NSObject {
         self.setWorkouts()
     }
     
+    // MARK: - Actions
+    
+    /// Fetch and set the workouts for the month
     public func setWorkouts() {
-        let context = (UIApplication.shared.delegate as! AppDelegate).persistentContainer.viewContext
-        
+        // Create start and end dates for a particular month
         let startDateComponents = DateComponents(year: self.year, month: self.month, day: 1, hour: 0, minute: 0, second: 0)
-        
         var incrementDateComponents = DateComponents()
         incrementDateComponents.month = 1
+        let calendar:Calendar = Calendar.current
+        guard let startDate: Date = calendar.date(from: startDateComponents),
+              let endDate: Date = calendar.date(byAdding: incrementDateComponents, to: startDate) else {
+                  fatalError("Dates could not be converted")
+              }
         
+        // Get workouts for particular month
+        let predicate = NSPredicate(format: "(startTime >= %@) AND (startTime < %@)", startDate as NSDate, endDate as NSDate)
         
-        let fetchRequest: NSFetchRequest<Workout> = Workout.fetchRequest()
-        let calendar = Calendar.current
-        
-        if let startDate = calendar.date(from: startDateComponents),
-           let endDate = calendar.date(byAdding: incrementDateComponents, to: startDate) {
-            let predicate = NSPredicate(format: "(startTime >= %@) AND (startTime < %@)", startDate as NSDate, endDate as NSDate)
-            fetchRequest.predicate = predicate
-            
-            do {
-                self.workouts = try context.fetch(fetchRequest)
-                for workout in self.workouts {
-                    let viewModel = MonthWorkoutListCellViewModel(workout: workout)
-                    self.cellViewModels.append(viewModel)
-                }
-            } catch {
-                // Handle fetch error
-                fatalError("Error fetching workouts: \(error)")
+        if let workouts  = CoreDataBase.fetchEntities(withEntity: "Workout", expecting: Workout.self, predicates: [predicate]) {
+            self.workouts = workouts
+            for workout in self.workouts {
+                let viewModel = MonthWorkoutListCellViewModel(workout: workout)
+                self.cellViewModels.append(viewModel)
             }
         }
+        
     }
     
 }
 
 extension MonthWorkoutListViewModel: UITableViewDataSource, UITableViewDelegate {
+    
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-
         guard let cell = tableView.dequeueReusableCell(
             withIdentifier: MonthWorkoutListCell.cellIdentifier,
             for: indexPath
         ) as? MonthWorkoutListCell else {
             fatalError("Unsupported cell")
         }
-        
         cell.configure(with: self.cellViewModels[indexPath.row])
-        cell.clipsToBounds = true
-
         return cell
     }
     

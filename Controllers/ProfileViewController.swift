@@ -8,7 +8,7 @@
 import UIKit
 
 final class ProfileViewController: UIViewController {
-
+    
     private let signOutButton: UIButton = {
         let signOutButton = UIButton(type: .roundedRect)
         signOutButton.frame = CGRect(x: 0, y: 0, width: 250, height: 50)

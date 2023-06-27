@@ -1,5 +1,5 @@
 //
-//  ViewController.swift
+//  LoginController.swift
 //  Sett
 //
 //  Created by Borja Ingle-Fernandez on 6/6/23.
@@ -8,24 +8,37 @@
 import AuthenticationServices
 import UIKit
 
+// TODO: Move UI Stuff to a UIView and ViewModel
+
 final class LoginController: UIViewController {
     
-    private let signInButton = ASAuthorizationAppleIDButton()
+    // Sign in with apple button
+    private let signInButton: ASAuthorizationAppleIDButton = {
+        let signInButton = ASAuthorizationAppleIDButton()
+        signInButton.frame = CGRect(x: 0, y: 0, width: 250, height: 50)
+        return signInButton
+    }()
     
+    // MARK: - Lifecycle
     override func viewDidLoad() {
         super.viewDidLoad()
         view.backgroundColor = .systemCyan
+        
         signInButton.addTarget(self, action: #selector(didTapAppleSignIn), for: .touchUpInside)
         view.addSubview(signInButton)
+        addConstraints()
     }
     
-    override func viewDidLayoutSubviews() {
-        super.viewDidLayoutSubviews()
-        signInButton.frame = CGRect(x: 0, y: 0, width: 250, height: 50)
-        signInButton.center = view.center
-        
+    private func addConstraints() {
+        NSLayoutConstraint.activate([
+            signInButton.centerYAnchor.constraint(equalTo: view.centerYAnchor),
+            signInButton.centerXAnchor.constraint(equalTo: view.centerXAnchor)
+        ])
     }
-
+    
+    // MARK: - Actions
+    
+    /// Sign in a user
     @objc func didTapAppleSignIn() {
         let provider = ASAuthorizationAppleIDProvider()
         let request = provider.createRequest()
@@ -58,6 +71,7 @@ extension LoginController: ASAuthorizationControllerDelegate, ASAuthorizationCon
         print("failed!")
     }
     
+    /// Authorizes a user and navigates them to the tab bar view
     func authorizationController(controller: ASAuthorizationController, didCompleteWithAuthorization authorization: ASAuthorization) {
         if let appleIDCredential = authorization.credential as?  ASAuthorizationAppleIDCredential {
             let userIdentifier = appleIDCredential.user

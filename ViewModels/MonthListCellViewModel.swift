@@ -10,7 +10,6 @@ import Foundation
 final class MonthListCellViewModel {
     public let monthName: String
     public let numWorkouts: Int
-    private let isCollapsed: Bool = false
 
      // MARK: - Init
 

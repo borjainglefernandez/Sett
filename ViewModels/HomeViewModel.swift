@@ -14,58 +14,56 @@ final class HomeViewModel: NSObject {
     private var isExpanded: [Bool] = []
     private var workoutsByMonth: [String: [Workout]] = [String: [Workout]]()
     
+    // MARK: - Configurations
     
-    public func configure() {
-        let context = (UIApplication.shared.delegate as! AppDelegate).persistentContainer.viewContext
-        var monthYearWorkoutDict = [String: [Workout]]()
-        let calendar = Calendar.current
-        
-        do {
-            let monthYearFetchRequest = NSFetchRequest<NSDictionary>(entityName: "Workout")
-            monthYearFetchRequest.resultType = .dictionaryResultType
-            monthYearFetchRequest.propertiesToFetch = ["monthYear"]
-            monthYearFetchRequest.propertiesToGroupBy = ["monthYear"]
-            let sortDescriptor = NSSortDescriptor(key: "monthYear", ascending: true)
-            monthYearFetchRequest.sortDescriptors = [sortDescriptor]
-            
-            
-            let monthYears = try context.fetch(monthYearFetchRequest)
-            
-            for monthYear in monthYears {
-                if let monthYearDate = monthYear["monthYear"] as? Date {
-                    let month = calendar.component(.month, from: monthYearDate)
-                    let year = calendar.component(.year, from: monthYearDate)
-                    monthYearWorkoutDict["\(month)/\(year)"] = []
-                }
+    /// Creates a dictionary with the month and year as a key and an empty list as the value
+    private func initMonthYearWorkoutDict(_ workoutsByMonthYear: [NSDictionary]) -> Void {
+        for monthYear in workoutsByMonthYear {
+            if let monthYearDate = monthYear["monthYear"] as? Date {
+                let month = Calendar.current.component(.month, from: monthYearDate)
+                let year = Calendar.current.component(.year, from: monthYearDate)
+                self.workoutsByMonth["\(month)/\(year)"] = []
             }
-            
-            
-            let workoutsFetchRequest = Workout.fetchRequest()
-            let workouts = try context.fetch(workoutsFetchRequest)
-            
-            
-            for workout in workouts {
-                guard let startTime = workout.startTime else {
-                    continue
-                }
-                let month = calendar.component(.month, from: startTime)
-                let year = calendar.component(.year, from: startTime)
-                monthYearWorkoutDict["\(month)/\(year)"]?.append(workout)
-            }
-            
-            let sortedKeys = monthYearWorkoutDict.keys.sorted().reversed()
-            for monthYear in sortedKeys {
-                let viewModel = MonthListCellViewModel(monthName: monthYear, numWorkouts: monthYearWorkoutDict[monthYear]?.count ?? 0)
-                
-                self.cellViewModels.append(viewModel)
-                self.isExpanded.append(true)
-                
-            }
-            
-        } catch {
-            print("Something went wrong!")
         }
-        self.workoutsByMonth = monthYearWorkoutDict
+    }
+    
+    /// Puts each workout in the corresponding month and year
+    private func setMonthYearWorkoutsDict(_ workoutsToAdd: [Workout]) -> Void {
+        for workout in workoutsToAdd {
+            guard let startTime = workout.startTime else { // Don't add if no startTime found
+                continue
+            }
+            let month = Calendar.current.component(.month, from: startTime)
+            let year = Calendar.current.component(.year, from: startTime)
+            self.workoutsByMonth["\(month)/\(year)"]?.append(workout)
+        }
+    }
+    
+    /// Initialize the cell view models from the workouts
+    private func initCellViewModels() {
+        let sortedKeys = self.workoutsByMonth.keys.sorted().reversed() // Reverse chronological order
+        for monthYear in sortedKeys {
+            let viewModel = MonthListCellViewModel(monthName: monthYear, numWorkouts: workoutsByMonth[monthYear]?.count ?? 0)
+            self.cellViewModels.append(viewModel)
+            self.isExpanded.append(true)
+            
+        }
+    }
+    
+    /// Configure all the necessary variables
+    public func configure() {
+        // Get workouts Grouped by the Month and Year
+        guard let workoutsByMonthYear = CoreDataBase.fetchEntities(withEntity: "Workout", expecting: NSDictionary.self, sortDescriptors: [NSSortDescriptor(key: "monthYear", ascending: true)], propertiesToGroupBy: ["monthYear"]) else {
+            return
+        }
+        self.initMonthYearWorkoutDict(workoutsByMonthYear)
+        
+        // Get all workouts
+        guard let workouts = CoreDataBase.fetchEntities(withEntity: "Workout", expecting: Workout.self) else {
+            return
+        }
+        self.setMonthYearWorkoutsDict(workouts)
+        self.initCellViewModels()
     }
     
 }
@@ -82,10 +80,10 @@ extension HomeViewModel: UICollectionViewDataSource, UICollectionViewDelegateFlo
         ) as? MonthListCell else {
             fatalError("Unsupported cell")
         }
-        cell.indexPath = indexPath
+        
         cell.delegate = self
         cell.configure(with: cellViewModels[indexPath.row])
-        cell.showHideMonthListView(isExpanded: self.isExpanded[indexPath.row])
+        cell.showHideMonthListView(isExpanded: self.isExpanded[indexPath.row]) // Expand or collapse container
         
         return cell
     }
@@ -102,6 +100,11 @@ extension HomeViewModel: UICollectionViewDataSource, UICollectionViewDelegateFlo
 }
 
 extension HomeViewModel:ExpandedCellDelegate{
+    /// Collapse or Expand selected Month Workout Container
+    ///
+    /// - Parameters:
+    ///   - indexPath: The index of the month workout container to expand or collapse
+    ///   - collectionView: The collection view of the month workout container
     func collapseExpand(indexPath: IndexPath, collectionView: UICollectionView) {
         self.isExpanded[indexPath.row] = !self.isExpanded[indexPath.row]
         DispatchQueue.main.async {

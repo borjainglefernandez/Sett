@@ -34,7 +34,7 @@ final class MonthListCell: UICollectionViewCell {
     private let toggleArrowButton: UIButton = {
         let iconButton = UIButton(type: .custom)
         var config = UIImage.SymbolConfiguration(font: .systemFont(ofSize: 17, weight: .bold))
-        iconButton.tintColor = .white
+        iconButton.tintColor = .label
         iconButton.setPreferredSymbolConfiguration(config, forImageIn: .normal)
         iconButton.translatesAutoresizingMaskIntoConstraints = false
         
