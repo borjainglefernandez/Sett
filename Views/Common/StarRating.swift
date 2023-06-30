@@ -8,8 +8,9 @@
 import UIKit
 import Cosmos
 
-class StarRating: UIView {
-
+final class StarRating: UIView {
+    
+    // Star Rating for an object
     private let starRating: CosmosView = {
         let starRating = CosmosView()
         starRating.translatesAutoresizingMaskIntoConstraints = false
@@ -22,6 +23,7 @@ class StarRating: UIView {
         return starRating
     }()
     
+    // MARK: - Init
     init(frame: CGRect, interactable: Bool, starSize: Double, starMargin: Double) {
         super.init(frame: frame)
         translatesAutoresizingMaskIntoConstraints = false
@@ -38,6 +40,7 @@ class StarRating: UIView {
         fatalError("Unsupported initializer")
     }
     
+    // MARK: - Constraints
     private func addConstraints() {
         NSLayoutConstraint.activate([
             self.starRating.topAnchor.constraint(equalTo: topAnchor),

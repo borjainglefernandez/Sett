@@ -1,14 +1,13 @@
 //
-//  MonthWorkoutTableViewCell.swift
+//  MonthWorkoutListCell.swift
 //  Sett
 //
 //  Created by Borja Ingle-Fernandez on 6/22/23.
 //
 
 import UIKit
-import Cosmos
 
-class MonthWorkoutListCell: UITableViewCell {
+final class MonthWorkoutListCell: UITableViewCell {
     static let cellIdentifier = "MonthWorkoutTableViewCell"
     
     // Each individual cell container
@@ -52,7 +51,6 @@ class MonthWorkoutListCell: UITableViewCell {
     }()
     
     // MARK: - Init
-
     override init(style: UITableViewCell.CellStyle, reuseIdentifier: String?) {
         super.init(style: style, reuseIdentifier: reuseIdentifier)
         backgroundColor = UIColor.clear // Allows for customizability of cell
@@ -64,11 +62,13 @@ class MonthWorkoutListCell: UITableViewCell {
         fatalError("Unsupported initializer")
     }
     
+    // MARK: - LifeCycle
     override func prepareForReuse() {
         super.prepareForReuse()
         self.calendarDayView.day = nil
     }
     
+    // MARK: - Constraints
     private func addConstraints() {
         NSLayoutConstraint.activate([
             self.containerView.topAnchor.constraint(equalTo: topAnchor),
@@ -94,11 +94,10 @@ class MonthWorkoutListCell: UITableViewCell {
             
             self.durationLabel.leftAnchor.constraint(equalTo: self.achievementsNumberView.rightAnchor, constant: 25),
             self.durationLabel.centerYAnchor.constraint(equalTo: centerYAnchor)
-            
-            
         ])
     }
     
+    // MARK: - Configurations
     public func configure(with viewModel: MonthWorkoutListCellViewModel) {
         if let startTime = viewModel.workout.startTime {
             let calendar = Calendar.current

@@ -15,11 +15,61 @@ final class CalendarDayView: UIView {
         }
     }
     
+    // Top bar of the calendar
+    private let topCalendarBar: UIView = {
+        let topCalendarBar = UIView()
+        topCalendarBar.translatesAutoresizingMaskIntoConstraints = false
+        topCalendarBar.backgroundColor = .systemGray4
+        topCalendarBar.layer.cornerRadius = 10
+        topCalendarBar.layer.maskedCorners = [.layerMinXMinYCorner, .layerMaxXMinYCorner]
+        return topCalendarBar
+    }()
+    
+    // Container for the calendar day
+    private let bottomCalendarView: UIView = {
+        let bottomCalendarView = UIView()
+        bottomCalendarView.translatesAutoresizingMaskIntoConstraints = false
+        bottomCalendarView.backgroundColor = .systemGray.withAlphaComponent(0.44)
+        bottomCalendarView.layer.cornerRadius = 10
+        bottomCalendarView.layer.maskedCorners = [.layerMinXMaxYCorner, .layerMaxXMaxYCorner]
+        return bottomCalendarView
+    }()
+    
+    // Label for the day of the month
+    private let calendarLabel: UILabel = {
+        let calendarLabel = UILabel()
+        calendarLabel.textColor = .label
+        calendarLabel.font = .systemFont(ofSize: 14, weight: .bold)
+        calendarLabel.translatesAutoresizingMaskIntoConstraints = false
+        return calendarLabel
+    }()
+    
+    // Left circle on top calendar bar
+    private var leftCircle = UIView()
+    
+    // Right circle on top calendar bar
+    private var rightCircle = UIView()
+    
+    // Creates calendar circles
+    private func calendarCircle() -> UIView {
+        let calendarCircle = UIView()
+        calendarCircle.translatesAutoresizingMaskIntoConstraints = false
+        calendarCircle.layer.cornerRadius = 2
+        calendarCircle.layer.masksToBounds = true
+        calendarCircle.backgroundColor = .white
+        calendarCircle.layer.borderWidth = 1
+        calendarCircle.layer.borderColor = UIColor.systemGray.cgColor
+        return calendarCircle
+    }
+    
+    
+    // MARK: - Init
     override init(frame: CGRect) {
         super.init(frame: frame)
         translatesAutoresizingMaskIntoConstraints = false
-        addSubviews(self.topCalendarView, self.bottomCalendarView, self.leftCircle, self.rightCircle, self.calendarLabel)
-        
+        self.leftCircle = self.calendarCircle()
+        self.rightCircle = self.calendarCircle()
+        addSubviews(self.topCalendarBar, self.bottomCalendarView, self.leftCircle, self.rightCircle, self.calendarLabel)
         addConstraints()
     }
     
@@ -27,66 +77,17 @@ final class CalendarDayView: UIView {
         fatalError("Unsupported initializer")
     }
     
-    private let leftCircle: UIView = {
-        let leftCircle = UIView()
-        leftCircle.translatesAutoresizingMaskIntoConstraints = false
-        leftCircle.layer.cornerRadius = 2
-        leftCircle.layer.masksToBounds = true
-        leftCircle.backgroundColor = .white
-        leftCircle.layer.borderWidth = 1
-        leftCircle.layer.borderColor = UIColor.systemGray.cgColor
-        
-        return leftCircle
-    }()
-    
-    private let rightCircle: UIView = {
-        let rightCircle = UIView()
-        rightCircle.translatesAutoresizingMaskIntoConstraints = false
-        rightCircle.layer.cornerRadius = 2
-        rightCircle.layer.masksToBounds = true
-        rightCircle.backgroundColor = .white
-        rightCircle.layer.borderWidth = 1
-        rightCircle.layer.borderColor = UIColor.systemGray.cgColor
-        return rightCircle
-    }()
-    
-    private let topCalendarView: UIView = {
-        let topStrip = UIView()
-        topStrip.translatesAutoresizingMaskIntoConstraints = false
-        topStrip.backgroundColor = .systemGray4
-        topStrip.layer.cornerRadius = 10
-        topStrip.layer.maskedCorners = [.layerMinXMinYCorner, .layerMaxXMinYCorner]
-        return topStrip
-    }()
-    
-    private let bottomCalendarView: UIView = {
-        let bottomStrip = UIView()
-        bottomStrip.translatesAutoresizingMaskIntoConstraints = false
-        bottomStrip.backgroundColor = .systemGray.withAlphaComponent(0.44)
-        bottomStrip.layer.cornerRadius = 10
-        bottomStrip.layer.maskedCorners = [.layerMinXMaxYCorner, .layerMaxXMaxYCorner]
-        return bottomStrip
-    }()
-    
-    private let calendarLabel: UILabel = {
-        let label = UILabel()
-        label.textColor = .label
-        label.font = .systemFont(ofSize: 14, weight: .bold)
-        label.translatesAutoresizingMaskIntoConstraints = false
-        return label
-    }()
-    
-    
+   
+    // MARK: - Constraints
     private func addConstraints() {
         NSLayoutConstraint.activate([
+            self.topCalendarBar.leftAnchor.constraint(equalTo: leftAnchor),
+            self.topCalendarBar.heightAnchor.constraint(equalToConstant: 8),
+            self.topCalendarBar.topAnchor.constraint(equalTo: topAnchor),
+            self.topCalendarBar.widthAnchor.constraint(equalToConstant: 32),
             
-            self.topCalendarView.leftAnchor.constraint(equalTo: leftAnchor),
-            self.topCalendarView.heightAnchor.constraint(equalToConstant: 8),
-            self.topCalendarView.topAnchor.constraint(equalTo: topAnchor),
-            self.topCalendarView.widthAnchor.constraint(equalToConstant: 32),
-            
-            self.bottomCalendarView.centerXAnchor.constraint(equalTo: topCalendarView.centerXAnchor),
-            self.bottomCalendarView.topAnchor.constraint(equalTo: topCalendarView.bottomAnchor),
+            self.bottomCalendarView.centerXAnchor.constraint(equalTo: topCalendarBar.centerXAnchor),
+            self.bottomCalendarView.topAnchor.constraint(equalTo: topCalendarBar.bottomAnchor),
             self.bottomCalendarView.heightAnchor.constraint(equalToConstant: 22),
             self.bottomCalendarView.widthAnchor.constraint(equalToConstant: 30),
             
@@ -95,14 +96,13 @@ final class CalendarDayView: UIView {
             
             self.leftCircle.heightAnchor.constraint(equalToConstant: 4),
             self.leftCircle.widthAnchor.constraint(equalToConstant: 4),
-            self.leftCircle.centerXAnchor.constraint(equalTo: topCalendarView.centerXAnchor, constant: -6),
-            self.leftCircle.centerYAnchor.constraint(equalTo: topCalendarView.centerYAnchor),
+            self.leftCircle.centerXAnchor.constraint(equalTo: topCalendarBar.centerXAnchor, constant: -6),
+            self.leftCircle.centerYAnchor.constraint(equalTo: topCalendarBar.centerYAnchor),
             
             self.rightCircle.heightAnchor.constraint(equalToConstant: 4),
             self.rightCircle.widthAnchor.constraint(equalToConstant: 4),
-            self.rightCircle.centerXAnchor.constraint(equalTo: topCalendarView.centerXAnchor, constant: 6),
-            self.rightCircle.centerYAnchor.constraint(equalTo: topCalendarView.centerYAnchor),
-            
+            self.rightCircle.centerXAnchor.constraint(equalTo: topCalendarBar.centerXAnchor, constant: 6),
+            self.rightCircle.centerYAnchor.constraint(equalTo: topCalendarBar.centerYAnchor),
         ])
         
     }

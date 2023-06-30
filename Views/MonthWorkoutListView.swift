@@ -7,7 +7,7 @@
 
 import UIKit
 
-class MonthWorkoutListView: UIView {
+final class MonthWorkoutListView: UIView {
     private var viewModel: MonthWorkoutListViewModel? {
         didSet {
             DispatchQueue.main.async {
@@ -16,6 +16,7 @@ class MonthWorkoutListView: UIView {
         }
     }
     
+    // Table View for workouts in each month
     private let tableView: UITableView = {
         let tableView = UITableView()
         tableView.backgroundColor = .systemGray3.withAlphaComponent(0.44)
@@ -27,7 +28,7 @@ class MonthWorkoutListView: UIView {
         return tableView
     }()
     
-    
+    // MARK: - Init
     override init(frame: CGRect) {
         super.init(frame: frame)
         translatesAutoresizingMaskIntoConstraints = false
@@ -38,6 +39,8 @@ class MonthWorkoutListView: UIView {
         fatalError("Unsupported initializer")
     }
     
+    
+    // MARK: - Constraints
     private func addConstraints() {
         NSLayoutConstraint.activate([
             tableView.topAnchor.constraint(equalTo: topAnchor),
@@ -47,13 +50,14 @@ class MonthWorkoutListView: UIView {
         ])
     }
     
-    private func setUpTableView() {
-        tableView.dataSource = viewModel
-        tableView.delegate = viewModel
-    }
-    
+    // MARK: - Configurations
     public func configure(with viewModel: MonthWorkoutListViewModel) {
         self.viewModel = viewModel
         setUpTableView()
+    }
+    
+    private func setUpTableView() {
+        tableView.dataSource = viewModel
+        tableView.delegate = viewModel
     }
 }

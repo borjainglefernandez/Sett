@@ -12,11 +12,12 @@ final class AchievementsNumberView: UIView {
     public var numAchievements: Int? {
         didSet {
             if let numAchievements = self.numAchievements {
-                self.achievementsNumber.text = String(describing: numAchievements)
+                self.achievementsNumberLabel.text = String(describing: numAchievements)
             }
         }
     }
     
+    // Circular container
     private let achievementsNumberContainer: UIView = {
         let achievementsNumberContainer =  UIView()
         achievementsNumberContainer.translatesAutoresizingMaskIntoConstraints = false
@@ -27,18 +28,20 @@ final class AchievementsNumberView: UIView {
         return achievementsNumberContainer
     }()
     
-    private let achievementsNumber: UILabel = {
-        let achievementsNumber = UILabel()
-        achievementsNumber.textColor = .label
-        achievementsNumber.font = .systemFont(ofSize: 14, weight: .bold)
-        achievementsNumber.translatesAutoresizingMaskIntoConstraints = false
-        return achievementsNumber
+    // Label for number of achievements
+    private let achievementsNumberLabel: UILabel = {
+        let achievementsNumberLabel = UILabel()
+        achievementsNumberLabel.textColor = .label
+        achievementsNumberLabel.font = .systemFont(ofSize: 14, weight: .bold)
+        achievementsNumberLabel.translatesAutoresizingMaskIntoConstraints = false
+        return achievementsNumberLabel
     }()
         
+    // MARK: - Init
     override init(frame: CGRect) {
         super.init(frame: frame)
         translatesAutoresizingMaskIntoConstraints = false
-        addSubviews(self.achievementsNumberContainer, self.achievementsNumber)
+        addSubviews(self.achievementsNumberContainer, self.achievementsNumberLabel)
         addConstraints()
     }
     
@@ -46,6 +49,7 @@ final class AchievementsNumberView: UIView {
         fatalError("Unsupported initializer")
     }
     
+    // MARK: - Constraints
     private func addConstraints() {
         NSLayoutConstraint.activate([
             self.achievementsNumberContainer.leftAnchor.constraint(equalTo: leftAnchor),
@@ -54,8 +58,8 @@ final class AchievementsNumberView: UIView {
             self.achievementsNumberContainer.bottomAnchor.constraint(equalTo: bottomAnchor),
             
             
-            self.achievementsNumber.centerYAnchor.constraint(equalTo: self.achievementsNumberContainer.centerYAnchor),
-            self.achievementsNumber.centerXAnchor.constraint(equalTo: self.achievementsNumberContainer.centerXAnchor),
+            self.achievementsNumberLabel.centerYAnchor.constraint(equalTo: self.achievementsNumberContainer.centerYAnchor),
+            self.achievementsNumberLabel.centerXAnchor.constraint(equalTo: self.achievementsNumberContainer.centerXAnchor),
             
         ])
     }

@@ -39,7 +39,7 @@ class CoreDataBase {
         
         
         if !propertiesToGroupBy.isEmpty {
-            assert(entityType == NSDictionary.self, "If grouping by, an NSDictionary is expected")
+            assert(entityType == NSDictionary.self, "If grouping by an attribute, an NSDictionary is expected")
             fetchRequest.resultType = .dictionaryResultType
             fetchRequest.propertiesToFetch = propertiesToGroupBy
             fetchRequest.propertiesToGroupBy = propertiesToGroupBy
