@@ -7,7 +7,7 @@
 
 import Foundation
 
-final class MonthListCellViewModel {
+final class MonthListCellViewModel: NSObject {
     public let monthName: String
     public let numWorkouts: Int
 

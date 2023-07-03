@@ -71,7 +71,7 @@ final class MonthListCell: UICollectionViewCell {
         titleLabel.text = nil
     }
     
-    // MARK: - Constrains
+    // MARK: - Constraints
     private func addConstraints() {
         NSLayoutConstraint.activate([
             topBar.heightAnchor.constraint(equalToConstant: 30),
@@ -111,7 +111,6 @@ final class MonthListCell: UICollectionViewCell {
         if let delegate = self.delegate {
             delegate.collapseExpand(indexPath: self.indexPath, collectionView: collectionView)
         }
-
     }
     
     public func showHideMonthListView(isExpanded: Bool) {

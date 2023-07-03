@@ -7,7 +7,7 @@
 
 import Foundation
 
-final class MonthWorkoutListCellViewModel {
+final class MonthWorkoutListCellViewModel: NSObject {
     public let workout: Workout
 
      // MARK: - Init

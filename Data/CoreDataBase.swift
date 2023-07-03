@@ -47,4 +47,13 @@ class CoreDataBase {
         
         return executeFetchRequest(expecting: entityType, with: fetchRequest)
     }
+    
+    static public func save() {
+        do {
+            try context.save()
+        } catch {
+            print("Error saving: \(error)")
+        }
+    }
+
 }

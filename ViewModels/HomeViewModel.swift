@@ -19,7 +19,7 @@ final class HomeViewModel: NSObject {
     /// Creates a dictionary with the month and year as a key and an empty list as the value
     private func initMonthYearWorkoutDict(_ workoutsByMonthYear: [NSDictionary]) -> Void {
         for monthYear in workoutsByMonthYear {
-            if let monthYearDate = monthYear["monthYear"] as? Date {
+            if let monthYearDate = monthYear["startTime"] as? Date {
                 let month = Calendar.current.component(.month, from: monthYearDate)
                 let year = Calendar.current.component(.year, from: monthYearDate)
                 self.workoutsByMonth["\(month)/\(year)"] = []
@@ -64,6 +64,19 @@ final class HomeViewModel: NSObject {
         }
         self.setMonthYearWorkoutsDict(workouts)
         self.initCellViewModels()
+    }
+    
+    // MARK: - Actions
+    public func addWorkout() {
+        let newWorkout = Workout(context: CoreDataBase.context)
+        newWorkout.rating = 3
+        newWorkout.duration = 35
+        
+        let todayComponents = Calendar.current.dateComponents([.year, .month, .day], from: Date())
+        let today = Calendar.current.date(from: todayComponents)
+        newWorkout.startTime = today
+        newWorkout.title = "Push 1"
+        CoreDataBase.save()
     }
     
 }

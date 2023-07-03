@@ -13,11 +13,7 @@ import UIKit
 final class LoginController: UIViewController {
     
     // Sign in with apple button
-    private let signInButton: ASAuthorizationAppleIDButton = {
-        let signInButton = ASAuthorizationAppleIDButton()
-        signInButton.frame = CGRect(x: 0, y: 0, width: 250, height: 50)
-        return signInButton
-    }()
+    private let signInButton = ASAuthorizationAppleIDButton()
     
     // MARK: - Lifecycle
     override func viewDidLoad() {
@@ -26,14 +22,12 @@ final class LoginController: UIViewController {
         
         signInButton.addTarget(self, action: #selector(didTapAppleSignIn), for: .touchUpInside)
         view.addSubview(signInButton)
-        addConstraints()
     }
     
-    private func addConstraints() {
-        NSLayoutConstraint.activate([
-            signInButton.centerYAnchor.constraint(equalTo: view.centerYAnchor),
-            signInButton.centerXAnchor.constraint(equalTo: view.centerXAnchor)
-        ])
+    override func viewDidLayoutSubviews() {
+        super.viewDidLayoutSubviews()
+        signInButton.frame = CGRect(x: 0, y: 0, width: 250, height: 50)
+        signInButton.center = view.center
     }
     
     // MARK: - Actions

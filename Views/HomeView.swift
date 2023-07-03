@@ -8,7 +8,7 @@
 import UIKit
 
 final class HomeView: UIView {
-    private let viewModel = HomeViewModel()
+    let viewModel = HomeViewModel()
     
     // Top bar of the home page
     private let topBar: UIView = {
@@ -22,6 +22,7 @@ final class HomeView: UIView {
     // Title label for currently selected feed
     private let titleLabel: UILabel = {
         let titleLabel = UILabel()
+    
         titleLabel.textColor = .label
         titleLabel.font = .systemFont(ofSize: 17, weight: .bold)
         titleLabel.text = "Workouts"
@@ -38,6 +39,7 @@ final class HomeView: UIView {
         addWorkoutButton.setPreferredSymbolConfiguration(config, forImageIn: .normal)
         addWorkoutButton.translatesAutoresizingMaskIntoConstraints = false
         addWorkoutButton.setImage(iconImage, for: .normal)
+        addWorkoutButton.showsMenuAsPrimaryAction = true
         return addWorkoutButton
     }()
     
@@ -69,12 +71,12 @@ final class HomeView: UIView {
     override init(frame: CGRect) {
         super.init(frame: frame)
         translatesAutoresizingMaskIntoConstraints = false
-        
         topBar.addSubviews(titleLabel, addWorkoutButton, sortWorkoutButton)
         addSubviews(topBar, collectionView)
         addConstraints()
         viewModel.configure()
         setUpCollectionView()
+        setUpAddWorkoutMenu()
     }
     required init?(coder: NSCoder) {
         fatalError("Unsupported initializer")
@@ -105,9 +107,29 @@ final class HomeView: UIView {
     }
     
     // MARK: - Configurations
+    private func setUpAddWorkoutMenu() {
+        let blankWorkoutButton = UIAction(title: "Blank Workout", image: UIImage(systemName: "plus.circle"), attributes: [], state: .off) { action in
+            self.addWorkout()
+        }
+        let startWorkoutButton = UIAction(title: "Start Routine", image: UIImage(systemName: "arrow.clockwise.circle"), attributes: [], state: .off) { action in
+            self.startRoutine()
+        }
+
+        self.addWorkoutButton.menu = UIMenu(children: [blankWorkoutButton, startWorkoutButton])
+    }
+    
     private func setUpCollectionView() {
         collectionView.dataSource = viewModel
         collectionView.delegate = viewModel
 
+    }
+    
+    // MARK: - Actions
+    private func addWorkout() {
+        viewModel.addWorkout()
+    }
+    
+    private func startRoutine() {
+        viewModel.addWorkout()
     }
 }
