@@ -27,8 +27,12 @@ class CoreDataBase {
     /// Fetches a list of entities based on certain predicates
     ///
     /// - Parameters:
-    ///   - entityType: The type of entity to fetch
+    ///   - entityName: The name of the entity
+    ///   - entityType: The expected type of the fetch request
     ///   - predicates: A list of predicates to filter by, if any
+    ///   - sortDescriptors: A list of sort descriptors to sort by, if any
+    ///   - propertiesToGroupBy: A list of properties to group by, if any
+    ///
     /// - Returns: A list of the entities fetched or nil if error
     static public func fetchEntities<T: NSFetchRequestResult>(withEntity entityName: String, expecting entityType: T.Type, predicates: [NSPredicate] = [], sortDescriptors: [NSSortDescriptor] = [], propertiesToGroupBy: [String] = []) -> [T]? {
         let fetchRequest = NSFetchRequest<T>(entityName: entityName)
@@ -55,5 +59,29 @@ class CoreDataBase {
             print("Error saving: \(error)")
         }
     }
-
+    
+    
+    /// Gets the count of a particular entity
+    ///
+    /// - Parameters:
+    ///   - entityName: The name of the entity
+    ///   - entityType: The expected type of the fetch request
+    ///   - predicates: A list of predicates to filter by, if any
+    ///   
+    /// - Returns: The count of the enitty or 0 if an error occurs
+    static public func entityCount<T: NSFetchRequestResult>(withEntityName entityName: String, expecting entityType: T.Type, predicates: [NSPredicate] = []) -> Int {
+        let fetchRequest = NSFetchRequest<T>(entityName: entityName)
+        
+        // Add predicates to the fetch request, if provided
+        fetchRequest.predicate = NSCompoundPredicate(andPredicateWithSubpredicates: predicates)
+        
+        do {
+            let count = try context.count(for: fetchRequest)
+            return count
+        } catch {
+            print("Error getting count for: \(entityName) with error \(error)")
+            return 0
+        }
+    }
+    
 }

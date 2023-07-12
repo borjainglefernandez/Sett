@@ -7,7 +7,14 @@
 
 import UIKit
 
+protocol WorkoutsDelegate: NSObjectProtocol {
+    func addWorkout(collectionView: UICollectionView)
+}
+
+
 final class HomeView: UIView {
+    weak var delegate:WorkoutsDelegate?
+    
     let viewModel = HomeViewModel()
     
     // Top bar of the home page
@@ -22,7 +29,7 @@ final class HomeView: UIView {
     // Title label for currently selected feed
     private let titleLabel: UILabel = {
         let titleLabel = UILabel()
-    
+        
         titleLabel.textColor = .label
         titleLabel.font = .systemFont(ofSize: 17, weight: .bold)
         titleLabel.text = "Workouts"
@@ -55,6 +62,18 @@ final class HomeView: UIView {
         return iconButton
     }()
     
+    // View for when there are no workouts to display
+    public let emptyView: UILabel = {
+        let emptyView = UILabel()
+        emptyView.translatesAutoresizingMaskIntoConstraints = false
+        emptyView.textColor = .label
+        emptyView.font = .systemFont(ofSize: 17.0, weight: .bold)
+        emptyView.text = "No Workouts Completed Yet!"
+        emptyView.textAlignment = .center
+        emptyView.isHidden = true
+        return emptyView
+    }()
+    
     // Collection view of the month workout containers
     public let collectionView: UICollectionView = {
         let layout = UICollectionViewFlowLayout()
@@ -64,6 +83,7 @@ final class HomeView: UIView {
         collectionView.translatesAutoresizingMaskIntoConstraints = false
         collectionView.register(MonthListCell.self, forCellWithReuseIdentifier: MonthListCell.cellIdentifier)
         collectionView.backgroundColor = .systemCyan
+        collectionView.isHidden = true
         return collectionView
     }()
     
@@ -71,12 +91,14 @@ final class HomeView: UIView {
     override init(frame: CGRect) {
         super.init(frame: frame)
         translatesAutoresizingMaskIntoConstraints = false
-        topBar.addSubviews(titleLabel, addWorkoutButton, sortWorkoutButton)
+        topBar.addSubviews(titleLabel, addWorkoutButton, sortWorkoutButton, emptyView)
         addSubviews(topBar, collectionView)
         addConstraints()
         viewModel.configure()
-        setUpCollectionView()
         setUpAddWorkoutMenu()
+        setUpDelegate()
+        setUpCollectionView()
+        showHideCollectionView()
     }
     required init?(coder: NSCoder) {
         fatalError("Unsupported initializer")
@@ -102,7 +124,10 @@ final class HomeView: UIView {
             collectionView.topAnchor.constraint(equalTo: topBar.bottomAnchor),
             collectionView.leftAnchor.constraint(equalTo: leftAnchor),
             collectionView.rightAnchor.constraint(equalTo: rightAnchor),
-            collectionView.bottomAnchor.constraint(equalTo: bottomAnchor)
+            collectionView.bottomAnchor.constraint(equalTo: bottomAnchor),
+            
+            emptyView.centerXAnchor.constraint(equalTo: centerXAnchor),
+            emptyView.centerYAnchor.constraint(equalTo: centerYAnchor),
         ])
     }
     
@@ -114,22 +139,40 @@ final class HomeView: UIView {
         let startWorkoutButton = UIAction(title: "Start Routine", image: UIImage(systemName: "arrow.clockwise.circle"), attributes: [], state: .off) { action in
             self.startRoutine()
         }
-
+        
         self.addWorkoutButton.menu = UIMenu(children: [blankWorkoutButton, startWorkoutButton])
+    }
+    
+    private func setUpDelegate() {
+        delegate = viewModel
     }
     
     private func setUpCollectionView() {
         collectionView.dataSource = viewModel
         collectionView.delegate = viewModel
-
+    }
+    
+    private func showHideCollectionView() {
+        if viewModel.getWorkoutsLength() > 0 {
+            collectionView.isHidden = false
+            emptyView.isHidden = true
+        } else {
+            collectionView.isHidden = true
+            emptyView.isHidden = false
+        }
     }
     
     // MARK: - Actions
     private func addWorkout() {
-        viewModel.addWorkout()
+        if let delegate = self.delegate {
+            delegate.addWorkout(collectionView: self.collectionView)
+        }
+        
+        // Show collection view if previously hidden
+        showHideCollectionView()
     }
     
     private func startRoutine() {
-        viewModel.addWorkout()
+        print("f")
     }
 }

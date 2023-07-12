@@ -10,6 +10,12 @@ import Cosmos
 
 final class StarRating: UIView {
     
+    public var rating: Double {
+        didSet {
+            starRating.rating = rating
+        }
+    }
+    
     // Star Rating for an object
     private let starRating: CosmosView = {
         let starRating = CosmosView()
@@ -18,13 +24,13 @@ final class StarRating: UIView {
         starRating.settings.emptyColor = .systemGray
         starRating.settings.emptyBorderColor = .systemGray2
         starRating.settings.filledBorderColor = .systemGray2
-        starRating.rating = 4.5
         starRating.settings.fillMode = .half
         return starRating
     }()
     
     // MARK: - Init
-    init(frame: CGRect, interactable: Bool, starSize: Double, starMargin: Double) {
+    init(frame: CGRect, interactable: Bool, starSize: Double, starMargin: Double, rating: Double = 3.0) {
+        self.rating = rating
         super.init(frame: frame)
         translatesAutoresizingMaskIntoConstraints = false
         self.starRating.isUserInteractionEnabled = interactable

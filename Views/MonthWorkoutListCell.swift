@@ -103,7 +103,8 @@ final class MonthWorkoutListCell: UITableViewCell {
             let calendar = Calendar.current
             let components = calendar.dateComponents([.day], from: startTime)
             if let day = components.day {
-                self.titleLabel.text =  "Push Day 1"
+                self.titleLabel.text =  viewModel.workout.title
+                self.starRating.rating = viewModel.workout.rating
                 self.calendarDayView.day = "\(String(describing: day))"
                 self.achievementsNumberView.numAchievements = 3
                 self.durationLabel.text = "45 min"

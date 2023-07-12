@@ -16,17 +16,6 @@ final class HomeViewModel: NSObject {
     
     // MARK: - Configurations
     
-    /// Creates a dictionary with the month and year as a key and an empty list as the value
-    private func initMonthYearWorkoutDict(_ workoutsByMonthYear: [NSDictionary]) -> Void {
-        for monthYear in workoutsByMonthYear {
-            if let monthYearDate = monthYear["startTime"] as? Date {
-                let month = Calendar.current.component(.month, from: monthYearDate)
-                let year = Calendar.current.component(.year, from: monthYearDate)
-                self.workoutsByMonth["\(month)/\(year)"] = []
-            }
-        }
-    }
-    
     /// Puts each workout in the corresponding month and year
     private func setMonthYearWorkoutsDict(_ workoutsToAdd: [Workout]) -> Void {
         for workout in workoutsToAdd {
@@ -35,13 +24,20 @@ final class HomeViewModel: NSObject {
             }
             let month = Calendar.current.component(.month, from: startTime)
             let year = Calendar.current.component(.year, from: startTime)
+            
+            // Add month and year if it does not exist
+            if !self.workoutsByMonth.keys.contains("\(month)/\(year)") {
+                self.workoutsByMonth["\(month)/\(year)"] = []
+            }
+            
             self.workoutsByMonth["\(month)/\(year)"]?.append(workout)
         }
     }
     
     /// Initialize the cell view models from the workouts
     private func initCellViewModels() {
-        let sortedKeys = self.workoutsByMonth.keys.sorted().reversed() // Reverse chronological order
+        
+        let sortedKeys = self.workoutsByMonth.keys.sorted(using: .localizedStandard).reversed() // Reverse chronological order
         for monthYear in sortedKeys {
             let viewModel = MonthListCellViewModel(monthName: monthYear, numWorkouts: workoutsByMonth[monthYear]?.count ?? 0)
             self.cellViewModels.append(viewModel)
@@ -52,31 +48,49 @@ final class HomeViewModel: NSObject {
     
     /// Configure all the necessary variables
     public func configure() {
-        // Get workouts Grouped by the Month and Year
-        guard let workoutsByMonthYear = CoreDataBase.fetchEntities(withEntity: "Workout", expecting: NSDictionary.self, sortDescriptors: [NSSortDescriptor(key: "monthYear", ascending: true)], propertiesToGroupBy: ["monthYear"]) else {
-            return
-        }
-        self.initMonthYearWorkoutDict(workoutsByMonthYear)
+        // Reset variables in case of update
+        self.cellViewModels = []
+        self.workoutsByMonth = [String: [Workout]]()
         
-        // Get all workouts
-        guard let workouts = CoreDataBase.fetchEntities(withEntity: "Workout", expecting: Workout.self) else {
+        // Get workouts in order of start time
+        guard let workoutsByStartTime = CoreDataBase.fetchEntities(withEntity: "Workout", expecting: Workout.self, sortDescriptors: [NSSortDescriptor(key: "startTime", ascending: true)]) else {
             return
         }
-        self.setMonthYearWorkoutsDict(workouts)
+        self.setMonthYearWorkoutsDict(workoutsByStartTime)
         self.initCellViewModels()
+    }
+    
+    private func getRandomDate() -> Date {
+        
+        var randomDate = DateComponents()
+        randomDate.month = Int.random(in: 1...12)
+        randomDate.day = Int.random(in: 1...27)
+        randomDate.year = 2023
+        if let date = Calendar.current.date(from: randomDate)
+        {
+            return date
+        }
+        return Date()
     }
     
     // MARK: - Actions
     public func addWorkout() {
-        let newWorkout = Workout(context: CoreDataBase.context)
-        newWorkout.rating = 3
-        newWorkout.duration = 35
+        let randomTitleList = ["Push 1", "Push 2", "Pull 1", "Pull 2", "Leg 1", "Leg 2"]
         
-        let todayComponents = Calendar.current.dateComponents([.year, .month, .day], from: Date())
-        let today = Calendar.current.date(from: todayComponents)
-        newWorkout.startTime = today
-        newWorkout.title = "Push 1"
+        let newWorkout = Workout(context: CoreDataBase.context)
+        
+        newWorkout.rating = Double.random(in: 0...5)
+        newWorkout.startTime = getRandomDate()
+        newWorkout.title = randomTitleList.randomElement()
         CoreDataBase.save()
+        
+        DispatchQueue.main.async {
+            self.configure()
+        }
+    }
+    
+    public func getWorkoutsLength() -> Int {
+        return CoreDataBase.entityCount(withEntityName: "Workout", expecting: Workout.self)
     }
     
 }
@@ -94,6 +108,7 @@ extension HomeViewModel: UICollectionViewDataSource, UICollectionViewDelegateFlo
             fatalError("Unsupported cell")
         }
         
+        cell.indexPath = indexPath
         cell.delegate = self
         cell.configure(with: cellViewModels[indexPath.row])
         cell.showHideMonthListView(isExpanded: self.isExpanded[indexPath.row]) // Expand or collapse container
@@ -103,13 +118,23 @@ extension HomeViewModel: UICollectionViewDataSource, UICollectionViewDelegateFlo
     
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
         if isExpanded[indexPath.row] {
-            return CGSize(width: (collectionView.safeAreaLayoutGuide.layoutFrame.width - 20), height: 320)
+            
+            return CGSize(width: (collectionView.safeAreaLayoutGuide.layoutFrame.width - 20), height: CGFloat(self.cellViewModels[indexPath.row].numWorkouts * 43) + 31)
         }
         return CGSize(width: (collectionView.safeAreaLayoutGuide.layoutFrame.width - 20), height: 30)
     }
     
     
     
+}
+
+extension HomeViewModel:WorkoutsDelegate {
+    func addWorkout(collectionView: UICollectionView) {
+        self.addWorkout()
+        DispatchQueue.main.async {
+            collectionView.reloadData()
+        }
+    }
 }
 
 extension HomeViewModel:ExpandedCellDelegate{

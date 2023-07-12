@@ -92,7 +92,8 @@ final class MonthListCell: UICollectionViewCell {
     
     // MARK: - Configurations
     public func configure(with viewModel: MonthListCellViewModel) {
-        titleLabel.text = "\(viewModel.monthName) - \(viewModel.numWorkouts) Workouts"
+        let workoutSuffix = viewModel.numWorkouts == 1 ? "Workout" : "Workouts"
+        titleLabel.text = "\(viewModel.monthName) - \(viewModel.numWorkouts) \(workoutSuffix)"
         
         guard let month = Int(viewModel.monthName.components(separatedBy: "/")[0]),
               let year = Int(viewModel.monthName.components(separatedBy: "/")[1]) else {
