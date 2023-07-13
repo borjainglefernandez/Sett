@@ -72,12 +72,11 @@ final class MonthWorkoutListCell: UITableViewCell {
     private func addConstraints() {
         NSLayoutConstraint.activate([
             self.containerView.topAnchor.constraint(equalTo: topAnchor),
-            self.containerView.centerYAnchor.constraint(equalTo: centerYAnchor),
             self.containerView.centerXAnchor.constraint(equalTo: centerXAnchor),
-            self.containerView.heightAnchor.constraint(equalTo: heightAnchor),
-            self.containerView.widthAnchor.constraint(equalTo: widthAnchor, multiplier: 0.98),
+            self.containerView.heightAnchor.constraint(equalTo: heightAnchor, multiplier: 0.985),
+            self.containerView.widthAnchor.constraint(equalTo: widthAnchor, multiplier: 0.985),
             
-            self.calendarDayView.leftAnchor.constraint(equalToSystemSpacingAfter: self.containerView.leftAnchor, multiplier: 2),
+            self.calendarDayView.leftAnchor.constraint(equalToSystemSpacingAfter: self.containerView.leftAnchor, multiplier: 1.5),
             self.calendarDayView.topAnchor.constraint(equalToSystemSpacingBelow: topAnchor, multiplier: 0.8),
             
             self.titleLabel.centerYAnchor.constraint(equalTo: self.containerView.centerYAnchor),

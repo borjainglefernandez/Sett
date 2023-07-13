@@ -30,4 +30,15 @@ extension UIView {
             navigateToScreen(navigationController, viewController)
         }
     }
+    
+    func getParentViewController(_ view: UIView) -> UIViewController? {
+        var parentResponder: UIResponder? = view.next
+        while parentResponder != nil {
+            if let viewController = parentResponder as? UIViewController {
+                return viewController
+            }
+            parentResponder = parentResponder?.next
+        }
+        return nil
+    }
 }

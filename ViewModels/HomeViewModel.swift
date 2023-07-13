@@ -10,9 +10,13 @@ import CoreData
 
 final class HomeViewModel: NSObject {
     
+    public var collection: UICollectionView?
     private var cellViewModels: [MonthListCellViewModel] = []
     private var isExpanded: [Bool] = []
     private var workoutsByMonth: [String: [Workout]] = [String: [Workout]]()
+    private var fetchedResultsController: NSFetchedResultsController<Workout> = {
+        return CoreDataBase.creatFetchedResultsController(withEntityName: "Workout", expecting: Workout.self, sortDescriptors: [NSSortDescriptor(key: "startTime", ascending: true)])
+    }()
     
     // MARK: - Configurations
     
@@ -48,18 +52,21 @@ final class HomeViewModel: NSObject {
     
     /// Configure all the necessary variables
     public func configure() {
+        CoreDataBase.configureFetchedResults(controller: self.fetchedResultsController, expecting: Workout.self, with: self)
+        
         // Reset variables in case of update
         self.cellViewModels = []
         self.workoutsByMonth = [String: [Workout]]()
         
         // Get workouts in order of start time
-        guard let workoutsByStartTime = CoreDataBase.fetchEntities(withEntity: "Workout", expecting: Workout.self, sortDescriptors: [NSSortDescriptor(key: "startTime", ascending: true)]) else {
+        guard let workoutsByStartTime = self.fetchedResultsController.fetchedObjects else {
             return
         }
         self.setMonthYearWorkoutsDict(workoutsByStartTime)
         self.initCellViewModels()
     }
     
+    // TODO: GET RID OF THIS
     private func getRandomDate() -> Date {
         
         var randomDate = DateComponents()
@@ -90,9 +97,11 @@ final class HomeViewModel: NSObject {
     }
     
     public func getWorkoutsLength() -> Int {
-        return CoreDataBase.entityCount(withEntityName: "Workout", expecting: Workout.self)
+        if let workoutsLength = self.fetchedResultsController.fetchedObjects?.count {
+            return workoutsLength
+        }
+        return 0
     }
-    
 }
 
 extension HomeViewModel: UICollectionViewDataSource, UICollectionViewDelegateFlowLayout {
@@ -123,17 +132,19 @@ extension HomeViewModel: UICollectionViewDataSource, UICollectionViewDelegateFlo
         }
         return CGSize(width: (collectionView.safeAreaLayoutGuide.layoutFrame.width - 20), height: 30)
     }
-    
-    
-    
 }
 
 extension HomeViewModel:WorkoutsDelegate {
     func addWorkout(collectionView: UICollectionView) {
         self.addWorkout()
-        DispatchQueue.main.async {
-            collectionView.reloadData()
-        }
+    }
+}
+
+extension HomeViewModel: NSFetchedResultsControllerDelegate {
+    // Update screen if CRUD conducted on Workouts
+    func controller(_ controller: NSFetchedResultsController<NSFetchRequestResult>, didChange anObject: Any, at indexPath: IndexPath?, for type: NSFetchedResultsChangeType, newIndexPath: IndexPath?) {
+        self.configure()
+        self.collection?.reloadData()
     }
 }
 
@@ -152,3 +163,5 @@ extension HomeViewModel:ExpandedCellDelegate{
         }
     }
 }
+
+

@@ -24,6 +24,7 @@ final class MonthWorkoutListView: UIView {
         tableView.register(MonthWorkoutListCell.self, forCellReuseIdentifier: MonthWorkoutListCell.cellIdentifier)
         tableView.layer.cornerRadius = 15
         tableView.layer.maskedCorners = [.layerMaxXMaxYCorner, .layerMinXMaxYCorner]
+        tableView.isScrollEnabled = false
 
         return tableView
     }()

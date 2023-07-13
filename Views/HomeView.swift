@@ -150,6 +150,7 @@ final class HomeView: UIView {
     private func setUpCollectionView() {
         collectionView.dataSource = viewModel
         collectionView.delegate = viewModel
+        viewModel.collection = self.collectionView
     }
     
     private func showHideCollectionView() {
