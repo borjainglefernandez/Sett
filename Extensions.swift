@@ -18,9 +18,12 @@ extension UIView {
     
     func navigateToScreen(_ navigationController: UINavigationController?, _ viewController: UIViewController) {
         if let navigationController = navigationController {
+            
             navigationController.setViewControllers([viewController], animated:true)
+            
         }
     }
+    
     
     func navigateToScreenFromTabBar(_ tabBarController: UITabBarController?, _ viewController: UIViewController) {
         // Create new root navigation controller
