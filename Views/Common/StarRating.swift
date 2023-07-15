@@ -25,6 +25,7 @@ final class StarRating: UIView {
         starRating.settings.emptyBorderColor = .systemGray2
         starRating.settings.filledBorderColor = .systemGray2
         starRating.settings.fillMode = .half
+        starRating.settings.minTouchRating = 0
         return starRating
     }()
     

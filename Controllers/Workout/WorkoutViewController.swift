@@ -10,7 +10,7 @@ import UIKit
 class WorkoutViewController: UIViewController {
     private let viewModel: WorkoutViewModel
 
-    private let workoutView: WorkoutView
+    private let workoutGeneralStatsView: WorkoutGeneralStatsView
     
     private let topBar: UIView = {
         let topBar = UIView()
@@ -51,10 +51,11 @@ class WorkoutViewController: UIViewController {
         return moreButton
     }()
     
+    
     // MARK: - Init
     init(viewModel: WorkoutViewModel) {
         self.viewModel = viewModel
-        self.workoutView = WorkoutView(frame: .zero, viewModel: self.viewModel)
+        self.workoutGeneralStatsView = WorkoutGeneralStatsView(frame: .zero, viewModel: self.viewModel)
         super.init(nibName: nil, bundle: nil)
     }
     
@@ -70,7 +71,7 @@ class WorkoutViewController: UIViewController {
         backButton.addTarget(self, action: #selector(goBack), for: .touchUpInside)
         self.workoutName.text = self.viewModel.workout.title
         topBar.addSubviews(backButton, self.workoutName, self.moreButton)
-        view.addSubviews(topBar, workoutView)
+        view.addSubviews(topBar, workoutGeneralStatsView)
         self.addConstraints()
 
     }
@@ -92,10 +93,11 @@ class WorkoutViewController: UIViewController {
             self.moreButton.centerYAnchor.constraint(equalTo: topBar.centerYAnchor),
             self.moreButton.rightAnchor.constraint(equalTo: topBar.rightAnchor,  constant: -7),
             
-            self.workoutView.topAnchor.constraint(equalTo: topBar.bottomAnchor),
-            self.workoutView.bottomAnchor.constraint(equalTo: view.safeAreaLayoutGuide.bottomAnchor),
-            self.workoutView.leftAnchor.constraint(equalTo: view.safeAreaLayoutGuide.leftAnchor),
-            self.workoutView.rightAnchor.constraint(equalTo: view.safeAreaLayoutGuide.rightAnchor),
+            self.workoutGeneralStatsView.topAnchor.constraint(equalTo: topBar.bottomAnchor),
+            self.workoutGeneralStatsView.leftAnchor.constraint(equalTo: view.safeAreaLayoutGuide.leftAnchor),
+            self.workoutGeneralStatsView.rightAnchor.constraint(equalTo: view.safeAreaLayoutGuide.rightAnchor),
+            self.workoutGeneralStatsView.heightAnchor.constraint(equalToConstant: 220),
+        
         ])
     }
     
