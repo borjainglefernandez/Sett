@@ -56,6 +56,7 @@ class WorkoutViewController: UIViewController {
     init(viewModel: WorkoutViewModel) {
         self.viewModel = viewModel
         self.workoutGeneralStatsView = WorkoutGeneralStatsView(frame: .zero, viewModel: self.viewModel)
+        self.workoutGeneralStatsView.autoresizingMask = .flexibleHeight
         super.init(nibName: nil, bundle: nil)
     }
     
@@ -96,7 +97,7 @@ class WorkoutViewController: UIViewController {
             self.workoutGeneralStatsView.topAnchor.constraint(equalTo: topBar.bottomAnchor),
             self.workoutGeneralStatsView.leftAnchor.constraint(equalTo: view.safeAreaLayoutGuide.leftAnchor),
             self.workoutGeneralStatsView.rightAnchor.constraint(equalTo: view.safeAreaLayoutGuide.rightAnchor),
-            self.workoutGeneralStatsView.heightAnchor.constraint(equalToConstant: 220),
+            self.workoutGeneralStatsView.heightAnchor.constraint(equalToConstant: 285),
         
         ])
     }

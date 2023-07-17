@@ -84,7 +84,7 @@ final class MonthListCell: UICollectionViewCell {
             expandCollapseButton.centerYAnchor.constraint(equalTo: topBar.centerYAnchor),
             expandCollapseButton.rightAnchor.constraint(equalTo: rightAnchor, constant: -15),
             
-            monthWorkoutListView.heightAnchor.constraint(equalTo: heightAnchor, multiplier: 1, constant: -30),            monthWorkoutListView.bottomAnchor.constraint(equalTo: bottomAnchor),
+            monthWorkoutListView.heightAnchor.constraint(equalTo: heightAnchor, multiplier: 1, constant: -30),        monthWorkoutListView.bottomAnchor.constraint(equalTo: bottomAnchor),
             monthWorkoutListView.rightAnchor.constraint(equalTo: rightAnchor),
             monthWorkoutListView.leftAnchor.constraint(equalTo: leftAnchor),
         ])

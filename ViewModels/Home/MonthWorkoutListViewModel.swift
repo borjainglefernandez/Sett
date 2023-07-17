@@ -76,14 +76,25 @@ extension MonthWorkoutListViewModel: UITableViewDataSource, UITableViewDelegate 
     }
     
     func numberOfSections(in tableView: UITableView) -> Int {
-        return self.workouts.count
+        return 1
     }
     
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return 1
+        return self.workouts.count
+
     }
     func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
         return 43
+    }
+    
+    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        if let parentViewController = tableView.getParentViewController(tableView) {
+            let workoutViewModel = WorkoutViewModel(workout: cellViewModels[indexPath.row].workout)
+            let workoutViewController = WorkoutViewController(viewModel: workoutViewModel)
+            workoutViewController.modalPresentationStyle = .fullScreen
+            parentViewController.present(workoutViewController, animated: true)
+        }
+
     }
     
     func tableView(_ tableView: UITableView, trailingSwipeActionsConfigurationForRowAt indexPath: IndexPath) -> UISwipeActionsConfiguration? {

@@ -8,16 +8,10 @@
 import UIKit
 import Cosmos
 
-final class StarRating: UIView {
-    
-    public var rating: Double {
-        didSet {
-            starRating.rating = rating
-        }
-    }
+class StarRating: UIView {
     
     // Star Rating for an object
-    private let starRating: CosmosView = {
+    public let starRating: CosmosView = {
         let starRating = CosmosView()
         starRating.translatesAutoresizingMaskIntoConstraints = false
         starRating.settings.filledColor = .systemCyan
@@ -31,7 +25,6 @@ final class StarRating: UIView {
     
     // MARK: - Init
     init(frame: CGRect, interactable: Bool, starSize: Double, starMargin: Double, rating: Double = 3.0) {
-        self.rating = rating
         super.init(frame: frame)
         translatesAutoresizingMaskIntoConstraints = false
         self.starRating.isUserInteractionEnabled = interactable
@@ -39,6 +32,7 @@ final class StarRating: UIView {
         self.starRating.settings.starMargin = starMargin
         self.starRating.settings.emptyBorderWidth = starSize / 40
         self.starRating.settings.filledBorderWidth = starSize / 40
+        self.starRating.rating = rating
         addSubview(self.starRating)
         addConstraints()
     }
