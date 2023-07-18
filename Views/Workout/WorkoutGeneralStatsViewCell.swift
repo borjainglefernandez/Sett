@@ -60,6 +60,12 @@ class WorkoutGeneralStatsViewCell: UITableViewCell {
         ])
     }
     
+    private func addViewConstraints() {
+        NSLayoutConstraint.activate([
+            displayContent.heightAnchor.constraint(equalTo: heightAnchor),
+        ])
+    }
+    
     // MARK: - Configurations
     public func configure(with viewModel: WorkoutGeneralStatsViewCellViewModel) {
         label.text = viewModel.displayTitle
@@ -69,6 +75,10 @@ class WorkoutGeneralStatsViewCell: UITableViewCell {
 
         if !viewModel.displayDivider {
             self.divider.isHidden = true
+        }
+        
+        if viewModel.type == .netProgress {
+            addViewConstraints()
         }
     }
     

@@ -19,7 +19,7 @@ enum WorkoutGeneralStatsViewType: CaseIterable {
 final class WorkoutGeneralStatsViewCellViewModel: NSObject {
     public let weightRange = Array(1...500)
     public let workout: Workout
-    private let type: WorkoutGeneralStatsViewType
+    public let type: WorkoutGeneralStatsViewType
     
     init(type: WorkoutGeneralStatsViewType, workout: Workout) {
         self.type = type
@@ -58,8 +58,10 @@ final class WorkoutGeneralStatsViewCellViewModel: NSObject {
             return StartTimePicker(frame: .zero, viewModel: self)
         case .bodyweight:
             return WeightPicker(frame: .zero, viewModel: self)
-        case .netProgress, .notes:
-            return WeightPicker(frame: .zero, viewModel: self)
+        case .netProgress:
+            return NetProgressView(frame: .zero)
+        case .notes:
+            return NotesButton(frame: .zero, viewModel: self)
         }
     }
 }
@@ -74,11 +76,18 @@ extension WorkoutGeneralStatsViewCellViewModel {
         self.workout.rating = newRating
         CoreDataBase.save()
     }
+    
+    public func viewNotes(view: UIView) {
+        if let parentViewController = view.getParentViewController(view) {
+            let liftsViewController = LiftsViewController()
+            parentViewController.present(liftsViewController, animated: true)
+        }
+    }
 }
 
 
 extension WorkoutGeneralStatsViewCellViewModel: UIPickerViewDataSource, UIPickerViewDelegate {
-
+    
     // Implement the required data source methods
     // Number of components in the picker view
     func numberOfComponents(in pickerView: UIPickerView) -> Int {
