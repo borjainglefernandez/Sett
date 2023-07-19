@@ -79,7 +79,7 @@ extension WorkoutGeneralStatsViewCellViewModel {
     
     public func viewNotes(view: UIView) {
         if let parentViewController = view.getParentViewController(view) {
-            let liftsViewController = LiftsViewController()
+            let liftsViewController = NotesViewController(viewModel: self)
             parentViewController.present(liftsViewController, animated: true)
         }
     }

@@ -56,7 +56,6 @@ class WorkoutViewController: UIViewController {
     init(viewModel: WorkoutViewModel) {
         self.viewModel = viewModel
         self.workoutGeneralStatsView = WorkoutGeneralStatsView(frame: .zero, viewModel: self.viewModel)
-        self.workoutGeneralStatsView.autoresizingMask = .flexibleHeight
         super.init(nibName: nil, bundle: nil)
     }
     

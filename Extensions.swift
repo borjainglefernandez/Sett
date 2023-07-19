@@ -45,3 +45,15 @@ extension UIView {
         return nil
     }
 }
+
+extension UITextField {
+    func setCursorInsets(_ insets: UIEdgeInsets) {
+        // For iOS versions prior to 13, use a custom view as the leftView to set the cursor insets
+        let leftView = UIView(frame: CGRect(x: 0, y: 0, width: insets.left, height: 1))
+        let rightView = UIView(frame: CGRect(x: 0, y: 0, width: insets.right, height: 1))
+        self.leftView = leftView
+        self.leftViewMode = .always
+        self.rightView = rightView
+        self.rightViewMode = .always
+    }
+}
