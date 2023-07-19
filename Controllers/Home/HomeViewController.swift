@@ -120,9 +120,7 @@ final class HomeViewController: UIViewController {
         let workoutViewModel = WorkoutViewModel(workout: newWorkout)
         let workoutViewController = WorkoutViewController(viewModel: workoutViewModel)
         workoutViewController.modalPresentationStyle = .fullScreen
-        self.present(workoutViewController, animated: true) {
-            self.homeView.showHideCollectionView()
-        }
+        self.present(workoutViewController, animated: true)
     }
     
     private func startRoutine() {
