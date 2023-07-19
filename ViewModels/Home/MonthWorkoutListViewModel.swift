@@ -62,6 +62,7 @@ final class MonthWorkoutListViewModel: NSObject {
     
 }
 
+// MARK: - Table View Delegate
 extension MonthWorkoutListViewModel: UITableViewDataSource, UITableViewDelegate {
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {

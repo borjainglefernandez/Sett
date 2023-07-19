@@ -57,3 +57,12 @@ extension UITextField {
         self.rightViewMode = .always
     }
 }
+
+extension UITableViewCell {
+    // Need this in order for the color to not change when interacting with cell
+    public func configureClearSelectedBackground() {
+        let bgColorView = UIView()
+        bgColorView.backgroundColor = .clear
+        self.selectedBackgroundView = bgColorView
+    }
+}

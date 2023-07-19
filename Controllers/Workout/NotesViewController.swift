@@ -7,7 +7,8 @@
 
 import UIKit
 
-class NotesViewController: UIViewController {
+final class NotesViewController: UIViewController {
+    
     private let viewModel: WorkoutGeneralStatsViewCellViewModel
 
     private let topBar: UIView = {
@@ -40,8 +41,6 @@ class NotesViewController: UIViewController {
     
     private let notesView: NotesView
     
-
-    
     // MARK: - Init
     init(viewModel: WorkoutGeneralStatsViewCellViewModel) {
         self.viewModel = viewModel
@@ -54,6 +53,7 @@ class NotesViewController: UIViewController {
 
     }
     
+    // MARK: - LifeCycle
     override func viewDidLoad() {
         super.viewDidLoad()
         view.backgroundColor = .systemCyan
@@ -61,8 +61,6 @@ class NotesViewController: UIViewController {
         addConstraints()
         self.notesView.textView.becomeFirstResponder()
         self.closeButton.addTarget(self, action: #selector(close), for: .touchUpInside)
-
-
     }
     
     // MARK: - Constraints
@@ -77,7 +75,7 @@ class NotesViewController: UIViewController {
             self.notesTitle.centerXAnchor.constraint(equalTo: topBar.centerXAnchor),
             
             self.closeButton.centerYAnchor.constraint(equalTo: topBar.centerYAnchor),
-            self.closeButton.leftAnchor.constraint(equalTo: topBar.rightAnchor, constant: -7),
+            self.closeButton.rightAnchor.constraint(equalTo: topBar.rightAnchor, constant: -7),
             
             self.notesView.leftAnchor.constraint(equalTo: view.safeAreaLayoutGuide.leftAnchor),
             self.notesView.rightAnchor.constraint(equalTo: view.safeAreaLayoutGuide.rightAnchor),

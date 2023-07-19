@@ -53,8 +53,11 @@ final class MonthWorkoutListCell: UITableViewCell {
     // MARK: - Init
     override init(style: UITableViewCell.CellStyle, reuseIdentifier: String?) {
         super.init(style: style, reuseIdentifier: reuseIdentifier)
-        backgroundColor = UIColor.clear // Allows for customizability of cell
-        contentView.addSubviews(self.containerView, self.calendarDayView, self.titleLabel, self.starRating, self.achievementsNumberView, self.durationLabel)
+        
+        self.backgroundColor = UIColor.clear // Allows for customizability of cell
+        self.configureClearSelectedBackground()
+        
+        self.contentView.addSubviews(self.containerView, self.calendarDayView, self.titleLabel, self.starRating, self.achievementsNumberView, self.durationLabel)
         self.addConstraints()
     }
     
@@ -71,13 +74,13 @@ final class MonthWorkoutListCell: UITableViewCell {
     // MARK: - Constraints
     private func addConstraints() {
         NSLayoutConstraint.activate([
-            self.containerView.topAnchor.constraint(equalTo: topAnchor),
-            self.containerView.centerXAnchor.constraint(equalTo: centerXAnchor),
-            self.containerView.heightAnchor.constraint(equalTo: heightAnchor, multiplier: 0.985),
-            self.containerView.widthAnchor.constraint(equalTo: widthAnchor, multiplier: 0.985),
+            self.containerView.topAnchor.constraint(equalTo: self.topAnchor),
+            self.containerView.centerXAnchor.constraint(equalTo: self.centerXAnchor),
+            self.containerView.heightAnchor.constraint(equalTo: self.heightAnchor, multiplier: 0.985),
+            self.containerView.widthAnchor.constraint(equalTo: self.widthAnchor, multiplier: 0.985),
             
             self.calendarDayView.leftAnchor.constraint(equalToSystemSpacingAfter: self.containerView.leftAnchor, multiplier: 1.5),
-            self.calendarDayView.topAnchor.constraint(equalToSystemSpacingBelow: topAnchor, multiplier: 0.8),
+            self.calendarDayView.topAnchor.constraint(equalToSystemSpacingBelow: self.topAnchor, multiplier: 0.8),
             
             self.titleLabel.centerYAnchor.constraint(equalTo: self.containerView.centerYAnchor),
             self.titleLabel.leftAnchor.constraint(equalToSystemSpacingAfter: self.calendarDayView.rightAnchor, multiplier: 6),
@@ -92,7 +95,7 @@ final class MonthWorkoutListCell: UITableViewCell {
             self.achievementsNumberView.centerYAnchor.constraint(equalTo: self.containerView.centerYAnchor),
             
             self.durationLabel.leftAnchor.constraint(equalTo: self.achievementsNumberView.rightAnchor, constant: 25),
-            self.durationLabel.centerYAnchor.constraint(equalTo: centerYAnchor)
+            self.durationLabel.centerYAnchor.constraint(equalTo: self.centerYAnchor)
         ])
     }
     

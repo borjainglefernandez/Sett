@@ -17,6 +17,7 @@ protocol ExpandedCellDelegate: NSObjectProtocol {
 }
 
 final class MonthListCell: UICollectionViewCell {
+    
     static let cellIdentifier = "MonthListCell"
     
     weak var delegate:ExpandedCellDelegate?
@@ -55,10 +56,13 @@ final class MonthListCell: UICollectionViewCell {
     // MARK: - Init
     override init(frame: CGRect) {
         super.init(frame: frame)
-        contentView.layer.cornerRadius = 15
-        addSubviews(topBar, titleLabel, expandCollapseButton, monthWorkoutListView)
-        expandCollapseButton.addTarget(self, action: #selector(collapseExpand), for: .touchUpInside)
-        addConstraints()
+        
+        self.contentView.layer.cornerRadius = 15
+    
+        self.expandCollapseButton.addTarget(self, action: #selector(collapseExpand), for: .touchUpInside)
+
+        self.addSubviews(topBar, titleLabel, expandCollapseButton, monthWorkoutListView)
+        self.addConstraints()
     }
     
     required init?(coder: NSCoder) {
@@ -68,43 +72,47 @@ final class MonthListCell: UICollectionViewCell {
     // MARK: - LifeCycle
     override func prepareForReuse() {
         super.prepareForReuse()
-        titleLabel.text = nil
+        self.titleLabel.text = nil
     }
     
     // MARK: - Constraints
     private func addConstraints() {
         NSLayoutConstraint.activate([
-            topBar.heightAnchor.constraint(equalToConstant: 30),
-            topBar.leftAnchor.constraint(equalTo: leftAnchor),
-            topBar.rightAnchor.constraint(equalTo: rightAnchor),
+            self.topBar.heightAnchor.constraint(equalToConstant: 30),
+            self.topBar.leftAnchor.constraint(equalTo: self.leftAnchor),
+            self.topBar.rightAnchor.constraint(equalTo: self.rightAnchor),
             
-            titleLabel.leftAnchor.constraint(equalToSystemSpacingAfter: leftAnchor, multiplier: 2),
-            titleLabel.centerYAnchor.constraint(equalTo: topBar.centerYAnchor),
+            self.titleLabel.leftAnchor.constraint(equalToSystemSpacingAfter: self.leftAnchor, multiplier: 2),
+            self.titleLabel.centerYAnchor.constraint(equalTo: self.topBar.centerYAnchor),
             
-            expandCollapseButton.centerYAnchor.constraint(equalTo: topBar.centerYAnchor),
-            expandCollapseButton.rightAnchor.constraint(equalTo: rightAnchor, constant: -15),
+            self.expandCollapseButton.centerYAnchor.constraint(equalTo: self.topBar.centerYAnchor),
+            self.expandCollapseButton.rightAnchor.constraint(equalTo: self.rightAnchor, constant: -15),
             
-            monthWorkoutListView.heightAnchor.constraint(equalTo: heightAnchor, multiplier: 1, constant: -30),        monthWorkoutListView.bottomAnchor.constraint(equalTo: bottomAnchor),
-            monthWorkoutListView.rightAnchor.constraint(equalTo: rightAnchor),
-            monthWorkoutListView.leftAnchor.constraint(equalTo: leftAnchor),
+            self.monthWorkoutListView.heightAnchor.constraint(equalTo: self.heightAnchor, multiplier: 1, constant: -30),
+            self.monthWorkoutListView.bottomAnchor.constraint(equalTo: self.bottomAnchor),
+            self.monthWorkoutListView.rightAnchor.constraint(equalTo: self.rightAnchor),
+            self.monthWorkoutListView.leftAnchor.constraint(equalTo: self.leftAnchor),
         ])
     }
     
     // MARK: - Configurations
     public func configure(with viewModel: MonthListCellViewModel) {
+        // Populate title label text
         let workoutSuffix = viewModel.numWorkouts == 1 ? "Workout" : "Workouts"
-        titleLabel.text = "\(viewModel.monthName) - \(viewModel.numWorkouts) \(workoutSuffix)"
+        self.titleLabel.text = "\(viewModel.monthName) - \(viewModel.numWorkouts) \(workoutSuffix)"
         
+        // Extract month and year then configure view model of workout
         guard let month = Int(viewModel.monthName.components(separatedBy: "/")[0]),
               let year = Int(viewModel.monthName.components(separatedBy: "/")[1]) else {
                   fatalError("Could not get month or year from string")
               }
-        
         let monthWorkoutListViewModel = MonthWorkoutListViewModel(month: month, year: year)
-        monthWorkoutListView.configure(with: monthWorkoutListViewModel)
+        self.monthWorkoutListView.configure(with: monthWorkoutListViewModel)
     }
     
     // MARK: - Actions
+    
+    // Expand and collapse month list cell
     @objc func collapseExpand() {
         guard let collectionView = superview as? UICollectionView else {
             return
@@ -114,10 +122,13 @@ final class MonthListCell: UICollectionViewCell {
         }
     }
     
+    // Show or hide month list view depending on whether or not it was expanded
     public func showHideMonthListView(isExpanded: Bool) {
-        var iconImage: UIImage?
         topBar.layer.cornerRadius = 15
-        monthWorkoutListView.isHidden = !isExpanded
+        monthWorkoutListView.isHidden = !isExpanded // Hide or show view
+        
+        // Change corner radii and icon depending on whether or not showing or hiding
+        var iconImage: UIImage?
         if isExpanded {
             topBar.layer.maskedCorners = [.layerMaxXMinYCorner, .layerMinXMinYCorner]
             iconImage = UIImage(systemName: "chevron.up")

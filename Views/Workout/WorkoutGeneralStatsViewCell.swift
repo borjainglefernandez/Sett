@@ -7,17 +7,22 @@
 
 import UIKit
 
-class WorkoutGeneralStatsViewCell: UITableViewCell {
+final class WorkoutGeneralStatsViewCell: UITableViewCell {
+    
     static let cellIdentifier = "WorkoutGeneralStatsViewCell"
     
+    // Label for the row content
     private let label: UILabel = {
         let label = UILabel()
         label.translatesAutoresizingMaskIntoConstraints = false
         label.textColor = .label
         label.font = .systemFont(ofSize: 17, weight: .regular)
+        label.numberOfLines = 1
+        label.lineBreakMode = .byTruncatingTail // Added truncation for notes
         return label
     }()
     
+    // Divider between cells
     private let divider: UIView = {
         let divider = UIView()
         divider.translatesAutoresizingMaskIntoConstraints = false
@@ -25,18 +30,17 @@ class WorkoutGeneralStatsViewCell: UITableViewCell {
         return divider
     }()
     
+    // Actual content to display on the right side
     private var displayContent: UIView = UIView()
     
     // MARK: - Init
     override init(style: UITableViewCell.CellStyle, reuseIdentifier: String?) {
         super.init(style: style, reuseIdentifier: reuseIdentifier)
-        backgroundColor = .clear // Allows for customizability of cell
-
-        let bgColorView = UIView()
-        bgColorView.backgroundColor = .clear
-        selectedBackgroundView = bgColorView
         
-        addSubviews(label, divider)
+        self.backgroundColor = .clear // Allows for customizability of cell
+        
+        self.configureClearSelectedBackground()
+        self.addSubviews(label, divider)
     }
     
     required init?(coder: NSCoder) {
@@ -46,41 +50,43 @@ class WorkoutGeneralStatsViewCell: UITableViewCell {
     // MARK: - Constraints
     private func addConstraints() {
         NSLayoutConstraint.activate([
-            label.topAnchor.constraint(equalTo: topAnchor, constant: 10),
-            label.leftAnchor.constraint(equalTo: leftAnchor, constant: 30),
+            self.label.topAnchor.constraint(equalTo: self.topAnchor, constant: 10),
+            self.label.leftAnchor.constraint(equalTo: self.leftAnchor, constant: 30),
+            self.label.widthAnchor.constraint(equalTo: self.widthAnchor, multiplier: 0.75),
             
-            divider.widthAnchor.constraint(equalTo: widthAnchor, multiplier: 0.9),
-            divider.heightAnchor.constraint(equalToConstant: 1),
-            divider.topAnchor.constraint(equalTo: label.bottomAnchor, constant: 8),
-            divider.centerXAnchor.constraint(equalTo: centerXAnchor),
+            self.divider.widthAnchor.constraint(equalTo: self.widthAnchor, multiplier: 0.9),
+            self.divider.heightAnchor.constraint(equalToConstant: 1),
+            self.divider.topAnchor.constraint(equalTo: self.label.bottomAnchor, constant: 8),
+            self.divider.centerXAnchor.constraint(equalTo: self.centerXAnchor),
             
-            displayContent.centerYAnchor.constraint(equalTo: label.centerYAnchor),
-            displayContent.rightAnchor.constraint(equalTo: rightAnchor, constant: -30),
+            self.displayContent.centerYAnchor.constraint(equalTo: self.label.centerYAnchor),
+            self.displayContent.rightAnchor.constraint(equalTo: self.rightAnchor, constant: -30),
             
         ])
     }
     
-    private func addViewConstraints() {
+    // Need to specify height anchor for net progress view to make it show up correctly
+    private func addNetProgressConstraints() {
         NSLayoutConstraint.activate([
-            displayContent.heightAnchor.constraint(equalTo: heightAnchor),
+            self.displayContent.heightAnchor.constraint(equalTo: self.heightAnchor),
         ])
     }
     
     // MARK: - Configurations
     public func configure(with viewModel: WorkoutGeneralStatsViewCellViewModel) {
-        label.text = viewModel.displayTitle
+        self.label.text = viewModel.displayTitle
         self.displayContent = viewModel.displayContent
-        addSubview(self.displayContent)
-        addConstraints()
+        
+        self.addSubview(self.displayContent)
+        self.addConstraints()
 
         if !viewModel.displayDivider {
             self.divider.isHidden = true
         }
         
         if viewModel.type == .netProgress {
-            addViewConstraints()
+            self.addNetProgressConstraints()
         }
     }
-    
     
 }

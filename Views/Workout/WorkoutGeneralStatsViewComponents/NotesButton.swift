@@ -7,21 +7,18 @@
 
 import UIKit
 
-class NotesButton: UIButton {
+final class NotesButton: UIButton {
+    
     private let viewModel: WorkoutGeneralStatsViewCellViewModel
     
     // MARK: - Init
     init(frame: CGRect, viewModel: WorkoutGeneralStatsViewCellViewModel) {
         self.viewModel = viewModel
         super.init(frame: frame)
-        let config = UIImage.SymbolConfiguration(font: .systemFont(ofSize: 17, weight: .bold))
-        tintColor = .label
-        setPreferredSymbolConfiguration(config, forImageIn: .normal)
-        translatesAutoresizingMaskIntoConstraints = false
-        let iconImage = UIImage(systemName: "chevron.right")
-        setImage(iconImage, for: .normal)
-        addTarget(self, action: #selector(showNotes), for: .touchUpInside)
+
+        self.translatesAutoresizingMaskIntoConstraints = false
         
+        self.configure()
     }
     
     required init?(coder: NSCoder) {
@@ -30,6 +27,19 @@ class NotesButton: UIButton {
     
     // MARK: - Actions
     @objc func showNotes() {
-        viewModel.viewNotes(view: self)
+        self.viewModel.viewNotes(view: self)
+    }
+    
+    // MARK: - Configurations
+    private func configure() {
+        let iconImage = UIImage(systemName: "chevron.right")
+        self.setImage(iconImage, for: .normal)
+        
+        let config = UIImage.SymbolConfiguration(font: .systemFont(ofSize: 17, weight: .bold))
+        self.setPreferredSymbolConfiguration(config, forImageIn: .normal)
+        
+        self.tintColor = .label
+        
+        self.addTarget(self, action: #selector(showNotes), for: .touchUpInside)
     }
 }

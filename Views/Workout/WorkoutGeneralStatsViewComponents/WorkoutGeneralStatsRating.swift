@@ -1,5 +1,5 @@
 //
-//  Rating.swift
+//  WorkoutGeneralStatsRating.swift
 //  Sett
 //
 //  Created by Borja Ingle-Fernandez on 7/17/23.
@@ -7,18 +7,17 @@
 
 import UIKit
 
-class Rating: StarRating {
+final class WorkoutGeneralStatsRating: StarRating {
     
     private let viewModel: WorkoutGeneralStatsViewCellViewModel
     
     // MARK: - Init
     init(frame: CGRect, viewModel: WorkoutGeneralStatsViewCellViewModel) {
         self.viewModel = viewModel
-        super.init(frame: frame, interactable: true, starSize: 25, starMargin: 0.5, rating:viewModel.workout.rating)
+        super.init(frame: frame, interactable: true, starSize: 25, starMargin: 0.5, rating: self.viewModel.workout.rating)
         
         self.starRating.didFinishTouchingCosmos = { rating in
-            viewModel.changeRating(newRating: rating)
-            
+            self.viewModel.changeRating(newRating: rating)
         }
     }
     

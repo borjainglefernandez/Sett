@@ -44,10 +44,10 @@ class StarRating: UIView {
     // MARK: - Constraints
     private func addConstraints() {
         NSLayoutConstraint.activate([
-            self.starRating.topAnchor.constraint(equalTo: topAnchor),
-            self.starRating.leftAnchor.constraint(equalTo: leftAnchor),
-            self.starRating.rightAnchor.constraint(equalTo: rightAnchor),
-            self.starRating.bottomAnchor.constraint(equalTo: bottomAnchor)
+            self.starRating.topAnchor.constraint(equalTo: self.topAnchor),
+            self.starRating.leftAnchor.constraint(equalTo: self.leftAnchor),
+            self.starRating.rightAnchor.constraint(equalTo: self.rightAnchor),
+            self.starRating.bottomAnchor.constraint(equalTo: self.bottomAnchor)
         ])
     }
     

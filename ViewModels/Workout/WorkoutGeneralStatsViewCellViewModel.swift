@@ -7,7 +7,9 @@
 
 import Foundation
 import UIKit
+import CoreData
 
+// MARK: - Type
 enum WorkoutGeneralStatsViewType: CaseIterable {
     case rating
     case startTime
@@ -17,10 +19,12 @@ enum WorkoutGeneralStatsViewType: CaseIterable {
 }
 
 final class WorkoutGeneralStatsViewCellViewModel: NSObject {
-    public let weightRange = Array(1...500)
+    public let weightRange: [Int] = Array(0...500)
+    public let decimalRange: [Int] = Array(0...9)
     public let workout: Workout
     public let type: WorkoutGeneralStatsViewType
     
+    // MARK: - Init
     init(type: WorkoutGeneralStatsViewType, workout: Workout) {
         self.type = type
         self.workout = workout
@@ -37,6 +41,12 @@ final class WorkoutGeneralStatsViewCellViewModel: NSObject {
         case .netProgress:
             return "Net Progress"
         case .notes:
+            if let notes = workout.notes {
+                if notes.count > 0 {
+                    return notes
+                }
+                return "Notes..."
+            }
             return "Notes..."
         }
     }
@@ -53,11 +63,11 @@ final class WorkoutGeneralStatsViewCellViewModel: NSObject {
     var displayContent: UIView {
         switch self.type {
         case .rating:
-            return Rating(frame: .zero, viewModel: self)
+            return WorkoutGeneralStatsRating(frame: .zero, viewModel: self)
         case .startTime:
             return StartTimePicker(frame: .zero, viewModel: self)
         case .bodyweight:
-            return WeightPicker(frame: .zero, viewModel: self)
+            return WeightPickerView(frame: .zero, viewModel: self)
         case .netProgress:
             return NetProgressView(frame: .zero)
         case .notes:
@@ -66,6 +76,61 @@ final class WorkoutGeneralStatsViewCellViewModel: NSObject {
     }
 }
 
+// MARK: - Picker View Delegate
+extension WorkoutGeneralStatsViewCellViewModel: UIPickerViewDataSource, UIPickerViewDelegate {
+    
+    // Implement the required data source methods
+    // Number of components in the picker view
+    func numberOfComponents(in pickerView: UIPickerView) -> Int {
+        return 3
+    }
+    
+    // Number of rows in each component
+    func pickerView(_ pickerView: UIPickerView, numberOfRowsInComponent component: Int) -> Int {
+        if component == 0 {
+            return self.weightRange.count
+        } else if component == 1 {
+            return 1
+        } else {
+            return self.decimalRange.count
+        }
+    }
+    
+    // Implement the delegate methods
+    // Title for each row in each component
+    func pickerView(_ pickerView: UIPickerView, titleForRow row: Int, forComponent component: Int) -> String? {
+        if component == 0 {
+            return "\(self.weightRange[row])"
+        } else if component == 1 {
+            return "."
+        } else {
+            return "\(self.decimalRange[row])"
+        }
+    }
+    
+    // Handle the selection of a row in the picker view
+    func pickerView(_ pickerView: UIPickerView, didSelectRow row: Int, inComponent component: Int) {
+        let selectedNumber = self.weightRange[pickerView.selectedRow(inComponent: 0)]
+        let selectedDecimal = self.decimalRange[pickerView.selectedRow(inComponent: 2)]
+        let bodyweight = Float(selectedNumber) + Float(selectedDecimal) / 10.0
+        workout.bodyweight = bodyweight
+        CoreDataBase.save()
+    }
+    
+    func pickerView(_ pickerView: UIPickerView, widthForComponent component: Int) -> CGFloat {
+        return 65
+    }
+}
+
+// MARK: - Text View Delegate
+extension WorkoutGeneralStatsViewCellViewModel: UITextViewDelegate {
+    func textViewDidEndEditing(_ textView: UITextView) {
+        workout.notes = textView.text
+        CoreDataBase.save()
+    }
+}
+
+// MARK: - Actions
 extension WorkoutGeneralStatsViewCellViewModel {
     public func changeStartTime(newStartTime: Date) {
         self.workout.startTime = newStartTime
@@ -79,35 +144,8 @@ extension WorkoutGeneralStatsViewCellViewModel {
     
     public func viewNotes(view: UIView) {
         if let parentViewController = view.getParentViewController(view) {
-            let liftsViewController = NotesViewController(viewModel: self)
-            parentViewController.present(liftsViewController, animated: true)
+            let notesViewController = NotesViewController(viewModel: self)
+            parentViewController.present(notesViewController, animated: true)
         }
-    }
-}
-
-
-extension WorkoutGeneralStatsViewCellViewModel: UIPickerViewDataSource, UIPickerViewDelegate {
-    
-    // Implement the required data source methods
-    // Number of components in the picker view
-    func numberOfComponents(in pickerView: UIPickerView) -> Int {
-        return 1
-    }
-    
-    // Number of rows in each component
-    func pickerView(_ pickerView: UIPickerView, numberOfRowsInComponent component: Int) -> Int {
-        return self.weightRange.count
-    }
-    
-    // Implement the delegate methods
-    // Title for each row in each component
-    func pickerView(_ pickerView: UIPickerView, titleForRow row: Int, forComponent component: Int) -> String? {
-        return "\(self.weightRange[row])"
-    }
-    
-    // Handle the selection of a row in the picker view
-    func pickerView(_ pickerView: UIPickerView, didSelectRow row: Int, inComponent component: Int) {
-        workout.bodyweight = Float(self.weightRange[row])
-        CoreDataBase.save()
     }
 }

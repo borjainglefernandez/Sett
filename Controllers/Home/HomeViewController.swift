@@ -58,38 +58,41 @@ final class HomeViewController: UIViewController {
     // Home View
     private let homeView = HomeView()
     
+    // MARK: - Life Cycle
     override func viewDidLoad() {
         super.viewDidLoad()
-        view.backgroundColor = .systemCyan
-        topBar.addSubviews(titleLabel, addWorkoutButton, sortWorkoutButton)
-        view.addSubviews(topBar, homeView)
+        
+        self.view.backgroundColor = .systemCyan
+        
+        self.setUpAddWorkoutMenu()
+        
+        self.topBar.addSubviews(titleLabel, addWorkoutButton, sortWorkoutButton)
+        self.view.addSubviews(topBar, homeView)
         self.addConstraints()
-        setUpAddWorkoutMenu()
     }
     
     
     // MARK: - Constraints
     private func addConstraints() {
         NSLayoutConstraint.activate([
+            self.topBar.topAnchor.constraint(equalTo: self.view.safeAreaLayoutGuide.topAnchor),
+            self.topBar.centerXAnchor.constraint(equalTo: self.view.safeAreaLayoutGuide.centerXAnchor),
+            self.topBar.widthAnchor.constraint(equalTo: self.view.safeAreaLayoutGuide.widthAnchor, multiplier: 0.95),
+            self.topBar.heightAnchor.constraint(equalToConstant: 30),
             
-            topBar.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor),
-            topBar.centerXAnchor.constraint(equalTo: view.safeAreaLayoutGuide.centerXAnchor),
-            topBar.widthAnchor.constraint(equalTo: view.safeAreaLayoutGuide.widthAnchor, multiplier: 0.95),
-            topBar.heightAnchor.constraint(equalToConstant: 30),
+            self.titleLabel.leftAnchor.constraint(equalToSystemSpacingAfter: self.topBar.leftAnchor, multiplier: 2),
+            self.titleLabel.centerYAnchor.constraint(equalTo: self.topBar.centerYAnchor),
             
-            titleLabel.leftAnchor.constraint(equalToSystemSpacingAfter: topBar.leftAnchor, multiplier: 2),
-            titleLabel.centerYAnchor.constraint(equalTo: topBar.centerYAnchor),
+            self.sortWorkoutButton.centerYAnchor.constraint(equalTo: self.topBar.centerYAnchor),
+            self.sortWorkoutButton.rightAnchor.constraint(equalTo: self.topBar.rightAnchor, constant: -15),
             
-            sortWorkoutButton.centerYAnchor.constraint(equalTo: topBar.centerYAnchor),
-            sortWorkoutButton.rightAnchor.constraint(equalTo: topBar.rightAnchor, constant: -15),
-            
-            addWorkoutButton.centerYAnchor.constraint(equalTo: topBar.centerYAnchor),
-            addWorkoutButton.rightAnchor.constraint(equalTo: sortWorkoutButton.leftAnchor, constant: -7),
+            self.addWorkoutButton.centerYAnchor.constraint(equalTo: self.topBar.centerYAnchor),
+            self.addWorkoutButton.rightAnchor.constraint(equalTo: sortWorkoutButton.leftAnchor, constant: -7),
 
-            homeView.topAnchor.constraint(equalTo: topBar.bottomAnchor),
-            homeView.leftAnchor.constraint(equalTo: view.safeAreaLayoutGuide.leftAnchor),
-            homeView.rightAnchor.constraint(equalTo: view.safeAreaLayoutGuide.rightAnchor),
-            homeView.bottomAnchor.constraint(equalTo: view.safeAreaLayoutGuide.bottomAnchor)
+            self.homeView.topAnchor.constraint(equalTo: self.topBar.bottomAnchor),
+            self.homeView.leftAnchor.constraint(equalTo: self.view.safeAreaLayoutGuide.leftAnchor),
+            self.homeView.rightAnchor.constraint(equalTo: self.view.safeAreaLayoutGuide.rightAnchor),
+            self.homeView.bottomAnchor.constraint(equalTo: self.view.safeAreaLayoutGuide.bottomAnchor)
         ])
     }
     
@@ -106,16 +109,20 @@ final class HomeViewController: UIViewController {
     
     // MARK: - Actions
     private func createBlankWorkout() {
+        // Create new workout
         let newWorkout = Workout(context: CoreDataBase.context)
         newWorkout.rating = 3
         newWorkout.startTime = Date()
         newWorkout.title = "New Workout"
         CoreDataBase.save()
         
+        // Navigate to new workout screen
         let workoutViewModel = WorkoutViewModel(workout: newWorkout)
         let workoutViewController = WorkoutViewController(viewModel: workoutViewModel)
         workoutViewController.modalPresentationStyle = .fullScreen
-        self.present(workoutViewController, animated: true)
+        self.present(workoutViewController, animated: true) {
+            self.homeView.showHideCollectionView()
+        }
     }
     
     private func startRoutine() {

@@ -7,8 +7,9 @@
 
 import UIKit
 
-class NetProgressView: UIView {
+final class NetProgressView: UIView {
     
+    // Labels for Weight and Rep Titles
     private func createTitleLabel(title: String) -> UILabel {
         let label = UILabel()
         label.text = title
@@ -20,6 +21,7 @@ class NetProgressView: UIView {
     lazy var weightLabel: UILabel = self.createTitleLabel(title: "Weight")
     lazy var repsLabel: UILabel = self.createTitleLabel(title: "Reps")
     
+    // Labels for Net Weight and Net Reps
     private func createContentLabel(title: String) -> UILabel {
         let label = UILabel()
         label.text = title
@@ -28,15 +30,16 @@ class NetProgressView: UIView {
         label.translatesAutoresizingMaskIntoConstraints = false
         return label
     }
-    
     lazy var weightContent: UILabel = self.createContentLabel(title: "0")
     lazy var repsContent: UILabel = self.createContentLabel(title: "0")
     
     // MARK: - Init
     override init(frame: CGRect) {
         super.init(frame: frame)
-        translatesAutoresizingMaskIntoConstraints = false
-        addSubviews(repsLabel, repsContent, weightLabel, weightContent)
+        
+        self.translatesAutoresizingMaskIntoConstraints = false
+        
+        self.addSubviews(repsLabel, repsContent, weightLabel, weightContent)
         addConstraints()
     }
     
@@ -47,16 +50,16 @@ class NetProgressView: UIView {
     // MARK: - Constraints
     private func addConstraints() {
         NSLayoutConstraint.activate([
-            repsLabel.rightAnchor.constraint(equalTo: rightAnchor),
+            self.repsLabel.rightAnchor.constraint(equalTo: self.rightAnchor),
             
-            repsContent.topAnchor.constraint(equalTo: repsLabel.bottomAnchor, constant: 5),
-            repsContent.centerXAnchor.constraint(equalTo: repsLabel.centerXAnchor),
+            self.repsContent.topAnchor.constraint(equalTo: self.repsLabel.bottomAnchor, constant: 5),
+            self.repsContent.centerXAnchor.constraint(equalTo: self.repsLabel.centerXAnchor),
             
-            weightLabel.leftAnchor.constraint(equalTo: repsLabel.leftAnchor, constant: -60),
-            weightLabel.centerYAnchor.constraint(equalTo: repsLabel.centerYAnchor),
+            self.weightLabel.leftAnchor.constraint(equalTo: self.repsLabel.leftAnchor, constant: -60),
+            self.weightLabel.centerYAnchor.constraint(equalTo: self.repsLabel.centerYAnchor),
             
-            weightContent.centerYAnchor.constraint(equalTo: repsContent.centerYAnchor),
-            weightContent.centerXAnchor.constraint(equalTo: weightLabel.centerXAnchor)
+            self.weightContent.centerYAnchor.constraint(equalTo: self.repsContent.centerYAnchor),
+            self.weightContent.centerXAnchor.constraint(equalTo: self.weightLabel.centerXAnchor)
         ])
     }
 }

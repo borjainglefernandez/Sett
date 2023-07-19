@@ -43,13 +43,7 @@ final class CalendarDayView: UIView {
         calendarLabel.translatesAutoresizingMaskIntoConstraints = false
         return calendarLabel
     }()
-    
-    // Left circle on top calendar bar
-    private var leftCircle = UIView()
-    
-    // Right circle on top calendar bar
-    private var rightCircle = UIView()
-    
+
     // Creates calendar circles
     private func calendarCircle() -> UIView {
         let calendarCircle = UIView()
@@ -61,16 +55,20 @@ final class CalendarDayView: UIView {
         calendarCircle.layer.borderColor = UIColor.systemGray.cgColor
         return calendarCircle
     }
+    lazy var leftCircle: UIView = calendarCircle()
+    lazy var rightCircle: UIView = calendarCircle()
+    
+
     
     
     // MARK: - Init
     override init(frame: CGRect) {
         super.init(frame: frame)
+        
         translatesAutoresizingMaskIntoConstraints = false
-        self.leftCircle = self.calendarCircle()
-        self.rightCircle = self.calendarCircle()
-        addSubviews(self.topCalendarBar, self.bottomCalendarView, self.leftCircle, self.rightCircle, self.calendarLabel)
-        addConstraints()
+        
+        self.addSubviews(self.topCalendarBar, self.bottomCalendarView, self.leftCircle, self.rightCircle, self.calendarLabel)
+        self.addConstraints()
     }
     
     required init?(coder: NSCoder) {
@@ -81,28 +79,28 @@ final class CalendarDayView: UIView {
     // MARK: - Constraints
     private func addConstraints() {
         NSLayoutConstraint.activate([
-            self.topCalendarBar.leftAnchor.constraint(equalTo: leftAnchor),
+            self.topCalendarBar.leftAnchor.constraint(equalTo: self.leftAnchor),
             self.topCalendarBar.heightAnchor.constraint(equalToConstant: 8),
-            self.topCalendarBar.topAnchor.constraint(equalTo: topAnchor),
+            self.topCalendarBar.topAnchor.constraint(equalTo: self.topAnchor),
             self.topCalendarBar.widthAnchor.constraint(equalToConstant: 32),
             
-            self.bottomCalendarView.centerXAnchor.constraint(equalTo: topCalendarBar.centerXAnchor),
-            self.bottomCalendarView.topAnchor.constraint(equalTo: topCalendarBar.bottomAnchor),
+            self.bottomCalendarView.centerXAnchor.constraint(equalTo: self.topCalendarBar.centerXAnchor),
+            self.bottomCalendarView.topAnchor.constraint(equalTo: self.topCalendarBar.bottomAnchor),
             self.bottomCalendarView.heightAnchor.constraint(equalToConstant: 22),
             self.bottomCalendarView.widthAnchor.constraint(equalToConstant: 30),
             
-            self.calendarLabel.centerXAnchor.constraint(equalTo: bottomCalendarView.centerXAnchor),
-            self.calendarLabel.centerYAnchor.constraint(equalTo: bottomCalendarView.centerYAnchor),
+            self.calendarLabel.centerXAnchor.constraint(equalTo: self.bottomCalendarView.centerXAnchor),
+            self.calendarLabel.centerYAnchor.constraint(equalTo: self.bottomCalendarView.centerYAnchor),
             
             self.leftCircle.heightAnchor.constraint(equalToConstant: 4),
             self.leftCircle.widthAnchor.constraint(equalToConstant: 4),
-            self.leftCircle.centerXAnchor.constraint(equalTo: topCalendarBar.centerXAnchor, constant: -6),
-            self.leftCircle.centerYAnchor.constraint(equalTo: topCalendarBar.centerYAnchor),
+            self.leftCircle.centerXAnchor.constraint(equalTo: self.topCalendarBar.centerXAnchor, constant: -6),
+            self.leftCircle.centerYAnchor.constraint(equalTo: self.topCalendarBar.centerYAnchor),
             
             self.rightCircle.heightAnchor.constraint(equalToConstant: 4),
             self.rightCircle.widthAnchor.constraint(equalToConstant: 4),
-            self.rightCircle.centerXAnchor.constraint(equalTo: topCalendarBar.centerXAnchor, constant: 6),
-            self.rightCircle.centerYAnchor.constraint(equalTo: topCalendarBar.centerYAnchor),
+            self.rightCircle.centerXAnchor.constraint(equalTo: self.topCalendarBar.centerXAnchor, constant: 6),
+            self.rightCircle.centerYAnchor.constraint(equalTo: self.topCalendarBar.centerYAnchor),
         ])
         
     }

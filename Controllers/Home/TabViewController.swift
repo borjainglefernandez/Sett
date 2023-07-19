@@ -51,11 +51,11 @@ final class TabViewController: UITabBarController {
         tabBarAppearance.compactInlineLayoutAppearance = tabBarItemAppearance
         
         // Apply the customized appearance to the tab bar
-        tabBar.standardAppearance = tabBarAppearance
-        tabBar.scrollEdgeAppearance = tabBarAppearance
         tabBarAppearance.inlineLayoutAppearance = tabBarItemAppearance
+        self.tabBar.standardAppearance = tabBarAppearance
+        self.tabBar.scrollEdgeAppearance = tabBarAppearance
         
-        setViewControllers(
+        self.setViewControllers(
             [homeNav, liftsNav, statsNav, profileNav],
             animated: true
         )

@@ -10,7 +10,7 @@ import CoreData
 
 final class HomeViewModel: NSObject {
     
-    public var collection: UICollectionView?
+    public var homeView: HomeView?
     private var cellViewModels: [MonthListCellViewModel] = []
     private var isExpanded: [Bool] = []
     private var workoutsByMonth: [String: [Workout]] = [String: [Workout]]()
@@ -104,6 +104,7 @@ final class HomeViewModel: NSObject {
     }
 }
 
+// MARK: - Collection View Delegate
 extension HomeViewModel: UICollectionViewDataSource, UICollectionViewDelegateFlowLayout {
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
         return self.workoutsByMonth.count
@@ -134,20 +135,16 @@ extension HomeViewModel: UICollectionViewDataSource, UICollectionViewDelegateFlo
     }
 }
 
-extension HomeViewModel:WorkoutsDelegate {
-    func addWorkout(collectionView: UICollectionView) {
-        self.addWorkout()
-    }
-}
-
+// MARK: - Fetched Results Controller Delegate
 extension HomeViewModel: NSFetchedResultsControllerDelegate {
     // Update screen if CRUD conducted on Workouts
     func controller(_ controller: NSFetchedResultsController<NSFetchRequestResult>, didChange anObject: Any, at indexPath: IndexPath?, for type: NSFetchedResultsChangeType, newIndexPath: IndexPath?) {
         self.configure()
-        self.collection?.reloadData()
+        self.homeView?.collectionView.reloadData()
     }
 }
 
+// MARK: - Expanded Cell Delegate
 extension HomeViewModel:ExpandedCellDelegate{
     /// Collapse or Expand selected Month Workout Container
     ///
@@ -164,4 +161,9 @@ extension HomeViewModel:ExpandedCellDelegate{
     }
 }
 
-
+// MARK: - Workouts Delegate
+extension HomeViewModel:WorkoutsDelegate {
+    func addWorkout(collectionView: UICollectionView) {
+        self.addWorkout()
+    }
+}

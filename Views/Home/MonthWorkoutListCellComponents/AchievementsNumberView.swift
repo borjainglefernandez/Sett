@@ -40,9 +40,11 @@ final class AchievementsNumberView: UIView {
     // MARK: - Init
     override init(frame: CGRect) {
         super.init(frame: frame)
+        
         translatesAutoresizingMaskIntoConstraints = false
-        addSubviews(self.achievementsNumberContainer, self.achievementsNumberLabel)
-        addConstraints()
+        
+        self.addSubviews(self.achievementsNumberContainer, self.achievementsNumberLabel)
+        self.addConstraints()
     }
     
     required init?(coder: NSCoder) {
@@ -52,10 +54,10 @@ final class AchievementsNumberView: UIView {
     // MARK: - Constraints
     private func addConstraints() {
         NSLayoutConstraint.activate([
-            self.achievementsNumberContainer.leftAnchor.constraint(equalTo: leftAnchor),
-            self.achievementsNumberContainer.rightAnchor.constraint(equalTo: rightAnchor),
-            self.achievementsNumberContainer.topAnchor.constraint(equalTo: topAnchor),
-            self.achievementsNumberContainer.bottomAnchor.constraint(equalTo: bottomAnchor),
+            self.achievementsNumberContainer.leftAnchor.constraint(equalTo: self.leftAnchor),
+            self.achievementsNumberContainer.rightAnchor.constraint(equalTo: self.rightAnchor),
+            self.achievementsNumberContainer.topAnchor.constraint(equalTo: self.topAnchor),
+            self.achievementsNumberContainer.bottomAnchor.constraint(equalTo: self.bottomAnchor),
             
             
             self.achievementsNumberLabel.centerYAnchor.constraint(equalTo: self.achievementsNumberContainer.centerYAnchor),

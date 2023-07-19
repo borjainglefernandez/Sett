@@ -11,7 +11,6 @@ final class WorkoutGeneralStatsView: UIView {
     
     private let viewModel: WorkoutViewModel
     
-    
     // Top bar of the general stats view container
     private let topBar: UIView = {
         let topBar = UIView()
@@ -40,9 +39,12 @@ final class WorkoutGeneralStatsView: UIView {
     init(frame: CGRect, viewModel: WorkoutViewModel) {
         self.viewModel = viewModel
         super.init(frame: frame)
+        
         translatesAutoresizingMaskIntoConstraints = false
+
+        self.setUpTableView()
+
         self.addSubviews(topBar, tableView)
-        setUpTableView()
         self.addConstraints()
     }
     
@@ -53,21 +55,22 @@ final class WorkoutGeneralStatsView: UIView {
     // MARK: - Constraints
     private func addConstraints() {
         NSLayoutConstraint.activate([
-            topBar.topAnchor.constraint(equalTo: topAnchor, constant: 10),
-            topBar.centerXAnchor.constraint(equalTo: centerXAnchor),
-            topBar.widthAnchor.constraint(equalTo: widthAnchor, multiplier: 0.95),
-            topBar.heightAnchor.constraint(equalToConstant: 30),
+            self.topBar.topAnchor.constraint(equalTo: self.topAnchor, constant: 10),
+            self.topBar.centerXAnchor.constraint(equalTo: self.centerXAnchor),
+            self.topBar.widthAnchor.constraint(equalTo: self.widthAnchor, multiplier: 0.95),
+            self.topBar.heightAnchor.constraint(equalToConstant: 30),
             
-            tableView.topAnchor.constraint(equalTo: topBar.bottomAnchor),
-            tableView.leftAnchor.constraint(equalTo: topBar.leftAnchor),
-            tableView.rightAnchor.constraint(equalTo: topBar.rightAnchor),
-            tableView.bottomAnchor.constraint(equalTo: bottomAnchor)
+            self.tableView.topAnchor.constraint(equalTo: self.topBar.bottomAnchor),
+            self.tableView.leftAnchor.constraint(equalTo: self.topBar.leftAnchor),
+            self.tableView.rightAnchor.constraint(equalTo: self.topBar.rightAnchor),
+            self.tableView.bottomAnchor.constraint(equalTo: self.bottomAnchor)
         ])
     }
     
     private func setUpTableView() {
         self.tableView.dataSource = self.viewModel
         self.tableView.delegate = self.viewModel
+        self.viewModel.tableView = self.tableView
     }
     
 }

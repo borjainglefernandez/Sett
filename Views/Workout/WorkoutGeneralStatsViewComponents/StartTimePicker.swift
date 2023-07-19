@@ -7,7 +7,7 @@
 
 import UIKit
 
-class StartTimePicker: UIDatePicker {
+final class StartTimePicker: UIDatePicker {
     
     private let viewModel: WorkoutGeneralStatsViewCellViewModel
     
@@ -15,10 +15,12 @@ class StartTimePicker: UIDatePicker {
     init(frame: CGRect, viewModel: WorkoutGeneralStatsViewCellViewModel) {
         self.viewModel = viewModel
         super.init(frame: frame)
-        translatesAutoresizingMaskIntoConstraints = false
-        datePickerMode = .dateAndTime
-        setDate(viewModel.workout.startTime!, animated: false)
-        addTarget(self, action: #selector(datePickerValueChanged(_:)), for: .valueChanged)
+        
+        self.translatesAutoresizingMaskIntoConstraints = false
+        self.datePickerMode = .dateAndTime
+        
+        self.setDate(viewModel.workout.startTime!, animated: false)
+        self.addTarget(self, action: #selector(datePickerValueChanged(_:)), for: .valueChanged)
 
     }
     
@@ -26,8 +28,8 @@ class StartTimePicker: UIDatePicker {
         fatalError("Unsupported initializer")
     }
     
+    // MARK: Actions
     @objc func datePickerValueChanged(_ sender: UIDatePicker) {
-        // This function will be called whenever the user changes the date or time in the picker
-        viewModel.changeStartTime(newStartTime: sender.date)
+        self.viewModel.changeStartTime(newStartTime: sender.date)
     }
 }

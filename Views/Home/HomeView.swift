@@ -8,14 +8,19 @@
 import UIKit
 
 protocol WorkoutsDelegate: NSObjectProtocol {
+    /// Add Workout
+    ///
+    /// - Parameter collectionView: The collection view to update after adding workout
     func addWorkout(collectionView: UICollectionView)
 }
 
 
 final class HomeView: UIView {
-    weak var delegate:WorkoutsDelegate?
     
     let viewModel = HomeViewModel()
+    
+    // Delegate to call to add workout
+    weak var delegate: WorkoutsDelegate?
     
     // View for when there are no workouts to display
     public let emptyView: UILabel = {
@@ -45,14 +50,17 @@ final class HomeView: UIView {
     // MARK: - Init
     override init(frame: CGRect) {
         super.init(frame: frame)
-        backgroundColor = .systemCyan
-        translatesAutoresizingMaskIntoConstraints = false
-        addSubviews(collectionView, emptyView)
-        addConstraints()
-        viewModel.configure()
-        setUpDelegate()
-        setUpCollectionView()
-        showHideCollectionView()
+        
+        self.backgroundColor = .systemCyan
+        self.translatesAutoresizingMaskIntoConstraints = false
+        
+        self.viewModel.configure()
+        self.setUpDelegate()
+        self.setUpCollectionView()
+        self.showHideCollectionView()
+        
+        self.addSubviews(collectionView, emptyView)
+        self.addConstraints()
     }
     required init?(coder: NSCoder) {
         fatalError("Unsupported initializer")
@@ -61,35 +69,35 @@ final class HomeView: UIView {
     // MARK: - Constraints
     private func addConstraints() {
         NSLayoutConstraint.activate([
+            self.collectionView.topAnchor.constraint(equalTo: self.topAnchor),
+            self.collectionView.leftAnchor.constraint(equalTo: self.leftAnchor),
+            self.collectionView.rightAnchor.constraint(equalTo: self.rightAnchor),
+            self.collectionView.bottomAnchor.constraint(equalTo: self.bottomAnchor),
             
-            collectionView.topAnchor.constraint(equalTo: topAnchor),
-            collectionView.leftAnchor.constraint(equalTo: leftAnchor),
-            collectionView.rightAnchor.constraint(equalTo: rightAnchor),
-            collectionView.bottomAnchor.constraint(equalTo: bottomAnchor),
-            
-            emptyView.centerXAnchor.constraint(equalTo: centerXAnchor),
-            emptyView.centerYAnchor.constraint(equalTo: centerYAnchor),
+            self.emptyView.centerXAnchor.constraint(equalTo: self.centerXAnchor),
+            self.emptyView.centerYAnchor.constraint(equalTo: self.centerYAnchor),
         ])
     }
     
     // MARK: - Configurations
     private func setUpDelegate() {
-        delegate = viewModel
+        self.delegate = self.viewModel
     }
     
     private func setUpCollectionView() {
-        collectionView.dataSource = viewModel
-        collectionView.delegate = viewModel
-        viewModel.collection = self.collectionView
+        self.collectionView.dataSource = self.viewModel
+        self.collectionView.delegate = self.viewModel
+        self.viewModel.homeView = self
     }
     
-    private func showHideCollectionView() {
-        if viewModel.getWorkoutsLength() > 0 {
-            collectionView.isHidden = false
-            emptyView.isHidden = true
+    // Shows or hides collection view depending on whether or not there are workouts
+    public func showHideCollectionView() {
+        if self.viewModel.getWorkoutsLength() > 0 {
+            self.collectionView.isHidden = false
+            self.emptyView.isHidden = true
         } else {
-            collectionView.isHidden = true
-            emptyView.isHidden = false
+            self.collectionView.isHidden = true
+            self.emptyView.isHidden = false
         }
     }
 }

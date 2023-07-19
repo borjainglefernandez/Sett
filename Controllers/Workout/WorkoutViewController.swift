@@ -7,9 +7,8 @@
 
 import UIKit
 
-class WorkoutViewController: UIViewController {
+final class WorkoutViewController: UIViewController {
     private let viewModel: WorkoutViewModel
-
     private let workoutGeneralStatsView: WorkoutGeneralStatsView
     
     private let topBar: UIView = {
@@ -20,7 +19,7 @@ class WorkoutViewController: UIViewController {
         return topBar
     }()
     
-    private let backButton: UIButton = {
+    lazy var backButton: UIButton = {
         let backButton = UIButton(type: .custom)
         let iconImage = UIImage(systemName: "arrow.backward.circle.fill")
         var config = UIImage.SymbolConfiguration(font: .systemFont(ofSize: 17.0, weight: .bold))
@@ -28,14 +27,17 @@ class WorkoutViewController: UIViewController {
         backButton.setPreferredSymbolConfiguration(config, forImageIn: .normal)
         backButton.translatesAutoresizingMaskIntoConstraints = false
         backButton.setImage(iconImage, for: .normal)
+        backButton.addTarget(self, action: #selector(self.goBack), for: .touchUpInside)
         return backButton
     }()
     
-    private let workoutName: UITextField = {
+    lazy var workoutName: UITextField = {
         let workoutName = UITextField()
         workoutName.textColor = .label
         workoutName.font = .systemFont(ofSize: 17, weight: .bold)
         workoutName.translatesAutoresizingMaskIntoConstraints = false
+        workoutName.text = self.viewModel.workout.title
+        workoutName.delegate = self.viewModel
         return workoutName
     }()
     
@@ -66,12 +68,11 @@ class WorkoutViewController: UIViewController {
     // MARK: - LifeCycle
     override func viewDidLoad() {
         super.viewDidLoad()
-        view.backgroundColor = .systemCyan
         
-        backButton.addTarget(self, action: #selector(goBack), for: .touchUpInside)
-        self.workoutName.text = self.viewModel.workout.title
-        topBar.addSubviews(backButton, self.workoutName, self.moreButton)
-        view.addSubviews(topBar, workoutGeneralStatsView)
+        self.view.backgroundColor = .systemCyan
+        
+        self.topBar.addSubviews(backButton, self.workoutName, self.moreButton)
+        self.view.addSubviews(topBar, workoutGeneralStatsView)
         self.addConstraints()
 
     }
@@ -79,25 +80,24 @@ class WorkoutViewController: UIViewController {
     // MARK: - Constraints
     private func addConstraints() {
         NSLayoutConstraint.activate([
-            self.topBar.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor),
-            self.topBar.centerXAnchor.constraint(equalTo: view.safeAreaLayoutGuide.centerXAnchor),
-            self.topBar.widthAnchor.constraint(equalTo:view.safeAreaLayoutGuide.widthAnchor, multiplier: 0.95),
+            self.topBar.topAnchor.constraint(equalTo: self.view.safeAreaLayoutGuide.topAnchor),
+            self.topBar.centerXAnchor.constraint(equalTo: self.view.safeAreaLayoutGuide.centerXAnchor),
+            self.topBar.widthAnchor.constraint(equalTo: self.view.safeAreaLayoutGuide.widthAnchor, multiplier: 0.95),
             self.topBar.heightAnchor.constraint(equalToConstant: 30),
             
-            self.backButton.centerYAnchor.constraint(equalTo: topBar.centerYAnchor),
-            self.backButton.leftAnchor.constraint(equalTo: topBar.leftAnchor, constant: 7),
+            self.backButton.centerYAnchor.constraint(equalTo: self.topBar.centerYAnchor),
+            self.backButton.leftAnchor.constraint(equalTo: self.topBar.leftAnchor, constant: 7),
             
-            self.workoutName.centerYAnchor.constraint(equalTo: topBar.centerYAnchor),
-            self.workoutName.centerXAnchor.constraint(equalTo: topBar.centerXAnchor),
+            self.workoutName.centerYAnchor.constraint(equalTo: self.topBar.centerYAnchor),
+            self.workoutName.centerXAnchor.constraint(equalTo: self.topBar.centerXAnchor),
             
-            self.moreButton.centerYAnchor.constraint(equalTo: topBar.centerYAnchor),
-            self.moreButton.rightAnchor.constraint(equalTo: topBar.rightAnchor,  constant: -7),
+            self.moreButton.centerYAnchor.constraint(equalTo: self.topBar.centerYAnchor),
+            self.moreButton.rightAnchor.constraint(equalTo: self.topBar.rightAnchor,  constant: -7),
             
-            self.workoutGeneralStatsView.topAnchor.constraint(equalTo: topBar.bottomAnchor),
-            self.workoutGeneralStatsView.leftAnchor.constraint(equalTo: view.safeAreaLayoutGuide.leftAnchor),
-            self.workoutGeneralStatsView.rightAnchor.constraint(equalTo: view.safeAreaLayoutGuide.rightAnchor),
+            self.workoutGeneralStatsView.topAnchor.constraint(equalTo: self.topBar.bottomAnchor),
+            self.workoutGeneralStatsView.leftAnchor.constraint(equalTo: self.view.safeAreaLayoutGuide.leftAnchor),
+            self.workoutGeneralStatsView.rightAnchor.constraint(equalTo: self.view.safeAreaLayoutGuide.rightAnchor),
             self.workoutGeneralStatsView.heightAnchor.constraint(equalToConstant: 285),
-        
         ])
     }
     

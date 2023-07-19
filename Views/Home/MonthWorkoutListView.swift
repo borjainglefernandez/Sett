@@ -8,13 +8,8 @@
 import UIKit
 
 final class MonthWorkoutListView: UIView {
-    private var viewModel: MonthWorkoutListViewModel? {
-        didSet {
-            DispatchQueue.main.async {
-                self.tableView.reloadData()
-            }
-        }
-    }
+    
+    private var viewModel: MonthWorkoutListViewModel?
     
     // Table View for workouts in each month
     private let tableView: UITableView = {
@@ -25,16 +20,17 @@ final class MonthWorkoutListView: UIView {
         tableView.layer.cornerRadius = 15
         tableView.layer.maskedCorners = [.layerMaxXMaxYCorner, .layerMinXMaxYCorner]
         tableView.isScrollEnabled = false
-
         return tableView
     }()
     
     // MARK: - Init
     override init(frame: CGRect) {
         super.init(frame: frame)
-        translatesAutoresizingMaskIntoConstraints = false
-        addSubview(tableView)
-        addConstraints()
+        
+        self.translatesAutoresizingMaskIntoConstraints = false
+        
+        self.addSubview(tableView)
+        self.addConstraints()
     }
     required init?(coder: NSCoder) {
         fatalError("Unsupported initializer")
@@ -44,10 +40,10 @@ final class MonthWorkoutListView: UIView {
     // MARK: - Constraints
     private func addConstraints() {
         NSLayoutConstraint.activate([
-            tableView.topAnchor.constraint(equalTo: topAnchor),
-            tableView.leftAnchor.constraint(equalTo: leftAnchor),
-            tableView.rightAnchor.constraint(equalTo: rightAnchor),
-            tableView.bottomAnchor.constraint(equalTo: bottomAnchor)
+            self.tableView.topAnchor.constraint(equalTo: self.topAnchor),
+            self.tableView.leftAnchor.constraint(equalTo: self.leftAnchor),
+            self.tableView.rightAnchor.constraint(equalTo: self.rightAnchor),
+            self.tableView.bottomAnchor.constraint(equalTo: self.bottomAnchor)
         ])
     }
     
@@ -58,7 +54,7 @@ final class MonthWorkoutListView: UIView {
     }
     
     private func setUpTableView() {
-        tableView.dataSource = viewModel
-        tableView.delegate = viewModel
+        self.tableView.dataSource = self.viewModel
+        self.tableView.delegate = self.viewModel
     }
 }
