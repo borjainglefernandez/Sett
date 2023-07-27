@@ -34,7 +34,7 @@ class WeightPicker: UITextField {
     }
     
     required init?(coder: NSCoder) {
-        fatalError("Unsupported initializer")
+        fatalError("Unsupported initialiser")
     }
     
     // MARK: - Override

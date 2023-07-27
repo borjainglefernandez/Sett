@@ -33,7 +33,7 @@ final class MonthWorkoutListView: UIView {
         self.addConstraints()
     }
     required init?(coder: NSCoder) {
-        fatalError("Unsupported initializer")
+        fatalError("Unsupported initialiser")
     }
     
     

@@ -11,26 +11,10 @@ final class WorkoutViewController: UIViewController {
     private let viewModel: WorkoutViewModel
     private let workoutGeneralStatsView: WorkoutGeneralStatsView
     
-    private let topBar: UIView = {
-        let topBar = UIView()
-        topBar.translatesAutoresizingMaskIntoConstraints = false
-        topBar.backgroundColor = .systemGray4
-        topBar.layer.cornerRadius = 15
-        return topBar
-    }()
-    
-    lazy var backButton: UIButton = {
-        let backButton = UIButton(type: .custom)
-        let iconImage = UIImage(systemName: "arrow.backward.circle.fill")
-        var config = UIImage.SymbolConfiguration(font: .systemFont(ofSize: 17.0, weight: .bold))
-        backButton.tintColor = .systemCyan
-        backButton.setPreferredSymbolConfiguration(config, forImageIn: .normal)
-        backButton.translatesAutoresizingMaskIntoConstraints = false
-        backButton.setImage(iconImage, for: .normal)
-        backButton.addTarget(self, action: #selector(self.goBack), for: .touchUpInside)
-        return backButton
-    }()
-    
+    private let topBar: TopBar = TopBar(frame: .zero)
+    private let backButton: UIButton = IconButton(frame: .zero, imageName: "arrow.backward.circle.fill")
+    private let moreButton: UIButton = IconButton(frame: .zero, imageName: "ellipsis.circle.fill")
+
     lazy var workoutName: UITextField = {
         let workoutName = UITextField()
         workoutName.textColor = .label
@@ -42,16 +26,6 @@ final class WorkoutViewController: UIViewController {
     }()
     
     
-    private let moreButton: UIButton = {
-        let moreButton = UIButton(type: .custom)
-        let iconImage = UIImage(systemName: "ellipsis.circle.fill")
-        var config = UIImage.SymbolConfiguration(font: .systemFont(ofSize: 17.0, weight: .bold))
-        moreButton.tintColor = .systemCyan
-        moreButton.setPreferredSymbolConfiguration(config, forImageIn: .normal)
-        moreButton.translatesAutoresizingMaskIntoConstraints = false
-        moreButton.setImage(iconImage, for: .normal)
-        return moreButton
-    }()
     
     
     // MARK: - Init
@@ -62,7 +36,7 @@ final class WorkoutViewController: UIViewController {
     }
     
     required init?(coder: NSCoder) {
-        fatalError("Unsupported initializer")
+        fatalError("Unsupported initialiser")
     }
     
     // MARK: - LifeCycle
@@ -74,6 +48,9 @@ final class WorkoutViewController: UIViewController {
         self.topBar.addSubviews(backButton, self.workoutName, self.moreButton)
         self.view.addSubviews(topBar, workoutGeneralStatsView)
         self.addConstraints()
+        
+        self.backButton.addTarget(self, action: #selector(self.goBack), for: .touchUpInside)
+
 
     }
     
@@ -83,7 +60,6 @@ final class WorkoutViewController: UIViewController {
             self.topBar.topAnchor.constraint(equalTo: self.view.safeAreaLayoutGuide.topAnchor),
             self.topBar.centerXAnchor.constraint(equalTo: self.view.safeAreaLayoutGuide.centerXAnchor),
             self.topBar.widthAnchor.constraint(equalTo: self.view.safeAreaLayoutGuide.widthAnchor, multiplier: 0.95),
-            self.topBar.heightAnchor.constraint(equalToConstant: 30),
             
             self.backButton.centerYAnchor.constraint(equalTo: self.topBar.centerYAnchor),
             self.backButton.leftAnchor.constraint(equalTo: self.topBar.leftAnchor, constant: 7),

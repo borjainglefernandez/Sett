@@ -63,7 +63,7 @@ final class HomeView: UIView {
         self.addConstraints()
     }
     required init?(coder: NSCoder) {
-        fatalError("Unsupported initializer")
+        fatalError("Unsupported initialiser")
     }
     
     // MARK: - Constraints

@@ -22,6 +22,6 @@ final class WorkoutGeneralStatsRating: StarRating {
     }
     
     required init?(coder: NSCoder) {
-        fatalError("Unsupported initializer")
+        fatalError("Unsupported initialiser")
     }
 }

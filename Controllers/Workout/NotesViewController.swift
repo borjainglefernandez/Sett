@@ -11,33 +11,11 @@ final class NotesViewController: UIViewController {
     
     private let viewModel: WorkoutGeneralStatsViewCellViewModel
 
-    private let topBar: UIView = {
-        let topBar = UIView()
-        topBar.translatesAutoresizingMaskIntoConstraints = false
-        topBar.backgroundColor = .systemGray4
-        topBar.layer.cornerRadius = 15
-        return topBar
-    }()
+    private let topBar: TopBar = TopBar(frame: .zero)
     
-    private let closeButton: UIButton = {
-        let closeButton = UIButton(type: .custom)
-        let iconImage = UIImage(systemName: "xmark.circle.fill")
-        let config = UIImage.SymbolConfiguration(font: .systemFont(ofSize: 17.0, weight: .bold))
-        closeButton.tintColor = .systemCyan
-        closeButton.setPreferredSymbolConfiguration(config, forImageIn: .normal)
-        closeButton.translatesAutoresizingMaskIntoConstraints = false
-        closeButton.setImage(iconImage, for: .normal)
-        return closeButton
-    }()
+    private let closeButton: UIButton = IconButton(frame: .zero, imageName: "xmark.circle.fill")
     
-    private let notesTitle: UITextField = {
-        let notesTitle = UITextField()
-        notesTitle.textColor = .label
-        notesTitle.font = .systemFont(ofSize: 17, weight: .bold)
-        notesTitle.translatesAutoresizingMaskIntoConstraints = false
-        notesTitle.text = "Notes"
-        return notesTitle
-    }()
+    private let notesTitle: UILabel = TitleLabel(frame: .zero, title: "Notes")
     
     private let notesView: NotesView
     
@@ -49,7 +27,7 @@ final class NotesViewController: UIViewController {
     }
     
     required init?(coder: NSCoder) {
-        fatalError("Unsupported initializer")
+        fatalError("Unsupported initialiser")
 
     }
     

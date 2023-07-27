@@ -39,7 +39,7 @@ final class NotesView: UIView {
     }
     
     required init?(coder: NSCoder) {
-        fatalError("Unsupported initializer")
+        fatalError("Unsupported initialiser")
     }
     
     // MARK: - Constraints

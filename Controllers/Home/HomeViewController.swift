@@ -11,52 +11,33 @@ import CoreData
 final class HomeViewController: UIViewController {
     
     // Top bar of the home page
-    private let topBar: UIView = {
-        let topBar = UIView()
-        topBar.translatesAutoresizingMaskIntoConstraints = false
-        topBar.backgroundColor = .systemGray4
-        topBar.layer.cornerRadius = 15
-        return topBar
-    }()
+    private let topBar: UIView = TopBar(frame: .zero)
     
     // Title label for currently selected feed
-    private let titleLabel: UILabel = {
-        let titleLabel = UILabel()
-        
-        titleLabel.textColor = .label
-        titleLabel.font = .systemFont(ofSize: 17, weight: .bold)
-        titleLabel.text = "Workouts"
-        titleLabel.translatesAutoresizingMaskIntoConstraints = false
-        return titleLabel
-    }()
+    private let titleLabel = TitleLabel(frame: .zero, title: "Workouts")
     
     // Button to add a workout
-    private let addWorkoutButton: UIButton = {
-        let addWorkoutButton = UIButton(type: .custom)
-        let iconImage = UIImage(systemName: "plus.circle")
-        var config = UIImage.SymbolConfiguration(font: .systemFont(ofSize: 17.0, weight: .bold))
-        addWorkoutButton.tintColor = .systemCyan
-        addWorkoutButton.setPreferredSymbolConfiguration(config, forImageIn: .normal)
-        addWorkoutButton.translatesAutoresizingMaskIntoConstraints = false
-        addWorkoutButton.setImage(iconImage, for: .normal)
-        addWorkoutButton.showsMenuAsPrimaryAction = true
-        return addWorkoutButton
-    }()
+    private let addWorkoutButton: UIButton = IconButton(frame: .zero, imageName: "plus.circle")
     
     // Button to sort workouts
-    private let sortWorkoutButton: UIButton = {
-        let iconButton = UIButton(type: .custom)
-        let iconImage = UIImage(systemName: "arrow.up.arrow.down.circle")
-        var config = UIImage.SymbolConfiguration(font: .systemFont(ofSize: 17.0, weight: .bold))
-        iconButton.tintColor = .systemCyan
-        iconButton.setPreferredSymbolConfiguration(config, forImageIn: .normal)
-        iconButton.translatesAutoresizingMaskIntoConstraints = false
-        iconButton.setImage(iconImage, for: .normal)
-        return iconButton
-    }()
+    private let sortWorkoutButton: UIButton = IconButton(frame: .zero, imageName: "arrow.up.arrow.down.circle")
         
     // Home View
     private let homeView = HomeView()
+    
+    // Add Workout Menu
+    private func setUpAddWorkoutMenu() {
+        self.addWorkoutButton.showsMenuAsPrimaryAction = true
+        
+        let blankWorkoutButton = UIAction(title: "Blank Workout", image: UIImage(systemName: "plus.circle"), attributes: [], state: .off) { action in
+            self.createBlankWorkout()
+        }
+        let startWorkoutButton = UIAction(title: "Start Routine", image: UIImage(systemName: "arrow.clockwise.circle"), attributes: [], state: .off) { action in
+            self.startRoutine()
+        }
+        
+        self.addWorkoutButton.menu = UIMenu(children: [blankWorkoutButton, startWorkoutButton])
+    }
     
     // MARK: - Life Cycle
     override func viewDidLoad() {
@@ -66,8 +47,8 @@ final class HomeViewController: UIViewController {
         
         self.setUpAddWorkoutMenu()
         
-        self.topBar.addSubviews(titleLabel, addWorkoutButton, sortWorkoutButton)
-        self.view.addSubviews(topBar, homeView)
+        self.topBar.addSubviews(self.titleLabel, self.addWorkoutButton, self.sortWorkoutButton)
+        self.view.addSubviews(self.topBar, self.homeView)
         self.addConstraints()
     }
     
@@ -94,17 +75,6 @@ final class HomeViewController: UIViewController {
             self.homeView.rightAnchor.constraint(equalTo: self.view.safeAreaLayoutGuide.rightAnchor),
             self.homeView.bottomAnchor.constraint(equalTo: self.view.safeAreaLayoutGuide.bottomAnchor)
         ])
-    }
-    
-    private func setUpAddWorkoutMenu() {
-        let blankWorkoutButton = UIAction(title: "Blank Workout", image: UIImage(systemName: "plus.circle"), attributes: [], state: .off) { action in
-            self.createBlankWorkout()
-        }
-        let startWorkoutButton = UIAction(title: "Start Routine", image: UIImage(systemName: "arrow.clockwise.circle"), attributes: [], state: .off) { action in
-            self.startRoutine()
-        }
-        
-        self.addWorkoutButton.menu = UIMenu(children: [blankWorkoutButton, startWorkoutButton])
     }
     
     // MARK: - Actions

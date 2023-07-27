@@ -22,7 +22,7 @@ final class NotesButton: UIButton {
     }
     
     required init?(coder: NSCoder) {
-        fatalError("Unsupported initializer")
+        fatalError("Unsupported initialiser")
     }
     
     // MARK: - Actions
