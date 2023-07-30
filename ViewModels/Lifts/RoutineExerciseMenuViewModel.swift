@@ -17,7 +17,7 @@ class RoutineExerciseMenuViewModel: NSObject {
     private let ROUTINE_TITLE: String = "Routines"
     private let EXERCISES_TITLE: String = "Exercises"
     
-    private var type: RoutineExerciseMenuSelectionType
+    public var type: RoutineExerciseMenuSelectionType
     
     init(type: RoutineExerciseMenuSelectionType = .routine) {
         self.type = type

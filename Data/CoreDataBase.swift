@@ -128,4 +128,11 @@ class CoreDataBase {
         }
     }
     
+    static public func loadExercises() {
+        guard let exercises = Utils.readJsonArray(for: "Exercises") else {
+            return
+        }
+        print(exercises)
+    }
+    
 }

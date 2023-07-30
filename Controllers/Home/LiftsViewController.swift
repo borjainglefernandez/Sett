@@ -22,6 +22,10 @@ final class LiftsViewController: UIViewController {
     
     private let routineExerciseMenuViewModel: RoutineExerciseMenuViewModel = RoutineExerciseMenuViewModel()
     
+    private let routinesView: RoutinesView = RoutinesView()
+    private let exercisesView: ExercisesView = ExercisesView()
+    
+    
     private func setUpMenu() {
         self.changeMenuButton.showsMenuAsPrimaryAction = true
         
@@ -29,9 +33,22 @@ final class LiftsViewController: UIViewController {
             self.routineExerciseMenuViewModel.toggleType()
             self.titleLabel.text = self.routineExerciseMenuViewModel.mainMenuTitle
             self.setUpMenu()
+            self.setUpContent()
         }
         
         self.changeMenuButton.menu = UIMenu(children: [changeWorkoutLabel])
+    }
+    
+    private func setUpContent() {
+        switch self.routineExerciseMenuViewModel.type {
+        case .routine:
+            self.routinesView.isHidden = false
+            self.exercisesView.isHidden = true
+        case .exercise:
+            self.routinesView.isHidden = true
+            self.exercisesView.isHidden = false
+            
+        }
     }
     
     // MARK: - LifeCycle
@@ -39,9 +56,11 @@ final class LiftsViewController: UIViewController {
         super.viewDidLoad()
         self.view.backgroundColor = .systemCyan
         
+        self.setUpContent()
         self.setUpMenu()
+        CoreDataBase.loadExercises()
         
-        self.view.addSubviews(topBar, titleLabel, changeMenuButton, addButton)
+        self.view.addSubviews(topBar, titleLabel, changeMenuButton, addButton, routinesView, exercisesView)
         self.addConstraints()
     }
     
@@ -60,21 +79,17 @@ final class LiftsViewController: UIViewController {
             
             self.addButton.centerYAnchor.constraint(equalTo: self.topBar.centerYAnchor),
             self.addButton.rightAnchor.constraint(equalTo: self.topBar.rightAnchor, constant: -15),
+
+            self.routinesView.topAnchor.constraint(equalTo: topBar.bottomAnchor),
+            self.routinesView.leftAnchor.constraint(equalTo: self.view.safeAreaLayoutGuide.leftAnchor),
+            self.routinesView.rightAnchor.constraint(equalTo: self.view.safeAreaLayoutGuide.rightAnchor),
+            self.routinesView.bottomAnchor.constraint(equalTo: self.view.safeAreaLayoutGuide.bottomAnchor),
+            
+            self.exercisesView.topAnchor.constraint(equalTo: topBar.bottomAnchor),
+            self.exercisesView.leftAnchor.constraint(equalTo: self.view.safeAreaLayoutGuide.leftAnchor),
+            self.exercisesView.rightAnchor.constraint(equalTo: self.view.safeAreaLayoutGuide.rightAnchor),
+            self.exercisesView.bottomAnchor.constraint(equalTo: self.view.safeAreaLayoutGuide.bottomAnchor)
+
         ])
     }
-}
-
-enum RoutineExerciseMenuSelection: CaseIterable {
-    case routine
-    case exercise
-    
-    var displayTitle: String {
-        switch self {
-        case .routine:
-            return "Routines"
-        case .exercise:
-            return "Exercises"
-        }
-    }
-    
 }
