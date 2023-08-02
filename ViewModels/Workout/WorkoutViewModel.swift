@@ -18,7 +18,7 @@ final class WorkoutViewModel: NSObject {
         }
     }()
     lazy var fetchedResultsController: NSFetchedResultsController<Workout> = {
-        return CoreDataBase.creatFetchedResultsController(withEntityName: "Workout", expecting: Workout.self, predicates: [NSPredicate(format: "SELF = %@", self.workout.objectID)])
+        return CoreDataBase.createFetchedResultsController(withEntityName: "Workout", expecting: Workout.self, predicates: [NSPredicate(format: "SELF = %@", self.workout.objectID)])
     }()
     
     // MARK: - Init

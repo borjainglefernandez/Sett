@@ -76,7 +76,7 @@ class CoreDataBase {
     ///   - entityType: The expected type of the fetch request
     ///   - predicates: A list of predicates to filter by, if any
     ///
-    /// - Returns: The count of the enitty or 0 if an error occurs
+    /// - Returns: The count of the entity or 0 if an error occurs
     static public func entityCount<T: NSFetchRequestResult>(withEntityName entityName: String, expecting entityType: T.Type, predicates: [NSPredicate] = []) -> Int {
         let fetchRequest = NSFetchRequest<T>(entityName: entityName)
         
@@ -101,7 +101,7 @@ class CoreDataBase {
     ///   - sortDescriptors: A list of sort descriptors to sort by, if any
     ///
     /// - Returns: A fetch request controller
-    static public func creatFetchedResultsController<T: NSFetchRequestResult>(withEntityName entityName: String, expecting entityType: T.Type, predicates: [NSPredicate] = [], sortDescriptors: [NSSortDescriptor] = []) -> NSFetchedResultsController<T> {
+    static public func createFetchedResultsController<T: NSFetchRequestResult>(withEntityName entityName: String, expecting entityType: T.Type, predicates: [NSPredicate] = [], sortDescriptors: [NSSortDescriptor] = []) -> NSFetchedResultsController<T> {
         let fetchRequest = NSFetchRequest<T>(entityName: entityName)
         
         // Add predicates to the fetch request, if provided
@@ -129,10 +129,19 @@ class CoreDataBase {
     }
     
     static public func loadExercises() {
-        guard let exercises = Utils.readJsonArray(for: "Exercises") else {
-            return
-        }
-        print(exercises)
+//        guard let sampleExercises = Utils.readJsonArray(for: "Exercises") else {
+//            return
+//        }
+//
+//        for sampleExercise in sampleExercises {
+//            let exercise = Exercise(context: CoreDataBase.context)
+//            exercise.name = sampleExercise["name"] as! String
+//            exercise.type = ExerciseTypeWrapper(ExerciseType(fromRawValue: sampleExercise["type"] as! String))
+//            save()
+//        }
+        
+         let savedExercises = entityCount(withEntityName: "Exercise", expecting: Exercise.self)
+            print(savedExercises)
     }
     
 }

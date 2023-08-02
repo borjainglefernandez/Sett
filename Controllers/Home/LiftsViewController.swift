@@ -58,7 +58,6 @@ final class LiftsViewController: UIViewController {
         
         self.setUpContent()
         self.setUpMenu()
-        CoreDataBase.loadExercises()
         
         self.view.addSubviews(topBar, titleLabel, changeMenuButton, addButton, routinesView, exercisesView)
         self.addConstraints()

@@ -47,6 +47,7 @@ final class LoginController: UIViewController {
     
     private func saveUserInKeychain(_ userIdentifier: String) {
         do {
+
             try KeychainItem(service: "com.example.apple-samplecode.juice", account: "userIdentifier").saveItem(userIdentifier)
         } catch {
             print("Unable to save userIdentifier to keychain.")
@@ -67,12 +68,20 @@ extension LoginController: ASAuthorizationControllerDelegate, ASAuthorizationCon
     
     /// Authorizes a user and navigates them to the tab bar view
     func authorizationController(controller: ASAuthorizationController, didCompleteWithAuthorization authorization: ASAuthorization) {
+        let defaults = UserDefaults.standard
+
         if let appleIDCredential = authorization.credential as?  ASAuthorizationAppleIDCredential {
             let userIdentifier = appleIDCredential.user
             let fullName = appleIDCredential.fullName
             let email = appleIDCredential.email
             self.saveUserInKeychain(userIdentifier)
             let tabViewController = TabViewController()
+            
+//            if defaults.bool(forKey: "Initialised Sample Data") == false {
+//                CoreDataBase.loadExercises()
+////                defaults.set(false, forKey: "Initialised Sample Data")
+//            }
+            
             view.navigateToScreen(self.navigationController, tabViewController)
         }
     }

@@ -26,11 +26,21 @@ final class ProfileViewController: UIViewController {
         return wipeWorkoutsButton
     }()
     
+    private let loadExercisesButton: UIButton = {
+        let loadExercisesButton = UIButton(type: .roundedRect)
+        loadExercisesButton.frame = CGRect(x: 0, y: 0, width: 250, height: 50)
+        loadExercisesButton.backgroundColor = .green
+        loadExercisesButton.setTitle("Load Exercises", for: .normal)
+        loadExercisesButton.translatesAutoresizingMaskIntoConstraints = false
+        return loadExercisesButton
+    }()
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         view.backgroundColor = .systemCyan
         setUpSignOutButton()
         setUpWipeWorkoutsButton()
+        setUpLoadExercisesButton()
     }
     
     private func setUpSignOutButton() {
@@ -50,6 +60,17 @@ final class ProfileViewController: UIViewController {
         wipeWorkoutsButton.addTarget(self, action: #selector(wipeOutWorkouts), for: .touchUpInside)
     }
     
+    private func setUpLoadExercisesButton() {
+        view.addSubview(loadExercisesButton)
+        NSLayoutConstraint.activate([
+            loadExercisesButton.topAnchor.constraint(equalTo: wipeWorkoutsButton.bottomAnchor),
+            loadExercisesButton.widthAnchor.constraint(equalTo: wipeWorkoutsButton.widthAnchor),
+            loadExercisesButton.heightAnchor.constraint(equalTo: wipeWorkoutsButton.heightAnchor),
+            loadExercisesButton.centerXAnchor.constraint(equalTo: view.centerXAnchor)
+        ])
+        loadExercisesButton.addTarget(self, action: #selector(loadExercises), for: .touchUpInside)
+    }
+    
     @objc func signOut() {
         KeychainItem.deleteUserIdentifierFromKeychain()
         view.navigateToScreenFromTabBar(self.tabBarController, LoginController())
@@ -64,5 +85,9 @@ final class ProfileViewController: UIViewController {
             }
         }
         CoreDataBase.save()
+    }
+    
+    @objc func loadExercises() {
+        CoreDataBase.loadExercises()
     }
 }

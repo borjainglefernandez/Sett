@@ -15,7 +15,7 @@ final class HomeViewModel: NSObject {
     private var isExpanded: [Bool] = []
     private var workoutsByMonth: [String: [Workout]] = [String: [Workout]]()
     private var fetchedResultsController: NSFetchedResultsController<Workout> = {
-        return CoreDataBase.creatFetchedResultsController(withEntityName: "Workout", expecting: Workout.self, sortDescriptors: [NSSortDescriptor(key: "startTime", ascending: true)])
+        return CoreDataBase.createFetchedResultsController(withEntityName: "Workout", expecting: Workout.self, sortDescriptors: [NSSortDescriptor(key: "startTime", ascending: true)])
     }()
     
     // MARK: - Configurations
