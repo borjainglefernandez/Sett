@@ -21,7 +21,7 @@ class CoreDataBase {
     ///   - fetchRequest: The fetch request to execute
     ///
     /// - Returns: A list of the particular expected return type from the fetch request
-    static public func executeFetchRequest<T>(expecting expectedReturnType: T.Type, with fetchRequest: NSFetchRequest<T>) -> [T]? {
+    static private func executeFetchRequest<T>(expecting expectedReturnType: T.Type, with fetchRequest: NSFetchRequest<T>) -> [T]? {
         do {
             let result = try self.context.fetch(fetchRequest)
             return result
@@ -126,22 +126,6 @@ class CoreDataBase {
             print("Error executing fetch request: \(error)")
             
         }
-    }
-    
-    static public func loadExercises() {
-//        guard let sampleExercises = Utils.readJsonArray(for: "Exercises") else {
-//            return
-//        }
-//
-//        for sampleExercise in sampleExercises {
-//            let exercise = Exercise(context: CoreDataBase.context)
-//            exercise.name = sampleExercise["name"] as! String
-//            exercise.type = ExerciseTypeWrapper(ExerciseType(fromRawValue: sampleExercise["type"] as! String))
-//            save()
-//        }
-        
-         let savedExercises = entityCount(withEntityName: "Exercise", expecting: Exercise.self)
-            print(savedExercises)
     }
     
 }

@@ -11,6 +11,8 @@ enum ExerciseType: String {
     case dumbbell = "Dumbbell"
     case barbell = "Barbell"
     case cable = "Cable"
+    case machine = "Machine"
+    case bodyweight = "Bodyweight"
     
     init(fromRawValue: String) {
         self = ExerciseType(rawValue: fromRawValue) ?? .dumbbell

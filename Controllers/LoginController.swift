@@ -77,10 +77,10 @@ extension LoginController: ASAuthorizationControllerDelegate, ASAuthorizationCon
             self.saveUserInKeychain(userIdentifier)
             let tabViewController = TabViewController()
             
-//            if defaults.bool(forKey: "Initialised Sample Data") == false {
-//                CoreDataBase.loadExercises()
-////                defaults.set(false, forKey: "Initialised Sample Data")
-//            }
+            if defaults.bool(forKey: "Created Static Data") == false {
+                StaticDataCreator.createStaticData()
+                defaults.set(true, forKey: "Created Static Data")
+            }
             
             view.navigateToScreen(self.navigationController, tabViewController)
         }

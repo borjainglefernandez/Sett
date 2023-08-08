@@ -1,0 +1,308 @@
+[
+   {
+      "category":"Chest",
+      "exercises":[
+         {
+            "name":"Flat Bench Press",
+            "type":"Dumbbell"
+         },
+         {
+            "name":"Flat Bench Press",
+            "type":"Barbell"
+         },
+         {
+            "name":"Incline Bench Press",
+            "type":"Dumbbell"
+         },
+         {
+            "name":"Incline Bench Press",
+            "type":"Barbell"
+         },
+         {
+            "name":"Decline Bench Press",
+            "type":"Dumbbell"
+         },
+         {
+            "name":"Decline Bench Press",
+            "type":"Barbell"
+         },
+         {
+            "name":"Chest Fly",
+            "type":"Machine"
+         },
+         {
+            "name":"Chest Fly",
+            "type":"Cable"
+         },
+         {
+            "name":"Chest Fly",
+            "type":"Dumbbell"
+         },
+         {
+            "name":"Hex Press",
+            "type":"Dumbbell"
+         },
+         {
+            "name":"Incline Bench Press",
+            "type":"Barbell"
+         },
+         {
+            "name":"Chest Press",
+            "type":"Machine"
+         },
+         {
+            "name":"Pull Around",
+            "type":"Cable"
+         },
+         {
+            "name":"Push Ups",
+            "type":"Bodyweight"
+         }
+      ]
+   },
+   {
+      "category":"Triceps",
+      "exercises":[
+         {
+            "name":"Dips",
+            "type":"Bodyweight"
+         },
+         {
+            "name":"Tricep Pushdown",
+            "type":"Cable"
+         },
+         {
+            "name":"Tricep Pushdown",
+            "type":"Machine"
+         },
+         {
+            "name":"Skull Crusher",
+            "type":"Dumbbell"
+         },
+         {
+            "name":"Skull Crusher",
+            "type":"Barbell"
+         },
+         {
+            "name":"Tricep Extension",
+            "type":"Cable"
+         },
+         {
+            "name":"Tricep Extension",
+            "type":"Machine"
+         },
+         {
+            "name":"French Press",
+            "type":"Dumbbell"
+         }
+      ]
+   },
+   {
+      "category":"Biceps",
+      "exercises":[
+         {
+            "name":"Bicep Curl",
+            "type":"Dumbbell"
+         },
+         {
+            "name":"Bicep Curl",
+            "type":"Barbell"
+         },
+         {
+            "name":"Bicep Curl",
+            "type":"Cable"
+         },
+         {
+            "name":"Incline Bicep Curl",
+            "type":"Dumbbell"
+         },
+         {
+            "name":"Hammer Bicep Curl",
+            "type":"Dumbbell"
+         },
+         {
+            "name":"Hammer Bicep Curl",
+            "type":"Cable"
+         },
+         {
+            "name":"Preacher Curl",
+            "type":"Barbell"
+         },
+         {
+            "name":"Preacher Curl",
+            "type":"Dumbbell"
+         },
+         {
+            "name":"Preacher Curl",
+            "type":"Machine"
+         },
+         {
+            "name":"Concentration Curl",
+            "type":"Dumbbell"
+         }
+      ]
+   },
+   {
+      "category":"Shoulders",
+      "exercises":[
+         {
+            "name":"Lateral Raise",
+            "type":"Dumbbell"
+         },
+         {
+            "name":"Lateral Raise",
+            "type":"Cable"
+         },
+         {
+            "name":"Lateral Raise",
+            "type":"Machine"
+         },
+         {
+            "name":"Shoulder Press",
+            "type":"Dumbbell"
+         },
+         {
+            "name":"Shoulder Press",
+            "type":"Barbell"
+         },
+         {
+            "name":"Shoulder Press",
+            "type":"Machine"
+         },
+         {
+            "name":"Face Pulls",
+            "type":"Cable"
+         },
+         {
+            "name":"Rear Delt Fly",
+            "type":"Machine"
+         },
+         {
+            "name":"Rear Delt Fly",
+            "type":"Dumbbell"
+         },
+         {
+            "name":"Rear Delt Fly",
+            "type":"Cable"
+         }
+      ]
+   },
+   {
+      "category":"Back",
+      "exercises":[
+         {
+            "name":"Lat Pulldown",
+            "type":"Cable"
+         },
+         {
+            "name":"Lat Pullover",
+            "type":"Cable"
+         },
+         {
+            "name":"Bent Over Row",
+            "type":"Barbell"
+         },
+         {
+            "name":"Pull Up",
+            "type":"Bodyweight"
+         },
+         {
+            "name":"Row",
+            "type":"Machine"
+         },
+         {
+            "name":"Row",
+            "type":"Cable"
+         },
+         {
+            "name":"Row",
+            "type":"Dumbbell"
+         },
+         {
+            "name":"Deadlift",
+            "type":"Barbell"
+         }
+      ]
+   },
+   {
+      "category":"Legs",
+      "exercises":[
+         {
+            "name":"Squat",
+            "type":"Barbell"
+         },
+         {
+            "name":"Hack Squat",
+            "type":"Machine"
+         },
+         {
+            "name":"Bulgarian Split Squat",
+            "type":"Dumbbell"
+         },
+         {
+            "name":"Bulgarian Split Squat",
+            "type":"Barbell"
+         },
+         {
+            "name":"Leg Extension",
+            "type":"Machine"
+         },
+         {
+            "name":"Leg Curl",
+            "type":"Machine"
+         },
+         {
+            "name":"Bulgarian Split Squat",
+            "type":"Barbell"
+         },
+         {
+            "name":"Hip Thrust",
+            "type":"Barbell"
+         },
+         {
+            "name":"Hip Thrust",
+            "type":"Machine"
+         },
+         {
+            "name":"Sumo Deadlift",
+            "type":"Barbell"
+         },
+         {
+            "name":"Romanian Deadlift",
+            "type":"Barbell"
+         },
+         {
+            "name":"Romanian Deadlift",
+            "type":"Dumbbell"
+         },
+         {
+            "name":"Romanian Deadlift",
+            "type":"Machine"
+         },
+         {
+            "name":"Standing Calf Raises",
+            "type":"Barbell"
+         },
+         {
+            "name":"Standing Calf Raises",
+            "type":"Machine"
+         },
+         {
+            "name":"Standing Calf Raises",
+            "type":"Dumbbell"
+         },
+         {
+            "name":"Seated Calf Raises",
+            "type":"Machine"
+         },
+         {
+            "name":"Kickbacks",
+            "type":"Machine"
+         },
+         {
+            "name":"Kickbacks",
+            "type":"Cable"
+         }
+      ]
+   }
+]

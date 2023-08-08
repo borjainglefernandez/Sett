@@ -17,30 +17,30 @@ final class ProfileViewController: UIViewController {
         return signOutButton
     }()
     
-    private let wipeWorkoutsButton: UIButton = {
-        let wipeWorkoutsButton = UIButton(type: .roundedRect)
-        wipeWorkoutsButton.frame = CGRect(x: 0, y: 0, width: 250, height: 50)
-        wipeWorkoutsButton.backgroundColor = .red
-        wipeWorkoutsButton.setTitle("Wipe Workouts", for: .normal)
-        wipeWorkoutsButton.translatesAutoresizingMaskIntoConstraints = false
-        return wipeWorkoutsButton
+    private let wipeStuffButton: UIButton = {
+        let wipeStuffButton = UIButton(type: .roundedRect)
+        wipeStuffButton.frame = CGRect(x: 0, y: 0, width: 250, height: 50)
+        wipeStuffButton.backgroundColor = .red
+        wipeStuffButton.setTitle("Wipe Stuff", for: .normal)
+        wipeStuffButton.translatesAutoresizingMaskIntoConstraints = false
+        return wipeStuffButton
     }()
     
-    private let loadExercisesButton: UIButton = {
-        let loadExercisesButton = UIButton(type: .roundedRect)
-        loadExercisesButton.frame = CGRect(x: 0, y: 0, width: 250, height: 50)
-        loadExercisesButton.backgroundColor = .green
-        loadExercisesButton.setTitle("Load Exercises", for: .normal)
-        loadExercisesButton.translatesAutoresizingMaskIntoConstraints = false
-        return loadExercisesButton
+    private let createStaticDataButton: UIButton = {
+        let createStaticDataButton = UIButton(type: .roundedRect)
+        createStaticDataButton.frame = CGRect(x: 0, y: 0, width: 250, height: 50)
+        createStaticDataButton.backgroundColor = .green
+        createStaticDataButton.setTitle("Load Exercises", for: .normal)
+        createStaticDataButton.translatesAutoresizingMaskIntoConstraints = false
+        return createStaticDataButton
     }()
     
     override func viewDidLoad() {
         super.viewDidLoad()
         view.backgroundColor = .systemCyan
         setUpSignOutButton()
-        setUpWipeWorkoutsButton()
-        setUpLoadExercisesButton()
+        setUpWipeStuffButton()
+        setUpCreateStaticDataButton()
     }
     
     private func setUpSignOutButton() {
@@ -49,26 +49,26 @@ final class ProfileViewController: UIViewController {
         view.addSubview(signOutButton)
     }
     
-    private func setUpWipeWorkoutsButton() {
-        view.addSubview(wipeWorkoutsButton)
+    private func setUpWipeStuffButton() {
+        view.addSubview(wipeStuffButton)
         NSLayoutConstraint.activate([
-            wipeWorkoutsButton.topAnchor.constraint(equalTo: signOutButton.bottomAnchor),
-            wipeWorkoutsButton.widthAnchor.constraint(equalTo: signOutButton.widthAnchor),
-            wipeWorkoutsButton.heightAnchor.constraint(equalTo: signOutButton.heightAnchor),
-            wipeWorkoutsButton.centerXAnchor.constraint(equalTo: view.centerXAnchor)
+            wipeStuffButton.topAnchor.constraint(equalTo: signOutButton.bottomAnchor),
+            wipeStuffButton.widthAnchor.constraint(equalTo: signOutButton.widthAnchor),
+            wipeStuffButton.heightAnchor.constraint(equalTo: signOutButton.heightAnchor),
+            wipeStuffButton.centerXAnchor.constraint(equalTo: view.centerXAnchor)
         ])
-        wipeWorkoutsButton.addTarget(self, action: #selector(wipeOutWorkouts), for: .touchUpInside)
+        wipeStuffButton.addTarget(self, action: #selector(wipeStuff), for: .touchUpInside)
     }
     
-    private func setUpLoadExercisesButton() {
-        view.addSubview(loadExercisesButton)
+    private func setUpCreateStaticDataButton() {
+        view.addSubview(createStaticDataButton)
         NSLayoutConstraint.activate([
-            loadExercisesButton.topAnchor.constraint(equalTo: wipeWorkoutsButton.bottomAnchor),
-            loadExercisesButton.widthAnchor.constraint(equalTo: wipeWorkoutsButton.widthAnchor),
-            loadExercisesButton.heightAnchor.constraint(equalTo: wipeWorkoutsButton.heightAnchor),
-            loadExercisesButton.centerXAnchor.constraint(equalTo: view.centerXAnchor)
+            createStaticDataButton.topAnchor.constraint(equalTo: wipeStuffButton.bottomAnchor),
+            createStaticDataButton.widthAnchor.constraint(equalTo: wipeStuffButton.widthAnchor),
+            createStaticDataButton.heightAnchor.constraint(equalTo: wipeStuffButton.heightAnchor),
+            createStaticDataButton.centerXAnchor.constraint(equalTo: view.centerXAnchor)
         ])
-        loadExercisesButton.addTarget(self, action: #selector(loadExercises), for: .touchUpInside)
+        createStaticDataButton.addTarget(self, action: #selector(createStaticData), for: .touchUpInside)
     }
     
     @objc func signOut() {
@@ -76,18 +76,23 @@ final class ProfileViewController: UIViewController {
         view.navigateToScreenFromTabBar(self.tabBarController, LoginController())
     }
     
-    @objc func wipeOutWorkouts() {
-        let workouts = CoreDataBase.fetchEntities(withEntity: "Workout", expecting: Workout.self)
-        if let workouts = workouts {
-            for workout in workouts {
-                CoreDataBase.context.delete(workout)
-                
+    @objc func wipeStuff() {
+        let entityNames = ["Category", "Exercise"]
+        let entityTypes = [Category.self, Exercise.self]
+        
+        for i in 0 ..< entityNames.count  {
+            let entities = CoreDataBase.fetchEntities(withEntity: entityNames[i], expecting: entityTypes[i])
+            if let entities = entities {
+                for entity in entities {
+                    CoreDataBase.context.delete(entity)
+                    
+                }
             }
+            CoreDataBase.save()
         }
-        CoreDataBase.save()
     }
     
-    @objc func loadExercises() {
-        CoreDataBase.loadExercises()
+    @objc func createStaticData() {
+        StaticDataCreator.createStaticData()
     }
 }
