@@ -10,10 +10,10 @@ import UIKit
 class TitleLabel: UILabel {
     
     // MARK: - Init
-    init(frame: CGRect, title: String) {
+    init(frame: CGRect, title: String, fontSize: Double = 17.0) {
         super.init(frame: frame)
         textColor = .label
-        font = .systemFont(ofSize: 17, weight: .bold)
+        font = .systemFont(ofSize: fontSize, weight: .bold)
         text = title
         translatesAutoresizingMaskIntoConstraints = false
     }

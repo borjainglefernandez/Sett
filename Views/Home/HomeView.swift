@@ -23,16 +23,7 @@ final class HomeView: UIView {
     weak var delegate: WorkoutsDelegate?
     
     // View for when there are no workouts to display
-    public let emptyView: UILabel = {
-        let emptyView = UILabel()
-        emptyView.translatesAutoresizingMaskIntoConstraints = false
-        emptyView.textColor = .label
-        emptyView.font = .systemFont(ofSize: 17.0, weight: .bold)
-        emptyView.text = "No Workouts Completed Yet!"
-        emptyView.textAlignment = .center
-        emptyView.isHidden = true
-        return emptyView
-    }()
+    public let emptyView: UILabel = EmptyLabel(frame: .zero, labelText: "No workouts completed yet!")
     
     // Collection view of the month workout containers
     public let collectionView: UICollectionView = {

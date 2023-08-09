@@ -25,31 +25,13 @@ final class MonthListCell: UICollectionViewCell {
     public var indexPath:IndexPath!
     
     // Top bar of the month workout list container
-    private let topBar: UIView = {
-        let topBar = UIView()
-        topBar.translatesAutoresizingMaskIntoConstraints = false
-        topBar.backgroundColor = .systemGray4
-        return topBar
-    }()
+    private let topBar: UIView = TopBar(frame: .zero)
     
     // Title label for the container
-    private let titleLabel: UILabel = {
-        let titleLabel = UILabel()
-        titleLabel.textColor = .label
-        titleLabel.font = .systemFont(ofSize: 14, weight: .bold)
-        titleLabel.translatesAutoresizingMaskIntoConstraints = false
-        return titleLabel
-    }()
+    private let titleLabel: UILabel = TitleLabel(frame: .zero, title: "", fontSize: 14.0)
     
     // Button to expand or collapse cell
-    private let expandCollapseButton: UIButton = {
-        let expandCollapseButton = UIButton(type: .custom)
-        var config = UIImage.SymbolConfiguration(font: .systemFont(ofSize: 17, weight: .bold))
-        expandCollapseButton.tintColor = .label
-        expandCollapseButton.setPreferredSymbolConfiguration(config, forImageIn: .normal)
-        expandCollapseButton.translatesAutoresizingMaskIntoConstraints = false
-        return expandCollapseButton
-    }()
+    private let expandCollapseButton: UIButton = ExpandCollapseButton(frame: .zero)
     
     public let monthWorkoutListView = MonthWorkoutListView()
     
