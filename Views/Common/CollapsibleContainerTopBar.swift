@@ -8,6 +8,9 @@
 import UIKit
 
 class CollapsibleContainerTopBar: UIView {
+    
+    // View Model to control actions
+    private var viewModel: CollapsibleContainerTopBarViewModel?
 
     // Top bar of the category list container
     private let topBar: UIView = TopBar(frame: .zero)
@@ -19,12 +22,14 @@ class CollapsibleContainerTopBar: UIView {
     private let expandCollapseButton: UIButton = ExpandCollapseButton(frame: .zero)
     
     // MARK: - Init
-    init(frame: CGRect = .zero, title: String = "") {
+    init(frame: CGRect = .zero,title: String = "") {
         super.init(frame: frame)
         self.titleLabel.text = title
         
         self.translatesAutoresizingMaskIntoConstraints = false
+        self.expandCollapseButton.addTarget(self, action: #selector(collapseExpand), for: .touchUpInside)
         
+        self.addSubviews(self.topBar, self.titleLabel, self.expandCollapseButton)
         self.addConstraints()
     }
     
@@ -47,9 +52,38 @@ class CollapsibleContainerTopBar: UIView {
         ])
     }
     
+    // MARK: - Configurations
+    public func configure(with viewModel: CollapsibleContainerTopBarViewModel) {
+        self.viewModel = viewModel
+        self.changeButtonIcon()
+    }
+    
     // MARK: - Actions
+    @objc func collapseExpand() {
+        self.viewModel?.collapseExpand()
+    }
+    
     public func setTitleLabelText(title: String) {
         self.titleLabel.text = title
+    }
+    
+    public func changeButtonIcon() {
+        guard let viewModel = self.viewModel else {
+            return
+        }
+        
+        self.topBar.layer.cornerRadius = 15
+        
+        // Change corner radii and icon depending on whether or not showing or hiding
+        var iconImage: UIImage?
+        if viewModel.isExpanded {
+            self.topBar.layer.maskedCorners = [.layerMaxXMinYCorner, .layerMinXMinYCorner]
+            iconImage = UIImage(systemName: "chevron.up")
+        } else {
+            self.topBar.layer.maskedCorners = [.layerMaxXMinYCorner, .layerMinXMinYCorner, .layerMinXMaxYCorner, .layerMaxXMaxYCorner]
+            iconImage = UIImage(systemName: "chevron.down")
+        }
+        self.expandCollapseButton.setImage(iconImage, for: .normal)
     }
 
 }

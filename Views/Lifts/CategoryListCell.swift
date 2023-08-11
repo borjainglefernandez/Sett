@@ -11,9 +11,6 @@ class CategoryListCell: UICollectionViewCell {
     
     static let cellIdentifier = "CategoryListCell"
     
-    weak var delegate:ExpandedCellDelegate?
-    
-    public var indexPath:IndexPath!
     
     // Top bar of the category list container
     private let topBar: UIView = TopBar(frame: .zero)

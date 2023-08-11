@@ -17,7 +17,7 @@ class ExpandCollapseButton: UIButton {
 
         var config = UIImage.SymbolConfiguration(font: .systemFont(ofSize: 17, weight: .bold))
         tintColor = .label
-        setPreferredSymbolConfiguration(config, forImageIn: .normal)        
+        setPreferredSymbolConfiguration(config, forImageIn: .normal)
     }
     
     required init?(coder: NSCoder) {

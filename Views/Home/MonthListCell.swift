@@ -7,31 +7,11 @@
 
 import UIKit
 
-protocol ExpandedCellDelegate: NSObjectProtocol {
-    /// Collapse or Expand selected Month Workout Container
-    ///
-    /// - Parameters:
-    ///   - indexPath: The index of the month workout container to expand or collapse
-    ///   - collectionView: The collection view of the month workout container
-    func collapseExpand(indexPath:IndexPath, collectionView: UICollectionView)
-}
-
 final class MonthListCell: UICollectionViewCell {
     
     static let cellIdentifier = "MonthListCell"
     
-    weak var delegate:ExpandedCellDelegate?
-    
-    public var indexPath:IndexPath!
-    
-    // Top bar of the month workout list container
-    private let topBar: UIView = TopBar(frame: .zero)
-    
-    // Title label for the container
-    private let titleLabel: UILabel = TitleLabel(frame: .zero, title: "", fontSize: 14.0)
-    
-    // Button to expand or collapse cell
-    private let expandCollapseButton: UIButton = ExpandCollapseButton(frame: .zero)
+    public let collapsibleContainerTopBar: CollapsibleContainerTopBar = CollapsibleContainerTopBar()
     
     public let monthWorkoutListView = MonthWorkoutListView()
     
@@ -40,10 +20,8 @@ final class MonthListCell: UICollectionViewCell {
         super.init(frame: frame)
         
         self.contentView.layer.cornerRadius = 15
-    
-        self.expandCollapseButton.addTarget(self, action: #selector(collapseExpand), for: .touchUpInside)
 
-        self.addSubviews(topBar, titleLabel, expandCollapseButton, monthWorkoutListView)
+        self.addSubviews(self.collapsibleContainerTopBar, self.monthWorkoutListView)
         self.addConstraints()
     }
     
@@ -54,21 +32,15 @@ final class MonthListCell: UICollectionViewCell {
     // MARK: - LifeCycle
     override func prepareForReuse() {
         super.prepareForReuse()
-        self.titleLabel.text = nil
+        self.collapsibleContainerTopBar.setTitleLabelText(title: "")
     }
     
     // MARK: - Constraints
     private func addConstraints() {
         NSLayoutConstraint.activate([
-            self.topBar.heightAnchor.constraint(equalToConstant: 30),
-            self.topBar.leftAnchor.constraint(equalTo: self.leftAnchor),
-            self.topBar.rightAnchor.constraint(equalTo: self.rightAnchor),
-            
-            self.titleLabel.leftAnchor.constraint(equalToSystemSpacingAfter: self.leftAnchor, multiplier: 2),
-            self.titleLabel.centerYAnchor.constraint(equalTo: self.topBar.centerYAnchor),
-            
-            self.expandCollapseButton.centerYAnchor.constraint(equalTo: self.topBar.centerYAnchor),
-            self.expandCollapseButton.rightAnchor.constraint(equalTo: self.rightAnchor, constant: -15),
+            self.collapsibleContainerTopBar.heightAnchor.constraint(equalToConstant: 30),
+            self.collapsibleContainerTopBar.leftAnchor.constraint(equalTo: self.leftAnchor),
+            self.collapsibleContainerTopBar.rightAnchor.constraint(equalTo: self.rightAnchor),
             
             self.monthWorkoutListView.heightAnchor.constraint(equalTo: self.heightAnchor, multiplier: 1, constant: -30),
             self.monthWorkoutListView.bottomAnchor.constraint(equalTo: self.bottomAnchor),
@@ -78,10 +50,15 @@ final class MonthListCell: UICollectionViewCell {
     }
     
     // MARK: - Configurations
-    public func configure(with viewModel: MonthListCellViewModel) {
+    public func configure(with viewModel: MonthListCellViewModel, at indexPath: IndexPath, for collectionView: UICollectionView, isExpanded: Bool, delegate: CollapsibleContainerTopBarDelegate) {
         // Populate title label text
         let workoutSuffix = viewModel.numWorkouts == 1 ? "Workout" : "Workouts"
-        self.titleLabel.text = "\(viewModel.monthName) - \(viewModel.numWorkouts) \(workoutSuffix)"
+        self.collapsibleContainerTopBar.setTitleLabelText(title: "\(viewModel.monthName) - \(viewModel.numWorkouts) \(workoutSuffix)")
+        
+        // Configure view model of collapsible top bar
+        let collapsibleContainerTopBarViewModel = CollapsibleContainerTopBarViewModel(collectionView: collectionView, isExpanded: isExpanded, indexPath: indexPath, delegate: delegate)
+        self.collapsibleContainerTopBar.configure(with: collapsibleContainerTopBarViewModel)
+        
         
         // Extract month and year then configure view model of workout
         guard let month = Int(viewModel.monthName.components(separatedBy: "/")[0]),
@@ -90,34 +67,5 @@ final class MonthListCell: UICollectionViewCell {
               }
         let monthWorkoutListViewModel = MonthWorkoutListViewModel(month: month, year: year)
         self.monthWorkoutListView.configure(with: monthWorkoutListViewModel)
-    }
-    
-    // MARK: - Actions
-    
-    // Expand and collapse month list cell
-    @objc func collapseExpand() {
-        guard let collectionView = superview as? UICollectionView else {
-            return
-        }
-        if let delegate = self.delegate {
-            delegate.collapseExpand(indexPath: self.indexPath, collectionView: collectionView)
-        }
-    }
-    
-    // Show or hide month list view depending on whether or not it was expanded
-    public func showHideMonthListView(isExpanded: Bool) {
-        topBar.layer.cornerRadius = 15
-        monthWorkoutListView.isHidden = !isExpanded // Hide or show view
-        
-        // Change corner radii and icon depending on whether or not showing or hiding
-        var iconImage: UIImage?
-        if isExpanded {
-            topBar.layer.maskedCorners = [.layerMaxXMinYCorner, .layerMinXMinYCorner]
-            iconImage = UIImage(systemName: "chevron.up")
-        } else {
-            topBar.layer.maskedCorners = [.layerMaxXMinYCorner, .layerMinXMinYCorner, .layerMinXMaxYCorner, .layerMaxXMaxYCorner]
-            iconImage = UIImage(systemName: "chevron.down")
-        }
-        self.expandCollapseButton.setImage(iconImage, for: .normal)
     }
 }

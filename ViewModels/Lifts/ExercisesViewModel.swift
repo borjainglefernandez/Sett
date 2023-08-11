@@ -60,9 +60,6 @@ extension ExercisesViewModel: UICollectionViewDataSource, UICollectionViewDelega
         ) as? CategoryListCell else {
             fatalError("Unsupported cell")
         }
-        
-        cell.indexPath = indexPath
-        cell.delegate = self
         cell.configure(with: cellViewModels[indexPath.row])
         cell.showHideMonthListView(isExpanded: self.isExpanded[indexPath.row]) // Expand or collapse container
         
@@ -88,19 +85,4 @@ extension ExercisesViewModel: NSFetchedResultsControllerDelegate {
     }
 }
 
-// MARK: - Expanded Cell Delegate
-extension ExercisesViewModel:ExpandedCellDelegate{
-    /// Collapse or Expand selected Month Workout Container
-    ///
-    /// - Parameters:
-    ///   - indexPath: The index of the month workout container to expand or collapse
-    ///   - collectionView: The collection view of the month workout container
-    func collapseExpand(indexPath: IndexPath, collectionView: UICollectionView) {
-        self.isExpanded[indexPath.row] = !self.isExpanded[indexPath.row]
-        DispatchQueue.main.async {
-            UIView.animate(withDuration: 0.8, delay: 0.0, usingSpringWithDamping: 0.9, initialSpringVelocity: 0.9, options: UIView.AnimationOptions.curveEaseInOut, animations: {
-                collectionView.reloadItems(at: [indexPath])
-            })
-        }
-    }
-}
+

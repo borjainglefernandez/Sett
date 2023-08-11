@@ -117,11 +117,9 @@ extension HomeViewModel: UICollectionViewDataSource, UICollectionViewDelegateFlo
         ) as? MonthListCell else {
             fatalError("Unsupported cell")
         }
-        
-        cell.indexPath = indexPath
-        cell.delegate = self
-        cell.configure(with: cellViewModels[indexPath.row])
-        cell.showHideMonthListView(isExpanded: self.isExpanded[indexPath.row]) // Expand or collapse container
+
+        cell.configure(with: cellViewModels[indexPath.row], at: indexPath, for: collectionView, isExpanded: self.isExpanded[indexPath.row], delegate: self)
+        cell.collapsibleContainerTopBar.changeButtonIcon() // Expand or collapse container
         
         return cell
     }
@@ -134,19 +132,8 @@ extension HomeViewModel: UICollectionViewDataSource, UICollectionViewDelegateFlo
         return CGSize(width: (collectionView.safeAreaLayoutGuide.layoutFrame.width - 20), height: 30)
     }
 }
-
-// MARK: - Fetched Results Controller Delegate
-extension HomeViewModel: NSFetchedResultsControllerDelegate {
-    // Update screen if CRUD conducted on Workouts
-    func controller(_ controller: NSFetchedResultsController<NSFetchRequestResult>, didChange anObject: Any, at indexPath: IndexPath?, for type: NSFetchedResultsChangeType, newIndexPath: IndexPath?) {
-        self.configure()
-        self.homeView?.collectionView.reloadData()
-        self.homeView?.showHideCollectionView()
-    }
-}
-
 // MARK: - Expanded Cell Delegate
-extension HomeViewModel:ExpandedCellDelegate{
+extension HomeViewModel:CollapsibleContainerTopBarDelegate{
     /// Collapse or Expand selected Month Workout Container
     ///
     /// - Parameters:
@@ -159,6 +146,16 @@ extension HomeViewModel:ExpandedCellDelegate{
                 collectionView.reloadItems(at: [indexPath])
             })
         }
+    }
+}
+
+// MARK: - Fetched Results Controller Delegate
+extension HomeViewModel: NSFetchedResultsControllerDelegate {
+    // Update screen if CRUD conducted on Workouts
+    func controller(_ controller: NSFetchedResultsController<NSFetchRequestResult>, didChange anObject: Any, at indexPath: IndexPath?, for type: NSFetchedResultsChangeType, newIndexPath: IndexPath?) {
+        self.configure()
+        self.homeView?.collectionView.reloadData()
+        self.homeView?.showHideMonthCollectionView()
     }
 }
 

@@ -14,7 +14,6 @@ protocol WorkoutsDelegate: NSObjectProtocol {
     func addWorkout(collectionView: UICollectionView)
 }
 
-
 final class HomeView: UIView {
     
     let viewModel = HomeViewModel()
@@ -48,7 +47,7 @@ final class HomeView: UIView {
         self.viewModel.configure()
         self.setUpDelegate()
         self.setUpCollectionView()
-        self.showHideCollectionView()
+        self.showHideMonthCollectionView()
         
         self.addSubviews(collectionView, emptyView)
         self.addConstraints()
@@ -82,7 +81,7 @@ final class HomeView: UIView {
     }
     
     // Shows or hides collection view depending on whether or not there are workouts
-    public func showHideCollectionView() {
+    public func showHideMonthCollectionView() {
         if self.viewModel.getWorkoutsLength() > 0 {
             self.collectionView.isHidden = false
             self.emptyView.isHidden = true
