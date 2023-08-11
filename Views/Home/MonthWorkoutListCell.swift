@@ -54,7 +54,7 @@ final class MonthWorkoutListCell: UITableViewCell {
     override init(style: UITableViewCell.CellStyle, reuseIdentifier: String?) {
         super.init(style: style, reuseIdentifier: reuseIdentifier)
         
-        self.backgroundColor = UIColor.clear // Allows for customizability of cell
+        self.backgroundColor = UIColor.clear // Allows for customisability of cell
         self.configureClearSelectedBackground()
         
         self.contentView.addSubviews(self.containerView, self.calendarDayView, self.titleLabel, self.starRating, self.achievementsNumberView, self.durationLabel)

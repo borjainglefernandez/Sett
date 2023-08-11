@@ -32,8 +32,9 @@ final class ExercisesViewModel: NSObject {
         }
         
         for category in categories {
-            let viewModel = CategoryListCellViewModel(categoryName: category.name!, numExercises: category.exercises?.count ?? 0)
+            let viewModel = CategoryListCellViewModel(category: category)
             self.cellViewModels.append(viewModel)
+            self.isExpanded.append(true)
         }
     }
 
@@ -60,18 +61,35 @@ extension ExercisesViewModel: UICollectionViewDataSource, UICollectionViewDelega
         ) as? CategoryListCell else {
             fatalError("Unsupported cell")
         }
-        cell.configure(with: cellViewModels[indexPath.row])
-        cell.showHideMonthListView(isExpanded: self.isExpanded[indexPath.row]) // Expand or collapse container
+        cell.configure(with: cellViewModels[indexPath.row], at: indexPath, for: collectionView, isExpanded: self.isExpanded[indexPath.row], delegate: self)
+        cell.collapsibleContainerTopBar.changeButtonIcon() // Expand or collapse container
         
         return cell
     }
     
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
         if isExpanded[indexPath.row] {
-            
-            return CGSize(width: (collectionView.safeAreaLayoutGuide.layoutFrame.width - 20), height: CGFloat(self.cellViewModels[indexPath.row].numExercises * 43) + 31)
+            let exerciseCount = self.cellViewModels[indexPath.row].category.exercises?.count ?? 0
+            return CGSize(width: (collectionView.safeAreaLayoutGuide.layoutFrame.width - 20), height: CGFloat(exerciseCount * 43) + 31)
         }
         return CGSize(width: (collectionView.safeAreaLayoutGuide.layoutFrame.width - 20), height: 30)
+    }
+}
+
+// MARK: - Expanded Cell Delegate
+extension ExercisesViewModel:CollapsibleContainerTopBarDelegate{
+    /// Collapse or Expand selected Month Workout Container
+    ///
+    /// - Parameters:
+    ///   - indexPath: The index of the month workout container to expand or collapse
+    ///   - collectionView: The collection view of the month workout container
+    func collapseExpand(indexPath: IndexPath, collectionView: UICollectionView) {
+        self.isExpanded[indexPath.row] = !self.isExpanded[indexPath.row]
+        DispatchQueue.main.async {
+            UIView.animate(withDuration: 0.8, delay: 0.0, usingSpringWithDamping: 0.9, initialSpringVelocity: 0.9, options: UIView.AnimationOptions.curveEaseInOut, animations: {
+                collectionView.reloadItems(at: [indexPath])
+            })
+        }
     }
 }
 

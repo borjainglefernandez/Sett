@@ -11,25 +11,18 @@ class CategoryListCell: UICollectionViewCell {
     
     static let cellIdentifier = "CategoryListCell"
     
-    
     // Top bar of the category list container
-    private let topBar: UIView = TopBar(frame: .zero)
+    public let collapsibleContainerTopBar: CollapsibleContainerTopBar = CollapsibleContainerTopBar()
     
-    // Title label for the container
-    private let titleLabel: UILabel = TitleLabel(frame: .zero, title: "", fontSize: 14.0)
-    
-    // Button to expand or collapse cell
-    private let expandCollapseButton: UIButton = ExpandCollapseButton(frame: .zero)
-    
+    public let exerciseListView: ExerciseListView = ExerciseListView()
+
     // MARK: - Init
     override init(frame: CGRect) {
         super.init(frame: frame)
         
         self.contentView.layer.cornerRadius = 15
-    
-//        self.expandCollapseButton.addTarget(self, action: #selector(collapseExpand), for: .touchUpInside)
 
-        self.addSubviews(topBar, titleLabel, expandCollapseButton)
+        self.addSubviews(collapsibleContainerTopBar, exerciseListView)
         self.addConstraints()
     }
     
@@ -37,36 +30,38 @@ class CategoryListCell: UICollectionViewCell {
         fatalError("Unsupported constructor")
     }
     
+    // MARK: - LifeCycle
+    override func prepareForReuse() {
+        super.prepareForReuse()
+        self.collapsibleContainerTopBar.setTitleLabelText(title: "")
+    }
+    
     // MARK: - Constraints
     private func addConstraints() {
-        
+        NSLayoutConstraint.activate([
+            self.collapsibleContainerTopBar.heightAnchor.constraint(equalToConstant: 30),
+            self.collapsibleContainerTopBar.leftAnchor.constraint(equalTo: self.leftAnchor),
+            self.collapsibleContainerTopBar.rightAnchor.constraint(equalTo: self.rightAnchor),
+            
+            self.exerciseListView.heightAnchor.constraint(equalTo: self.heightAnchor, multiplier: 1, constant: -30),
+            self.exerciseListView.bottomAnchor.constraint(equalTo: self.bottomAnchor),
+            self.exerciseListView.rightAnchor.constraint(equalTo: self.rightAnchor),
+            self.exerciseListView.leftAnchor.constraint(equalTo: self.leftAnchor)
+        ])
     }
     
     // MARK: - Configurations
-    public func configure(with viewModel: CategoryListCellViewModel) {
-       
-    }
-
-    
-    
-    
-    
-    
-    
-    // Show or hide month list view depending on whether or not it was expanded
-    public func showHideMonthListView(isExpanded: Bool) {
-//        topBar.layer.cornerRadius = 15
-//        monthWorkoutListView.isHidden = !isExpanded // Hide or show view
-//
-//        // Change corner radii and icon depending on whether or not showing or hiding
-//        var iconImage: UIImage?
-//        if isExpanded {
-//            topBar.layer.maskedCorners = [.layerMaxXMinYCorner, .layerMinXMinYCorner]
-//            iconImage = UIImage(systemName: "chevron.up")
-//        } else {
-//            topBar.layer.maskedCorners = [.layerMaxXMinYCorner, .layerMinXMinYCorner, .layerMinXMaxYCorner, .layerMaxXMaxYCorner]
-//            iconImage = UIImage(systemName: "chevron.down")
-//        }
-//        self.expandCollapseButton.setImage(iconImage, for: .normal)
+    public func configure(with viewModel: CategoryListCellViewModel, at indexPath: IndexPath, for collectionView: UICollectionView, isExpanded: Bool, delegate: CollapsibleContainerTopBarDelegate) {
+        // Populate title label text
+        let numExercises = viewModel.category.exercises?.count ?? 0
+        let exerciseSuffix = numExercises == 1 ? "Exercise" : "Exercises"
+        self.collapsibleContainerTopBar.setTitleLabelText(title: "\(viewModel.category.name!) - \(numExercises) \(exerciseSuffix)")
+        
+        // Configure view model of collapsible top bar
+        let collapsibleContainerTopBarViewModel = CollapsibleContainerTopBarViewModel(collectionView: collectionView, isExpanded: isExpanded, indexPath: indexPath, delegate: delegate)
+        self.collapsibleContainerTopBar.configure(with: collapsibleContainerTopBarViewModel)
+        
+        // Configure exercises list view
+        self.exerciseListView.configure(with: ExerciseListViewModel(category: viewModel.category))
     }
 }

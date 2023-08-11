@@ -31,8 +31,11 @@ class ExercisesView: UIView {
     override init(frame: CGRect) {
         super.init(frame: frame)
         
+        self.backgroundColor = .systemCyan
         translatesAutoresizingMaskIntoConstraints = false
         
+        self.viewModel.configure()
+        self.setUpCollectionView()
         self.showHideCollectionView()
         
         addSubviews(self.collectionView, self.emptyView)
@@ -54,6 +57,12 @@ class ExercisesView: UIView {
             self.emptyView.centerXAnchor.constraint(equalTo: self.centerXAnchor),
             self.emptyView.centerYAnchor.constraint(equalTo: self.centerYAnchor),
         ])
+    }
+    
+    // MARK: - Configurations
+    private func setUpCollectionView() {
+        self.collectionView.dataSource = self.viewModel
+        self.collectionView.delegate = self.viewModel
     }
     
     // MARK: - Actions

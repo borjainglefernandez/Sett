@@ -20,6 +20,7 @@ final class MonthWorkoutListView: UIView {
         tableView.layer.cornerRadius = 15
         tableView.layer.maskedCorners = [.layerMaxXMaxYCorner, .layerMinXMaxYCorner]
         tableView.isScrollEnabled = false
+        tableView.separatorStyle = UITableViewCell.SeparatorStyle.none
         return tableView
     }()
     
