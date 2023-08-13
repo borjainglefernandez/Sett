@@ -10,19 +10,23 @@ import UIKit
 class CategoryListCell: UICollectionViewCell {
     
     static let cellIdentifier = "CategoryListCell"
-    
+
     // Top bar of the category list container
     public let collapsibleContainerTopBar: CollapsibleContainerTopBar = CollapsibleContainerTopBar()
     
+    // List of all the exercises for a particular category
     public let exerciseListView: ExerciseListView = ExerciseListView()
 
+    // Bottom bar
+    lazy var addExerciseBottomBar: AddExerciseBottomBar = AddExerciseBottomBar()
+    
     // MARK: - Init
     override init(frame: CGRect) {
         super.init(frame: frame)
         
         self.contentView.layer.cornerRadius = 15
 
-        self.addSubviews(collapsibleContainerTopBar, exerciseListView)
+        self.addSubviews(self.collapsibleContainerTopBar, self.exerciseListView, self.addExerciseBottomBar)
         self.addConstraints()
     }
     
@@ -39,14 +43,21 @@ class CategoryListCell: UICollectionViewCell {
     // MARK: - Constraints
     private func addConstraints() {
         NSLayoutConstraint.activate([
+            self.collapsibleContainerTopBar.topAnchor.constraint(equalTo: self.topAnchor),
             self.collapsibleContainerTopBar.heightAnchor.constraint(equalToConstant: 30),
+            self.collapsibleContainerTopBar.leftAnchor.constraint(equalTo: self.leftAnchor),
             self.collapsibleContainerTopBar.leftAnchor.constraint(equalTo: self.leftAnchor),
             self.collapsibleContainerTopBar.rightAnchor.constraint(equalTo: self.rightAnchor),
             
-            self.exerciseListView.heightAnchor.constraint(equalTo: self.heightAnchor, multiplier: 1, constant: -30),
-            self.exerciseListView.bottomAnchor.constraint(equalTo: self.bottomAnchor),
+            self.exerciseListView.topAnchor.constraint(equalTo: self.collapsibleContainerTopBar.bottomAnchor),
+            self.exerciseListView.heightAnchor.constraint(equalTo: self.heightAnchor, multiplier: 1, constant: -60),
             self.exerciseListView.rightAnchor.constraint(equalTo: self.rightAnchor),
-            self.exerciseListView.leftAnchor.constraint(equalTo: self.leftAnchor)
+            self.exerciseListView.leftAnchor.constraint(equalTo: self.leftAnchor),
+            
+            self.addExerciseBottomBar.leftAnchor.constraint(equalTo: self.leftAnchor),
+            self.addExerciseBottomBar.rightAnchor.constraint(equalTo: self.rightAnchor),
+            self.addExerciseBottomBar.topAnchor.constraint(equalTo: self.exerciseListView.bottomAnchor),
+            self.addExerciseBottomBar.bottomAnchor.constraint(equalTo: self.bottomAnchor)
         ])
     }
     
@@ -60,6 +71,10 @@ class CategoryListCell: UICollectionViewCell {
         // Configure view model of collapsible top bar
         let collapsibleContainerTopBarViewModel = CollapsibleContainerTopBarViewModel(collectionView: collectionView, isExpanded: isExpanded, indexPath: indexPath, delegate: delegate)
         self.collapsibleContainerTopBar.configure(with: collapsibleContainerTopBarViewModel)
+        
+        // Configure view model of add exercise bottom bar
+        let addExerciseBottomBarViewModel = AddExerciseBottomBarViewModel(category: viewModel.category)
+        self.addExerciseBottomBar.configure(with: addExerciseBottomBarViewModel)
         
         // Configure exercises list view
         self.exerciseListView.configure(with: ExerciseListViewModel(category: viewModel.category))

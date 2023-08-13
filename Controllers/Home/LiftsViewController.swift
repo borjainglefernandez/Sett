@@ -9,7 +9,7 @@ import UIKit
 
 final class LiftsViewController: UIViewController {
     
-    private let topBar = TopBar(frame: .zero)
+    private let topBar = MenuBar(frame: .zero)
     
     // Title label for currently selected feed
     lazy var titleLabel: UILabel = TitleLabel(frame: .zero, title: self.routineExerciseMenuViewModel.mainMenuTitle)
@@ -18,7 +18,7 @@ final class LiftsViewController: UIViewController {
     private let addButton: UIButton = IconButton(frame: .zero, imageName: "plus.circle")
     
     // Button to change menus
-    private let changeMenuButton: UIButton = IconButton(frame: .zero, imageName: "arrowtriangle.down.fill", color: .white, fontSize: 12.0)
+    private let changeMenuButton: UIButton = IconButton(frame: .zero, imageName: "arrowtriangle.down.fill", color: .label, fontSize: 12.0)
     
     private let routineExerciseMenuViewModel: RoutineExerciseMenuViewModel = RoutineExerciseMenuViewModel()
     
@@ -90,5 +90,21 @@ final class LiftsViewController: UIViewController {
             self.exercisesView.bottomAnchor.constraint(equalTo: self.view.safeAreaLayoutGuide.bottomAnchor)
 
         ])
+    }
+    
+    // MARK: - Actions
+    public func addExercise(category: Category, exercise: Exercise? = nil) {
+        // Create new exercise if needed
+        if let exercise = exercise {
+//            let newExercise = Exercise(context: CoreDataBase.context)
+//            newExercise.name = "New Exercise"
+//            CoreDataBase.save()
+            print("No Exercise")
+        }
+      
+        
+        // Navigate to new workout screen
+        let individualExerciseModalViewController = IndividualExerciseModalViewController(category: category, exercise: exercise)
+        self.present(individualExerciseModalViewController, animated: true)
     }
 }

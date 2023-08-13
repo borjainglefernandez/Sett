@@ -11,7 +11,7 @@ final class WorkoutViewController: UIViewController {
     private let viewModel: WorkoutViewModel
     private let workoutGeneralStatsView: WorkoutGeneralStatsView
     
-    private let topBar: TopBar = TopBar(frame: .zero)
+    private let topBar: MenuBar = MenuBar(frame: .zero)
     private let backButton: UIButton = IconButton(frame: .zero, imageName: "arrow.backward.circle.fill")
     private let moreButton: UIButton = IconButton(frame: .zero, imageName: "ellipsis.circle.fill")
 

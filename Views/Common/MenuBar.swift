@@ -1,5 +1,5 @@
 //
-//  TopBar.swift
+//  MenuBar.swift
 //  Sett
 //
 //  Created by Borja Ingle-Fernandez on 7/21/23.
@@ -7,10 +7,10 @@
 
 import UIKit
 
-class TopBar: UIView {
+class MenuBar: UIView {
     
     // MARK: - Init
-    override init(frame: CGRect) {
+    override init(frame: CGRect = .zero) {
         super.init(frame: frame)
         translatesAutoresizingMaskIntoConstraints = false
         backgroundColor = .systemGray4

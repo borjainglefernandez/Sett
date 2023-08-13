@@ -11,7 +11,7 @@ final class NotesViewController: UIViewController {
     
     private let viewModel: WorkoutGeneralStatsViewCellViewModel
 
-    private let topBar: TopBar = TopBar(frame: .zero)
+    private let topBar: MenuBar = MenuBar(frame: .zero)
     
     private let closeButton: UIButton = IconButton(frame: .zero, imageName: "xmark.circle.fill")
     

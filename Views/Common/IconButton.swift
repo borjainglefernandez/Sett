@@ -10,13 +10,14 @@ import UIKit
 class IconButton: UIButton {
     
     // MARK: - Init
-    init(frame: CGRect, imageName: String, color: UIColor = .systemCyan, fontSize: Double = 17.0) {
+    init(frame: CGRect = .zero, imageName: String, color: UIColor = .systemCyan, fontSize: Double = 17.0) {
         super.init(frame: frame)
 
         let config = UIImage.SymbolConfiguration(font: .systemFont(ofSize: fontSize, weight: .bold))
         setPreferredSymbolConfiguration(config, forImageIn: .normal)
         
         let iconImage = UIImage(systemName: imageName)
+        iconImage?.withTintColor(color)
         setImage(iconImage, for: .normal)
         
         tintColor = color

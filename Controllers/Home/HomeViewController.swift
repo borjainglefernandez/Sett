@@ -11,7 +11,7 @@ import CoreData
 final class HomeViewController: UIViewController {
     
     // Top bar of the home page
-    private let topBar: UIView = TopBar(frame: .zero)
+    private let topBar: UIView = MenuBar(frame: .zero)
     
     // Title label for currently selected feed
     private let titleLabel = TitleLabel(frame: .zero, title: "Workouts")

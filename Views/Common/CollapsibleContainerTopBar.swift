@@ -13,13 +13,13 @@ class CollapsibleContainerTopBar: UIView {
     private var viewModel: CollapsibleContainerTopBarViewModel?
 
     // Top bar of the category list container
-    private let topBar: UIView = TopBar(frame: .zero)
+    private let topBar: UIView = MenuBar(frame: .zero)
     
     // Title label for the container
     private let titleLabel: UILabel = TitleLabel(frame: .zero, title: "", fontSize: 14.0)
     
     // Button to expand or collapse cell
-    private let expandCollapseButton: UIButton = ExpandCollapseButton(frame: .zero)
+    private let expandCollapseButton: IconButton = IconButton(imageName: "chevron.right", color: .label)
     
     // MARK: - Init
     init(frame: CGRect = .zero,title: String = "") {
@@ -27,7 +27,7 @@ class CollapsibleContainerTopBar: UIView {
         self.titleLabel.text = title
         
         self.translatesAutoresizingMaskIntoConstraints = false
-        self.expandCollapseButton.addTarget(self, action: #selector(collapseExpand), for: .touchUpInside)
+        self.expandCollapseButton.addTarget(self, action: #selector(self.collapseExpand), for: .touchUpInside)
         
         self.addSubviews(self.topBar, self.titleLabel, self.expandCollapseButton)
         self.addConstraints()
