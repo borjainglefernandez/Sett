@@ -7,15 +7,17 @@
 
 import UIKit
 
-class TitleLabel: UILabel {
+class Label: UILabel {
     
     // MARK: - Init
-    init(frame: CGRect, title: String, fontSize: Double = 17.0) {
+    init(frame: CGRect = .zero, title: String, fontSize: Double = 17.0, weight: UIFont.Weight = .bold) {
         super.init(frame: frame)
         textColor = .label
-        font = .systemFont(ofSize: fontSize, weight: .bold)
+        font = .systemFont(ofSize: fontSize, weight: weight)
         text = title
         translatesAutoresizingMaskIntoConstraints = false
+        numberOfLines = 1
+        lineBreakMode = .byTruncatingTail
     }
     
     required init?(coder: NSCoder) {

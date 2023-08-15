@@ -15,7 +15,7 @@ final class NotesViewController: UIViewController {
     
     private let closeButton: UIButton = IconButton(frame: .zero, imageName: "xmark.circle.fill")
     
-    private let notesTitle: UILabel = TitleLabel(frame: .zero, title: "Notes")
+    private let notesTitle: UILabel = Label(frame: .zero, title: "Notes")
     
     private let notesView: NotesView
     

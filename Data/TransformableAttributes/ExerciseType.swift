@@ -7,7 +7,7 @@
 
 import Foundation
 
-enum ExerciseType: String {
+enum ExerciseType: String, CaseIterable {
     case dumbbell = "Dumbbell"
     case barbell = "Barbell"
     case cable = "Cable"

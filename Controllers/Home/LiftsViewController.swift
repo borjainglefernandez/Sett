@@ -12,7 +12,7 @@ final class LiftsViewController: UIViewController {
     private let topBar = MenuBar(frame: .zero)
     
     // Title label for currently selected feed
-    lazy var titleLabel: UILabel = TitleLabel(frame: .zero, title: self.routineExerciseMenuViewModel.mainMenuTitle)
+    lazy var titleLabel: UILabel = Label(frame: .zero, title: self.routineExerciseMenuViewModel.mainMenuTitle)
     
     // Button to change between routines and exercises
     private let addButton: UIButton = IconButton(frame: .zero, imageName: "plus.circle")

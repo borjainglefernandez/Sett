@@ -14,7 +14,7 @@ final class HomeViewController: UIViewController {
     private let topBar: UIView = MenuBar(frame: .zero)
     
     // Title label for currently selected feed
-    private let titleLabel = TitleLabel(frame: .zero, title: "Workouts")
+    private let titleLabel = Label(frame: .zero, title: "Workouts")
     
     // Button to add a workout
     private let addWorkoutButton: UIButton = IconButton(frame: .zero, imageName: "plus.circle")

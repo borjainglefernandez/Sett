@@ -22,7 +22,7 @@ class AddExerciseBottomBar: UIView {
     lazy var gestureRecognizer = UITapGestureRecognizer(target: self, action: #selector(self.addExercise))
     
     // Title to add exercise
-    private let title: TitleLabel = TitleLabel(frame: .zero, title: "Add Exercise", fontSize: 14.0)
+    private let title: Label = Label(frame: .zero, title: "Add Exercise", fontSize: 14.0)
     
     // Add Exercise Icon Button
     private let plusIconButton: IconButton = IconButton(imageName: "plus.app")

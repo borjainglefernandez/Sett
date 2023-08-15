@@ -20,26 +20,10 @@ class ExerciseListCell: UITableViewCell {
     }()
     
     // Display title of the exercise
-    private let titleLabel: UILabel = {
-        let titleLabel = UILabel()
-        titleLabel.textColor = .label
-        titleLabel.font = .systemFont(ofSize: 12, weight: .regular)
-        titleLabel.translatesAutoresizingMaskIntoConstraints = false
-        titleLabel.numberOfLines = 1
-        titleLabel.lineBreakMode = .byTruncatingTail
-        return titleLabel
-    }()
+    private let titleLabel: UILabel = Label(title: "", fontSize: 12.0, weight: .regular)
     
     // Display type of the exercise
-    private let exerciseTypeLabel: UILabel = {
-        let exerciseTypeLabel = UILabel()
-        exerciseTypeLabel.textColor = .label
-        exerciseTypeLabel.font = .systemFont(ofSize: 10, weight: .regular)
-        exerciseTypeLabel.translatesAutoresizingMaskIntoConstraints = false
-        exerciseTypeLabel.numberOfLines = 1
-        exerciseTypeLabel.lineBreakMode = .byTruncatingTail
-        return exerciseTypeLabel
-    }()
+    private let exerciseTypeLabel: UILabel = Label(title: "", fontSize: 10.0, weight: .regular)
     
     // Arrow Icon
     private let arrowIconButton: UIButton = {
