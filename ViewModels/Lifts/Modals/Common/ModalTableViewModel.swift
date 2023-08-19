@@ -11,13 +11,20 @@ import UIKit
 class ModalTableViewModel: NSObject {
     public let modalTableViewType: ModalTableViewType
     public let modalTableViewSelectionType: ModalTableViewSelectionType
+    private let selectedCellCallback: ((String, ModalTableViewType) -> Void)
+    private var selectedIndexPath: IndexPath?
     private let category: Category?
+    private let exercise: Exercise?
+    private let exerciseType: ExerciseType?
     private var cellViewModels: [ModalTableViewCellViewModel]
     
-    init(modalTableViewType: ModalTableViewType, modalTableViewSelectionType: ModalTableViewSelectionType, category: Category? = nil) {
+    init(modalTableViewType: ModalTableViewType, modalTableViewSelectionType: ModalTableViewSelectionType, selectedCellCallBack: @escaping ((String, ModalTableViewType) -> Void), category: Category? = nil, exercise: Exercise? = nil, exerciseType: ExerciseType? = nil) {
         self.modalTableViewType = modalTableViewType
         self.modalTableViewSelectionType = modalTableViewSelectionType
+        self.selectedCellCallback = selectedCellCallBack
         self.category = category
+        self.exercise = exercise
+        self.exerciseType = exerciseType
         self.cellViewModels = []
         super.init()
         
@@ -61,6 +68,31 @@ class ModalTableViewModel: NSObject {
             self.cellViewModels.append(cellViewModel)
         }
     }
+    
+    /// Selects a cell if it should be selected
+    ///
+    /// - Parameters:
+    ///   - cell: cell to select
+    ///   - indexPath: indexPath to check whether or not we should select
+    ///
+    ///   Select cell if:
+    ///   1.) We are coming from an existing category, exercise, or exercise type and that cell shares that name
+    ///   or
+    ///   2.) We have selected that cell (as indicated by selectedIndexPath)
+    private func selectCellIfNeeded(at cell: ModalTableViewCell, for indexPath: IndexPath) {
+        let existingCategory:Bool = self.category?.name == self.cellViewModels[indexPath.row].title
+        let existingExercise:Bool = self.exercise?.name == self.cellViewModels[indexPath.row].title
+        let existingExerciseType:Bool = self.exerciseType?.rawValue == self.cellViewModels[indexPath.row].title
+        let existingField: Bool = (existingCategory || existingExercise || existingExerciseType) && selectedIndexPath == nil
+        let selectedThisIndex: Bool = self.selectedIndexPath == indexPath
+        
+        if existingField || selectedThisIndex {
+            self.selectedIndexPath = indexPath
+            cell.selectDeselectCell(select: true)
+            self.selectedCellCallback(self.cellViewModels[indexPath.row].title, self.modalTableViewType)
+        }
+
+    }
 }
 
 extension ModalTableViewModel: UITableViewDataSource, UITableViewDelegate {
@@ -78,6 +110,7 @@ extension ModalTableViewModel: UITableViewDataSource, UITableViewDelegate {
         
         cell.configure(with: self.cellViewModels[indexPath.row], showDivider: showDivider)
         cellViewModels[indexPath.row].delegate = cell
+        self.selectCellIfNeeded(at: cell, for: indexPath)
         return cell
     }
     
@@ -95,14 +128,12 @@ extension ModalTableViewModel: UITableViewDataSource, UITableViewDelegate {
     }
     
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-        for (i, cellViewModel) in self.cellViewModels.enumerated() {
-            if i == indexPath.row {
-                cellViewModel.selectDeselectCell(select: true)
-            } else {
-                cellViewModel.selectDeselectCell(select: false)
-            }
-            tableView.reloadData()
+                
+        if let selectedIndexPath = self.selectedIndexPath {
+            self.cellViewModels[selectedIndexPath.row].selectDeselectCell(select: false)
         }
+        self.selectedIndexPath = indexPath
+        tableView.reloadRows(at: [indexPath], with: .none)
     }
     
 }

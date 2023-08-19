@@ -11,14 +11,14 @@ class IndividualExerciseModal: UIView {
     
     private let viewModel: IndividualExerciseModalViewModel
     
-    private let categoryListView: ModalTableView = {
-        let categoryListViewModel = ModalTableViewModel(modalTableViewType: .category, modalTableViewSelectionType: .toggle)
+    lazy var categoryListView: ModalTableView = {
+        let categoryListViewModel = ModalTableViewModel(modalTableViewType: .category, modalTableViewSelectionType: .toggle, selectedCellCallBack: self.viewModel.selectCellCallback, category: self.viewModel.category)
         let categoryListView = ModalTableView(viewModel: categoryListViewModel)
         return categoryListView
     }()
     
-    private let exerciseTypeListView: ModalTableView = {
-        let exerciseTypeListViewModel = ModalTableViewModel(modalTableViewType: .exerciseType, modalTableViewSelectionType: .toggle)
+    lazy var exerciseTypeListView: ModalTableView = {
+        let exerciseTypeListViewModel = ModalTableViewModel(modalTableViewType: .exerciseType, modalTableViewSelectionType: .toggle, selectedCellCallBack: self.viewModel.selectCellCallback)
         let exerciseTypeListView = ModalTableView(viewModel: exerciseTypeListViewModel)
         return exerciseTypeListView
     }()
