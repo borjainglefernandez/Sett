@@ -60,6 +60,35 @@ class CoreDataBase {
         return executeFetchRequest(expecting: entityType, with: fetchRequest)
     }
     
+    /// Fetches one entity based on certain predicates
+    ///
+    /// - Parameters:
+    ///   - entityName: The name of the entity
+    ///   - entityType: The expected type of the fetch request
+    ///   - predicates: A list of predicates to filter by, if any
+    ///   - sortDescriptors: A list of sort descriptors to sort by, if any
+    ///   - propertiesToGroupBy: A list of properties to group by, if any
+    ///
+    /// - Returns: An entity fetched or nil if none
+    static public func fetchEntity<T: NSFetchRequestResult>(withEntity entityName: String, expecting entityType: T.Type, predicates: [NSPredicate] = [], sortDescriptors: [NSSortDescriptor] = [], propertiesToGroupBy: [String] = []) -> T? {
+        let fetchRequest = NSFetchRequest<T>(entityName: entityName)
+        
+        // Add predicates to the fetch request, if provided
+        fetchRequest.predicate = NSCompoundPredicate(andPredicateWithSubpredicates: predicates)
+        fetchRequest.sortDescriptors = sortDescriptors
+        
+        
+        if !propertiesToGroupBy.isEmpty {
+            assert(entityType == NSDictionary.self, "If grouping by an attribute, an NSDictionary is expected")
+            fetchRequest.resultType = .dictionaryResultType
+            fetchRequest.propertiesToFetch = propertiesToGroupBy
+            fetchRequest.propertiesToGroupBy = propertiesToGroupBy
+        }
+        
+        
+        return executeFetchRequest(expecting: entityType, with: fetchRequest)?[0]
+    }
+    
     static public func save() {
         do {
             try context.save()

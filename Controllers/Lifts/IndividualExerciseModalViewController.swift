@@ -13,8 +13,8 @@ class IndividualExerciseModalViewController: UIViewController {
     private let category: Category
     private let exercise: Exercise?
     
-    // Back Button
-    private let backButton: UIButton = IconButton(frame: .zero, imageName: "arrow.backward.circle.fill")
+    // Cancel Button
+    private let cancelButton: UIButton = IconButton(frame: .zero, imageName: "x.circle.fill")
     
     // Confirm Button
     private let confirmButton: UIButton = IconButton(frame: .zero, imageName: "checkmark.circle")
@@ -53,18 +53,20 @@ class IndividualExerciseModalViewController: UIViewController {
         
         self.view.backgroundColor = .systemGray6
         
-        self.view.addSubviews(self.backButton, self.exerciseNameTextField, self.confirmButton, self.individualExerciseModal)
+        self.cancelButton.addTarget(self, action: #selector(cancel), for: .touchUpInside)
+        self.confirmButton.addTarget(self, action: #selector(confirm), for: .touchUpInside)
+        self.view.addSubviews(self.cancelButton, self.exerciseNameTextField, self.confirmButton, self.individualExerciseModal)
         self.addConstraints()
     }
     
     // MARK: - Constraints
     private func addConstraints() {
         NSLayoutConstraint.activate([
-            self.backButton.leftAnchor.constraint(equalTo: self.view.safeAreaLayoutGuide.leftAnchor, constant: 30),
-            self.backButton.topAnchor.constraint(equalTo: self.view.safeAreaLayoutGuide.topAnchor, constant: 20),
+            self.cancelButton.leftAnchor.constraint(equalTo: self.view.safeAreaLayoutGuide.leftAnchor, constant: 30),
+            self.cancelButton.topAnchor.constraint(equalTo: self.view.safeAreaLayoutGuide.topAnchor, constant: 20),
             
             self.exerciseNameTextField.centerXAnchor.constraint(equalTo: self.view.centerXAnchor),
-            self.exerciseNameTextField.centerYAnchor.constraint(equalTo: self.backButton.centerYAnchor),
+            self.exerciseNameTextField.centerYAnchor.constraint(equalTo: self.cancelButton.centerYAnchor),
             
             self.confirmButton.rightAnchor.constraint(equalTo: self.view.safeAreaLayoutGuide.rightAnchor, constant: -30),
             self.confirmButton.centerYAnchor.constraint(equalTo: self.exerciseNameTextField.centerYAnchor),
@@ -74,5 +76,24 @@ class IndividualExerciseModalViewController: UIViewController {
             self.individualExerciseModal.leftAnchor.constraint(equalTo: self.view.safeAreaLayoutGuide.leftAnchor),
             self.individualExerciseModal.rightAnchor.constraint(equalTo: self.view.safeAreaLayoutGuide.rightAnchor),
         ])
+    }
+    
+    // MARK: - Actions
+    @objc func cancel() {
+        self.viewModel.cancel()
+        self.dismiss(animated: true, completion: nil)
+    }
+    
+    @objc func confirm() {
+        if !self.viewModel.confirm() {
+            // Controller
+            let incompleteExerciseAlertController = UIAlertController(title: "Incomplete exercise", message: "", preferredStyle: .alert)
+            
+            incompleteExerciseAlertController.addAction(UIAlertAction(title: "Try Again", style: .default))
+            
+            self.present(incompleteExerciseAlertController, animated: true)
+            return
+        }
+        self.dismiss(animated: true, completion: nil)
     }
 }

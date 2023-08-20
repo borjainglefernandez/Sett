@@ -95,7 +95,7 @@ extension ExercisesViewModel:CollapsibleContainerTopBarDelegate{
 
 // MARK: - Fetched Results Controller Delegate
 extension ExercisesViewModel: NSFetchedResultsControllerDelegate {
-    // Update screen if CRUD conducted on Workouts
+    // Update screen if CRUD conducted on Categories
     func controller(_ controller: NSFetchedResultsController<NSFetchRequestResult>, didChange anObject: Any, at indexPath: IndexPath?, for type: NSFetchedResultsChangeType, newIndexPath: IndexPath?) {
         self.configure()
         self.exercisesView?.collectionView.reloadData()
