@@ -15,7 +15,7 @@ final class ExercisesViewModel: NSObject {
     private var cellViewModels: [CategoryListCellViewModel] = []
     private var isExpanded: [Bool] = []
     private var fetchedResultsController: NSFetchedResultsController<Category> = {
-        return CoreDataBase.createFetchedResultsController(withEntityName: "Category", expecting: Category.self)
+        return CoreDataBase.createFetchedResultsController(withEntityName: "Category", expecting: Category.self, sortDescriptors: [NSSortDescriptor(key: "name", ascending: true)])
     }()
     
     // MARK: - Configurations

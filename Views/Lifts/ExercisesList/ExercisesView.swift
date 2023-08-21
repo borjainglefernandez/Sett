@@ -35,6 +35,7 @@ class ExercisesView: UIView {
         translatesAutoresizingMaskIntoConstraints = false
         
         self.viewModel.configure()
+        self.viewModel.exercisesView = self
         self.setUpCollectionView()
         self.showHideCollectionView()
         
