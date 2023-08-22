@@ -10,6 +10,9 @@ import CoreData
 import UIKit
 
 class CoreDataBase {
+    init() {
+        ExerciseTypeTransformer.register()
+    }
     
     // Context to interact with CoreData
     static let context = (UIApplication.shared.delegate as! AppDelegate).persistentContainer.viewContext

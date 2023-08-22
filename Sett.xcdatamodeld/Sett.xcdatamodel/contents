@@ -13,7 +13,7 @@
     </entity>
     <entity name="Exercise" representedClassName="Exercise" syncable="YES" codeGenerationType="class">
         <attribute name="name" attributeType="String" defaultValueString=""/>
-        <attribute name="type" attributeType="Transformable" valueTransformerName="" customClassName="ExerciseTypeWrapper"/>
+        <attribute name="type" attributeType="Transformable" valueTransformerName="ExerciseTypeTransformer" customClassName="ExerciseTypeWrapper"/>
         <relationship name="category" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="Category" inverseName="exercises" inverseEntity="Category"/>
         <relationship name="routines" optional="YES" toMany="YES" deletionRule="Nullify" destinationEntity="Routine" inverseName="exercises" inverseEntity="Routine"/>
         <relationship name="workout" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="WorkoutExercise" inverseName="exercises" inverseEntity="WorkoutExercise"/>

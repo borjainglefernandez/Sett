@@ -26,8 +26,7 @@ class CategoryListCell: UICollectionViewCell {
         
         self.contentView.layer.cornerRadius = 15
 
-        self.addSubviews(self.collapsibleContainerTopBar, self.exerciseListView, self.addExerciseBottomBar)
-        self.addConstraints()
+        self.addSubviews(self.collapsibleContainerTopBar, self.exerciseListView)
     }
     
     required init?(coder: NSCoder) {
@@ -41,24 +40,27 @@ class CategoryListCell: UICollectionViewCell {
     }
     
     // MARK: - Constraints
-    private func addConstraints() {
+    private func addConstraints(isExpanded: Bool) {
         NSLayoutConstraint.activate([
             self.collapsibleContainerTopBar.topAnchor.constraint(equalTo: self.topAnchor),
-            self.collapsibleContainerTopBar.heightAnchor.constraint(equalToConstant: 30),
             self.collapsibleContainerTopBar.leftAnchor.constraint(equalTo: self.leftAnchor),
             self.collapsibleContainerTopBar.leftAnchor.constraint(equalTo: self.leftAnchor),
             self.collapsibleContainerTopBar.rightAnchor.constraint(equalTo: self.rightAnchor),
             
             self.exerciseListView.topAnchor.constraint(equalTo: self.collapsibleContainerTopBar.bottomAnchor),
-            self.exerciseListView.heightAnchor.constraint(equalTo: self.heightAnchor, multiplier: 1, constant: -60),
             self.exerciseListView.rightAnchor.constraint(equalTo: self.rightAnchor),
             self.exerciseListView.leftAnchor.constraint(equalTo: self.leftAnchor),
-            
-            self.addExerciseBottomBar.leftAnchor.constraint(equalTo: self.leftAnchor),
-            self.addExerciseBottomBar.rightAnchor.constraint(equalTo: self.rightAnchor),
-            self.addExerciseBottomBar.topAnchor.constraint(equalTo: self.exerciseListView.bottomAnchor),
-            self.addExerciseBottomBar.bottomAnchor.constraint(equalTo: self.bottomAnchor)
         ])
+        
+        if isExpanded {
+            NSLayoutConstraint.activate([
+                self.addExerciseBottomBar.leftAnchor.constraint(equalTo: self.leftAnchor),
+                self.addExerciseBottomBar.rightAnchor.constraint(equalTo: self.rightAnchor),
+                self.addExerciseBottomBar.topAnchor.constraint(equalTo: self.exerciseListView.bottomAnchor),
+                self.addExerciseBottomBar.bottomAnchor.constraint(equalTo: self.bottomAnchor),
+                self.addExerciseBottomBar.heightAnchor.constraint(equalTo: self.collapsibleContainerTopBar.heightAnchor)
+            ])
+        }
     }
     
     // MARK: - Configurations
@@ -78,5 +80,12 @@ class CategoryListCell: UICollectionViewCell {
         
         // Configure exercises list view
         self.exerciseListView.configure(with: ExerciseListViewModel(category: viewModel.category))
+        
+        if !isExpanded {
+            self.addExerciseBottomBar.removeFromSuperview()
+        } else {
+            self.addSubview(self.addExerciseBottomBar)
+        }
+        self.addConstraints(isExpanded: isExpanded)
     }
 }

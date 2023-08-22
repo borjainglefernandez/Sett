@@ -19,16 +19,19 @@ enum ExerciseType: String, CaseIterable {
     }
 }
 
-public class ExerciseTypeWrapper: NSObject, NSCoding {
+public class ExerciseTypeWrapper: NSObject, NSSecureCoding {
+    public static var supportsSecureCoding: Bool = true
+    
     
     let exerciseType: ExerciseType
     
     init(_ exerciseType: ExerciseType) {
         self.exerciseType = exerciseType
+
     }
     
-    public required convenience init?(coder aDecoder: NSCoder) {
-        guard let rawValue = aDecoder.decodeObject(of: NSString.self, forKey: "exerciseType") as String?,
+    required convenience public init?(coder: NSCoder) {
+        guard let rawValue = coder.decodeObject(of: NSString.self, forKey: "exerciseType") as String?,
               let exerciseType = ExerciseType(rawValue: rawValue) else {
             return nil
         }
@@ -37,5 +40,20 @@ public class ExerciseTypeWrapper: NSObject, NSCoding {
     
     public func encode(with aCoder: NSCoder) {
         aCoder.encode(exerciseType.rawValue as NSString, forKey: "exerciseType")
+    }
+}
+
+@objc(ExerciseTypeTransformer)
+final class ExerciseTypeTransformer: NSSecureUnarchiveFromDataTransformer {
+
+    static let name = NSValueTransformerName(rawValue: String(describing: ExerciseTypeTransformer.self))
+
+    override static var allowedTopLevelClasses: [AnyClass] {
+        return [ExerciseTypeWrapper.self]
+    }
+
+    public static func register() {
+        let transformer = ExerciseTypeTransformer()
+        ValueTransformer.setValueTransformer(transformer, forName: name)
     }
 }
