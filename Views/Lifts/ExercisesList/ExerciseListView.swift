@@ -12,7 +12,7 @@ class ExerciseListView: UIView {
     private var viewModel: ExerciseListViewModel?
     
     // Table View for workouts in each month
-    private let tableView: UITableView = {
+    public let tableView: UITableView = {
         let tableView = UITableView()
         tableView.backgroundColor = .systemGray3.withAlphaComponent(0.44)
         tableView.translatesAutoresizingMaskIntoConstraints = false
@@ -28,7 +28,7 @@ class ExerciseListView: UIView {
         super.init(frame: frame)
         
         self.translatesAutoresizingMaskIntoConstraints = false
-        
+
         self.addSubview(tableView)
         self.addConstraints()
     }
@@ -50,6 +50,7 @@ class ExerciseListView: UIView {
     // MARK: - Configurations
     public func configure(with viewModel: ExerciseListViewModel) {
         self.viewModel = viewModel
+        self.viewModel!.exerciseListView = self
         setUpTableView()
     }
     

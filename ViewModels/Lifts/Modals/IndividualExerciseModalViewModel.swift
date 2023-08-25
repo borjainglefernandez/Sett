@@ -46,7 +46,7 @@ final class IndividualExerciseModalViewModel: NSObject {
     }
     
     public func cancel() {
-        if self.existingExercise, let exercise = self.exercise {
+        if !self.existingExercise, let exercise = self.exercise {
             CoreDataBase.context.delete(exercise)
             CoreDataBase.save()
         }

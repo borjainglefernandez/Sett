@@ -28,8 +28,6 @@ class ModalTableViewCell: UITableViewCell {
     // Radio Button Icon
     public let radioIconButton: UIImageView = UIImageView(image: UIImage(systemName: "button.programmable"))
     
-//    IconButton(imageName: "button.programmable", color: .label, fontSize: 17.0)
-    
     // Arrow Icon
     private let arrowIconButton: UIButton = IconButton(imageName: "chevron.right", color: .label, fontSize: 17.0)
     

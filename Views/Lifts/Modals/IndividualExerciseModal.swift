@@ -18,7 +18,7 @@ class IndividualExerciseModal: UIView {
     }()
     
     lazy var exerciseTypeListView: ModalTableView = {
-        let exerciseTypeListViewModel = ModalTableViewModel(modalTableViewType: .exerciseType, modalTableViewSelectionType: .toggle, selectedCellCallBack: self.viewModel.selectCellCallback)
+        let exerciseTypeListViewModel = ModalTableViewModel(modalTableViewType: .exerciseType, modalTableViewSelectionType: .toggle, selectedCellCallBack: self.viewModel.selectCellCallback, exerciseType: self.viewModel.exercise?.type?.exerciseType)
         let exerciseTypeListView = ModalTableView(viewModel: exerciseTypeListViewModel)
         return exerciseTypeListView
     }()

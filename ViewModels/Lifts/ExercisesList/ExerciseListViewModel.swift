@@ -10,8 +10,12 @@ import CoreData
 import UIKit
 
 final class ExerciseListViewModel: NSObject {
+    public var exerciseListView: ExerciseListView?
     public var category: Category
     private var cellViewModels: [ExerciseListCellViewModel] = []
+    lazy var fetchedResultsController: NSFetchedResultsController<Exercise> = {
+        return CoreDataBase.createFetchedResultsController(withEntityName: "Exercise", expecting: Exercise.self, predicates: [NSPredicate(format: "category = %@", self.category)], sortDescriptors: [NSSortDescriptor(key: "name", ascending: true)])
+    }()
     
     // MARK: - Init
     
@@ -28,6 +32,8 @@ final class ExerciseListViewModel: NSObject {
     
     /// Fetch and set the workouts for the month
     public func setExercises() {
+        CoreDataBase.configureFetchedResults(controller: self.fetchedResultsController, expecting: Exercise.self, with: self) // Only used to update cells when exercise is edited
+        
         guard let exercisesInCategory = self.category.exercises else {
             return
         }
@@ -69,12 +75,11 @@ extension ExerciseListViewModel: UITableViewDataSource, UITableViewDelegate {
     }
     
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-//        if let parentViewController = tableView.getParentViewController(tableView) {
-//            let workoutViewModel = WorkoutViewModel(workout: cellViewModels[indexPath.row].workout)
-//            let workoutViewController = WorkoutViewController(viewModel: workoutViewModel)
-//            workoutViewController.modalPresentationStyle = .fullScreen
-//            parentViewController.present(workoutViewController, animated: true)
-//        }
+        if let parentViewController = tableView.getParentViewController(tableView) {
+            let exercise = self.cellViewModels[indexPath.row].exercise
+            let individualExerciseModalViewController = IndividualExerciseModalViewController(category: self.category, exercise: exercise)
+            parentViewController.present(individualExerciseModalViewController, animated: true)
+        }
 
     }
     
@@ -106,3 +111,11 @@ extension ExerciseListViewModel: UITableViewDataSource, UITableViewDelegate {
     }
 }
 
+// MARK: - Fetched Results Controller Delegate
+extension ExerciseListViewModel: NSFetchedResultsControllerDelegate {
+    // Update screen if CRUD conducted on Exercises in Category
+    func controller(_ controller: NSFetchedResultsController<NSFetchRequestResult>, didChange anObject: Any, at indexPath: IndexPath?, for type: NSFetchedResultsChangeType, newIndexPath: IndexPath?) {
+        self.setExercises()
+        self.exerciseListView?.tableView.reloadData()
+    }
+}
