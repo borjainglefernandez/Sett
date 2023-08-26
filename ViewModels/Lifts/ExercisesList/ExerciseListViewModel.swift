@@ -32,13 +32,14 @@ final class ExerciseListViewModel: NSObject {
     
     /// Fetch and set the workouts for the month
     public func setExercises() {
-        CoreDataBase.configureFetchedResults(controller: self.fetchedResultsController, expecting: Exercise.self, with: self) // Only used to update cells when exercise is edited
+         CoreDataBase.configureFetchedResults(controller: self.fetchedResultsController, expecting: Exercise.self, with: self)
         
-        guard let exercisesInCategory = self.category.exercises else {
+        guard let exercisesInCategory = self.fetchedResultsController.fetchedObjects else {
             return
         }
+        
         for exercise in exercisesInCategory {
-            cellViewModels.append(ExerciseListCellViewModel(exercise: exercise as! Exercise))
+            cellViewModels.append(ExerciseListCellViewModel(exercise: exercise))
         }
     }
 }
