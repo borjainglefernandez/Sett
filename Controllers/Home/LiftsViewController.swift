@@ -26,13 +26,13 @@ final class LiftsViewController: UIViewController {
     private let exercisesView: ExercisesView = ExercisesView()
     
     
-    private func setUpMenu() {
+    private func setUpRoutineOrCategoryMenu() {
         self.changeMenuButton.showsMenuAsPrimaryAction = true
         
         let changeWorkoutLabel = UIAction(title: self.routineExerciseMenuViewModel.changeMenuTitle, attributes: [], state: .off) { action in
             self.routineExerciseMenuViewModel.toggleType()
             self.titleLabel.text = self.routineExerciseMenuViewModel.mainMenuTitle
-            self.setUpMenu()
+            self.setUpRoutineOrCategoryMenu()
             self.setUpContent()
         }
         
@@ -44,11 +44,27 @@ final class LiftsViewController: UIViewController {
         case .routine:
             self.routinesView.isHidden = false
             self.exercisesView.isHidden = true
+            self.setUpAddRoutineButton()
         case .exercise:
             self.routinesView.isHidden = true
             self.exercisesView.isHidden = false
+            self.setUpAddCategoryButton()
             
         }
+    }
+    
+    private func setUpAddCategoryButton() {
+        if let target = self.addButton.allTargets.first as? NSObject {
+            self.addButton.removeTarget(target, action: #selector(addRoutine), for: .touchUpInside)
+        }
+        self.addButton.addTarget(self, action: #selector(addCategory), for: .touchUpInside)
+    }
+    
+    private func setUpAddRoutineButton() {
+        if let target = self.addButton.allTargets.first as? NSObject {
+            self.addButton.removeTarget(target, action: #selector(addCategory), for: .touchUpInside)
+        }
+        self.addButton.addTarget(self, action: #selector(addRoutine), for: .touchUpInside)
     }
     
     // MARK: - LifeCycle
@@ -57,7 +73,7 @@ final class LiftsViewController: UIViewController {
         self.view.backgroundColor = .systemCyan
         
         self.setUpContent()
-        self.setUpMenu()
+        self.setUpRoutineOrCategoryMenu()
         
         self.view.addSubviews(topBar, titleLabel, changeMenuButton, addButton, routinesView, exercisesView)
         self.addConstraints()
@@ -94,6 +110,32 @@ final class LiftsViewController: UIViewController {
     }
     
     // MARK: - Actions
+    @objc func addRoutine() {
+
+    }
+    
+    @objc func addCategory() {
+        let alertController = UIAlertController(title: "Create new category?", message: nil, preferredStyle: .alert)
+         
+        let addCategoryViewModel: AddCategoryViewModel = AddCategoryViewModel(alertController: alertController)
+         alertController.addTextField { textField in
+             textField.placeholder = "New category name"
+             textField.delegate = addCategoryViewModel
+         }
+         
+        let okAction = UIAlertAction(title: "OK", style: .default) {_ in
+             addCategoryViewModel.createNewCategory()
+         }
+         
+         let cancelAction = UIAlertAction(title: "Cancel", style: .cancel, handler: nil)
+         
+         okAction.isEnabled = false
+         alertController.addAction(okAction)
+         alertController.addAction(cancelAction)
+         
+         present(alertController, animated: true, completion: nil)
+    }
+    
     public func addExercise(category: Category, exercise: Exercise? = nil) {
         // Create new exercise if needed
         if let exercise = exercise {
