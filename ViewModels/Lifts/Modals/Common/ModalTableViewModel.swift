@@ -47,7 +47,11 @@ class ModalTableViewModel: NSObject {
         
         for category in categories {
             let cellViewModel = ModalTableViewCellViewModel(title: category.name!, subTitle: String(describing: "\(category.exercises?.count ?? 0) Exercises"), modalTableViewSelectionType: self.modalTableViewSelectionType)
-            self.cellViewModels.append(cellViewModel)
+            if category == self.category { // Add preselected category to top
+                self.cellViewModels.insert(cellViewModel, at: 0)
+            } else {
+                self.cellViewModels.append(cellViewModel)
+            }
         }
     }
     
@@ -65,7 +69,11 @@ class ModalTableViewModel: NSObject {
     private func createExerciseTypeCellViewModels() {
         for type in ExerciseType.allCases {
             let cellViewModel = ModalTableViewCellViewModel(title: type.rawValue, subTitle: "", modalTableViewSelectionType: self.modalTableViewSelectionType)
-            self.cellViewModels.append(cellViewModel)
+            if type == self.exerciseType {
+                self.cellViewModels.insert(cellViewModel, at: 0)
+            } else {
+                self.cellViewModels.append(cellViewModel)
+            }
         }
     }
     

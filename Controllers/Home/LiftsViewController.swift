@@ -11,14 +11,14 @@ final class LiftsViewController: UIViewController {
     
     private let topBar = MenuBar(frame: .zero)
     
+    // Button to change menus
+    private let changeMenuButton: UIButton = IconButton(frame: .zero, imageName: "arrowtriangle.down.fill", color: .label, fontSize: 12.0)
+    
     // Title label for currently selected feed
     lazy var titleLabel: UILabel = Label(frame: .zero, title: self.routineExerciseMenuViewModel.mainMenuTitle)
     
     // Button to change between routines and exercises
     private let addButton: UIButton = IconButton(frame: .zero, imageName: "plus.circle")
-    
-    // Button to change menus
-    private let changeMenuButton: UIButton = IconButton(frame: .zero, imageName: "arrowtriangle.down.fill", color: .label, fontSize: 12.0)
     
     private let routineExerciseMenuViewModel: RoutineExerciseMenuViewModel = RoutineExerciseMenuViewModel()
     
@@ -87,11 +87,11 @@ final class LiftsViewController: UIViewController {
             self.topBar.heightAnchor.constraint(equalToConstant: 30),
             self.topBar.widthAnchor.constraint(equalTo: self.view.safeAreaLayoutGuide.widthAnchor, multiplier: 0.95),
             
-            self.titleLabel.leftAnchor.constraint(equalToSystemSpacingAfter: self.topBar.leftAnchor, multiplier: 2),
-            self.titleLabel.centerYAnchor.constraint(equalTo: self.topBar.centerYAnchor),
+            self.changeMenuButton.leftAnchor.constraint(equalToSystemSpacingAfter: self.topBar.leftAnchor, multiplier: 2),
+            self.changeMenuButton.centerYAnchor.constraint(equalTo: self.topBar.centerYAnchor),
             
-            self.changeMenuButton.leftAnchor.constraint(equalTo: self.titleLabel.rightAnchor, constant: 8),
-            self.changeMenuButton.centerYAnchor.constraint(equalTo: self.titleLabel.centerYAnchor),
+            self.titleLabel.leftAnchor.constraint(equalTo: self.changeMenuButton.rightAnchor, constant: 8),
+            self.titleLabel.centerYAnchor.constraint(equalTo: self.changeMenuButton.centerYAnchor),
             
             self.addButton.centerYAnchor.constraint(equalTo: self.topBar.centerYAnchor),
             self.addButton.rightAnchor.constraint(equalTo: self.topBar.rightAnchor, constant: -15),
