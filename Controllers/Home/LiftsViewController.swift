@@ -115,37 +115,11 @@ final class LiftsViewController: UIViewController {
     }
     
     @objc func addCategory() {
-        let alertController = UIAlertController(title: "Create new category?", message: nil, preferredStyle: .alert)
-         
-        let addCategoryViewModel: AddCategoryViewModel = AddCategoryViewModel(alertController: alertController)
-         alertController.addTextField { textField in
-             textField.placeholder = "New category name"
-             textField.delegate = addCategoryViewModel
-         }
-         
-        let okAction = UIAlertAction(title: "OK", style: .default) {_ in
-             addCategoryViewModel.createNewCategory()
-         }
-         
-         let cancelAction = UIAlertAction(title: "Cancel", style: .cancel, handler: nil)
-         
-         okAction.isEnabled = false
-         alertController.addAction(okAction)
-         alertController.addAction(cancelAction)
-         
-         present(alertController, animated: true, completion: nil)
+        let addCategoryViewModel: AddCategoryViewModel = AddCategoryViewModel()
+        present(addCategoryViewModel.alertController, animated: true, completion: nil)
     }
     
     public func addExercise(category: Category, exercise: Exercise? = nil) {
-        // Create new exercise if needed
-        if let exercise = exercise {
-//            let newExercise = Exercise(context: CoreDataBase.context)
-//            newExercise.name = "New Exercise"
-//            CoreDataBase.save()
-            print("No Exercise")
-        }
-      
-        
         // Navigate to new workout screen
         let individualExerciseModalViewController = IndividualExerciseModalViewController(category: category, exercise: exercise)
         individualExerciseModalViewController.isModalInPresentation = true // Disable dismissing of modal

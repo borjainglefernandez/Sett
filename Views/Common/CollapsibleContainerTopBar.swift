@@ -19,7 +19,7 @@ class CollapsibleContainerTopBar: UIView {
     private let titleLabel: UILabel = Label(frame: .zero, title: "", fontSize: 14.0)
     
     // Button to expand or collapse cell
-    private let expandCollapseButton: IconButton = IconButton(imageName: "chevron.right", color: .label)
+    public let expandCollapseButton: IconButton = IconButton(imageName: "chevron.right", color: .label)
     
     // MARK: - Init
     init(frame: CGRect = .zero,title: String = "") {
