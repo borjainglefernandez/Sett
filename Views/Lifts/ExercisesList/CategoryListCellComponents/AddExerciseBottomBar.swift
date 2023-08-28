@@ -11,15 +11,21 @@ class AddExerciseBottomBar: UIView {
     // View Model for the bottom bar
     private var viewModel: AddExerciseBottomBarViewModel?
     
+    private let maskCorners: Bool
+    
+    private let addExerciseCallBack: (() -> Void)
+
     // Bottom bar to house the items
-    public let bottomBar: MenuBar = {
+    lazy var bottomBar: MenuBar = {
         let bottomBar = MenuBar()
-        bottomBar.layer.maskedCorners = [.layerMaxXMaxYCorner, .layerMinXMaxYCorner]
+        if self.maskCorners {
+            bottomBar.layer.maskedCorners = [.layerMaxXMaxYCorner, .layerMinXMaxYCorner]
+        }
         return bottomBar
     }()
     
     // Gesture Recogniser for whole view
-    lazy var gestureRecognizer = UITapGestureRecognizer(target: self, action: #selector(self.addExercise))
+    lazy var gestureRecognizer = UITapGestureRecognizer(target: self, action: #selector(self.onAddExerciseTapped))
     
     // Title to add exercise
     private let title: Label = Label(frame: .zero, title: "Add Exercise", fontSize: 14.0)
@@ -28,7 +34,9 @@ class AddExerciseBottomBar: UIView {
     private let plusIconButton: IconButton = IconButton(imageName: "plus.app")
     
     // MARK: - Init
-    override init(frame: CGRect = .zero) {
+    init(frame: CGRect = .zero, maskCorners: Bool = true, addExerciseCallBack: @escaping (() -> Void)) {
+        self.maskCorners = maskCorners
+        self.addExerciseCallBack = addExerciseCallBack
         super.init(frame: frame)
         
         translatesAutoresizingMaskIntoConstraints = false
@@ -66,13 +74,8 @@ class AddExerciseBottomBar: UIView {
         self.viewModel = viewModel
     }
     
-    @objc func addExercise() {
-        if let parentVC = self.getParentViewController(self) as? LiftsViewController {
-            if let category = self.viewModel?.category {
-                parentVC.addExercise(category: category)
-            }
-            
-        }
+    @objc func onAddExerciseTapped() {
+        self.addExerciseCallBack()
     }
 
 }

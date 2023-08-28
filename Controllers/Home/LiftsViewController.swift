@@ -111,7 +111,12 @@ final class LiftsViewController: UIViewController {
     
     // MARK: - Actions
     @objc func addRoutine() {
-
+        // Navigate to routine screen with no routine so new one gets created
+        let individualRoutineViewModel: IndividualRoutineViewModel = IndividualRoutineViewModel()
+        let individualRoutineViewController: IndividualRoutineViewController = IndividualRoutineViewController(viewModel: individualRoutineViewModel)
+        
+        individualRoutineViewController.modalPresentationStyle = .fullScreen
+        present(individualRoutineViewController, animated: true, completion: nil)
     }
     
     @objc func addCategory() {

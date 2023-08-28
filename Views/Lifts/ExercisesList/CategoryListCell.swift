@@ -24,7 +24,7 @@ class CategoryListCell: UICollectionViewCell {
     public let exerciseListView: ExerciseListView = ExerciseListView()
 
     // Bottom bar
-    lazy var addExerciseBottomBar: AddExerciseBottomBar = AddExerciseBottomBar()
+    lazy var addExerciseBottomBar: AddExerciseBottomBar = AddExerciseBottomBar(addExerciseCallBack: self.addExercise)
     
     // MARK: - Init
     override init(frame: CGRect) {
@@ -136,5 +136,15 @@ class CategoryListCell: UICollectionViewCell {
         }
         
         self.categorySettingsIconButton.menu = UIMenu(preferredElementSize: .small, children: [changeCategoryNameAction, deleteCategoryAction])
+    }
+    
+    // MARK: - Actions
+    public func addExercise() {
+        if let parentVC = self.getParentViewController(self) as? LiftsViewController {
+            if let category = self.category {
+                parentVC.addExercise(category: category)
+            }
+            
+        }
     }
 }
