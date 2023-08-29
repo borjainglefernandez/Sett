@@ -8,11 +8,11 @@
 import UIKit
 
 class AddExerciseBottomBar: UIView {
-    // View Model for the bottom bar
-    private var viewModel: AddExerciseBottomBarViewModel?
     
+    // Whether or not to mask the top corners
     private let maskCorners: Bool
     
+    // Callback for when tapped
     private let addExerciseCallBack: (() -> Void)
 
     // Bottom bar to house the items
@@ -69,11 +69,7 @@ class AddExerciseBottomBar: UIView {
         ])
     }
     
-    // MARK: - Configurations
-    public func configure(with viewModel: AddExerciseBottomBarViewModel) {
-        self.viewModel = viewModel
-    }
-    
+    // MARK: - Actions
     @objc func onAddExerciseTapped() {
         self.addExerciseCallBack()
     }

@@ -41,10 +41,12 @@ class IndividualRoutineViewController: UIViewController {
     // MARK: - Lifecycle
     override func viewDidLoad() {
         super.viewDidLoad()
+        self.dismissKeyboardWhenTapOutside()
+        
         self.view.backgroundColor = .systemCyan
         
-        self.topBar.addSubviews(self.backButton, self.routineName, self.moreButton, self.routineExerciseList)
-        self.view.addSubviews(self.topBar)
+        self.topBar.addSubviews(self.backButton, self.routineName, self.moreButton)
+        self.view.addSubviews(self.topBar, self.routineExerciseList)
         self.addConstraints()
         
         self.backButton.addTarget(self, action: #selector(self.goBack), for: .touchUpInside)

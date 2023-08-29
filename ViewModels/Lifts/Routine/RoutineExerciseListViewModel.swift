@@ -10,7 +10,7 @@ import CoreData
 import UIKit
 
 final class RoutineExerciseListViewModel: NSObject {
-    private let routine: Routine
+    public let routine: Routine
     private var cellViewModels: [RoutineExerciseListCellViewModel] = []
     lazy var fetchedResultsController: NSFetchedResultsController<Routine> = {
         return CoreDataBase.createFetchedResultsController(withEntityName: "Routine", expecting: Routine.self, predicates: [NSPredicate(format: "SELF = %@", self.routine.objectID)])
@@ -49,7 +49,7 @@ extension RoutineExerciseListViewModel: UICollectionViewDataSource, UICollection
     }
     
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-        return 3
+        return 30
     }
     
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {

@@ -42,6 +42,7 @@ final class WorkoutViewController: UIViewController {
     // MARK: - LifeCycle
     override func viewDidLoad() {
         super.viewDidLoad()
+        self.dismissKeyboardWhenTapOutside()
         
         self.view.backgroundColor = .systemCyan
         

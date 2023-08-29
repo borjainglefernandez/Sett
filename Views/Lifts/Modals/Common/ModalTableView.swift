@@ -9,7 +9,7 @@ import UIKit
 
 class ModalTableView: UIView {
     
-    private let viewModel: ModalTableViewModel
+    public let viewModel: ModalTableViewModel
     
     // Top Bar
     private let topBar: MenuBar = {
@@ -65,5 +65,6 @@ class ModalTableView: UIView {
     private func setUpTableView() {
         self.tableView.dataSource = self.viewModel
         self.tableView.delegate = self.viewModel
+        self.viewModel.tableView = self.tableView
     }
 }

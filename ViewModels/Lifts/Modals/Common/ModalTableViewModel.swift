@@ -16,7 +16,9 @@ class ModalTableViewModel: NSObject {
     private let category: Category?
     private let exercise: Exercise?
     private let exerciseType: ExerciseType?
-    private var cellViewModels: [ModalTableViewCellViewModel]
+    public var cellViewModels: [ModalTableViewCellViewModel]
+    public var filteredCellViewModels: [ModalTableViewCellViewModel]
+    public var tableView: UITableView?
     
     init(modalTableViewType: ModalTableViewType, modalTableViewSelectionType: ModalTableViewSelectionType, selectedCellCallBack: @escaping ((String, ModalTableViewType) -> Void), category: Category? = nil, exercise: Exercise? = nil, exerciseType: ExerciseType? = nil) {
         self.modalTableViewType = modalTableViewType
@@ -26,6 +28,7 @@ class ModalTableViewModel: NSObject {
         self.exercise = exercise
         self.exerciseType = exerciseType
         self.cellViewModels = []
+        self.filteredCellViewModels = []
         super.init()
         
         self.initCellViewModels()
@@ -40,6 +43,7 @@ class ModalTableViewModel: NSObject {
         case .exerciseType:
             self.createExerciseTypeCellViewModels()
         }
+        self.filteredCellViewModels = self.cellViewModels
     }
     
     private func createCategoryCellViewModels() {
@@ -88,16 +92,16 @@ class ModalTableViewModel: NSObject {
     ///   or
     ///   2.) We have selected that cell (as indicated by selectedIndexPath)
     private func selectCellIfNeeded(at cell: ModalTableViewCell, for indexPath: IndexPath) {
-        let existingCategory:Bool = self.category?.name == self.cellViewModels[indexPath.row].title
-        let existingExercise:Bool = self.exercise?.name == self.cellViewModels[indexPath.row].title
-        let existingExerciseType:Bool = self.exerciseType?.rawValue == self.cellViewModels[indexPath.row].title
+        let existingCategory:Bool = self.category?.name == self.filteredCellViewModels[indexPath.row].title
+        let existingExercise:Bool = self.exercise?.name == self.filteredCellViewModels[indexPath.row].title
+        let existingExerciseType:Bool = self.exerciseType?.rawValue == self.filteredCellViewModels[indexPath.row].title
         let existingField: Bool = (existingCategory || existingExercise || existingExerciseType) && selectedIndexPath == nil
         let selectedThisIndex: Bool = self.selectedIndexPath == indexPath
         
         if existingField || selectedThisIndex {
             self.selectedIndexPath = indexPath
             cell.selectDeselectCell(select: true)
-            self.selectedCellCallback(self.cellViewModels[indexPath.row].title, self.modalTableViewType)
+            self.selectedCellCallback(self.filteredCellViewModels[indexPath.row].title, self.modalTableViewType)
         }
 
     }
@@ -114,10 +118,10 @@ extension ModalTableViewModel: UITableViewDataSource, UITableViewDelegate {
         }
         
         // Only show divider if not the last exercise in the category
-        let showDivider = indexPath.row != self.cellViewModels.count - 1
+        let showDivider = indexPath.row != self.filteredCellViewModels.count - 1
         
-        cell.configure(with: self.cellViewModels[indexPath.row], showDivider: showDivider)
-        cellViewModels[indexPath.row].delegate = cell
+        cell.configure(with: self.filteredCellViewModels[indexPath.row], showDivider: showDivider)
+        filteredCellViewModels[indexPath.row].delegate = cell
         self.selectCellIfNeeded(at: cell, for: indexPath)
         return cell
     }
@@ -128,7 +132,7 @@ extension ModalTableViewModel: UITableViewDataSource, UITableViewDelegate {
     }
     
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return self.cellViewModels.count
+        return self.filteredCellViewModels.count
 
     }
     func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
@@ -138,10 +142,23 @@ extension ModalTableViewModel: UITableViewDataSource, UITableViewDelegate {
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
                 
         if let selectedIndexPath = self.selectedIndexPath {
-            self.cellViewModels[selectedIndexPath.row].selectDeselectCell(select: false)
+            self.filteredCellViewModels[selectedIndexPath.row].selectDeselectCell(select: false)
         }
         self.selectedIndexPath = indexPath
         tableView.reloadRows(at: [indexPath], with: .none)
     }
     
+}
+
+extension ModalTableViewModel: UISearchBarDelegate {
+    func searchBar(_ searchBar: UISearchBar, textDidChange searchText: String) {
+        if searchText.isEmpty {
+            self.filteredCellViewModels = self.cellViewModels
+        } else {
+            self.filteredCellViewModels = self.cellViewModels.filter {
+                return $0.title.lowercased().contains(searchText.lowercased())
+            }
+        }
+        self.tableView?.reloadData()
+    }
 }

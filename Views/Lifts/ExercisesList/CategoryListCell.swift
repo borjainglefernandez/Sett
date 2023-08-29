@@ -88,10 +88,6 @@ class CategoryListCell: UICollectionViewCell {
         let collapsibleContainerTopBarViewModel = CollapsibleContainerTopBarViewModel(collectionView: collectionView, isExpanded: isExpanded, indexPath: indexPath, delegate: delegate)
         self.collapsibleContainerTopBar.configure(with: collapsibleContainerTopBarViewModel)
         
-        // Configure view model of add exercise bottom bar
-        let addExerciseBottomBarViewModel = AddExerciseBottomBarViewModel(category: viewModel.category)
-        self.addExerciseBottomBar.configure(with: addExerciseBottomBarViewModel)
-        
         // Configure exercises list view
         self.exerciseListView.configure(with: ExerciseListViewModel(category: viewModel.category))
         
