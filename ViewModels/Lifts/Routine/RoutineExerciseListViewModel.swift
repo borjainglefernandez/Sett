@@ -13,8 +13,9 @@ final class RoutineExerciseListViewModel: NSObject {
     public let routine: Routine
     private var cellViewModels: [RoutineExerciseListCellViewModel] = []
     lazy var fetchedResultsController: NSFetchedResultsController<Routine> = {
-        return CoreDataBase.createFetchedResultsController(withEntityName: "Routine", expecting: Routine.self, predicates: [NSPredicate(format: "SELF = %@", self.routine.objectID)])
+        return CoreDataBase.createFetchedResultsController(withEntityName: "Routine", expecting: Routine.self, predicates: [NSPredicate(format: "uuid = %@", argumentArray: [self.routine.uuid])])
     }()
+    public var routineExerciseList: RoutineExerciseList?
     
     // MARK: - Init
     init(routine: Routine) {
@@ -49,7 +50,7 @@ extension RoutineExerciseListViewModel: UICollectionViewDataSource, UICollection
     }
     
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-        return 30
+        return self.cellViewModels.count
     }
     
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
@@ -60,9 +61,7 @@ extension RoutineExerciseListViewModel: UICollectionViewDataSource, UICollection
             fatalError("Unsupported cell")
         }
         
-//        cell.configure(with: cellViewModels[indexPath.row], at: indexPath, for: collectionView, isExpanded: self.isExpanded[indexPath.row], delegate: self)
-//        cell.collapsibleContainerTopBar.changeButtonIcon() // Expand or collapse container
-        
+        cell.configure(with: cellViewModels[indexPath.row])
         return cell
     }
     
@@ -72,5 +71,10 @@ extension RoutineExerciseListViewModel: UICollectionViewDataSource, UICollection
 }
 
 extension RoutineExerciseListViewModel: NSFetchedResultsControllerDelegate {
-
+    
+    func controller(_ controller: NSFetchedResultsController<NSFetchRequestResult>, didChange anObject: Any, at indexPath: IndexPath?, for type: NSFetchedResultsChangeType, newIndexPath: IndexPath?) {
+        self.configure()
+        self.routineExerciseList?.collectionView.reloadData()
+    }
+    
 }

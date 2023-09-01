@@ -21,6 +21,9 @@ class SelectExerciseModalViewController: UIViewController {
     
     private let selectExerciseModal: SelectExerciseModal
     
+    // Confirm Button
+    private let confirmButton: UIButton = IconButton(frame: .zero, imageName: "checkmark.circle")
+    
     // MARK: - Init
     init(routine: Routine, category: Category) {
         self.routine = routine
@@ -39,7 +42,8 @@ class SelectExerciseModalViewController: UIViewController {
         self.view.backgroundColor = .systemGray6
         
         self.cancelButton.addTarget(self, action: #selector(cancel), for: .touchUpInside)
-        self.view.addSubviews(self.cancelButton, self.titleLabel, self.selectExerciseModal)
+        self.confirmButton.addTarget(self, action: #selector(confirm), for: .touchUpInside)
+        self.view.addSubviews(self.cancelButton, self.titleLabel, self.confirmButton, self.selectExerciseModal)
         self.addConstraints()
         super.viewDidLoad()
     }
@@ -53,6 +57,9 @@ class SelectExerciseModalViewController: UIViewController {
             self.titleLabel.centerXAnchor.constraint(equalTo: self.view.centerXAnchor),
             self.titleLabel.centerYAnchor.constraint(equalTo: self.cancelButton.centerYAnchor),
             
+            self.confirmButton.rightAnchor.constraint(equalTo: self.view.safeAreaLayoutGuide.rightAnchor, constant: -30),
+            self.confirmButton.centerYAnchor.constraint(equalTo: self.titleLabel.centerYAnchor),
+            
             self.selectExerciseModal.topAnchor.constraint(equalTo: self.titleLabel.bottomAnchor, constant: 30),
             self.selectExerciseModal.bottomAnchor.constraint(equalTo: self.view.safeAreaLayoutGuide.bottomAnchor),
             self.selectExerciseModal.leftAnchor.constraint(equalTo: self.view.safeAreaLayoutGuide.leftAnchor),
@@ -63,6 +70,21 @@ class SelectExerciseModalViewController: UIViewController {
     // MARK: - Actions
     @objc func cancel() {
         self.dismiss(animated: true, completion: nil)
+    }
+    
+    @objc func confirm() {
+        if !self.viewModel.confirmExerciseSelection() {
+            // Controller
+            let incompleteSelectionViewController = UIAlertController(title: "Select a valid exercise", message: "", preferredStyle: .alert)
+            
+            incompleteSelectionViewController.addAction(UIAlertAction(title: "Try Again", style: .default))
+            
+            self.present(incompleteSelectionViewController, animated: true)
+        } else {
+            // Dismiss both this and preceding view controller
+            self.presentingViewController?.presentingViewController?.dismiss(animated: true, completion: nil)
+
+        }
     }
 
 }

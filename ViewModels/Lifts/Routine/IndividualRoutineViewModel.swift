@@ -14,6 +14,7 @@ final class IndividualRoutineViewModel: NSObject {
     // MARK: - Init
     init(routine: Routine = Routine(context: CoreDataBase.context)) {
         self.routine = routine
+        self.routine.uuid = UUID()
         super.init()
     }
     

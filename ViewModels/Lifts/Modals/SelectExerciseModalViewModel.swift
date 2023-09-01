@@ -28,5 +28,15 @@ final class SelectExerciseModalViewModel: NSObject {
                 self.exercise = exercise
             }
         }
+
+    }
+    
+    public func confirmExerciseSelection() -> Bool {
+        guard let exercise = self.exercise else {
+            return false
+        }
+        self.routine.addToExercises(exercise)
+        CoreDataBase.save()
+        return true
     }
 }

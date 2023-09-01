@@ -11,15 +11,33 @@ class RoutineExerciseListCell: UICollectionViewCell {
 
     static let cellIdentifier = "RoutineExerciseListCell"
     
-    private let menuBar = MenuBar()
+    // Top menu bar
+    private let menuBar = MenuBar(maskedCorners: [.layerMinXMinYCorner, .layerMaxXMinYCorner])
+    
+    // Title label
+    private let titleLabel = Label(title: "", fontSize: 14)
+    
+    // Exercise container
+    private let exerciseContainer: UIView = {
+        let exerciseContainer = UIView()
+        exerciseContainer.backgroundColor = .systemGray3.withAlphaComponent(0.44)
+        exerciseContainer.translatesAutoresizingMaskIntoConstraints = false
+        exerciseContainer.layer.cornerRadius = 15
+        exerciseContainer.layer.maskedCorners = [.layerMaxXMaxYCorner, .layerMinXMaxYCorner]
+        return exerciseContainer
+    }()
+    
+    // Label for number of sets title
+    private let setsTitleLabel: UILabel = Label(title: "Sets", fontSize: 11.0, weight: .light)
     
     // MARK: - Init
     override init(frame: CGRect) {
         super.init(frame: frame)
         
         self.contentView.layer.cornerRadius = 15
-
-        self.addSubviews(self.menuBar)
+        
+        self.exerciseContainer.addSubviews(self.setsTitleLabel)
+        self.addSubviews(self.menuBar, self.titleLabel, self.exerciseContainer)
         self.addConstraints()
     }
     
@@ -30,6 +48,7 @@ class RoutineExerciseListCell: UICollectionViewCell {
     // MARK: - LifeCycle
     override func prepareForReuse() {
         super.prepareForReuse()
+        self.titleLabel.text = nil
     }
     
     // MARK: - Constraints
@@ -38,11 +57,23 @@ class RoutineExerciseListCell: UICollectionViewCell {
             self.menuBar.topAnchor.constraint(equalTo: self.topAnchor),
             self.menuBar.leftAnchor.constraint(equalTo: self.leftAnchor),
             self.menuBar.rightAnchor.constraint(equalTo: self.rightAnchor),
+            
+            self.titleLabel.leftAnchor.constraint(equalToSystemSpacingAfter: self.leftAnchor, multiplier: 2),
+            self.titleLabel.centerYAnchor.constraint(equalTo: self.menuBar.centerYAnchor),
+            
+            self.exerciseContainer.topAnchor.constraint(equalTo: self.menuBar.bottomAnchor),
+            self.exerciseContainer.centerXAnchor.constraint(equalTo: self.centerXAnchor),
+            self.exerciseContainer.widthAnchor.constraint(equalTo: self.menuBar.widthAnchor),
+            self.exerciseContainer.heightAnchor.constraint(equalTo: self.menuBar.heightAnchor, multiplier: 1.5),
+            
+            self.setsTitleLabel.topAnchor.constraint(equalTo: self.exerciseContainer.topAnchor, constant: 5),
+            self.setsTitleLabel.leftAnchor.constraint(equalTo: self.exerciseContainer.leftAnchor, constant: 25)
         ])
     }
     
     // MARK: - Configurations
     public func configure(with viewModel: RoutineExerciseListCellViewModel) {
+        self.titleLabel.text = viewModel.exercise.name
     }
     
     

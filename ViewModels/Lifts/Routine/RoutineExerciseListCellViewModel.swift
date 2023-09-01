@@ -8,7 +8,7 @@
 import Foundation
 
 final class RoutineExerciseListCellViewModel {
-    private let exercise: Exercise
+    public let exercise: Exercise
     
     // MARK: - Init
     init(exercise: Exercise) {

@@ -77,8 +77,8 @@ final class ProfileViewController: UIViewController {
     }
     
     @objc func wipeStuff() {
-        let entityNames = ["Category", "Exercise"]
-        let entityTypes = [Category.self, Exercise.self]
+        let entityNames = ["Routine"]
+        let entityTypes = [Routine.self]
         
         for i in 0 ..< entityNames.count  {
             let entities = CoreDataBase.fetchEntities(withEntity: entityNames[i], expecting: entityTypes[i])

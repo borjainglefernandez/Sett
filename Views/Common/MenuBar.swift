@@ -10,11 +10,14 @@ import UIKit
 class MenuBar: UIView {
     
     // MARK: - Init
-    override init(frame: CGRect = .zero) {
+    init(frame: CGRect = .zero, maskedCorners: CACornerMask? = nil) {
         super.init(frame: frame)
         translatesAutoresizingMaskIntoConstraints = false
         backgroundColor = .systemGray4
         layer.cornerRadius = 15
+        if let maskedCorners = maskedCorners {
+            layer.maskedCorners = maskedCorners
+        }
         self.addConstraints()
     }
     

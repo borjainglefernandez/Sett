@@ -67,6 +67,7 @@ class RoutineExerciseList: UIView {
     private func setUpCollectionView() {
         self.collectionView.dataSource = self.viewModel
         self.collectionView.delegate = self.viewModel
+        self.viewModel.routineExerciseList = self
     }
     
     // MARK: - Actions
