@@ -6,6 +6,7 @@
 //
 
 import Foundation
+import UIKit
 
 final class SelectCategoryModalViewModel: NSObject {
     
@@ -16,7 +17,13 @@ final class SelectCategoryModalViewModel: NSObject {
         self.routine = routine
     }
     
-    public func selectCellCallback(with title: String, for type: ModalTableViewType) {
-        print(title)
+    public func selectCellCallback(with title: String, and subTitle: String, for type: ModalTableViewType, view: UIView?) {
+        guard let category: Category = CoreDataBase.fetchEntity(withEntity: "Category", expecting: Category.self, predicates: [NSPredicate(format: "name = %@", title)]) else {
+            return
+        }
+        if let view = view, let parentViewController = view.getParentViewController(view) {
+            let selectExerciseModalViewController = SelectExerciseModalViewController(routine: self.routine, category: category)
+            parentViewController.present(selectExerciseModalViewController, animated: true)
+        }
     }
 }

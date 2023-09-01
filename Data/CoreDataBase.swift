@@ -73,7 +73,7 @@ class CoreDataBase {
     ///   - propertiesToGroupBy: A list of properties to group by, if any
     ///
     /// - Returns: An entity fetched or nil if none
-    static public func fetchEntity<T: NSFetchRequestResult>(withEntity entityName: String, expecting entityType: T.Type, predicates: [NSPredicate] = [], sortDescriptors: [NSSortDescriptor] = [], propertiesToGroupBy: [String] = []) -> T? {
+    static public func fetchEntity<T: NSFetchRequestResult>(withEntity entityName: String, expecting entityType: T.Type, predicates: [NSPredicate], sortDescriptors: [NSSortDescriptor] = [], propertiesToGroupBy: [String] = []) -> T? {
         let fetchRequest = NSFetchRequest<T>(entityName: entityName)
         
         // Add predicates to the fetch request, if provided

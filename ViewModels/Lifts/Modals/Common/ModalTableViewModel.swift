@@ -11,7 +11,7 @@ import UIKit
 class ModalTableViewModel: NSObject {
     public let modalTableViewType: ModalTableViewType
     public let modalTableViewSelectionType: ModalTableViewSelectionType
-    private let selectedCellCallback: ((String, ModalTableViewType) -> Void)
+    private let selectedCellCallback: ((String, String, ModalTableViewType, UIView?) -> Void)
     private var selectedIndexPath: IndexPath?
     private let category: Category?
     private let exercise: Exercise?
@@ -20,7 +20,7 @@ class ModalTableViewModel: NSObject {
     public var filteredCellViewModels: [ModalTableViewCellViewModel]
     public var tableView: UITableView?
     
-    init(modalTableViewType: ModalTableViewType, modalTableViewSelectionType: ModalTableViewSelectionType, selectedCellCallBack: @escaping ((String, ModalTableViewType) -> Void), category: Category? = nil, exercise: Exercise? = nil, exerciseType: ExerciseType? = nil) {
+    init(modalTableViewType: ModalTableViewType, modalTableViewSelectionType: ModalTableViewSelectionType, selectedCellCallBack: @escaping ((String, String, ModalTableViewType, UIView?) -> Void), category: Category? = nil, exercise: Exercise? = nil, exerciseType: ExerciseType? = nil) {
         self.modalTableViewType = modalTableViewType
         self.modalTableViewSelectionType = modalTableViewSelectionType
         self.selectedCellCallback = selectedCellCallBack
@@ -101,7 +101,7 @@ class ModalTableViewModel: NSObject {
         if existingField || selectedThisIndex {
             self.selectedIndexPath = indexPath
             cell.selectDeselectCell(select: true)
-            self.selectedCellCallback(self.filteredCellViewModels[indexPath.row].title, self.modalTableViewType)
+            self.selectedCellCallback(self.filteredCellViewModels[indexPath.row].title, self.filteredCellViewModels[indexPath.row].subTitle, self.modalTableViewType, self.tableView)
         }
 
     }
@@ -132,9 +132,17 @@ extension ModalTableViewModel: UITableViewDataSource, UITableViewDelegate {
     }
     
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return self.filteredCellViewModels.count
+        if let tableView = self.tableView {
+            if filteredCellViewModels.count == 0 {
+                tableView.setEmptyMessage("No results.")
+            } else {
+                tableView.restore()
+            }
+        }
 
+        return filteredCellViewModels.count
     }
+    
     func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
         return 50
     }
@@ -148,6 +156,8 @@ extension ModalTableViewModel: UITableViewDataSource, UITableViewDelegate {
         tableView.reloadRows(at: [indexPath], with: .none)
     }
     
+    
+    
 }
 
 extension ModalTableViewModel: UISearchBarDelegate {
@@ -159,6 +169,7 @@ extension ModalTableViewModel: UISearchBarDelegate {
                 return $0.title.lowercased().contains(searchText.lowercased())
             }
         }
+        self.selectedIndexPath = nil
         self.tableView?.reloadData()
     }
 }

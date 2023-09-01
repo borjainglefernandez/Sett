@@ -12,17 +12,7 @@ class SelectCategoryModal: UIView {
     private let viewModel: SelectCategoryModalViewModel
     
     // Search Bar for categories
-    lazy var searchBar: UISearchBar = {
-        let searchBar = UISearchBar()
-        searchBar.translatesAutoresizingMaskIntoConstraints = false
-        searchBar.backgroundImage = UIImage()
-        searchBar.searchTextField.backgroundColor = .systemGray4
-        searchBar.searchTextField.layer.cornerRadius = 15
-        searchBar.searchTextField.layer.masksToBounds = true
-        searchBar.searchTextField.placeholder = "Search"
-        searchBar.delegate = categoryListView.viewModel
-        return searchBar
-    }()
+    lazy var searchBar: UISearchBar = SearchBar(searchBarDelegate: self.categoryListView.viewModel)
     
     // Category list
     lazy var categoryListView: ModalTableView = {
@@ -51,7 +41,6 @@ class SelectCategoryModal: UIView {
 
         NSLayoutConstraint.activate([
             self.searchBar.topAnchor.constraint(equalTo: self.topAnchor),
-            self.searchBar.heightAnchor.constraint(equalToConstant: 30),
             self.searchBar.widthAnchor.constraint(equalTo: self.widthAnchor, multiplier: 0.95),
             self.searchBar.centerXAnchor.constraint(equalTo: self.centerXAnchor),
             

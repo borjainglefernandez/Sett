@@ -29,7 +29,7 @@ final class IndividualExerciseModalViewModel: NSObject {
         self.exercise = Exercise(context: CoreDataBase.context)
     }
     
-    public func selectCellCallback(with title: String, for type: ModalTableViewType) {
+    public func selectCellCallback(with title: String, and subTitle: String, for type: ModalTableViewType, view: UIView?) {
         switch type {
             case .category:
                 if title == category.name {
