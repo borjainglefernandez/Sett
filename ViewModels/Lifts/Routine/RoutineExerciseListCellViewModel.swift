@@ -22,7 +22,7 @@ final class RoutineExerciseListCellViewModel: NSObject {
 
 // MARK: - Text Field Delegate
 extension RoutineExerciseListCellViewModel: UITextFieldDelegate {
-    func textFieldDidEndEditing(_ textField: UITextField) {
+    func textFieldDidChangeSelection(_ textField: UITextField) {
         if let numSetts = Int64(textField.text ?? "") {
             self.workoutExercise.numSetts = numSetts
             CoreDataBase.save()

@@ -8,6 +8,7 @@
 import Foundation
 import UIKit
 
+/// Defines functions that must be implemented in NotesVVM's
 protocol NotesViewProtocol {
     /// - Returns: The text to populate the notes view or empty string if none
     func getNotes() -> String

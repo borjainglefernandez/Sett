@@ -10,7 +10,7 @@ import UIKit
 class RoutineExerciseListCell: UICollectionViewCell {
 
     static let cellIdentifier = "RoutineExerciseListCell"
-    private var viewModel: RoutineExerciseListCellViewModel?
+    private var workoutExerciseNotesVM: WorkoutExerciseNotesVM?
     
     // Top menu bar
     private let menuBar = MenuBar(maskedCorners: [.layerMinXMinYCorner, .layerMaxXMinYCorner])
@@ -31,6 +31,7 @@ class RoutineExerciseListCell: UICollectionViewCell {
     // Label for number of sets title
     private let setsTitleLabel: UILabel = Label(title: "Sets", fontSize: 11.0, weight: .light)
     
+    // Text field for number of sets
     private let setsTextField: UITextField = {
         let setsTextField = UITextField()
         setsTextField.translatesAutoresizingMaskIntoConstraints = false
@@ -41,13 +42,26 @@ class RoutineExerciseListCell: UICollectionViewCell {
         return setsTextField
     }()
     
+    // Label for notes title
+    private let notesTitleLabel: UILabel = Label(title: "Notes", fontSize: 11.0, weight: .light)
+    
+    // Text field for notes
+    lazy var notesTextField: UITextField = {
+        let notesTextField = UITextField()
+        notesTextField.translatesAutoresizingMaskIntoConstraints = false
+        notesTextField.tintColor = .label
+        notesTextField.font = self.notesTitleLabel.font
+        notesTextField.placeholder = "Add cues, reminders, or anything else!"
+        return notesTextField
+    }()
+    
     // MARK: - Init
     override init(frame: CGRect) {
         super.init(frame: frame)
         
         self.contentView.layer.cornerRadius = 15
         
-        self.exerciseContainer.addSubviews(self.setsTitleLabel, self.setsTextField)
+        self.exerciseContainer.addSubviews(self.setsTitleLabel, self.setsTextField, self.notesTitleLabel, self.notesTextField)
         self.addSubviews(self.menuBar, self.titleLabel, self.exerciseContainer)
         self.addConstraints()
     }
@@ -60,6 +74,8 @@ class RoutineExerciseListCell: UICollectionViewCell {
     override func prepareForReuse() {
         super.prepareForReuse()
         self.titleLabel.text = nil
+        self.setsTextField.text = nil
+        self.notesTextField.text = nil
     }
     
     // MARK: - Constraints
@@ -81,7 +97,14 @@ class RoutineExerciseListCell: UICollectionViewCell {
             self.setsTitleLabel.leftAnchor.constraint(equalTo: self.exerciseContainer.leftAnchor, constant: 25),
             
             self.setsTextField.topAnchor.constraint(equalTo: self.setsTitleLabel.bottomAnchor),
-            self.setsTextField.centerXAnchor.constraint(equalTo: self.setsTitleLabel.centerXAnchor)
+            self.setsTextField.centerXAnchor.constraint(equalTo: self.setsTitleLabel.centerXAnchor),
+            
+            self.notesTitleLabel.centerYAnchor.constraint(equalTo: self.setsTitleLabel.centerYAnchor),
+            self.notesTitleLabel.leftAnchor.constraint(equalTo: self.setsTitleLabel.rightAnchor, constant: 30),
+            
+            self.notesTextField.leftAnchor.constraint(equalTo: self.notesTitleLabel.leftAnchor),
+            self.notesTextField.centerYAnchor.constraint(equalTo: self.setsTextField.centerYAnchor),
+            self.notesTextField.widthAnchor.constraint(equalTo: self.widthAnchor, multiplier: 0.7)
         ])
     }
     
@@ -89,7 +112,10 @@ class RoutineExerciseListCell: UICollectionViewCell {
     public func configure(with viewModel: RoutineExerciseListCellViewModel) {
         self.titleLabel.text = viewModel.workoutExercise.exercise?.name
         self.setsTextField.text = "\(viewModel.workoutExercise.numSetts)"
-        setsTextField.delegate = viewModel
+        self.setsTextField.delegate = viewModel
+        self.notesTextField.text = viewModel.workoutExercise.notes
+        self.workoutExerciseNotesVM = WorkoutExerciseNotesVM(workoutExercise: viewModel.workoutExercise)
+        self.notesTextField.delegate = self.workoutExerciseNotesVM
     }
     
     
