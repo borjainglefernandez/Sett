@@ -31,12 +31,12 @@ final class RoutineExerciseListViewModel: NSObject {
         // Reset variables in case of update
         self.cellViewModels = []
         
-        guard let exercises = self.fetchedResultsController.fetchedObjects?.first?.exercises else {
+        guard let workoutExercises = self.fetchedResultsController.fetchedObjects?.first?.workoutExercises else {
             return
         }
         
-        for exercise in exercises {
-            let viewModel = RoutineExerciseListCellViewModel(exercise: exercise as! Exercise)
+        for workoutExercise in workoutExercises {
+            let viewModel = RoutineExerciseListCellViewModel(routine: self.routine, workoutExercise: workoutExercise as! WorkoutExercise)
             self.cellViewModels.append(viewModel)
         }
     }

@@ -35,7 +35,9 @@ final class SelectExerciseModalViewModel: NSObject {
         guard let exercise = self.exercise else {
             return false
         }
-        self.routine.addToExercises(exercise)
+        let workoutExercise = WorkoutExercise(context: CoreDataBase.context)
+        workoutExercise.exercise = self.exercise
+        self.routine.addToWorkoutExercises(workoutExercise)
         CoreDataBase.save()
         return true
     }

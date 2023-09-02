@@ -10,6 +10,7 @@ import UIKit
 class RoutineExerciseListCell: UICollectionViewCell {
 
     static let cellIdentifier = "RoutineExerciseListCell"
+    private var viewModel: RoutineExerciseListCellViewModel?
     
     // Top menu bar
     private let menuBar = MenuBar(maskedCorners: [.layerMinXMinYCorner, .layerMaxXMinYCorner])
@@ -30,13 +31,23 @@ class RoutineExerciseListCell: UICollectionViewCell {
     // Label for number of sets title
     private let setsTitleLabel: UILabel = Label(title: "Sets", fontSize: 11.0, weight: .light)
     
+    private let setsTextField: UITextField = {
+        let setsTextField = UITextField()
+        setsTextField.translatesAutoresizingMaskIntoConstraints = false
+        setsTextField.tintColor = .label
+        setsTextField.font = .systemFont(ofSize: 12, weight: .bold)
+        setsTextField.placeholder = "0"
+        setsTextField.keyboardType = .numberPad
+        return setsTextField
+    }()
+    
     // MARK: - Init
     override init(frame: CGRect) {
         super.init(frame: frame)
         
         self.contentView.layer.cornerRadius = 15
         
-        self.exerciseContainer.addSubviews(self.setsTitleLabel)
+        self.exerciseContainer.addSubviews(self.setsTitleLabel, self.setsTextField)
         self.addSubviews(self.menuBar, self.titleLabel, self.exerciseContainer)
         self.addConstraints()
     }
@@ -67,13 +78,18 @@ class RoutineExerciseListCell: UICollectionViewCell {
             self.exerciseContainer.heightAnchor.constraint(equalTo: self.menuBar.heightAnchor, multiplier: 1.5),
             
             self.setsTitleLabel.topAnchor.constraint(equalTo: self.exerciseContainer.topAnchor, constant: 5),
-            self.setsTitleLabel.leftAnchor.constraint(equalTo: self.exerciseContainer.leftAnchor, constant: 25)
+            self.setsTitleLabel.leftAnchor.constraint(equalTo: self.exerciseContainer.leftAnchor, constant: 25),
+            
+            self.setsTextField.topAnchor.constraint(equalTo: self.setsTitleLabel.bottomAnchor),
+            self.setsTextField.centerXAnchor.constraint(equalTo: self.setsTitleLabel.centerXAnchor)
         ])
     }
     
     // MARK: - Configurations
     public func configure(with viewModel: RoutineExerciseListCellViewModel) {
-        self.titleLabel.text = viewModel.exercise.name
+        self.titleLabel.text = viewModel.workoutExercise.exercise?.name
+        self.setsTextField.text = "\(viewModel.workoutExercise.numSetts)"
+        setsTextField.delegate = viewModel
     }
     
     
