@@ -9,7 +9,7 @@ import UIKit
 
 final class NotesView: UIView {
     
-    private let viewModel: WorkoutGeneralStatsViewCellViewModel
+    private let viewModel: NotesViewProtocol
     
     // Notes Text View
     public let textView: UITextView = {
@@ -24,14 +24,14 @@ final class NotesView: UIView {
     }()
     
     // MARK: - Init
-    init(frame: CGRect, viewModel: WorkoutGeneralStatsViewCellViewModel) {
+    init(frame: CGRect, viewModel: NotesViewProtocol) {
         self.viewModel = viewModel
         super.init(frame: frame)
         
         self.backgroundColor = .systemCyan
         self.translatesAutoresizingMaskIntoConstraints = false
         
-        self.textView.delegate = viewModel
+        self.textView.delegate = viewModel.getUITextViewDelegate()
     
         self.addSubviews(textView)
         self.configureTextView()
@@ -47,16 +47,15 @@ final class NotesView: UIView {
         NSLayoutConstraint.activate([
             self.textView.topAnchor.constraint(equalTo: self.topAnchor, constant: 20),
             self.textView.leftAnchor.constraint(equalTo: self.leftAnchor, constant: 10),
-            self.textView.rightAnchor.constraint(equalTo: self.rightAnchor, constant:-10),
+            self.textView.rightAnchor.constraint(equalTo: self.rightAnchor, constant: -10),
             self.textView.bottomAnchor.constraint(equalTo: self.bottomAnchor, constant: -20),
         ])
     }
     
     // MARK: - Configure
     private func configureTextView() {
-        if !self.viewModel.workout.notes!.isEmpty {
-            self.textView.text = self.viewModel.workout.notes
+        if !self.viewModel.getNotes().isEmpty {
+            self.textView.text = self.viewModel.getNotes()
         }
     }
-
 }

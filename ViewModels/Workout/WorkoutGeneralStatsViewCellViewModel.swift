@@ -76,6 +76,17 @@ final class WorkoutGeneralStatsViewCellViewModel: NSObject {
     }
 }
 
+// MARK: - Notes View Protocol
+extension WorkoutGeneralStatsViewCellViewModel: NotesViewProtocol {
+    public func getNotes() -> String {
+        return self.workout.notes ?? ""
+    }
+    
+    public func getUITextViewDelegate() -> UITextViewDelegate {
+        return self
+    }
+}
+
 // MARK: - Picker View Delegate
 extension WorkoutGeneralStatsViewCellViewModel: UIPickerViewDataSource, UIPickerViewDelegate {
     

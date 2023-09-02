@@ -9,7 +9,7 @@ import UIKit
 
 final class NotesViewController: UIViewController {
     
-    private let viewModel: WorkoutGeneralStatsViewCellViewModel
+    private let viewModel: NotesViewProtocol
 
     private let topBar: MenuBar = MenuBar(frame: .zero)
     
@@ -20,7 +20,7 @@ final class NotesViewController: UIViewController {
     private let notesView: NotesView
     
     // MARK: - Init
-    init(viewModel: WorkoutGeneralStatsViewCellViewModel) {
+    init(viewModel: NotesViewProtocol) {
         self.viewModel = viewModel
         notesView = NotesView(frame: .zero, viewModel: self.viewModel)
         super.init(nibName: nil, bundle: nil)
