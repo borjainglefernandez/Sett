@@ -10,6 +10,7 @@ import UIKit
 class RoutineExerciseListCell: UICollectionViewCell {
 
     static let cellIdentifier = "RoutineExerciseListCell"
+    private var routineExerciseListCellVM: RoutineExerciseListCellViewModel?
     private var workoutExerciseNotesVM: WorkoutExerciseNotesVM?
     
     // Top menu bar
@@ -55,12 +56,18 @@ class RoutineExerciseListCell: UICollectionViewCell {
         return notesTextField
     }()
     
+    // More button
+    private let moreButton = IconButton(imageName: "ellipsis", color: .label, fontSize: 14)
+    
     // MARK: - Init
     override init(frame: CGRect) {
         super.init(frame: frame)
         
         self.contentView.layer.cornerRadius = 15
         
+        self.setUpMoreButton()
+        
+        self.menuBar.addSubviews(self.moreButton)
         self.exerciseContainer.addSubviews(self.setsTitleLabel, self.setsTextField, self.notesTitleLabel, self.notesTextField)
         self.addSubviews(self.menuBar, self.titleLabel, self.exerciseContainer)
         self.addConstraints()
@@ -104,18 +111,41 @@ class RoutineExerciseListCell: UICollectionViewCell {
             
             self.notesTextField.leftAnchor.constraint(equalTo: self.notesTitleLabel.leftAnchor),
             self.notesTextField.centerYAnchor.constraint(equalTo: self.setsTextField.centerYAnchor),
-            self.notesTextField.widthAnchor.constraint(equalTo: self.widthAnchor, multiplier: 0.7)
+            self.notesTextField.widthAnchor.constraint(equalTo: self.widthAnchor, multiplier: 0.7),
+            
+            self.moreButton.rightAnchor.constraint(equalTo: self.menuBar.rightAnchor, constant: -20),
+            self.moreButton.centerYAnchor.constraint(equalTo: self.menuBar.centerYAnchor)
         ])
     }
     
     // MARK: - Configurations
     public func configure(with viewModel: RoutineExerciseListCellViewModel) {
+        self.routineExerciseListCellVM = viewModel
         self.titleLabel.text = viewModel.workoutExercise.exercise?.name
         self.setsTextField.text = "\(viewModel.workoutExercise.numSetts)"
         self.setsTextField.delegate = viewModel
         self.notesTextField.text = viewModel.workoutExercise.notes
         self.workoutExerciseNotesVM = WorkoutExerciseNotesVM(workoutExercise: viewModel.workoutExercise)
         self.notesTextField.delegate = self.workoutExerciseNotesVM
+    }
+    
+    private func setUpMoreButton() {
+        let replaceWorkoutExerciseAction = UIAction(title: "Replace Exercise", image: UIImage(systemName: "arrow.2.squarepath"), attributes: [], state: .off) { action in
+            self.routineExerciseListCellVM?.deleteWorkoutExercise()
+            if let parentViewController = self.getParentViewController(self),
+               let routineExerciseListCellVM = self.routineExerciseListCellVM {
+                let selectCategoryModalViewController = SelectCategoryModalViewController(routine: routineExerciseListCellVM.routine)
+                parentViewController.present(selectCategoryModalViewController, animated: true)
+            }
+        }
+        
+        let deleteWorkoutExerciseAction = UIAction(title: "Delete Exercise", image: UIImage(systemName: "trash.fill"), attributes: [.destructive], state: .off) { action in
+            
+            self.routineExerciseListCellVM?.deleteWorkoutExercise()
+        }
+        
+        self.moreButton.showsMenuAsPrimaryAction = true
+        self.moreButton.menu =  UIMenu(preferredElementSize: .medium, children: [replaceWorkoutExerciseAction, deleteWorkoutExerciseAction])
     }
     
     
