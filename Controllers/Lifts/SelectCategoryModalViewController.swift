@@ -13,10 +13,13 @@ class SelectCategoryModalViewController: UIViewController {
     private let routine: Routine
     
     // Cancel Button
-    private let cancelButton: UIButton = IconButton(frame: .zero, imageName: "x.circle.fill")
+    private let cancelButton: UIButton = IconButton(frame: .zero, imageName: "x.circle")
     
     // Modal Title
     private let titleLabel: Label = Label(title: "Category Selection")
+    
+    // Create New Category Button
+    private let createNewCategoryButton: UIButton = IconButton(imageName: "plus.circle")
     
     private let selectCategoryModal: SelectCategoryModal
     
@@ -40,7 +43,8 @@ class SelectCategoryModalViewController: UIViewController {
         self.view.backgroundColor = .systemGray6
         
         self.cancelButton.addTarget(self, action: #selector(cancel), for: .touchUpInside)
-        self.view.addSubviews(self.cancelButton, self.titleLabel, self.selectCategoryModal)
+        self.createNewCategoryButton.addTarget(self, action: #selector(createNewCategory), for: .touchUpInside)
+        self.view.addSubviews(self.cancelButton, self.titleLabel, self.createNewCategoryButton, self.selectCategoryModal)
         self.addConstraints()
     }
     
@@ -53,6 +57,9 @@ class SelectCategoryModalViewController: UIViewController {
             self.titleLabel.centerXAnchor.constraint(equalTo: self.view.centerXAnchor),
             self.titleLabel.centerYAnchor.constraint(equalTo: self.cancelButton.centerYAnchor),
             
+            self.createNewCategoryButton.rightAnchor.constraint(equalTo: self.view.safeAreaLayoutGuide.rightAnchor, constant: -30),
+            self.createNewCategoryButton.centerYAnchor.constraint(equalTo: self.titleLabel.centerYAnchor),
+            
             self.selectCategoryModal.topAnchor.constraint(equalTo: self.titleLabel.bottomAnchor, constant: 30),
             self.selectCategoryModal.bottomAnchor.constraint(equalTo: self.view.safeAreaLayoutGuide.bottomAnchor),
             self.selectCategoryModal.leftAnchor.constraint(equalTo: self.view.safeAreaLayoutGuide.leftAnchor),
@@ -64,5 +71,9 @@ class SelectCategoryModalViewController: UIViewController {
     @objc func cancel() {
         self.dismiss(animated: true, completion: nil)
     }
-
+    
+    @objc func createNewCategory() {
+        let addCategoryViewModel: AddCategoryViewModel = AddCategoryViewModel()
+        present(addCategoryViewModel.alertController, animated: true, completion: nil)
+    }
 }

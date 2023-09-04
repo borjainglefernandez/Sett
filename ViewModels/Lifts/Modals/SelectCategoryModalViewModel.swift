@@ -21,7 +21,7 @@ final class SelectCategoryModalViewModel: NSObject {
         guard let category: Category = CoreDataBase.fetchEntity(withEntity: "Category", expecting: Category.self, predicates: [NSPredicate(format: "name = %@", title)]) else {
             return
         }
-        if let view = view, let parentViewController = view.getParentViewController(view) {
+        if let view = view, let parentViewController = view.getParentViewController(view), parentViewController.presentedViewController == nil {
             let selectExerciseModalViewController = SelectExerciseModalViewController(routine: self.routine, category: category)
             parentViewController.present(selectExerciseModalViewController, animated: true)
         }

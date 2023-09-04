@@ -125,7 +125,7 @@ final class LiftsViewController: UIViewController {
     }
     
     public func addExercise(category: Category, exercise: Exercise? = nil) {
-        // Navigate to new workout screen
+        // Navigate to add exercise screen
         let individualExerciseModalViewController = IndividualExerciseModalViewController(category: category, exercise: exercise)
         individualExerciseModalViewController.isModalInPresentation = true // Disable dismissing of modal
         self.present(individualExerciseModalViewController, animated: true)

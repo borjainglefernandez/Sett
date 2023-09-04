@@ -19,11 +19,14 @@ class SelectExerciseModalViewController: UIViewController {
     // Modal Title
     private let titleLabel: Label = Label(title: "Exercise Selection")
     
-    private let selectExerciseModal: SelectExerciseModal
+    // Create New Exercise Button
+    private let createNewExerciseButton: UIButton = IconButton(imageName: "plus.circle")
     
     // Confirm Button
     private let confirmButton: UIButton = IconButton(frame: .zero, imageName: "checkmark.circle")
     
+    private let selectExerciseModal: SelectExerciseModal
+        
     // MARK: - Init
     init(routine: Routine, category: Category) {
         self.routine = routine
@@ -43,7 +46,9 @@ class SelectExerciseModalViewController: UIViewController {
         
         self.cancelButton.addTarget(self, action: #selector(cancel), for: .touchUpInside)
         self.confirmButton.addTarget(self, action: #selector(confirm), for: .touchUpInside)
-        self.view.addSubviews(self.cancelButton, self.titleLabel, self.confirmButton, self.selectExerciseModal)
+        self.createNewExerciseButton.addTarget(self, action: #selector(createNewExercise), for: .touchUpInside)
+
+        self.view.addSubviews(self.cancelButton, self.titleLabel, self.createNewExerciseButton, self.confirmButton, self.selectExerciseModal)
         self.addConstraints()
         super.viewDidLoad()
     }
@@ -59,6 +64,9 @@ class SelectExerciseModalViewController: UIViewController {
             
             self.confirmButton.rightAnchor.constraint(equalTo: self.view.safeAreaLayoutGuide.rightAnchor, constant: -30),
             self.confirmButton.centerYAnchor.constraint(equalTo: self.titleLabel.centerYAnchor),
+            
+            self.createNewExerciseButton.rightAnchor.constraint(equalTo: self.confirmButton.leftAnchor, constant: -10),
+            self.createNewExerciseButton.centerYAnchor.constraint(equalTo: self.confirmButton.centerYAnchor),
             
             self.selectExerciseModal.topAnchor.constraint(equalTo: self.titleLabel.bottomAnchor, constant: 30),
             self.selectExerciseModal.bottomAnchor.constraint(equalTo: self.view.safeAreaLayoutGuide.bottomAnchor),
@@ -85,6 +93,12 @@ class SelectExerciseModalViewController: UIViewController {
             self.presentingViewController?.presentingViewController?.dismiss(animated: true, completion: nil)
 
         }
+    }
+    
+    @objc func createNewExercise() {
+        let individualExerciseModalViewController = IndividualExerciseModalViewController(category: self.category)
+        individualExerciseModalViewController.isModalInPresentation = true // Disable dismissing of modal
+        self.present(individualExerciseModalViewController, animated: true, completion: nil)
     }
 
 }

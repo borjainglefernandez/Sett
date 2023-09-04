@@ -139,7 +139,7 @@ class RoutineExerciseListCell: UICollectionViewCell {
             }
         }
         
-        let deleteWorkoutExerciseAction = UIAction(title: "Delete Exercise", image: UIImage(systemName: "trash.fill"), attributes: [.destructive], state: .off) { action in
+        let deleteWorkoutExerciseAction = UIAction(title: "Delete Exercise", image: UIImage(systemName: "trash"), attributes: [.destructive], state: .off) { action in
             
             self.routineExerciseListCellVM?.deleteWorkoutExercise()
         }

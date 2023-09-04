@@ -13,7 +13,7 @@ final class NotesViewController: UIViewController {
 
     private let topBar: MenuBar = MenuBar(frame: .zero)
     
-    private let closeButton: UIButton = IconButton(frame: .zero, imageName: "xmark.circle.fill")
+    private let closeButton: UIButton = IconButton(frame: .zero, imageName: "xmark.circle")
     
     private let notesTitle: UILabel = Label(frame: .zero, title: "Notes")
     

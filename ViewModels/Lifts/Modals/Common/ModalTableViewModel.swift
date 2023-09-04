@@ -7,6 +7,7 @@
 
 import Foundation
 import UIKit
+import CoreData
 
 class ModalTableViewModel: NSObject {
     public let modalTableViewType: ModalTableViewType
@@ -19,6 +20,8 @@ class ModalTableViewModel: NSObject {
     public var cellViewModels: [ModalTableViewCellViewModel]
     public var filteredCellViewModels: [ModalTableViewCellViewModel]
     public var tableView: UITableView?
+    private var categoryFetchedResultsController: NSFetchedResultsController<Category>?
+    private var exerciseFetchedResultsController: NSFetchedResultsController<Exercise>?
     
     init(modalTableViewType: ModalTableViewType, modalTableViewSelectionType: ModalTableViewSelectionType, selectedCellCallBack: @escaping ((String, String, ModalTableViewType, UIView?) -> Void), category: Category? = nil, exercise: Exercise? = nil, exerciseType: ExerciseType? = nil) {
         self.modalTableViewType = modalTableViewType
@@ -34,7 +37,10 @@ class ModalTableViewModel: NSObject {
         self.initCellViewModels()
     }
     
-    private func initCellViewModels() {
+    public func initCellViewModels() {
+        self.cellViewModels = []
+        self.filteredCellViewModels = []
+        
         switch modalTableViewType {
         case .category:
             self.createCategoryCellViewModels()
@@ -47,7 +53,11 @@ class ModalTableViewModel: NSObject {
     }
     
     private func createCategoryCellViewModels() {
-        let categories: [Category] = CoreDataBase.fetchEntities(withEntity: "Category", expecting: Category.self) ?? []
+        self.categoryFetchedResultsController = CoreDataBase.createFetchedResultsController(withEntityName: "Category", expecting: Category.self, sortDescriptors: [NSSortDescriptor(key: "name", ascending: true)])
+        if let categoryFetchedResultsController = self.categoryFetchedResultsController {
+            CoreDataBase.configureFetchedResults(controller: categoryFetchedResultsController, expecting: Category.self, with: self)
+        }
+        let categories: [Category] = self.categoryFetchedResultsController?.fetchedObjects ?? []
         
         for category in categories {
             let cellViewModel = ModalTableViewCellViewModel(title: category.name!, subTitle: String(describing: "\(category.exercises?.count ?? 0) Exercises"), modalTableViewSelectionType: self.modalTableViewSelectionType)
@@ -60,11 +70,15 @@ class ModalTableViewModel: NSObject {
     }
     
     private func createExerciseCellViewModels() {
-        guard let exercises = self.category?.exercises else {
-            return
+        if let categoryName = self.category?.name {
+            self.exerciseFetchedResultsController = CoreDataBase.createFetchedResultsController(withEntityName: "Exercise", expecting: Exercise.self, predicates: [NSPredicate(format: "category.name = %@", categoryName)], sortDescriptors: [NSSortDescriptor(key: "name", ascending: true)])
         }
+        if let exerciseFetchedResultsController = self.exerciseFetchedResultsController {
+            CoreDataBase.configureFetchedResults(controller: exerciseFetchedResultsController, expecting: Exercise.self, with: self)
+        }
+        let exercises: [Exercise] = self.exerciseFetchedResultsController?.fetchedObjects ?? []
+
         for exercise in exercises {
-            let exercise = exercise as! Exercise
             let cellViewModel = ModalTableViewCellViewModel(title: exercise.name!, subTitle: exercise.type?.exerciseType.rawValue ?? "", modalTableViewSelectionType: self.modalTableViewSelectionType)
             self.cellViewModels.append(cellViewModel)
         }
@@ -170,6 +184,14 @@ extension ModalTableViewModel: UISearchBarDelegate {
             }
         }
         self.selectedIndexPath = nil
+        self.tableView?.reloadData()
+    }
+}
+
+extension ModalTableViewModel: NSFetchedResultsControllerDelegate {
+    // Update screen if CRUD conducted on Categories or Exercises
+    func controller(_ controller: NSFetchedResultsController<NSFetchRequestResult>, didChange anObject: Any, at indexPath: IndexPath?, for type: NSFetchedResultsChangeType, newIndexPath: IndexPath?) {
+        self.initCellViewModels()
         self.tableView?.reloadData()
     }
 }
