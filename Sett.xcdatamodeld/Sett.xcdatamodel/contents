@@ -30,13 +30,16 @@
     </entity>
     <entity name="Routine" representedClassName="Routine" syncable="YES" codeGenerationType="class">
         <attribute name="daysOfTheWeek" optional="YES" attributeType="Transformable" valueTransformerName="DayOfTheWeekTransformer" customClassName="[DayOfTheWeekWrapper]"/>
-        <attribute name="name" optional="YES" attributeType="String" defaultValueString="New Routine"/>
+        <attribute name="name" attributeType="String" defaultValueString="New Routine"/>
         <attribute name="uuid" attributeType="UUID" usesScalarValueType="NO"/>
         <relationship name="workoutExercises" optional="YES" toMany="YES" deletionRule="Nullify" destinationEntity="WorkoutExercise" inverseName="routines" inverseEntity="WorkoutExercise"/>
         <relationship name="workouts" optional="YES" toMany="YES" deletionRule="Nullify" ordered="YES" destinationEntity="Workout" inverseName="routine" inverseEntity="Workout"/>
         <uniquenessConstraints>
             <uniquenessConstraint>
                 <constraint value="uuid"/>
+            </uniquenessConstraint>
+            <uniquenessConstraint>
+                <constraint value="name"/>
             </uniquenessConstraint>
         </uniquenessConstraints>
     </entity>

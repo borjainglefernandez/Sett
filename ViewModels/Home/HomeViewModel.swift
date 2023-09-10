@@ -153,9 +153,11 @@ extension HomeViewModel:CollapsibleContainerTopBarDelegate{
 extension HomeViewModel: NSFetchedResultsControllerDelegate {
     // Update screen if CRUD conducted on Workouts
     func controller(_ controller: NSFetchedResultsController<NSFetchRequestResult>, didChange anObject: Any, at indexPath: IndexPath?, for type: NSFetchedResultsChangeType, newIndexPath: IndexPath?) {
-        self.configure()
-        self.homeView?.collectionView.reloadData()
-        self.homeView?.showHideMonthCollectionView()
+        DispatchQueue.main.async {
+            self.configure()
+            self.homeView?.collectionView.reloadData()
+            self.homeView?.showHideMonthCollectionView()
+        }
     }
 }
 

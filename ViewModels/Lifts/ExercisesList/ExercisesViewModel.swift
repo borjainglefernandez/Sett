@@ -26,6 +26,7 @@ final class ExercisesViewModel: NSObject {
         
         // Reset variables in case of update
         self.cellViewModels = []
+        self.isExpanded = []
         
         guard let categories = self.fetchedResultsController.fetchedObjects else {
             return

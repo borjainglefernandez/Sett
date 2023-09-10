@@ -16,6 +16,7 @@ final class IndividualRoutineViewModel: NSObject {
         self.routine = routine
         self.routine.uuid = UUID()
         super.init()
+        CoreDataBase.save()
     }
     
 }
