@@ -50,7 +50,8 @@ class IndividualExerciseModalViewController: UIViewController {
     // MARK: - Lifecycle
     override func viewDidLoad() {
         super.viewDidLoad()
-        
+        self.dismissKeyboardWhenTapOutside()
+
         self.view.backgroundColor = .systemGray6
         
         self.cancelButton.addTarget(self, action: #selector(cancel), for: .touchUpInside)

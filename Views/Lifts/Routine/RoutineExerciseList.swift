@@ -11,6 +11,9 @@ class RoutineExerciseList: UIView {
 
     public let viewModel: RoutineExerciseListViewModel
     
+    // Day of the week selector
+    lazy var dayOfTheWeekPickerContainer: DayOfTheWeekPickerContainer = DayOfTheWeekPickerContainer(routine: self.viewModel.routine)
+    
     // Collection view of the category exercise containers
     public let collectionView: UICollectionView = {
         let layout = UICollectionViewFlowLayout()
@@ -38,7 +41,7 @@ class RoutineExerciseList: UIView {
         self.viewModel.configure()
         self.setUpCollectionView()
         
-        addSubviews(self.collectionView, self.addExerciseBottomBar)
+        addSubviews(self.dayOfTheWeekPickerContainer, self.collectionView, self.addExerciseBottomBar)
         self.addConstraints()
     }
     
@@ -49,7 +52,11 @@ class RoutineExerciseList: UIView {
     // MARK: - Constraints
     private func addConstraints() {
         NSLayoutConstraint.activate([
-            self.collectionView.topAnchor.constraint(equalTo: self.topAnchor),
+            self.dayOfTheWeekPickerContainer.topAnchor.constraint(equalTo: self.topAnchor, constant: 10),
+            self.dayOfTheWeekPickerContainer.widthAnchor.constraint(equalTo: self.widthAnchor, multiplier: 0.95),
+            self.dayOfTheWeekPickerContainer.centerXAnchor.constraint(equalTo: self.centerXAnchor),
+            
+            self.collectionView.topAnchor.constraint(equalTo: self.dayOfTheWeekPickerContainer.bottomAnchor),
             self.collectionView.leftAnchor.constraint(equalTo: self.leftAnchor),
             self.collectionView.rightAnchor.constraint(equalTo: self.rightAnchor),
             self.collectionView.bottomAnchor.constraint(equalTo: self.bottomAnchor, constant: -60),
@@ -57,7 +64,6 @@ class RoutineExerciseList: UIView {
             self.addExerciseBottomBar.centerXAnchor.constraint(equalTo: self.centerXAnchor),
             self.addExerciseBottomBar.widthAnchor.constraint(equalTo: self.widthAnchor, multiplier: 0.95),
             self.addExerciseBottomBar.topAnchor.constraint(equalTo: self.collectionView.bottomAnchor),
-
             self.addExerciseBottomBar.heightAnchor.constraint(equalToConstant: 30)
             
         ])

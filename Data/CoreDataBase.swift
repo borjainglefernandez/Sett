@@ -12,6 +12,7 @@ import UIKit
 class CoreDataBase {
     init() {
         ExerciseTypeTransformer.register()
+        DayOfTheWeekTransformer.register()
     }
     
     // Context to interact with CoreData

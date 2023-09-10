@@ -13,7 +13,7 @@ final class RoutineExerciseListViewModel: NSObject {
     public let routine: Routine
     private var cellViewModels: [RoutineExerciseListCellViewModel] = []
     lazy var fetchedResultsController: NSFetchedResultsController<Routine> = {
-        return CoreDataBase.createFetchedResultsController(withEntityName: "Routine", expecting: Routine.self, predicates: [NSPredicate(format: "uuid = %@", argumentArray: [self.routine.uuid])])
+        return CoreDataBase.createFetchedResultsController(withEntityName: "Routine", expecting: Routine.self, predicates: [NSPredicate(format: "uuid = %@", argumentArray: [self.routine.uuid!])])
     }()
     public var routineExerciseList: RoutineExerciseList?
     
