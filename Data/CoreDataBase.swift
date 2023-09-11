@@ -89,8 +89,11 @@ class CoreDataBase {
             fetchRequest.propertiesToGroupBy = propertiesToGroupBy
         }
         
+        guard let entities = executeFetchRequest(expecting: entityType, with: fetchRequest), !entities.isEmpty else {
+            return nil
+        }
         
-        return executeFetchRequest(expecting: entityType, with: fetchRequest)?[0]
+        return entities[0]
     }
     
     static public func save() {

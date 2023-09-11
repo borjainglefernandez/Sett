@@ -25,7 +25,6 @@ class IndividualExerciseModalViewController: UIViewController {
         exerciseNameTextField.textColor = .label
         exerciseNameTextField.font = .systemFont(ofSize: 17, weight: .bold)
         exerciseNameTextField.translatesAutoresizingMaskIntoConstraints = false
-        exerciseNameTextField.text = self.viewModel.exercise?.name ?? "New Exercise"
         exerciseNameTextField.delegate = self.viewModel
         exerciseNameTextField.becomeFirstResponder()
         return exerciseNameTextField
@@ -86,9 +85,10 @@ class IndividualExerciseModalViewController: UIViewController {
     }
     
     @objc func confirm() {
-        if !self.viewModel.confirm() {
+        let errorMessage = self.viewModel.confirm()
+        if !errorMessage.isEmpty {
             // Controller
-            let incompleteExerciseAlertController = UIAlertController(title: "Incomplete exercise", message: "", preferredStyle: .alert)
+            let incompleteExerciseAlertController = UIAlertController(title: "Exercise Issue", message: errorMessage, preferredStyle: .alert)
             
             incompleteExerciseAlertController.addAction(UIAlertAction(title: "Try Again", style: .default))
             

@@ -13,6 +13,8 @@ final class IndividualExerciseModalViewModel: NSObject {
     public var exercise: Exercise?
     private let existingExercise: Bool
     
+    
+    // MARK: - Init
     init(category: Category, exercise: Exercise? = nil) {
         self.category = category
         self.exercise = exercise
@@ -52,13 +54,33 @@ final class IndividualExerciseModalViewModel: NSObject {
         }
     }
     
-    public func confirm() -> Bool {
-        if self.exercise?.type != nil && self.exercise?.name?.isEmpty == false {
-            self.category.addToExercises(self.exercise!)
-            CoreDataBase.save()
-            return true
+    public func confirm() -> String {
+        if self.exercise?.type == nil {
+            return "Please fill in the exercise type"
         }
-        return false
+        
+        if self.exercise?.name?.isEmpty == true {
+            return "Please fill in exercise name"
+        }
+        
+        if self.exerciseExists() {
+            return "Exercise exists with this name, type, and category combination "
+        }
+        
+        self.category.addToExercises(self.exercise!)
+        CoreDataBase.save()
+        return ""
+    }
+    
+    private func exerciseExists() -> Bool {
+        guard let exerciseName = self.exercise?.name else {
+            return false
+        }
+        guard let exerciseType = self.exercise?.type else {
+            return false
+        }
+        return CoreDataBase.fetchEntity(withEntity: "Exercise", expecting: Exercise.self, predicates: [NSPredicate(format: "name = %@", exerciseName), NSPredicate(format: "type = %@", exerciseType), NSPredicate(format: "category = %@", self.category)]) != nil
+        
     }
 }
 
