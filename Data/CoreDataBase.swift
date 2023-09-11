@@ -74,26 +74,23 @@ class CoreDataBase {
     ///   - propertiesToGroupBy: A list of properties to group by, if any
     ///
     /// - Returns: An entity fetched or nil if none
-    static public func fetchEntity<T: NSFetchRequestResult>(withEntity entityName: String, expecting entityType: T.Type, predicates: [NSPredicate], sortDescriptors: [NSSortDescriptor] = [], propertiesToGroupBy: [String] = []) -> T? {
+    static public func fetchEntity<T: NSFetchRequestResult>(withEntity entityName: String, expecting entityType: T.Type, predicates: [NSPredicate], sortDescriptors: [NSSortDescriptor] = []) -> T? {
         let fetchRequest = NSFetchRequest<T>(entityName: entityName)
         
         // Add predicates to the fetch request, if provided
         fetchRequest.predicate = NSCompoundPredicate(andPredicateWithSubpredicates: predicates)
         fetchRequest.sortDescriptors = sortDescriptors
         
-        
-        if !propertiesToGroupBy.isEmpty {
-            assert(entityType == NSDictionary.self, "If grouping by an attribute, an NSDictionary is expected")
-            fetchRequest.resultType = .dictionaryResultType
-            fetchRequest.propertiesToFetch = propertiesToGroupBy
-            fetchRequest.propertiesToGroupBy = propertiesToGroupBy
-        }
-        
         guard let entities = executeFetchRequest(expecting: entityType, with: fetchRequest), !entities.isEmpty else {
             return nil
         }
         
         return entities[0]
+    }
+    
+    static public func doesEntityExist<T: NSFetchRequestResult>(withEntity entityName: String, expecting entityType: T.Type, predicates: [NSPredicate], sortDescriptors: [NSSortDescriptor] = [], propertiesToGroupBy: [String] = []) -> Bool {
+        return fetchEntity(withEntity: entityName, expecting: entityType, predicates: predicates) != nil
+        
     }
     
     static public func save() {

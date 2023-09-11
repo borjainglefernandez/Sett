@@ -79,7 +79,7 @@ final class IndividualExerciseModalViewModel: NSObject {
         guard let exerciseType = self.exercise?.type else {
             return false
         }
-        return CoreDataBase.fetchEntity(withEntity: "Exercise", expecting: Exercise.self, predicates: [NSPredicate(format: "name = %@", exerciseName), NSPredicate(format: "type = %@", exerciseType), NSPredicate(format: "category = %@", self.category)]) != nil
+        return CoreDataBase.doesEntityExist(withEntity: "Exercise", expecting: Exercise.self, predicates: [NSPredicate(format: "name = %@", exerciseName), NSPredicate(format: "type = %@", exerciseType), NSPredicate(format: "category = %@", self.category)])
         
     }
 }

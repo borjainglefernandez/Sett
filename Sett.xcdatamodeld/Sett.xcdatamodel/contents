@@ -38,9 +38,6 @@
             <uniquenessConstraint>
                 <constraint value="uuid"/>
             </uniquenessConstraint>
-            <uniquenessConstraint>
-                <constraint value="name"/>
-            </uniquenessConstraint>
         </uniquenessConstraints>
     </entity>
     <entity name="Sett" representedClassName="Sett" syncable="YES" codeGenerationType="class">

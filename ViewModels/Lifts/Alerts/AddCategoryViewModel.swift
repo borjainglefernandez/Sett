@@ -54,18 +54,20 @@ class AddCategoryViewModel: NSObject {
 
     // MARK: - Actions
     private func createNewCategory() {
-        if !newCategoryName.isEmpty {
-            let newCategory = Category(context: CoreDataBase.context)
-            newCategory.name = self.newCategoryName
-            CoreDataBase.save()
-        }
+        let newCategory = Category(context: CoreDataBase.context)
+        newCategory.name = self.newCategoryName
+        CoreDataBase.save()
     }
     
     private func updateCategoryName() {
         if !newCategoryName.isEmpty {
             self.category?.name = newCategoryName
-            CoreDataBase.save()
         }
+    }
+    
+    // MARK: - Helper
+    private func categoryWithNewNameExists() -> Bool {
+        return CoreDataBase.doesEntityExist(withEntity: "Category", expecting: Category.self, predicates: [NSPredicate(format: "name = %@", self.newCategoryName)])
     }
 
 }
@@ -73,6 +75,6 @@ class AddCategoryViewModel: NSObject {
 extension AddCategoryViewModel: UITextFieldDelegate {
     func textFieldDidChangeSelection(_ textField: UITextField) {
         self.newCategoryName = textField.text ?? ""
-        self.confirmAction.isEnabled = !self.newCategoryName.isEmpty
+        self.confirmAction.isEnabled = !self.newCategoryName.isEmpty && !self.categoryWithNewNameExists()
     }
 }
