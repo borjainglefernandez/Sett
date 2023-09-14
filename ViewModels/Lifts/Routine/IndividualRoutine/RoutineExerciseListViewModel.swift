@@ -66,7 +66,7 @@ extension RoutineExerciseListViewModel: UICollectionViewDataSource, UICollection
     }
     
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
-        return CGSize(width: (collectionView.safeAreaLayoutGuide.layoutFrame.width - 20), height: 100)
+        return CGSize(width: (collectionView.safeAreaLayoutGuide.layoutFrame.width - 20), height: 75)
     }
 }
 

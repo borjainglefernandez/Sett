@@ -19,6 +19,9 @@ class RoutineExerciseListCell: UICollectionViewCell {
     // Title label
     private let titleLabel = Label(title: "", fontSize: 14)
     
+    // Icon for the exercise type
+    private let exerciseTypeIcon = IconButton(imageName: "dumbbell.fill", color: .label, fontSize: 14)
+    
     // Exercise container
     private let exerciseContainer: UIView = {
         let exerciseContainer = UIView()
@@ -67,7 +70,7 @@ class RoutineExerciseListCell: UICollectionViewCell {
         
         self.setUpMoreButton()
         
-        self.menuBar.addSubviews(self.moreButton)
+        self.menuBar.addSubviews(self.exerciseTypeIcon, self.moreButton)
         self.exerciseContainer.addSubviews(self.setsTitleLabel, self.setsTextField, self.notesTitleLabel, self.notesTextField)
         self.addSubviews(self.menuBar, self.titleLabel, self.exerciseContainer)
         self.addConstraints()
@@ -94,6 +97,9 @@ class RoutineExerciseListCell: UICollectionViewCell {
             
             self.titleLabel.leftAnchor.constraint(equalToSystemSpacingAfter: self.leftAnchor, multiplier: 2),
             self.titleLabel.centerYAnchor.constraint(equalTo: self.menuBar.centerYAnchor),
+            
+            self.exerciseTypeIcon.leftAnchor.constraint(equalTo: self.titleLabel.rightAnchor, constant: 5),
+            self.exerciseTypeIcon.centerYAnchor.constraint(equalTo: self.titleLabel.centerYAnchor),
             
             self.exerciseContainer.topAnchor.constraint(equalTo: self.menuBar.bottomAnchor),
             self.exerciseContainer.centerXAnchor.constraint(equalTo: self.centerXAnchor),
@@ -122,6 +128,12 @@ class RoutineExerciseListCell: UICollectionViewCell {
     public func configure(with viewModel: RoutineExerciseListCellViewModel) {
         self.routineExerciseListCellVM = viewModel
         self.titleLabel.text = viewModel.workoutExercise.exercise?.name
+        
+        if let iconImage = viewModel.workoutExercise.exercise?.type?.exerciseType.icon() {
+            iconImage.withTintColor(.label)
+            self.exerciseTypeIcon.setImage(iconImage, for: .normal)
+        }
+       
         self.setsTextField.text = "\(viewModel.workoutExercise.numSetts)"
         self.setsTextField.delegate = viewModel
         self.notesTextField.text = viewModel.workoutExercise.notes

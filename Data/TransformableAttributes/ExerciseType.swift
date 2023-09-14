@@ -6,6 +6,7 @@
 //
 
 import Foundation
+import UIKit
 
 enum ExerciseType: String, CaseIterable {
     case dumbbell = "Dumbbell"
@@ -14,8 +15,29 @@ enum ExerciseType: String, CaseIterable {
     case machine = "Machine"
     case bodyweight = "Bodyweight"
     
+    // MARK: - Init
     init(fromRawValue: String) {
         self = ExerciseType(rawValue: fromRawValue) ?? .dumbbell
+    }
+    
+    public func icon() -> UIImage{
+        switch self {
+            case .dumbbell:
+                return UIImage(systemName: "dumbbell.fill")!
+                
+            case .barbell:
+                return UIImage(systemName: "figure.strengthtraining.traditional")!
+
+            case .cable:
+                return UIImage(systemName: "figure.barre")!
+
+            case .machine:
+                return UIImage(systemName: "figure.hand.cycling")!
+
+            case .bodyweight:
+                return UIImage(systemName: "figure.strengthtraining.functional")!
+        }
+        
     }
 }
 
