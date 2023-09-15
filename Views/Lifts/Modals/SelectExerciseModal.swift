@@ -16,7 +16,7 @@ class SelectExerciseModal: UIView {
     
     // Category list
     lazy var exerciseListView: ModalTableView = {
-        let categoryListViewModel = ModalTableViewModel(modalTableViewType: .exercise, modalTableViewSelectionType: .toggle, selectedCellCallBack: self.viewModel.selectCellCallback, category: self.viewModel.category)
+        let categoryListViewModel = ModalTableViewModel(modalTableViewType: .exercise, modalTableViewSelectionType: .toggle, selectedCellCallBack: self.viewModel.selectCellCallback, category: self.viewModel.category, routine: self.viewModel.routine)
         let exerciseListView = ModalTableView(viewModel: categoryListViewModel)
         return exerciseListView
     }()

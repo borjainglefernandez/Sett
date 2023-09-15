@@ -17,19 +17,21 @@ class ModalTableViewModel: NSObject {
     private let category: Category?
     private let exercise: Exercise?
     private let exerciseType: ExerciseType?
+    private let routine: Routine?
     public var cellViewModels: [ModalTableViewCellViewModel]
     public var filteredCellViewModels: [ModalTableViewCellViewModel]
     public var tableView: UITableView?
     private var categoryFetchedResultsController: NSFetchedResultsController<Category>?
     private var exerciseFetchedResultsController: NSFetchedResultsController<Exercise>?
     
-    init(modalTableViewType: ModalTableViewType, modalTableViewSelectionType: ModalTableViewSelectionType, selectedCellCallBack: @escaping ((String, String, ModalTableViewType, UIView?) -> Void), category: Category? = nil, exercise: Exercise? = nil, exerciseType: ExerciseType? = nil) {
+    init(modalTableViewType: ModalTableViewType, modalTableViewSelectionType: ModalTableViewSelectionType, selectedCellCallBack: @escaping ((String, String, ModalTableViewType, UIView?) -> Void), category: Category? = nil, exercise: Exercise? = nil, exerciseType: ExerciseType? = nil, routine: Routine? = nil) {
         self.modalTableViewType = modalTableViewType
         self.modalTableViewSelectionType = modalTableViewSelectionType
         self.selectedCellCallback = selectedCellCallBack
         self.category = category
         self.exercise = exercise
         self.exerciseType = exerciseType
+        self.routine = routine
         self.cellViewModels = []
         self.filteredCellViewModels = []
         super.init()
@@ -79,6 +81,12 @@ class ModalTableViewModel: NSObject {
         let exercises: [Exercise] = self.exerciseFetchedResultsController?.fetchedObjects ?? []
 
         for exercise in exercises {
+            // Check if routine already has workout exercise with that exercise
+            // and don't add it to list if it does
+            if self.routine?.workoutExercises?.contains(where: {($0 as! WorkoutExercise).exercise == exercise}) ?? false {
+                continue
+            }
+            
             let cellViewModel = ModalTableViewCellViewModel(title: exercise.name!, subTitle: exercise.type?.exerciseType.rawValue ?? "", modalTableViewSelectionType: self.modalTableViewSelectionType)
             self.cellViewModels.append(cellViewModel)
         }
