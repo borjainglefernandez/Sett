@@ -12,7 +12,7 @@ class AddCategoryViewModel: NSObject {
     private var newCategoryName: String = ""
     private let category: Category?
     public let alertController: UIAlertController
-    
+
     lazy var confirmAction: UIAlertAction = {
         let confirmAction = UIAlertAction(title: "Confirm", style: .default) {_ in
             if self.category != nil {
@@ -24,9 +24,9 @@ class AddCategoryViewModel: NSObject {
         confirmAction.isEnabled = false
         return confirmAction
     }()
-    
+
     private var cancelAction: UIAlertAction = UIAlertAction(title: "Cancel", style: .cancel, handler: nil)
-    
+
     // MARK: - Init
     init(category: Category? = nil) {
         self.alertController = UIAlertController(title: "", message: nil, preferredStyle: .alert)
@@ -42,7 +42,7 @@ class AddCategoryViewModel: NSObject {
         self.alertController.addAction(self.confirmAction)
         self.alertController.addAction(self.cancelAction)
     }
-    
+
     // MARK: - Configurations
     private func configureTitle() {
         if self.category != nil {
@@ -58,16 +58,18 @@ class AddCategoryViewModel: NSObject {
         newCategory.name = self.newCategoryName
         CoreDataBase.save()
     }
-    
+
     private func updateCategoryName() {
         if !newCategoryName.isEmpty {
             self.category?.name = newCategoryName
         }
     }
-    
+
     // MARK: - Helper
     private func categoryWithNewNameExists() -> Bool {
-        return CoreDataBase.doesEntityExist(withEntity: "Category", expecting: Category.self, predicates: [NSPredicate(format: "name = %@", self.newCategoryName)])
+        return CoreDataBase.doesEntityExist(withEntity: "Category",
+                                            expecting: Category.self,
+                                            predicates: [NSPredicate(format: "name = %@", self.newCategoryName)])
     }
 
 }

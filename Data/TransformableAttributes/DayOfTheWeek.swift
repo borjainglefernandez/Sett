@@ -17,7 +17,7 @@ enum DayOfTheWeek: String, CaseIterable, Equatable {
     case friday = "Friday"
     case saturday = "Saturday"
 
-    
+    // MARK: - Init
     init(fromRawValue: String) {
         self = DayOfTheWeek(rawValue: fromRawValue)!
     }

@@ -10,14 +10,15 @@ import CoreData
 import UIKit
 
 class CoreDataBase {
+    // Need to register the transformable types we use
     init() {
         ExerciseTypeTransformer.register()
         DayOfTheWeekTransformer.register()
     }
-    
+
     // Context to interact with CoreData
     static let context = (UIApplication.shared.delegate as! AppDelegate).persistentContainer.viewContext
-    
+
     /// Executes a particular fetch request
     ///
     /// - Parameters:
@@ -34,7 +35,7 @@ class CoreDataBase {
             return nil
         }
     }
-    
+
     /// Fetches a list of entities based on certain predicates
     ///
     /// - Parameters:
@@ -47,7 +48,7 @@ class CoreDataBase {
     /// - Returns: A list of the entities fetched or nil if error
     static public func fetchEntities<T: NSFetchRequestResult>(withEntity entityName: String, expecting entityType: T.Type, predicates: [NSPredicate] = [], sortDescriptors: [NSSortDescriptor] = [], propertiesToGroupBy: [String] = []) -> [T]? {
         let fetchRequest = NSFetchRequest<T>(entityName: entityName)
-        
+
         // Add predicates to the fetch request, if provided
         fetchRequest.predicate = NSCompoundPredicate(andPredicateWithSubpredicates: predicates)
         fetchRequest.sortDescriptors = sortDescriptors
@@ -81,26 +82,26 @@ class CoreDataBase {
         fetchRequest.predicate = NSCompoundPredicate(andPredicateWithSubpredicates: predicates)
         fetchRequest.sortDescriptors = sortDescriptors
         
-        guard let entities = executeFetchRequest(expecting: entityType, with: fetchRequest), !entities.isEmpty else {
+        // Check that we have exactly 1 entity to return
+        guard let entities = executeFetchRequest(expecting: entityType, with: fetchRequest), entities.count == 1 else {
             return nil
         }
         
         return entities[0]
     }
     
-    static public func doesEntityExist<T: NSFetchRequestResult>(withEntity entityName: String, expecting entityType: T.Type, predicates: [NSPredicate], sortDescriptors: [NSSortDescriptor] = [], propertiesToGroupBy: [String] = []) -> Bool {
+    /// Checks if a particular entity exists
+    ///
+    /// - Parameters:
+    ///   - entityName: The name of the entity
+    ///   - entityType: The expected type of the fetch request
+    ///   - predicates: A list of predicates to filter by, if any
+    ///
+    /// - Returns: An entity fetched or nil if none
+    static public func doesEntityExist<T: NSFetchRequestResult>(withEntity entityName: String, expecting entityType: T.Type, predicates: [NSPredicate]) -> Bool {
         return fetchEntity(withEntity: entityName, expecting: entityType, predicates: predicates) != nil
         
     }
-    
-    static public func save() {
-        do {
-            try context.save()
-        } catch {
-            print("Error saving: \(error)")
-        }
-    }
-    
     
     /// Gets the count of a particular entity
     ///
@@ -158,6 +159,16 @@ class CoreDataBase {
         } catch {
             print("Error executing fetch request: \(error)")
             
+        }
+    }
+    
+    
+    /// Saves the core data base context object
+    static public func save() {
+        do {
+            try context.save()
+        } catch {
+            print("Error saving: \(error)")
         }
     }
     

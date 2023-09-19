@@ -10,7 +10,7 @@ import UIKit
 
 final class WorkoutExerciseNotesVM: NSObject {
     private let workoutExercise: WorkoutExercise
-    
+
     // MARK: - Init
     init(workoutExercise: WorkoutExercise) {
         self.workoutExercise = workoutExercise

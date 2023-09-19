@@ -41,7 +41,7 @@ final class MonthWorkoutListViewModel: NSObject {
         let startDateComponents = DateComponents(year: self.year, month: self.month, day: 1, hour: 0, minute: 0, second: 0)
         var incrementDateComponents = DateComponents()
         incrementDateComponents.month = 1
-        let calendar:Calendar = Calendar.current
+        let calendar: Calendar = Calendar.current
         guard let startDate: Date = calendar.date(from: startDateComponents),
               let endDate: Date = calendar.date(byAdding: incrementDateComponents, to: startDate) else {
             fatalError("Dates could not be converted")
@@ -102,10 +102,13 @@ extension MonthWorkoutListViewModel: UITableViewDataSource, UITableViewDelegate 
         let workout =  self.cellViewModels[indexPath.row].workout
         
         // Trailing delete workout action
-        let deleteWorkoutAction = UIContextualAction(style: .destructive, title: "") {  (contextualAction, view, boolValue) in
-            
+        let deleteWorkoutAction = UIContextualAction(style: .destructive, title: "") { _, _, _ in 
+
             // Controller
-            let deleteWorkoutAlertController = UIAlertController(title: "Delete \(String(describing: workout.title!))?", message: "This action cannot be undone.",preferredStyle: .actionSheet)
+            let deleteWorkoutAlertController = UIAlertController(
+                                                title: "Delete \(String(describing: workout.title!))?",
+                                                message: "This action cannot be undone.",
+                                                preferredStyle: .actionSheet)
             
             // Actions
             deleteWorkoutAlertController.addAction(UIAlertAction(title: "Delete", style: .destructive, handler: { _ in

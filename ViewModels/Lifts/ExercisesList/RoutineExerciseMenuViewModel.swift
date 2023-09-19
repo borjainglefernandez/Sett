@@ -14,8 +14,8 @@ enum RoutineExerciseMenuSelectionType: CaseIterable {
 
 class RoutineExerciseMenuViewModel: NSObject {
     
-    private let ROUTINE_TITLE: String = "Routines"
-    private let EXERCISES_TITLE: String = "Exercises"
+    private let routineTitle: String = "Routines"
+    private let exercisesTitle: String = "Exercises"
     
     public var type: RoutineExerciseMenuSelectionType
     
@@ -34,18 +34,18 @@ class RoutineExerciseMenuViewModel: NSObject {
     var mainMenuTitle: String {
         switch self.type {
         case .routine:
-            return ROUTINE_TITLE
+            return routineTitle
         case .exercise:
-            return EXERCISES_TITLE
+            return exercisesTitle
         }
     }
     
     var changeMenuTitle: String {
         switch self.type {
         case .routine:
-            return EXERCISES_TITLE
+            return exercisesTitle
         case .exercise:
-            return ROUTINE_TITLE
+            return routineTitle
         }
     }
 }

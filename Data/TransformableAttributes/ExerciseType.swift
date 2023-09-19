@@ -14,13 +14,21 @@ enum ExerciseType: String, CaseIterable {
     case cable = "Cable"
     case machine = "Machine"
     case bodyweight = "Bodyweight"
-    
     // MARK: - Init
-    init(fromRawValue: String) {
-        self = ExerciseType(rawValue: fromRawValue) ?? .dumbbell
+    init(rawValue: String) {
+        switch rawValue {
+            case "Dumbbell": self = .dumbbell
+            case "Barbell": self = .barbell
+            case "Cable": self = .cable
+            case "Machine": self = .machine
+            case "Bodyweight": self = .bodyweight
+            default: self = .dumbbell
+        }
     }
     
-    public func icon() -> UIImage{
+    /// Mapping of an exercise type to its icon
+    /// - Returns: The icon corresponding to the exercise type
+    public func icon() -> UIImage {
         switch self {
             case .dumbbell:
                 return UIImage(systemName: "dumbbell.fill")!
@@ -53,10 +61,13 @@ public class ExerciseTypeWrapper: NSObject, NSSecureCoding {
     }
     
     required convenience public init?(coder: NSCoder) {
-        guard let rawValue = coder.decodeObject(of: NSString.self, forKey: "exerciseType") as String?,
-              let exerciseType = ExerciseType(rawValue: rawValue) else {
+    
+        guard let rawValue = coder.decodeObject(of: NSString.self, forKey: "exerciseType") as String? else {
             return nil
         }
+        
+        let exerciseType = ExerciseType(rawValue: rawValue)
+        
         self.init(exerciseType)
     }
     

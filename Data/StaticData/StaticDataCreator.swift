@@ -55,7 +55,7 @@ class StaticDataCreator {
     static private func createExercise(exercise: Dictionary<String, String>) -> Exercise {
         let newExercise = Exercise(context: CoreDataBase.context)
         newExercise.name = exercise["name"]
-        newExercise.type = ExerciseTypeWrapper(ExerciseType(fromRawValue: exercise["type"]!))
+        newExercise.type = ExerciseTypeWrapper(ExerciseType(rawValue: exercise["type"]!))
         return newExercise
     }
     

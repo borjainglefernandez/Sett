@@ -11,7 +11,7 @@ import UIKit
 final class SelectExerciseModalViewModel: NSObject {
     public let routine: Routine
     public let category: Category
-    private var exercise: Exercise? = nil
+    private var exercise: Exercise?
     
     // MARK: - Init
     init(routine: Routine, category: Category) {
@@ -20,15 +20,16 @@ final class SelectExerciseModalViewModel: NSObject {
     }
     
     public func selectCellCallback(with title: String, and subTitle: String, for type: ModalTableViewType, view: UIView?) {
-        guard let exercises: [Exercise] = CoreDataBase.fetchEntities(withEntity: "Exercise", expecting: Exercise.self, predicates: [NSPredicate(format: "name = %@", title)]) else {
+        let exerciseTypeToCompare = ExerciseTypeWrapper(ExerciseType(rawValue: subTitle))
+        guard let exercise: Exercise = CoreDataBase.fetchEntity(
+                                            withEntity: "Exercise",
+                                            expecting: Exercise.self,
+                                            predicates: [NSPredicate(format: "name = %@", title),
+                                                         NSPredicate(format: "type = %@", exerciseTypeToCompare)])
+        else {
             return
         }
-        for exercise in exercises {
-            if exercise.type?.exerciseType.rawValue == subTitle {
-                self.exercise = exercise
-            }
-        }
-
+        self.exercise = exercise
     }
     
     public func confirmExerciseSelection() -> Bool {

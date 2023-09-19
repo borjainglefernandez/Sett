@@ -68,7 +68,10 @@ extension RoutineListViewModel: UITableViewDataSource, UITableViewDelegate {
         let deleteRoutineAction = UIContextualAction(style: .destructive, title: "") {  (contextualAction, view, boolValue) in
             
             // Controller
-            let deleteRoutineAlertController = UIAlertController(title: "Delete \(String(describing: routine.name!))?", message: "This action cannot be undone.",preferredStyle: .actionSheet)
+            let deleteRoutineAlertController = UIAlertController(
+                                                title: "Delete \(String(describing: routine.name!))?",
+                                                message: "This action cannot be undone.",
+                                                preferredStyle: .actionSheet)
             
             // Actions
             deleteRoutineAlertController.addAction(UIAlertAction(title: "Delete", style: .destructive, handler: { _ in

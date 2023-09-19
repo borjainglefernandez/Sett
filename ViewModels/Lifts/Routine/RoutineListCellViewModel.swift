@@ -9,7 +9,7 @@ import Foundation
 
 final class RoutineListCellViewModel: NSObject {
     public let routine: Routine
-    
+
     init(routine: Routine) {
         self.routine = routine
     }

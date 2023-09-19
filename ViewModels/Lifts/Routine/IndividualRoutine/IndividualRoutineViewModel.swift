@@ -10,7 +10,7 @@ import UIKit
 
 final class IndividualRoutineViewModel: NSObject {
     public let routine: Routine
-    
+
     // MARK: - Init
     init(routine: Routine = Routine(context: CoreDataBase.context)) {
         self.routine = routine
@@ -18,7 +18,6 @@ final class IndividualRoutineViewModel: NSObject {
         super.init()
         CoreDataBase.save()
     }
-    
 }
 
 // MARK: - Text Field Delegate
@@ -27,7 +26,6 @@ extension IndividualRoutineViewModel: UITextFieldDelegate {
         self.routine.name = textField.text
         CoreDataBase.save()
     }
-    
     func textFieldDidBeginEditing(_ textField: UITextField) {
         textField.selectAll(nil)
     }

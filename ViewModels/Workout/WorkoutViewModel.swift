@@ -18,7 +18,10 @@ final class WorkoutViewModel: NSObject {
         }
     }()
     lazy var fetchedResultsController: NSFetchedResultsController<Workout> = {
-        return CoreDataBase.createFetchedResultsController(withEntityName: "Workout", expecting: Workout.self, predicates: [NSPredicate(format: "SELF = %@", self.workout.objectID)])
+        return CoreDataBase.createFetchedResultsController(
+                    withEntityName: "Workout",
+                    expecting: Workout.self,
+                    predicates: [NSPredicate(format: "SELF = %@", self.workout.objectID)])
     }()
     
     // MARK: - Init
@@ -57,7 +60,8 @@ extension WorkoutViewModel: UITableViewDelegate, UITableViewDataSource {
 
 // MARK: - Fetched Results Controller Delegate
 extension WorkoutViewModel: NSFetchedResultsControllerDelegate {
-    func controller(_ controller: NSFetchedResultsController<NSFetchRequestResult>, didChange anObject: Any, at indexPath: IndexPath?, for type: NSFetchedResultsChangeType, newIndexPath: IndexPath?) {
+    func controller(_ controller: NSFetchedResultsController<NSFetchRequestResult>,
+                    didChange anObject: Any, at indexPath: IndexPath?, for type: NSFetchedResultsChangeType, newIndexPath: IndexPath?) {
         
         guard let managedObject = anObject as? NSManagedObject else {
             return // Ensure the object is a managed object

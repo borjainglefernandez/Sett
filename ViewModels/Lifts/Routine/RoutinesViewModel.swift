@@ -15,7 +15,10 @@ final class RoutinesViewModel: NSObject {
     private var cellViewModels: [RoutineDayOfTheWeekCellVM] = []
     private var isExpanded: [Bool] = []
     private var fetchedResultsController: NSFetchedResultsController<Routine> = {
-        return CoreDataBase.createFetchedResultsController(withEntityName: "Routine", expecting: Routine.self, sortDescriptors: [NSSortDescriptor(key: "name", ascending: true)])
+        return CoreDataBase.createFetchedResultsController(
+                withEntityName: "Routine",
+                expecting: Routine.self,
+                sortDescriptors: [NSSortDescriptor(key: "name", ascending: true)])
     }()
     
     // MARK: - Configurations
@@ -98,7 +101,8 @@ extension RoutinesViewModel: UICollectionViewDataSource, UICollectionViewDelegat
         return cell
     }
     
-    func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
+    func collectionView(_ collectionView: UICollectionView,
+                        layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
         if isExpanded[indexPath.row] {
             let exerciseCount = self.cellViewModels[indexPath.row].routines.count
             return CGSize(width: (collectionView.safeAreaLayoutGuide.layoutFrame.width - 20), height: CGFloat(exerciseCount * 43) + 31)
@@ -108,7 +112,7 @@ extension RoutinesViewModel: UICollectionViewDataSource, UICollectionViewDelegat
 }
 
 // MARK: - Expanded Cell Delegate
-extension RoutinesViewModel:CollapsibleContainerTopBarDelegate{
+extension RoutinesViewModel: CollapsibleContainerTopBarDelegate {
     /// Collapse or Expand selected Month Workout Container
     ///
     /// - Parameters:
@@ -117,7 +121,8 @@ extension RoutinesViewModel:CollapsibleContainerTopBarDelegate{
     func collapseExpand(indexPath: IndexPath, collectionView: UICollectionView) {
         self.isExpanded[indexPath.row] = !self.isExpanded[indexPath.row]
         DispatchQueue.main.async {
-            UIView.animate(withDuration: 0.8, delay: 0.0, usingSpringWithDamping: 0.9, initialSpringVelocity: 0.9, options: UIView.AnimationOptions.curveEaseInOut, animations: {
+            UIView.animate(withDuration: 0.8, delay: 0.0, usingSpringWithDamping: 0.9, initialSpringVelocity: 0.9,
+                options: UIView.AnimationOptions.curveEaseInOut, animations: {
                 collectionView.reloadItems(at: [indexPath])
             })
         }
@@ -127,7 +132,8 @@ extension RoutinesViewModel:CollapsibleContainerTopBarDelegate{
 // MARK: - Fetched Results Controller Delegate
 extension RoutinesViewModel: NSFetchedResultsControllerDelegate {
     // Update screen if CRUD conducted on Categories
-    func controller(_ controller: NSFetchedResultsController<NSFetchRequestResult>, didChange anObject: Any, at indexPath: IndexPath?, for type: NSFetchedResultsChangeType, newIndexPath: IndexPath?) {
+    func controller(_ controller: NSFetchedResultsController<NSFetchRequestResult>,
+                    didChange anObject: Any, at indexPath: IndexPath?, for type: NSFetchedResultsChangeType, newIndexPath: IndexPath?) {
         DispatchQueue.main.async {
             self.configure()
             self.routinesView?.collectionView.reloadData()

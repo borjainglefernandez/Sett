@@ -11,19 +11,18 @@ import UIKit
 final class RoutineExerciseListCellViewModel: NSObject {
     public let routine: Routine
     public let workoutExercise: WorkoutExercise
-    
+
     // MARK: - Init
     init(routine: Routine, workoutExercise: WorkoutExercise) {
         self.routine = routine
         self.workoutExercise = workoutExercise
     }
-    
+
     // MARK: - Actions
     public func deleteWorkoutExercise() {
         CoreDataBase.context.delete(self.workoutExercise)
         CoreDataBase.save()
     }
-    
 }
 
 // MARK: - Text Field Delegate

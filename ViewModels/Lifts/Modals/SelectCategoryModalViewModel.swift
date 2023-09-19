@@ -18,7 +18,10 @@ final class SelectCategoryModalViewModel: NSObject {
     }
     
     public func selectCellCallback(with title: String, and subTitle: String, for type: ModalTableViewType, view: UIView?) {
-        guard let category: Category = CoreDataBase.fetchEntity(withEntity: "Category", expecting: Category.self, predicates: [NSPredicate(format: "name = %@", title)]) else {
+        guard let category: Category = CoreDataBase.fetchEntity(
+                                        withEntity: "Category",
+                                        expecting: Category.self,
+                                        predicates: [NSPredicate(format: "name = %@", title)]) else {
             return
         }
         if let view = view, let parentViewController = view.getParentViewController(view), parentViewController.presentedViewController == nil {

@@ -13,7 +13,10 @@ final class RoutineExerciseListViewModel: NSObject {
     public let routine: Routine
     private var cellViewModels: [RoutineExerciseListCellViewModel] = []
     lazy var fetchedResultsController: NSFetchedResultsController<Routine> = {
-        return CoreDataBase.createFetchedResultsController(withEntityName: "Routine", expecting: Routine.self, predicates: [NSPredicate(format: "uuid = %@", argumentArray: [self.routine.uuid!])])
+        return CoreDataBase.createFetchedResultsController(
+                withEntityName: "Routine",
+                expecting: Routine.self,
+                predicates: [NSPredicate(format: "uuid = %@", argumentArray: [self.routine.uuid!])])
     }()
     public var routineExerciseList: RoutineExerciseList?
     
@@ -36,12 +39,16 @@ final class RoutineExerciseListViewModel: NSObject {
         }
         
         for workoutExercise in workoutExercises {
-            let viewModel = RoutineExerciseListCellViewModel(routine: self.routine, workoutExercise: workoutExercise as! WorkoutExercise)
+            guard let workoutExerciseCast = workoutExercise as? WorkoutExercise else {
+                continue
+            }
+            let viewModel = RoutineExerciseListCellViewModel(
+                                routine: self.routine,
+                                workoutExercise: workoutExerciseCast)
             self.cellViewModels.append(viewModel)
         }
     }
 }
-
 
 // MARK: - Collection View Delegate
 extension RoutineExerciseListViewModel: UICollectionViewDataSource, UICollectionViewDelegateFlowLayout {
@@ -65,14 +72,17 @@ extension RoutineExerciseListViewModel: UICollectionViewDataSource, UICollection
         return cell
     }
     
-    func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
+    func collectionView(_ collectionView: UICollectionView,
+                        layout collectionViewLayout: UICollectionViewLayout,
+                        sizeForItemAt indexPath: IndexPath) -> CGSize {
         return CGSize(width: (collectionView.safeAreaLayoutGuide.layoutFrame.width - 20), height: 75)
     }
 }
 
 extension RoutineExerciseListViewModel: NSFetchedResultsControllerDelegate {
     
-    func controller(_ controller: NSFetchedResultsController<NSFetchRequestResult>, didChange anObject: Any, at indexPath: IndexPath?, for type: NSFetchedResultsChangeType, newIndexPath: IndexPath?) {
+    func controller(_ controller: NSFetchedResultsController<NSFetchRequestResult>,
+                    didChange anObject: Any, at indexPath: IndexPath?, for type: NSFetchedResultsChangeType, newIndexPath: IndexPath?) {
         self.configure()
         self.routineExerciseList?.collectionView.reloadData()
     }
