@@ -26,7 +26,7 @@ class StarRating: UIView {
     // MARK: - Init
     init(frame: CGRect, interactable: Bool, starSize: Double, starMargin: Double, rating: Double = 3.0) {
         super.init(frame: frame)
-        translatesAutoresizingMaskIntoConstraints = false
+        self.translatesAutoresizingMaskIntoConstraints = false
         self.starRating.isUserInteractionEnabled = interactable
         self.starRating.settings.starSize = starSize
         self.starRating.settings.starMargin = starMargin

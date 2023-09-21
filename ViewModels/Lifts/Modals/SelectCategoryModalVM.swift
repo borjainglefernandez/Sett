@@ -17,13 +17,16 @@ final class SelectCategoryModalVM: NSObject {
         self.routine = routine
     }
     
+    // MARK: - Callback
     public func selectCellCallback(with title: String, and subTitle: String, for type: ModalTableViewType, view: UIView?) {
         guard let category: Category = CoreDataBase.fetchEntity(
-                                        withEntity: "Category",
-                                        expecting: Category.self,
-                                        predicates: [NSPredicate(format: "name = %@", title)]) else {
+            withEntity: "Category",
+            expecting: Category.self,
+            predicates: [NSPredicate(format: "name = %@", title)]) else {
             return
         }
+        
+        // Navigate to selecting the exercise in category
         if let view = view, let parentViewController = view.getParentViewController(view), parentViewController.presentedViewController == nil {
             let selectExerciseModalViewController = SelectExerciseModalViewController(routine: self.routine, category: category)
             parentViewController.present(selectExerciseModalViewController, animated: true)

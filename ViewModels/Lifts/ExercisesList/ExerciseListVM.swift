@@ -22,7 +22,6 @@ final class ExerciseListVM: NSObject {
     }()
 
     // MARK: - Init
-
     init(
         category: Category
     ) {

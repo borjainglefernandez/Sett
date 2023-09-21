@@ -9,12 +9,6 @@ import UIKit
 
 final class CalendarDayView: UIView {
     
-    public var day: String? {
-        didSet {
-            self.calendarLabel.text = self.day
-        }
-    }
-    
     // Top bar of the calendar
     private let topCalendarBar: UIView = {
         let topCalendarBar = UIView()
@@ -36,7 +30,7 @@ final class CalendarDayView: UIView {
     }()
     
     // Label for the day of the month
-    private let calendarLabel: UILabel = {
+    public let calendarLabel: UILabel = {
         let calendarLabel = UILabel()
         calendarLabel.textColor = .label
         calendarLabel.font = .systemFont(ofSize: 14, weight: .bold)
@@ -62,7 +56,7 @@ final class CalendarDayView: UIView {
     override init(frame: CGRect) {
         super.init(frame: frame)
         
-        translatesAutoresizingMaskIntoConstraints = false
+        self.translatesAutoresizingMaskIntoConstraints = false
         
         self.addSubviews(self.topCalendarBar, self.bottomCalendarView, self.leftCircle, self.rightCircle, self.calendarLabel)
         self.addConstraints()

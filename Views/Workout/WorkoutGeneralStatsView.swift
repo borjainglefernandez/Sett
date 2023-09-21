@@ -40,7 +40,7 @@ final class WorkoutGeneralStatsView: UIView {
         self.viewModel = viewModel
         super.init(frame: frame)
         
-        translatesAutoresizingMaskIntoConstraints = false
+        self.translatesAutoresizingMaskIntoConstraints = false
 
         self.setUpTableView()
 

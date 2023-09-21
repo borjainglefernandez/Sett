@@ -79,6 +79,7 @@ extension RoutineExerciseListVM: UICollectionViewDataSource, UICollectionViewDel
     }
 }
 
+// MARK: - Fetched Results Controller Delegate
 extension RoutineExerciseListVM: NSFetchedResultsControllerDelegate {
     
     func controller(_ controller: NSFetchedResultsController<NSFetchRequestResult>,

@@ -8,7 +8,11 @@
 import UIKit
 import CoreData
 
-protocol DeleteWorkoutDelegate: NSObject {
+protocol DeleteWorkoutDelegate: NSObjectProtocol {
+    /// Deletes a workout
+    /// - Parameters:
+    ///   - workout: workout to delete
+    ///   - viewModel: update view model after deleting workout
     func deleteWorkout(workout: Workout, viewModel: MonthWorkoutListVM)
 }
 
@@ -20,7 +24,6 @@ final class MonthWorkoutListVM: NSObject {
     private var cellVMs: [MonthWorkoutListCellVM] = []
     
     // MARK: - Init
-    
     init(
         month: Int,
         year: Int

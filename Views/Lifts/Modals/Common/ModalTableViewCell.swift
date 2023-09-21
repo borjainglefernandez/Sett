@@ -118,6 +118,7 @@ class ModalTableViewCell: UITableViewCell {
     }
 }
 
+// MARK: - Selected Modal Table View Cell Delegate
 extension ModalTableViewCell: SelectedModalTableViewCellDelegate {
     func selectDeselectCell(select: Bool) {
         if select {

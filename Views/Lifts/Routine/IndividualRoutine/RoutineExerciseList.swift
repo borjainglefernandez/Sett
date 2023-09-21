@@ -35,13 +35,13 @@ class RoutineExerciseList: UIView {
         super.init(frame: frame)
         
         self.backgroundColor = .systemCyan
-        translatesAutoresizingMaskIntoConstraints = false
-        isUserInteractionEnabled = true
+        self.translatesAutoresizingMaskIntoConstraints = false
+        self.isUserInteractionEnabled = true
         
         self.viewModel.configure()
         self.setUpCollectionView()
         
-        addSubviews(self.dayOfTheWeekPickerContainer, self.collectionView, self.addExerciseBottomBar)
+        self.addSubviews(self.dayOfTheWeekPickerContainer, self.collectionView, self.addExerciseBottomBar)
         self.addConstraints()
     }
     

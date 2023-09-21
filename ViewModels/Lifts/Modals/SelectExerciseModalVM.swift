@@ -19,6 +19,7 @@ final class SelectExerciseModalVM: NSObject {
         self.category = category
     }
     
+    // MARK: - Callback
     public func selectCellCallback(with title: String, and subTitle: String, for type: ModalTableViewType, view: UIView?) {
         let exerciseTypeToCompare = ExerciseTypeWrapper(ExerciseType(rawValue: subTitle))
         guard let exercise: Exercise = CoreDataBase.fetchEntity(
@@ -32,6 +33,7 @@ final class SelectExerciseModalVM: NSObject {
         self.exercise = exercise
     }
     
+    // MARK: - Actions
     public func confirmExerciseSelection() -> Bool {
         guard let exercise = self.exercise else {
             return false

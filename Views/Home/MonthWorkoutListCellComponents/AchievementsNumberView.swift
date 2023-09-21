@@ -9,14 +9,6 @@ import UIKit
 
 final class AchievementsNumberView: UIView {
     
-    public var numAchievements: Int? {
-        didSet {
-            if let numAchievements = self.numAchievements {
-                self.achievementsNumberLabel.text = String(describing: numAchievements)
-            }
-        }
-    }
-    
     // Circular container
     private let achievementsNumberContainer: UIView = {
         let achievementsNumberContainer =  UIView()
@@ -29,7 +21,7 @@ final class AchievementsNumberView: UIView {
     }()
     
     // Label for number of achievements
-    private let achievementsNumberLabel: UILabel = {
+    public let achievementsNumberLabel: UILabel = {
         let achievementsNumberLabel = UILabel()
         achievementsNumberLabel.textColor = .label
         achievementsNumberLabel.font = .systemFont(ofSize: 14, weight: .bold)
@@ -41,7 +33,7 @@ final class AchievementsNumberView: UIView {
     override init(frame: CGRect) {
         super.init(frame: frame)
         
-        translatesAutoresizingMaskIntoConstraints = false
+        self.translatesAutoresizingMaskIntoConstraints = false
         
         self.addSubviews(self.achievementsNumberContainer, self.achievementsNumberLabel)
         self.addConstraints()

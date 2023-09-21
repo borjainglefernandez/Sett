@@ -11,7 +11,6 @@ final class MonthWorkoutListCellVM: NSObject {
     public let workout: Workout
 
      // MARK: - Init
-
      init(
         workout: Workout
      ) {

@@ -22,7 +22,7 @@ final class NotesViewController: UIViewController {
     // MARK: - Init
     init(viewModel: NotesViewProtocol) {
         self.viewModel = viewModel
-        notesView = NotesView(frame: .zero, viewModel: self.viewModel)
+        notesView = NotesView(frame: .zero, delegate: self.viewModel)
         super.init(nibName: nil, bundle: nil)
     }
     

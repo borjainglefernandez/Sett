@@ -10,29 +10,13 @@ import UIKit
 final class NetProgressView: UIView {
     
     // Labels for Weight and Rep Titles
-    private func createTitleLabel(title: String) -> UILabel {
-        let label = UILabel()
-        label.text = title
-        label.textColor = .label
-        label.font = .systemFont(ofSize: 12, weight: .light)
-        label.translatesAutoresizingMaskIntoConstraints = false
-        return label
-    }
-    lazy var weightLabel: UILabel = self.createTitleLabel(title: "Weight")
-    lazy var repsLabel: UILabel = self.createTitleLabel(title: "Reps")
-    
+    lazy var weightLabel: UILabel = Label(title: "Weight", fontSize: 12, weight: .light)
+    lazy var repsLabel: UILabel = Label(title: "Reps", fontSize: 12, weight: .light)
+
     // Labels for Net Weight and Net Reps
-    private func createContentLabel(title: String) -> UILabel {
-        let label = UILabel()
-        label.text = title
-        label.textColor = .label
-        label.font = .systemFont(ofSize: 17, weight: .bold)
-        label.translatesAutoresizingMaskIntoConstraints = false
-        return label
-    }
-    lazy var weightContent: UILabel = self.createContentLabel(title: "0")
-    lazy var repsContent: UILabel = self.createContentLabel(title: "0")
-    
+    lazy var weightContent: UILabel = Label(title: "0", fontSize: 17, weight: .bold)
+    lazy var repsContent: UILabel = Label(title: "0", fontSize: 17, weight: .bold)
+
     // MARK: - Init
     override init(frame: CGRect) {
         super.init(frame: frame)

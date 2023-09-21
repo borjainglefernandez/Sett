@@ -12,6 +12,7 @@ final class DayOfTheWeekPickerVM {
     public let routine: Routine
     public let dayOfTheWeek: DayOfTheWeek
     lazy var selected: Bool = {
+        // Whether or not day of the week was selected in routine
         return !(self.routine.daysOfTheWeek?.filter { $0.dayOfTheWeek.rawValue == self.dayOfTheWeek.rawValue}.isEmpty ?? true)
     }()
     

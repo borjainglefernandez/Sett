@@ -12,7 +12,6 @@ final class MonthListCellVM: NSObject {
     public let numWorkouts: Int
 
      // MARK: - Init
-
      init(
         monthName: String,
         numWorkouts: Int

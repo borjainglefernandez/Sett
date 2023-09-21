@@ -17,10 +17,10 @@ final class WorkoutExerciseNotesVM: NSObject {
     }
 }
 
+// MARK: - Text Field Delegate
 extension WorkoutExerciseNotesVM: UITextFieldDelegate {
     func textFieldDidChangeSelection(_ textField: UITextField) {
         self.workoutExercise.notes = textField.text
         CoreDataBase.save()
     }
-
 }

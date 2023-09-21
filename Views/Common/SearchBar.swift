@@ -11,15 +11,16 @@ class SearchBar: UISearchBar {
     
     // MARK: - Init
     init(frame: CGRect = .zero, searchBarDelegate: UISearchBarDelegate) {
-            super.init(frame: frame)
-            translatesAutoresizingMaskIntoConstraints = false
-            backgroundImage = UIImage()
-            searchTextField.backgroundColor = .systemGray4
-            searchTextField.layer.cornerRadius = 15
-            searchTextField.layer.masksToBounds = true
-            searchTextField.placeholder = "Search"
-            delegate = searchBarDelegate
-            self.addConstraints()
+        super.init(frame: frame)
+        self.translatesAutoresizingMaskIntoConstraints = false
+        
+        self.backgroundImage = UIImage()
+        self.searchTextField.backgroundColor = .systemGray4
+        self.searchTextField.layer.cornerRadius = 15
+        self.searchTextField.layer.masksToBounds = true
+        self.searchTextField.placeholder = "Search"
+        self.delegate = searchBarDelegate
+        self.addConstraints()
     }
     
     required init?(coder: NSCoder) {

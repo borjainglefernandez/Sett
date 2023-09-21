@@ -8,7 +8,9 @@
 import Foundation
 
 protocol SelectedModalTableViewCellDelegate: NSObjectProtocol {
-
+    
+    /// Select or deselect a particular modal cell
+    /// - Parameter select: whether or not to select or deselct
     func selectDeselectCell(select: Bool)
 }
 

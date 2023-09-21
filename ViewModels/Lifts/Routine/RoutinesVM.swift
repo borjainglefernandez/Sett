@@ -35,11 +35,6 @@ final class RoutinesVM: NSObject {
             return
         }
         
-//        for routine in routines {
-//            print(routine)
-//        }
-//        print(routines.count)
-        
         // Create all the days of the week
         for dayOfTheWeek in DayOfTheWeek.allCases {
             let routinesPerformedOnDayOfTheWeek: [Routine] = routines.filter { routine in

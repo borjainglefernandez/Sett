@@ -50,7 +50,7 @@ final class MonthWorkoutListView: UIView {
     // MARK: - Configurations
     public func configure(with viewModel: MonthWorkoutListVM) {
         self.viewModel = viewModel
-        setUpTableView()
+        self.setUpTableView()
     }
     
     private func setUpTableView() {

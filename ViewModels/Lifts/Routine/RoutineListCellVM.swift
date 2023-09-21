@@ -10,6 +10,7 @@ import Foundation
 final class RoutineListCellVM: NSObject {
     public let routine: Routine
 
+    // MARK: - Init
     init(routine: Routine) {
         self.routine = routine
     }

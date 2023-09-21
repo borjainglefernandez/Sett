@@ -9,7 +9,7 @@ import UIKit
 
 final class NotesView: UIView {
     
-    private let viewModel: NotesViewProtocol
+    private let delegate: NotesViewProtocol
     
     // Notes Text View
     public let textView: UITextView = {
@@ -24,14 +24,14 @@ final class NotesView: UIView {
     }()
     
     // MARK: - Init
-    init(frame: CGRect, viewModel: NotesViewProtocol) {
-        self.viewModel = viewModel
+    init(frame: CGRect, delegate: NotesViewProtocol) {
+        self.delegate = delegate
         super.init(frame: frame)
         
         self.backgroundColor = .systemCyan
         self.translatesAutoresizingMaskIntoConstraints = false
         
-        self.textView.delegate = viewModel.getUITextViewDelegate()
+        self.textView.delegate = delegate.getUITextViewDelegate()
     
         self.addSubviews(textView)
         self.configureTextView()
@@ -54,8 +54,8 @@ final class NotesView: UIView {
     
     // MARK: - Configure
     private func configureTextView() {
-        if !self.viewModel.getNotes().isEmpty {
-            self.textView.text = self.viewModel.getNotes()
+        if !self.delegate.getNotes().isEmpty {
+            self.textView.text = self.delegate.getNotes()
         }
     }
 }

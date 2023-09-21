@@ -24,6 +24,7 @@ final class CollapsibleContainerTopBarVM {
     public let indexPath: IndexPath
     private let delegate: CollapsibleContainerTopBarDelegate
     
+    // MARK: - Init
     init(collectionView: UICollectionView, isExpanded: Bool, indexPath: IndexPath, delegate: CollapsibleContainerTopBarDelegate) {
         self.collectionView = collectionView
         self.isExpanded = isExpanded

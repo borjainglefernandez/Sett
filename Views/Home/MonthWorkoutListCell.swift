@@ -73,7 +73,6 @@ final class MonthWorkoutListCell: UITableViewCell {
     // MARK: - LifeCycle
     override func prepareForReuse() {
         super.prepareForReuse()
-        self.calendarDayView.day = nil
     }
     
     // MARK: - Constraints
@@ -112,8 +111,8 @@ final class MonthWorkoutListCell: UITableViewCell {
             if let day = components.day {
                 self.titleLabel.text =  viewModel.workout.title
                 self.starRating.starRating.rating = viewModel.workout.rating
-                self.calendarDayView.day = "\(String(describing: day))"
-                self.achievementsNumberView.numAchievements = 3
+                self.calendarDayView.calendarLabel.text = "\(String(describing: day))"
+                self.achievementsNumberView.achievementsNumberLabel.text = String(describing: "2")
                 self.durationLabel.text = "45 min"
                 
             }

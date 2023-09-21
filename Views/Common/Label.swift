@@ -12,12 +12,12 @@ class Label: UILabel {
     // MARK: - Init
     init(frame: CGRect = .zero, title: String, fontSize: Double = 17.0, weight: UIFont.Weight = .bold) {
         super.init(frame: frame)
-        textColor = .label
-        font = .systemFont(ofSize: fontSize, weight: weight)
-        text = title
-        translatesAutoresizingMaskIntoConstraints = false
-        numberOfLines = 1
-        lineBreakMode = .byTruncatingTail
+        self.textColor = .label
+        self.font = .systemFont(ofSize: fontSize, weight: weight)
+        self.text = title
+        self.translatesAutoresizingMaskIntoConstraints = false
+        self.numberOfLines = 1
+        self.lineBreakMode = .byTruncatingTail
     }
     
     required init?(coder: NSCoder) {

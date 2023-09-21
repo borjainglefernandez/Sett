@@ -10,6 +10,7 @@ import Foundation
 final class ExerciseListCellVM {
     public let exercise: Exercise
     
+    // MARK: - Init
     init(exercise: Exercise) {
         self.exercise = exercise
     }

@@ -10,20 +10,33 @@ import UIKit
 import CoreData
 
 class ModalTableVM: NSObject {
+    
+    // Type of modal and selection
     public let modalTableViewType: ModalTableViewType
     public let modalTableViewSelectionType: ModalTableViewSelectionType
+    
+    // Callback
     private let selectedCellCallback: ((String, String, ModalTableViewType, UIView?) -> Void)
-    private var selectedIndexPath: IndexPath?
+    
+    // Entities to select
     private let category: Category?
     private let exercise: Exercise?
     private let exerciseType: ExerciseType?
     private let routine: Routine?
+    
+    // VM's
     public var cellVMs: [ModalTableViewCellVM]
     public var filteredCellVMs: [ModalTableViewCellVM]
+    
+    // UI Information
     public var tableView: UITableView?
+    private var selectedIndexPath: IndexPath?
+    
+    // Search Controllers
     private var categoryFetchedResultsController: NSFetchedResultsController<Category>?
     private var exerciseFetchedResultsController: NSFetchedResultsController<Exercise>?
     
+    // MARK: - Init
     init(modalTableViewType: ModalTableViewType,
          modalTableViewSelectionType: ModalTableViewSelectionType,
          selectedCellCallBack: @escaping ((String, String, ModalTableViewType, UIView?) -> Void),
@@ -60,6 +73,7 @@ class ModalTableVM: NSObject {
         self.filteredCellVMs = self.cellVMs
     }
     
+    // MARK: - Init VM's
     private func createCategoryCellVMs() {
         self.categoryFetchedResultsController = CoreDataBase.createFetchedResultsController(
                                                     withEntityName: "Category",
@@ -125,6 +139,8 @@ class ModalTableVM: NSObject {
         }
     }
     
+    // MARK: - Actions
+    
     /// Selects a cell if it should be selected
     ///
     /// - Parameters:
@@ -155,6 +171,7 @@ class ModalTableVM: NSObject {
     }
 }
 
+// MARK: Table View Delegate
 extension ModalTableVM: UITableViewDataSource, UITableViewDelegate {
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
@@ -204,6 +221,7 @@ extension ModalTableVM: UITableViewDataSource, UITableViewDelegate {
     }
 }
 
+// MARK: - Search Bar Delegate
 extension ModalTableVM: UISearchBarDelegate {
     func searchBar(_ searchBar: UISearchBar, textDidChange searchText: String) {
         if searchText.isEmpty {
@@ -218,6 +236,7 @@ extension ModalTableVM: UISearchBarDelegate {
     }
 }
 
+// MARK: - Fetched Results Controller Delegate
 extension ModalTableVM: NSFetchedResultsControllerDelegate {
     // Update screen if CRUD conducted on Categories or Exercises
     func controller(_ controller: NSFetchedResultsController<NSFetchRequestResult>,

@@ -12,12 +12,13 @@ class EmptyLabel: UILabel {
     // MARK: - Init
     init(frame: CGRect, labelText: String) {
         super.init(frame: frame)
-        translatesAutoresizingMaskIntoConstraints = false
-        textColor = .label
-        font = .systemFont(ofSize: 17.0, weight: .bold)
-        text = labelText
-        textAlignment = .center
-        isHidden = true
+        self.translatesAutoresizingMaskIntoConstraints = false
+        
+        self.textColor = .label
+        self.font = .systemFont(ofSize: 17.0, weight: .bold)
+        self.text = labelText
+        self.textAlignment = .center
+        self.isHidden = true
     }
     
     required init?(coder: NSCoder) {

@@ -19,6 +19,7 @@ class RoutineExerciseMenuVM: NSObject {
     
     public var type: RoutineExerciseMenuSelectionType
     
+    // MARK: - Init
     init(type: RoutineExerciseMenuSelectionType = .routine) {
         self.type = type
     }

@@ -28,7 +28,8 @@ final class IndividualExerciseModalVM: NSObject {
         }
         self.exercise = Exercise(context: CoreDataBase.context)
     }
-
+    
+    // MARK: - Callback
     public func selectCellCallback(with title: String, and subTitle: String, for type: ModalTableViewType, view: UIView?) {
         switch type {
             case .category:
@@ -47,7 +48,8 @@ final class IndividualExerciseModalVM: NSObject {
                 self.exercise?.type = ExerciseTypeWrapper(ExerciseType(rawValue: title))
         }
     }
-
+    
+    // MARK: - Actions
     public func cancel() {
         if !self.existingExercise, let exercise = self.exercise {
             CoreDataBase.context.delete(exercise)
@@ -90,6 +92,7 @@ final class IndividualExerciseModalVM: NSObject {
     }
 }
 
+// MARK: - Text Field Delegate
 extension IndividualExerciseModalVM: UITextFieldDelegate {
     func textFieldDidChangeSelection(_ textField: UITextField) {
         self.exercise?.name = textField.text
