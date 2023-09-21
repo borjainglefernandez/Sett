@@ -74,8 +74,7 @@ class RoutineListCell: UITableViewCell {
             self.containerView.topAnchor.constraint(equalTo: self.topAnchor),
             self.containerView.centerXAnchor.constraint(equalTo: self.centerXAnchor),
             self.containerView.heightAnchor.constraint(equalTo: self.heightAnchor, multiplier: 0.985),
-            self.containerView.widthAnchor.constraint(equalTo: self.widthAnchor, multiplier: 0.985),
-            
+            self.containerView.widthAnchor.constraint(equalTo: self.widthAnchor, multiplier: 0.985),   
             
             self.titleLabel.leftAnchor.constraint(equalToSystemSpacingAfter: self.leftAnchor, multiplier: 2),
             self.titleLabel.topAnchor.constraint(equalTo: self.topAnchor, constant: 5),
@@ -89,9 +88,7 @@ class RoutineListCell: UITableViewCell {
             self.divider.widthAnchor.constraint(equalTo: self.widthAnchor, multiplier: 0.95),
             self.divider.centerXAnchor.constraint(equalTo: self.centerXAnchor),
             self.divider.heightAnchor.constraint(equalToConstant: 1),
-            self.divider.bottomAnchor.constraint(equalTo: self.bottomAnchor),
-            
-            
+            self.divider.bottomAnchor.constraint(equalTo: self.bottomAnchor)
         ])
     }
     
@@ -110,5 +107,4 @@ class RoutineListCell: UITableViewCell {
         }
     }
 
-    
 }

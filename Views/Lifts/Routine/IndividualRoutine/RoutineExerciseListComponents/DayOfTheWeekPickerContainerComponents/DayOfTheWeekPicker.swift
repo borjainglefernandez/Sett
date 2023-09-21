@@ -12,7 +12,7 @@ class DayOfTheWeekPicker: UIView {
     private let viewModel: DayOfTheWeekPickerVM
     
     // Container will be cyan if selected, gray otherwise
-    private let containerColors: Dictionary<Bool, UIColor> = [
+    private let containerColors: [Bool: UIColor] = [
         true: .systemCyan,
         false: .systemGray4
     ]

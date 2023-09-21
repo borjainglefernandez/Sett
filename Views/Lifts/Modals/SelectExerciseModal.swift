@@ -16,7 +16,12 @@ class SelectExerciseModal: UIView {
     
     // Category list
     lazy var exerciseListView: ModalTableView = {
-        let categoryListViewModel = ModalTableViewModel(modalTableViewType: .exercise, modalTableViewSelectionType: .toggle, selectedCellCallBack: self.viewModel.selectCellCallback, category: self.viewModel.category, routine: self.viewModel.routine)
+        let categoryListViewModel = ModalTableViewModel(
+            modalTableViewType: .exercise,
+            modalTableViewSelectionType: .toggle,
+            selectedCellCallBack: self.viewModel.selectCellCallback,
+            category: self.viewModel.category,
+            routine: self.viewModel.routine)
         let exerciseListView = ModalTableView(viewModel: categoryListViewModel)
         return exerciseListView
     }()
@@ -47,9 +52,7 @@ class SelectExerciseModal: UIView {
             self.exerciseListView.topAnchor.constraint(equalTo: self.searchBar.bottomAnchor, constant: 30),
             self.exerciseListView.centerXAnchor.constraint(equalTo: self.centerXAnchor),
             self.exerciseListView.widthAnchor.constraint(equalTo: self.widthAnchor, multiplier: 0.95),
-            self.exerciseListView.bottomAnchor.constraint(equalTo: self.bottomAnchor, constant: -30),
+            self.exerciseListView.bottomAnchor.constraint(equalTo: self.bottomAnchor, constant: -30)
         ])
     }
-    
-
 }

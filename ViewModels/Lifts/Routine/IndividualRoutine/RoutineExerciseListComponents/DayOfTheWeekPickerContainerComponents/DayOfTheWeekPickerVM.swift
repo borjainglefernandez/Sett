@@ -12,7 +12,7 @@ final class DayOfTheWeekPickerVM {
     public let routine: Routine
     public let dayOfTheWeek: DayOfTheWeek
     lazy var selected: Bool = {
-        return !(self.routine.daysOfTheWeek?.filter{ $0.dayOfTheWeek.rawValue == self.dayOfTheWeek.rawValue}.isEmpty ?? true)
+        return !(self.routine.daysOfTheWeek?.filter { $0.dayOfTheWeek.rawValue == self.dayOfTheWeek.rawValue}.isEmpty ?? true)
     }()
     
     // MARK: - Init
@@ -31,7 +31,7 @@ final class DayOfTheWeekPickerVM {
         if self.selected {
             self.routine.daysOfTheWeek?.append(DayOfTheWeekWrapper(self.dayOfTheWeek))
         } else {
-            self.routine.daysOfTheWeek = self.routine.daysOfTheWeek?.filter{ $0.dayOfTheWeek.rawValue != self.dayOfTheWeek.rawValue }
+            self.routine.daysOfTheWeek = self.routine.daysOfTheWeek?.filter { $0.dayOfTheWeek.rawValue != self.dayOfTheWeek.rawValue }
         }
         CoreDataBase.save()
     }

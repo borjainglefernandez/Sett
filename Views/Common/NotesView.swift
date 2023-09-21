@@ -48,7 +48,7 @@ final class NotesView: UIView {
             self.textView.topAnchor.constraint(equalTo: self.topAnchor, constant: 20),
             self.textView.leftAnchor.constraint(equalTo: self.leftAnchor, constant: 10),
             self.textView.rightAnchor.constraint(equalTo: self.rightAnchor, constant: -10),
-            self.textView.bottomAnchor.constraint(equalTo: self.bottomAnchor, constant: -20),
+            self.textView.bottomAnchor.constraint(equalTo: self.bottomAnchor, constant: -20)
         ])
     }
     

@@ -65,7 +65,7 @@ final class HomeView: UIView {
             self.collectionView.bottomAnchor.constraint(equalTo: self.bottomAnchor),
             
             self.emptyView.centerXAnchor.constraint(equalTo: self.centerXAnchor),
-            self.emptyView.centerYAnchor.constraint(equalTo: self.centerYAnchor),
+            self.emptyView.centerYAnchor.constraint(equalTo: self.centerYAnchor)
         ])
     }
     

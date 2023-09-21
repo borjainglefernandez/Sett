@@ -37,7 +37,6 @@ class RoutineDayOfTheWeekCell: UICollectionViewCell {
         self.collapsibleContainerTopBar.setTitleLabelText(title: "")
     }
     
-    
     // MARK: - Constraints
     private func addConstraints() {
         NSLayoutConstraint.activate([
@@ -48,15 +47,24 @@ class RoutineDayOfTheWeekCell: UICollectionViewCell {
             self.routinesListView.heightAnchor.constraint(equalTo: self.heightAnchor, multiplier: 1, constant: -30),
             self.routinesListView.bottomAnchor.constraint(equalTo: self.bottomAnchor),
             self.routinesListView.rightAnchor.constraint(equalTo: self.rightAnchor),
-            self.routinesListView.leftAnchor.constraint(equalTo: self.leftAnchor),
+            self.routinesListView.leftAnchor.constraint(equalTo: self.leftAnchor)
         ])
     }
     
     // MARK: - Configurations
-    public func configure(with viewModel: RoutineDayOfTheWeekCellVM, at indexPath: IndexPath, for collectionView: UICollectionView, isExpanded: Bool, delegate: CollapsibleContainerTopBarDelegate) {
+    public func configure(
+        with viewModel: RoutineDayOfTheWeekCellVM,
+        at indexPath: IndexPath,
+        for collectionView: UICollectionView,
+        isExpanded: Bool,
+        delegate: CollapsibleContainerTopBarDelegate) {
         
         // Configure view model of collapsible top bar and title
-        let collapsibleContainerTopBarViewModel = CollapsibleContainerTopBarViewModel(collectionView: collectionView, isExpanded: isExpanded, indexPath: indexPath, delegate: delegate)
+        let collapsibleContainerTopBarViewModel = CollapsibleContainerTopBarViewModel(
+            collectionView: collectionView,
+            isExpanded: isExpanded,
+            indexPath: indexPath,
+            delegate: delegate)
         self.collapsibleContainerTopBar.configure(with: collapsibleContainerTopBarViewModel)
         self.collapsibleContainerTopBar.setTitleLabelText(title: "\(viewModel.title)")
         

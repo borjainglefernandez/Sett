@@ -51,7 +51,6 @@ class IndividualRoutineViewController: UIViewController {
         
         self.backButton.addTarget(self, action: #selector(self.goBack), for: .touchUpInside)
 
-
     }
     
     // MARK: - Constraints
@@ -68,7 +67,7 @@ class IndividualRoutineViewController: UIViewController {
             self.routineName.centerXAnchor.constraint(equalTo: self.topBar.centerXAnchor),
             
             self.moreButton.centerYAnchor.constraint(equalTo: self.topBar.centerYAnchor),
-            self.moreButton.rightAnchor.constraint(equalTo: self.topBar.rightAnchor,  constant: -7),
+            self.moreButton.rightAnchor.constraint(equalTo: self.topBar.rightAnchor, constant: -7),
             
             self.routineExerciseList.topAnchor.constraint(equalTo: self.topBar.bottomAnchor),
             self.routineExerciseList.leftAnchor.constraint(equalTo: self.view.safeAreaLayoutGuide.leftAnchor),

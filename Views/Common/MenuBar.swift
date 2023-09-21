@@ -28,7 +28,7 @@ class MenuBar: UIView {
     // MARK: - Constraints
     private func addConstraints() {
         NSLayoutConstraint.activate([
-            self.heightAnchor.constraint(equalToConstant: 30),
+            self.heightAnchor.constraint(equalToConstant: 30)
         ])
     }
 }

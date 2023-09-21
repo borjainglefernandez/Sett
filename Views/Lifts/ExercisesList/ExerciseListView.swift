@@ -36,7 +36,6 @@ class ExerciseListView: UIView {
         fatalError("Unsupported initialiser")
     }
     
-    
     // MARK: - Constraints
     private func addConstraints() {
         NSLayoutConstraint.activate([

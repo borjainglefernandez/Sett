@@ -60,15 +60,14 @@ final class WorkoutGeneralStatsViewCell: UITableViewCell {
             self.divider.centerXAnchor.constraint(equalTo: self.centerXAnchor),
             
             self.displayContent.centerYAnchor.constraint(equalTo: self.label.centerYAnchor),
-            self.displayContent.rightAnchor.constraint(equalTo: self.rightAnchor, constant: -30),
-            
+            self.displayContent.rightAnchor.constraint(equalTo: self.rightAnchor, constant: -30)  
         ])
     }
     
     // Need to specify height anchor for net progress view to make it show up correctly
     private func addNetProgressConstraints() {
         NSLayoutConstraint.activate([
-            self.displayContent.heightAnchor.constraint(equalTo: self.heightAnchor),
+            self.displayContent.heightAnchor.constraint(equalTo: self.heightAnchor)
         ])
     }
     

@@ -24,10 +24,7 @@ final class WorkoutViewController: UIViewController {
         workoutName.delegate = self.viewModel
         return workoutName
     }()
-    
-    
-    
-    
+
     // MARK: - Init
     init(viewModel: WorkoutViewModel) {
         self.viewModel = viewModel
@@ -51,8 +48,6 @@ final class WorkoutViewController: UIViewController {
         self.addConstraints()
         
         self.backButton.addTarget(self, action: #selector(self.goBack), for: .touchUpInside)
-
-
     }
     
     // MARK: - Constraints
@@ -69,12 +64,12 @@ final class WorkoutViewController: UIViewController {
             self.workoutName.centerXAnchor.constraint(equalTo: self.topBar.centerXAnchor),
             
             self.moreButton.centerYAnchor.constraint(equalTo: self.topBar.centerYAnchor),
-            self.moreButton.rightAnchor.constraint(equalTo: self.topBar.rightAnchor,  constant: -7),
+            self.moreButton.rightAnchor.constraint(equalTo: self.topBar.rightAnchor, constant: -7),
             
             self.workoutGeneralStatsView.topAnchor.constraint(equalTo: self.topBar.bottomAnchor),
             self.workoutGeneralStatsView.leftAnchor.constraint(equalTo: self.view.safeAreaLayoutGuide.leftAnchor),
             self.workoutGeneralStatsView.rightAnchor.constraint(equalTo: self.view.safeAreaLayoutGuide.rightAnchor),
-            self.workoutGeneralStatsView.heightAnchor.constraint(equalToConstant: 285),
+            self.workoutGeneralStatsView.heightAnchor.constraint(equalToConstant: 285)
         ])
     }
     

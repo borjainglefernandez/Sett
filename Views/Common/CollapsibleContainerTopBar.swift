@@ -22,7 +22,7 @@ class CollapsibleContainerTopBar: UIView {
     public let expandCollapseButton: IconButton = IconButton(imageName: "chevron.right", color: .label)
     
     // MARK: - Init
-    init(frame: CGRect = .zero,title: String = "") {
+    init(frame: CGRect = .zero, title: String = "") {
         super.init(frame: frame)
         self.titleLabel.text = title
         
@@ -48,7 +48,7 @@ class CollapsibleContainerTopBar: UIView {
             self.titleLabel.centerYAnchor.constraint(equalTo: self.topBar.centerYAnchor),
             
             self.expandCollapseButton.centerYAnchor.constraint(equalTo: self.topBar.centerYAnchor),
-            self.expandCollapseButton.rightAnchor.constraint(equalTo: self.rightAnchor, constant: -15),
+            self.expandCollapseButton.rightAnchor.constraint(equalTo: self.rightAnchor, constant: -15)
         ])
     }
     

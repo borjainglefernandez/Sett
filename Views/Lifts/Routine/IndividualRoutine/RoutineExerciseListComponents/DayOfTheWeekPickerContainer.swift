@@ -53,8 +53,6 @@ class DayOfTheWeekPickerContainer: UIView {
         }
         addSubviews(self.topBar, self.contentContainer)
         
-        
-        
         self.addConstraints()
     }
     

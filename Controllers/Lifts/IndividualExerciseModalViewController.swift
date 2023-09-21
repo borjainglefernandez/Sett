@@ -74,7 +74,7 @@ class IndividualExerciseModalViewController: UIViewController {
             self.individualExerciseModal.topAnchor.constraint(equalTo: self.exerciseNameTextField.bottomAnchor, constant: 30),
             self.individualExerciseModal.bottomAnchor.constraint(equalTo: self.view.safeAreaLayoutGuide.bottomAnchor),
             self.individualExerciseModal.leftAnchor.constraint(equalTo: self.view.safeAreaLayoutGuide.leftAnchor),
-            self.individualExerciseModal.rightAnchor.constraint(equalTo: self.view.safeAreaLayoutGuide.rightAnchor),
+            self.individualExerciseModal.rightAnchor.constraint(equalTo: self.view.safeAreaLayoutGuide.rightAnchor)
         ])
     }
     

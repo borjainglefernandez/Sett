@@ -30,7 +30,6 @@ enum DayOfTheWeek: String, CaseIterable, Equatable {
 public class DayOfTheWeekWrapper: NSObject, NSSecureCoding {
     public static var supportsSecureCoding: Bool = true
     
-    
     let dayOfTheWeek: DayOfTheWeek
     
     init(_ dayOfTheWeek: DayOfTheWeek) {

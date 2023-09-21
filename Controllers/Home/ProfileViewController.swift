@@ -80,7 +80,7 @@ final class ProfileViewController: UIViewController {
         let entityNames = ["WorkoutExercise", "Routine", "Exercise", "Category"]
         let entityTypes = [WorkoutExercise.self, Routine.self, Exercise.self, Category.self]
         
-        for i in 0 ..< entityNames.count  {
+        for i in 0 ..< entityNames.count {
             let entities = CoreDataBase.fetchEntities(withEntity: entityNames[i], expecting: entityTypes[i])
             if let entities = entities {
                 for entity in entities {

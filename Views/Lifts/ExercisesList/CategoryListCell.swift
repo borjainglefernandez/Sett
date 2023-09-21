@@ -55,12 +55,14 @@ class CategoryListCell: UICollectionViewCell {
             self.collapsibleContainerTopBar.leftAnchor.constraint(equalTo: self.leftAnchor),
             self.collapsibleContainerTopBar.rightAnchor.constraint(equalTo: self.rightAnchor),
             
-            self.categorySettingsIconButton.rightAnchor.constraint(equalTo: self.collapsibleContainerTopBar.expandCollapseButton.leftAnchor, constant: -10),
+            self.categorySettingsIconButton.rightAnchor.constraint(
+                equalTo: self.collapsibleContainerTopBar.expandCollapseButton.leftAnchor,
+                constant: -10),
             self.categorySettingsIconButton.centerYAnchor.constraint(equalTo: self.collapsibleContainerTopBar.centerYAnchor),
             
             self.exerciseListView.topAnchor.constraint(equalTo: self.collapsibleContainerTopBar.bottomAnchor),
             self.exerciseListView.rightAnchor.constraint(equalTo: self.rightAnchor),
-            self.exerciseListView.leftAnchor.constraint(equalTo: self.leftAnchor),
+            self.exerciseListView.leftAnchor.constraint(equalTo: self.leftAnchor)
         ])
         
         if isExpanded {
@@ -75,7 +77,9 @@ class CategoryListCell: UICollectionViewCell {
     }
     
     // MARK: - Configurations
-    public func configure(with viewModel: CategoryListCellViewModel, at indexPath: IndexPath, for collectionView: UICollectionView, isExpanded: Bool, delegate: CollapsibleContainerTopBarDelegate) {
+    public func configure(with viewModel: CategoryListCellViewModel,
+                          at indexPath: IndexPath, for collectionView: UICollectionView,
+                          isExpanded: Bool, delegate: CollapsibleContainerTopBarDelegate) {
         // Populate category object
         self.category = viewModel.category
         
@@ -85,7 +89,11 @@ class CategoryListCell: UICollectionViewCell {
         self.collapsibleContainerTopBar.setTitleLabelText(title: "\(viewModel.category.name!) - \(numExercises) \(exerciseSuffix)")
         
         // Configure view model of collapsible top bar
-        let collapsibleContainerTopBarViewModel = CollapsibleContainerTopBarViewModel(collectionView: collectionView, isExpanded: isExpanded, indexPath: indexPath, delegate: delegate)
+        let collapsibleContainerTopBarViewModel = CollapsibleContainerTopBarViewModel(
+            collectionView: collectionView,
+            isExpanded: isExpanded,
+            indexPath: indexPath,
+            delegate: delegate)
         self.collapsibleContainerTopBar.configure(with: collapsibleContainerTopBarViewModel)
         
         // Configure exercises list view
@@ -111,10 +119,13 @@ class CategoryListCell: UICollectionViewCell {
         }
         
         let deleteCategoryAction = UIAction(title: "Delete",
-                                            attributes: [.destructive], state: .off) { action in
+                                            attributes: [.destructive], state: .off) { _ in
             if let category = self.category {
                 // Controller
-                let deleteCategoryViewController = UIAlertController(title: "Delete \(String(describing: category.name!))?", message: "This action cannot be undone.",preferredStyle: .actionSheet)
+                let deleteCategoryViewController = UIAlertController(
+                    title: "Delete \(String(describing: category.name!))?",
+                    message: "This action cannot be undone.",
+                    preferredStyle: .actionSheet)
                 
                 // Actions
                 deleteCategoryViewController.addAction(UIAlertAction(title: "Delete", style: .destructive, handler: { _ in

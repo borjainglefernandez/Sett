@@ -57,7 +57,12 @@ final class MonthWorkoutListCell: UITableViewCell {
         self.backgroundColor = UIColor.clear // Allows for customisability of cell
         self.configureClearSelectedBackground()
         
-        self.contentView.addSubviews(self.containerView, self.calendarDayView, self.titleLabel, self.starRating, self.achievementsNumberView, self.durationLabel)
+        self.contentView.addSubviews(self.containerView,
+                                     self.calendarDayView,
+                                     self.titleLabel,
+                                     self.starRating,
+                                     self.achievementsNumberView,
+                                     self.durationLabel)
         self.addConstraints()
     }
     

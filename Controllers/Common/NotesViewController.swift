@@ -46,7 +46,7 @@ final class NotesViewController: UIViewController {
         NSLayoutConstraint.activate([
             self.topBar.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor, constant: 20),
             self.topBar.centerXAnchor.constraint(equalTo: view.safeAreaLayoutGuide.centerXAnchor),
-            self.topBar.widthAnchor.constraint(equalTo:view.safeAreaLayoutGuide.widthAnchor, multiplier: 0.95),
+            self.topBar.widthAnchor.constraint(equalTo: view.safeAreaLayoutGuide.widthAnchor, multiplier: 0.95),
             self.topBar.heightAnchor.constraint(equalToConstant: 30),
             
             self.notesTitle.centerYAnchor.constraint(equalTo: topBar.centerYAnchor),

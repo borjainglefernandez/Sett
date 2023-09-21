@@ -37,7 +37,6 @@ final class MonthWorkoutListView: UIView {
         fatalError("Unsupported initialiser")
     }
     
-    
     // MARK: - Constraints
     private func addConstraints() {
         NSLayoutConstraint.activate([

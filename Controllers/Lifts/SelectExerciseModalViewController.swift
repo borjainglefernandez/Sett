@@ -71,7 +71,7 @@ class SelectExerciseModalViewController: UIViewController {
             self.selectExerciseModal.topAnchor.constraint(equalTo: self.titleLabel.bottomAnchor, constant: 30),
             self.selectExerciseModal.bottomAnchor.constraint(equalTo: self.view.safeAreaLayoutGuide.bottomAnchor),
             self.selectExerciseModal.leftAnchor.constraint(equalTo: self.view.safeAreaLayoutGuide.leftAnchor),
-            self.selectExerciseModal.rightAnchor.constraint(equalTo: self.view.safeAreaLayoutGuide.rightAnchor),
+            self.selectExerciseModal.rightAnchor.constraint(equalTo: self.view.safeAreaLayoutGuide.rightAnchor)
         ])
     }
     

@@ -16,7 +16,10 @@ class SelectCategoryModal: UIView {
     
     // Category list
     lazy var categoryListView: ModalTableView = {
-        let categoryListViewModel = ModalTableViewModel(modalTableViewType: .category, modalTableViewSelectionType: .select, selectedCellCallBack: self.viewModel.selectCellCallback)
+        let categoryListViewModel = ModalTableViewModel(
+            modalTableViewType: .category,
+            modalTableViewSelectionType: .select,
+            selectedCellCallBack: self.viewModel.selectCellCallback)
         let categoryListView = ModalTableView(viewModel: categoryListViewModel)
         return categoryListView
     }()
@@ -47,9 +50,7 @@ class SelectCategoryModal: UIView {
             self.categoryListView.topAnchor.constraint(equalTo: self.searchBar.bottomAnchor, constant: 30),
             self.categoryListView.centerXAnchor.constraint(equalTo: self.centerXAnchor),
             self.categoryListView.widthAnchor.constraint(equalTo: self.widthAnchor, multiplier: 0.95),
-            self.categoryListView.bottomAnchor.constraint(equalTo: self.bottomAnchor, constant: -30),
+            self.categoryListView.bottomAnchor.constraint(equalTo: self.bottomAnchor, constant: -30)
         ])
     }
-    
-    
 }

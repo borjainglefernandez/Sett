@@ -20,7 +20,6 @@ class RoutineListViewModel: NSObject {
     }
 }
 
-
 // MARK: - Table View Delegate
 extension RoutineListViewModel: UITableViewDataSource, UITableViewDelegate {
     
@@ -65,7 +64,7 @@ extension RoutineListViewModel: UITableViewDataSource, UITableViewDelegate {
         let routine =  self.cellViewModels[indexPath.row].routine
         
         // Trailing delete routine action
-        let deleteRoutineAction = UIContextualAction(style: .destructive, title: "") {  (contextualAction, view, boolValue) in
+        let deleteRoutineAction = UIContextualAction(style: .destructive, title: "") {  _, _, _ in
             
             // Controller
             let deleteRoutineAlertController = UIAlertController(

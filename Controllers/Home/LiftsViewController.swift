@@ -25,11 +25,10 @@ final class LiftsViewController: UIViewController {
     private let routinesView: RoutinesView = RoutinesView()
     private let exercisesView: ExercisesView = ExercisesView()
     
-    
     private func setUpRoutineOrCategoryMenu() {
         self.changeMenuButton.showsMenuAsPrimaryAction = true
         
-        let changeWorkoutLabel = UIAction(title: self.routineExerciseMenuViewModel.changeMenuTitle, attributes: [], state: .off) { action in
+        let changeWorkoutLabel = UIAction(title: self.routineExerciseMenuViewModel.changeMenuTitle, attributes: [], state: .off) { _ in
             self.routineExerciseMenuViewModel.toggleType()
             self.titleLabel.text = self.routineExerciseMenuViewModel.mainMenuTitle
             self.setUpRoutineOrCategoryMenu()

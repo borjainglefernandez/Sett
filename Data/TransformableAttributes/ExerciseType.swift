@@ -52,7 +52,6 @@ enum ExerciseType: String, CaseIterable {
 public class ExerciseTypeWrapper: NSObject, NSSecureCoding {
     public static var supportsSecureCoding: Bool = true
     
-    
     let exerciseType: ExerciseType
     
     init(_ exerciseType: ExerciseType) {

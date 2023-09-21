@@ -39,7 +39,6 @@ class ModalTableViewCell: UITableViewCell {
         return divider
     }()
     
-    
     // MARK: - Init
     override init(style: UITableViewCell.CellStyle, reuseIdentifier: String?) {
         super.init(style: style, reuseIdentifier: reuseIdentifier)
@@ -47,7 +46,8 @@ class ModalTableViewCell: UITableViewCell {
         self.backgroundColor = UIColor.clear // Allows for customisability of cell
         self.configureClearSelectedBackground()
         
-        self.contentView.addSubviews(self.containerView, self.titleLabel, self.subTitleLabel, self.radioIconButton, self.arrowIconButton, self.divider)
+        self.contentView.addSubviews(self.containerView, self.titleLabel, self.subTitleLabel,
+                                     self.radioIconButton, self.arrowIconButton, self.divider)
     }
     
     required init?(coder: NSCoder) {
@@ -67,11 +67,11 @@ class ModalTableViewCell: UITableViewCell {
         // Center title vertically if there is no subtitle
         if self.subTitleLabel.text!.isEmpty {
             NSLayoutConstraint.activate([
-                self.titleLabel.centerYAnchor.constraint(equalTo: self.centerYAnchor),
+                self.titleLabel.centerYAnchor.constraint(equalTo: self.centerYAnchor)
             ])
         } else {
             NSLayoutConstraint.activate([
-                self.titleLabel.topAnchor.constraint(equalTo: self.topAnchor, constant: 5),
+                self.titleLabel.topAnchor.constraint(equalTo: self.topAnchor, constant: 5)
             ])
         }
         
@@ -95,7 +95,7 @@ class ModalTableViewCell: UITableViewCell {
             self.divider.widthAnchor.constraint(equalTo: self.widthAnchor, multiplier: 0.95),
             self.divider.centerXAnchor.constraint(equalTo: self.centerXAnchor),
             self.divider.heightAnchor.constraint(equalToConstant: 1),
-            self.divider.bottomAnchor.constraint(equalTo: self.bottomAnchor),
+            self.divider.bottomAnchor.constraint(equalTo: self.bottomAnchor)
         ])
     }
     

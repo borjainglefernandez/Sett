@@ -50,6 +50,4 @@ class StarRating: UIView {
             self.starRating.bottomAnchor.constraint(equalTo: self.bottomAnchor)
         ])
     }
-    
-    
 }

@@ -63,7 +63,7 @@ class SelectCategoryModalViewController: UIViewController {
             self.selectCategoryModal.topAnchor.constraint(equalTo: self.titleLabel.bottomAnchor, constant: 30),
             self.selectCategoryModal.bottomAnchor.constraint(equalTo: self.view.safeAreaLayoutGuide.bottomAnchor),
             self.selectCategoryModal.leftAnchor.constraint(equalTo: self.view.safeAreaLayoutGuide.leftAnchor),
-            self.selectCategoryModal.rightAnchor.constraint(equalTo: self.view.safeAreaLayoutGuide.rightAnchor),
+            self.selectCategoryModal.rightAnchor.constraint(equalTo: self.view.safeAreaLayoutGuide.rightAnchor)
         ])
     }
     

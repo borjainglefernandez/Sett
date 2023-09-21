@@ -14,7 +14,7 @@ protocol CollapsibleContainerTopBarDelegate: NSObjectProtocol {
     /// - Parameters:
     ///   - indexPath: The index of the month workout container to expand or collapse
     ///   - collectionView: The collection view of the month workout container
-    func collapseExpand(indexPath:IndexPath, collectionView: UICollectionView)
+    func collapseExpand(indexPath: IndexPath, collectionView: UICollectionView)
 }
 
 final class CollapsibleContainerTopBarViewModel {

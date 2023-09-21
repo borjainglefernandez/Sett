@@ -45,20 +45,27 @@ final class MonthListCell: UICollectionViewCell {
             self.monthWorkoutListView.heightAnchor.constraint(equalTo: self.heightAnchor, multiplier: 1, constant: -30),
             self.monthWorkoutListView.bottomAnchor.constraint(equalTo: self.bottomAnchor),
             self.monthWorkoutListView.rightAnchor.constraint(equalTo: self.rightAnchor),
-            self.monthWorkoutListView.leftAnchor.constraint(equalTo: self.leftAnchor),
+            self.monthWorkoutListView.leftAnchor.constraint(equalTo: self.leftAnchor)
         ])
     }
     
     // MARK: - Configurations
-    public func configure(with viewModel: MonthListCellViewModel, at indexPath: IndexPath, for collectionView: UICollectionView, isExpanded: Bool, delegate: CollapsibleContainerTopBarDelegate) {
+    public func configure(with viewModel: MonthListCellViewModel,
+                          at indexPath: IndexPath,
+                          for collectionView: UICollectionView,
+                          isExpanded: Bool,
+                          delegate: CollapsibleContainerTopBarDelegate) {
         // Populate title label text
         let workoutSuffix = viewModel.numWorkouts == 1 ? "Workout" : "Workouts"
         self.collapsibleContainerTopBar.setTitleLabelText(title: "\(viewModel.monthName) - \(viewModel.numWorkouts) \(workoutSuffix)")
         
         // Configure view model of collapsible top bar
-        let collapsibleContainerTopBarViewModel = CollapsibleContainerTopBarViewModel(collectionView: collectionView, isExpanded: isExpanded, indexPath: indexPath, delegate: delegate)
+        let collapsibleContainerTopBarViewModel = CollapsibleContainerTopBarViewModel(
+            collectionView: collectionView,
+            isExpanded: isExpanded,
+            indexPath: indexPath,
+            delegate: delegate)
         self.collapsibleContainerTopBar.configure(with: collapsibleContainerTopBarViewModel)
-        
         
         // Extract month and year then configure view model of workout
         guard let month = Int(viewModel.monthName.components(separatedBy: "/")[0]),

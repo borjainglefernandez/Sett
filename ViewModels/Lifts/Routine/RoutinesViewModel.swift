@@ -81,7 +81,6 @@ final class RoutinesViewModel: NSObject {
     }
 }
 
-
 // MARK: - Collection View Delegate
 extension RoutinesViewModel: UICollectionViewDataSource, UICollectionViewDelegateFlowLayout {
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
@@ -95,7 +94,11 @@ extension RoutinesViewModel: UICollectionViewDataSource, UICollectionViewDelegat
         ) as? RoutineDayOfTheWeekCell else {
             fatalError("Unsupported cell")
         }
-        cell.configure(with: cellViewModels[indexPath.row], at: indexPath, for: collectionView, isExpanded: self.isExpanded[indexPath.row], delegate: self)
+        cell.configure(with: cellViewModels[indexPath.row],
+                       at: indexPath,
+                       for: collectionView,
+                       isExpanded: self.isExpanded[indexPath.row],
+                       delegate: self)
         cell.collapsibleContainerTopBar.changeButtonIcon() // Expand or collapse container
 
         return cell
@@ -141,5 +144,3 @@ extension RoutinesViewModel: NSFetchedResultsControllerDelegate {
         }
     }
 }
-
-

@@ -57,7 +57,6 @@ final class LoginController: UIViewController {
 
 extension LoginController: ASAuthorizationControllerDelegate, ASAuthorizationControllerPresentationContextProviding {
     
-    
     func presentationAnchor(for controller: ASAuthorizationController) -> ASPresentationAnchor {
         return view.window!
     }
@@ -72,8 +71,8 @@ extension LoginController: ASAuthorizationControllerDelegate, ASAuthorizationCon
 
         if let appleIDCredential = authorization.credential as?  ASAuthorizationAppleIDCredential {
             let userIdentifier = appleIDCredential.user
-            let fullName = appleIDCredential.fullName
-            let email = appleIDCredential.email
+            _ = appleIDCredential.fullName
+            _ = appleIDCredential.email
             self.saveUserInKeychain(userIdentifier)
             let tabViewController = TabViewController()
             

@@ -37,8 +37,7 @@ final class TabViewController: UITabBarController {
         profileNav.tabBarItem = UITabBarItem(title: .none,
                                        image: UIImage(systemName: "person.circle"),
                                        tag: 4)
-        
-        
+                
         let tabBarAppearance = UITabBarAppearance()
         tabBarAppearance.backgroundColor = .systemGray4
         

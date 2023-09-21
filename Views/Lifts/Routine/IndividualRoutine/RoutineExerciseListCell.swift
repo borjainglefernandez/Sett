@@ -142,7 +142,11 @@ class RoutineExerciseListCell: UICollectionViewCell {
     }
     
     private func setUpMoreButton() {
-        let replaceWorkoutExerciseAction = UIAction(title: "Replace Exercise", image: UIImage(systemName: "arrow.2.squarepath"), attributes: [], state: .off) { action in
+        let replaceWorkoutExerciseAction = UIAction(
+            title: "Replace Exercise",
+            image: UIImage(systemName: "arrow.2.squarepath"),
+            attributes: [],
+            state: .off) { _ in
             self.routineExerciseListCellVM?.deleteWorkoutExercise()
             if let parentViewController = self.getParentViewController(self),
                let routineExerciseListCellVM = self.routineExerciseListCellVM {
@@ -151,7 +155,11 @@ class RoutineExerciseListCell: UICollectionViewCell {
             }
         }
         
-        let deleteWorkoutExerciseAction = UIAction(title: "Delete Exercise", image: UIImage(systemName: "trash"), attributes: [.destructive], state: .off) { action in
+        let deleteWorkoutExerciseAction = UIAction(
+            title: "Delete Exercise",
+            image: UIImage(systemName: "trash"),
+            attributes: [.destructive],
+            state: .off) { _ in
             
             self.routineExerciseListCellVM?.deleteWorkoutExercise()
         }
@@ -159,6 +167,4 @@ class RoutineExerciseListCell: UICollectionViewCell {
         self.moreButton.showsMenuAsPrimaryAction = true
         self.moreButton.menu =  UIMenu(preferredElementSize: .medium, children: [replaceWorkoutExerciseAction, deleteWorkoutExerciseAction])
     }
-    
-    
 }

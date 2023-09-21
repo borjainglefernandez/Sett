@@ -59,10 +59,8 @@ final class AchievementsNumberView: UIView {
             self.achievementsNumberContainer.topAnchor.constraint(equalTo: self.topAnchor),
             self.achievementsNumberContainer.bottomAnchor.constraint(equalTo: self.bottomAnchor),
             
-            
             self.achievementsNumberLabel.centerYAnchor.constraint(equalTo: self.achievementsNumberContainer.centerYAnchor),
-            self.achievementsNumberLabel.centerXAnchor.constraint(equalTo: self.achievementsNumberContainer.centerXAnchor),
-            
+            self.achievementsNumberLabel.centerXAnchor.constraint(equalTo: self.achievementsNumberContainer.centerXAnchor)
         ])
     }
 }

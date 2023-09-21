@@ -90,11 +90,11 @@ extension ExerciseListViewModel: UITableViewDataSource, UITableViewDelegate {
 
     }
 
-    func tableView(_ tableView: UITableView,trailingSwipeActionsConfigurationForRowAt indexPath: IndexPath) -> UISwipeActionsConfiguration? {
+    func tableView(_ tableView: UITableView, trailingSwipeActionsConfigurationForRowAt indexPath: IndexPath) -> UISwipeActionsConfiguration? {
         let exercise =  self.cellViewModels[indexPath.row].exercise
 
         // Trailing delete exercise action
-        let deleteExerciseAction = UIContextualAction(style: .destructive, title: "") {  (contextualAction, view, boolValue) in
+        let deleteExerciseAction = UIContextualAction(style: .destructive, title: "") {  _, _, _ in
 
             // Controller
             let deleteExerciseAlertController =

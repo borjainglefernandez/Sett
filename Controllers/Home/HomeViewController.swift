@@ -29,11 +29,18 @@ final class HomeViewController: UIViewController {
     private func setUpAddWorkoutMenu() {
         self.addWorkoutButton.showsMenuAsPrimaryAction = true
         
-        let blankWorkoutButton = UIAction(title: "Blank Workout", image: UIImage(systemName: "plus.circle"), attributes: [], state: .off) { action in
-            self.createBlankWorkout()
+        let blankWorkoutButton = UIAction(
+            title: "Blank Workout",
+            image: UIImage(systemName: "plus.circle"),
+            attributes: [], state: .off) { _ in
+                self.createBlankWorkout()
         }
-        let startWorkoutButton = UIAction(title: "Start Routine", image: UIImage(systemName: "arrow.clockwise.circle"), attributes: [], state: .off) { action in
-            self.startRoutine()
+        let startWorkoutButton = UIAction(
+            title: "Start Routine",
+            image: UIImage(systemName: "arrow.clockwise.circle"),
+            attributes: [],
+            state: .off) { _ in
+                self.startRoutine()
         }
         
         self.addWorkoutButton.menu = UIMenu(children: [blankWorkoutButton, startWorkoutButton])
@@ -51,7 +58,6 @@ final class HomeViewController: UIViewController {
         self.view.addSubviews(self.topBar, self.homeView)
         self.addConstraints()
     }
-    
     
     // MARK: - Constraints
     private func addConstraints() {
@@ -102,6 +108,4 @@ final class HomeViewController: UIViewController {
 //        showHideCollectionView()
         
     }
-    
 }
-

@@ -58,9 +58,6 @@ final class CalendarDayView: UIView {
     lazy var leftCircle: UIView = calendarCircle()
     lazy var rightCircle: UIView = calendarCircle()
     
-
-    
-    
     // MARK: - Init
     override init(frame: CGRect) {
         super.init(frame: frame)
@@ -75,7 +72,6 @@ final class CalendarDayView: UIView {
         fatalError("Unsupported initialiser")
     }
     
-   
     // MARK: - Constraints
     private func addConstraints() {
         NSLayoutConstraint.activate([
@@ -100,7 +96,7 @@ final class CalendarDayView: UIView {
             self.rightCircle.heightAnchor.constraint(equalToConstant: 4),
             self.rightCircle.widthAnchor.constraint(equalToConstant: 4),
             self.rightCircle.centerXAnchor.constraint(equalTo: self.topCalendarBar.centerXAnchor, constant: 6),
-            self.rightCircle.centerYAnchor.constraint(equalTo: self.topCalendarBar.centerYAnchor),
+            self.rightCircle.centerYAnchor.constraint(equalTo: self.topCalendarBar.centerYAnchor)
         ])
         
     }
