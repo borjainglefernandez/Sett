@@ -1,5 +1,5 @@
 //
-//  ModalTableViewModel.swift
+//  ModalTableVM.swift
 //  Sett
 //
 //  Created by Borja Ingle-Fernandez on 8/14/23.
@@ -9,7 +9,7 @@ import Foundation
 import UIKit
 import CoreData
 
-class ModalTableViewModel: NSObject {
+class ModalTableVM: NSObject {
     public let modalTableViewType: ModalTableViewType
     public let modalTableViewSelectionType: ModalTableViewSelectionType
     private let selectedCellCallback: ((String, String, ModalTableViewType, UIView?) -> Void)
@@ -18,8 +18,8 @@ class ModalTableViewModel: NSObject {
     private let exercise: Exercise?
     private let exerciseType: ExerciseType?
     private let routine: Routine?
-    public var cellViewModels: [ModalTableViewCellViewModel]
-    public var filteredCellViewModels: [ModalTableViewCellViewModel]
+    public var cellVMs: [ModalTableViewCellVM]
+    public var filteredCellVMs: [ModalTableViewCellVM]
     public var tableView: UITableView?
     private var categoryFetchedResultsController: NSFetchedResultsController<Category>?
     private var exerciseFetchedResultsController: NSFetchedResultsController<Exercise>?
@@ -38,29 +38,29 @@ class ModalTableViewModel: NSObject {
         self.exercise = exercise
         self.exerciseType = exerciseType
         self.routine = routine
-        self.cellViewModels = []
-        self.filteredCellViewModels = []
+        self.cellVMs = []
+        self.filteredCellVMs = []
         super.init()
         
-        self.initCellViewModels()
+        self.initCellVMs()
     }
     
-    public func initCellViewModels() {
-        self.cellViewModels = []
-        self.filteredCellViewModels = []
+    public func initCellVMs() {
+        self.cellVMs = []
+        self.filteredCellVMs = []
         
         switch modalTableViewType {
         case .category:
-            self.createCategoryCellViewModels()
+            self.createCategoryCellVMs()
         case .exercise:
-            self.createExerciseCellViewModels()
+            self.createExerciseCellVMs()
         case .exerciseType:
-            self.createExerciseTypeCellViewModels()
+            self.createExerciseTypeCellVMs()
         }
-        self.filteredCellViewModels = self.cellViewModels
+        self.filteredCellVMs = self.cellVMs
     }
     
-    private func createCategoryCellViewModels() {
+    private func createCategoryCellVMs() {
         self.categoryFetchedResultsController = CoreDataBase.createFetchedResultsController(
                                                     withEntityName: "Category",
                                                     expecting: Category.self,
@@ -71,19 +71,19 @@ class ModalTableViewModel: NSObject {
         let categories: [Category] = self.categoryFetchedResultsController?.fetchedObjects ?? []
         
         for category in categories {
-            let cellViewModel =
-                ModalTableViewCellViewModel(title: category.name!,
+            let cellVM =
+                ModalTableViewCellVM(title: category.name!,
                                             subTitle: String(describing: "\(category.exercises?.count ?? 0) Exercises"),
                                             modalTableViewSelectionType: self.modalTableViewSelectionType)
             if category == self.category { // Add preselected category to top
-                self.cellViewModels.insert(cellViewModel, at: 0)
+                self.cellVMs.insert(cellVM, at: 0)
             } else {
-                self.cellViewModels.append(cellViewModel)
+                self.cellVMs.append(cellVM)
             }
         }
     }
     
-    private func createExerciseCellViewModels() {
+    private func createExerciseCellVMs() {
         if let categoryName = self.category?.name {
             self.exerciseFetchedResultsController = CoreDataBase.createFetchedResultsController(
                     withEntityName: "Exercise",
@@ -103,24 +103,24 @@ class ModalTableViewModel: NSObject {
                 continue
             }
             
-            let cellViewModel = ModalTableViewCellViewModel(
+            let cellVM = ModalTableViewCellVM(
                                 title: exercise.name!,
                                 subTitle: exercise.type?.exerciseType.rawValue ?? "",
                                 modalTableViewSelectionType: self.modalTableViewSelectionType)
-            self.cellViewModels.append(cellViewModel)
+            self.cellVMs.append(cellVM)
         }
     }
     
-    private func createExerciseTypeCellViewModels() {
+    private func createExerciseTypeCellVMs() {
         for type in ExerciseType.allCases {
-            let cellViewModel = ModalTableViewCellViewModel(
+            let cellVM = ModalTableViewCellVM(
                                     title: type.rawValue,
                                     subTitle: "",
                                     modalTableViewSelectionType: self.modalTableViewSelectionType)
             if type == self.exerciseType {
-                self.cellViewModels.insert(cellViewModel, at: 0)
+                self.cellVMs.insert(cellVM, at: 0)
             } else {
-                self.cellViewModels.append(cellViewModel)
+                self.cellVMs.append(cellVM)
             }
         }
     }
@@ -136,9 +136,9 @@ class ModalTableViewModel: NSObject {
     ///   or
     ///   2.) We have selected that cell (as indicated by selectedIndexPath)
     private func selectCellIfNeeded(at cell: ModalTableViewCell, for indexPath: IndexPath) {
-        let existingCategory: Bool = self.category?.name == self.filteredCellViewModels[indexPath.row].title
-        let existingExercise: Bool = self.exercise?.name == self.filteredCellViewModels[indexPath.row].title
-        let existingExerciseType: Bool = self.exerciseType?.rawValue == self.filteredCellViewModels[indexPath.row].title
+        let existingCategory: Bool = self.category?.name == self.filteredCellVMs[indexPath.row].title
+        let existingExercise: Bool = self.exercise?.name == self.filteredCellVMs[indexPath.row].title
+        let existingExerciseType: Bool = self.exerciseType?.rawValue == self.filteredCellVMs[indexPath.row].title
         let existingField: Bool = (existingCategory || existingExercise || existingExerciseType) && selectedIndexPath == nil
         let selectedThisIndex: Bool = self.selectedIndexPath == indexPath
         
@@ -146,8 +146,8 @@ class ModalTableViewModel: NSObject {
             self.selectedIndexPath = indexPath
             cell.selectDeselectCell(select: true)
             self.selectedCellCallback(
-                self.filteredCellViewModels[indexPath.row].title,
-                self.filteredCellViewModels[indexPath.row].subTitle,
+                self.filteredCellVMs[indexPath.row].title,
+                self.filteredCellVMs[indexPath.row].subTitle,
                 self.modalTableViewType,
                 self.tableView)
         }
@@ -155,7 +155,7 @@ class ModalTableViewModel: NSObject {
     }
 }
 
-extension ModalTableViewModel: UITableViewDataSource, UITableViewDelegate {
+extension ModalTableVM: UITableViewDataSource, UITableViewDelegate {
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         guard let cell = tableView.dequeueReusableCell(
@@ -166,10 +166,10 @@ extension ModalTableViewModel: UITableViewDataSource, UITableViewDelegate {
         }
         
         // Only show divider if not the last exercise in the category
-        let showDivider = indexPath.row != self.filteredCellViewModels.count - 1
+        let showDivider = indexPath.row != self.filteredCellVMs.count - 1
         
-        cell.configure(with: self.filteredCellViewModels[indexPath.row], showDivider: showDivider)
-        filteredCellViewModels[indexPath.row].delegate = cell
+        cell.configure(with: self.filteredCellVMs[indexPath.row], showDivider: showDivider)
+        filteredCellVMs[indexPath.row].delegate = cell
         self.selectCellIfNeeded(at: cell, for: indexPath)
         return cell
     }
@@ -180,14 +180,14 @@ extension ModalTableViewModel: UITableViewDataSource, UITableViewDelegate {
     
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         if let tableView = self.tableView {
-            if filteredCellViewModels.count == 0 {
+            if filteredCellVMs.count == 0 {
                 tableView.setEmptyMessage("No results.")
             } else {
                 tableView.restore()
             }
         }
 
-        return filteredCellViewModels.count
+        return filteredCellVMs.count
     }
     
     func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
@@ -197,19 +197,19 @@ extension ModalTableViewModel: UITableViewDataSource, UITableViewDelegate {
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
                 
         if let selectedIndexPath = self.selectedIndexPath {
-            self.filteredCellViewModels[selectedIndexPath.row].selectDeselectCell(select: false)
+            self.filteredCellVMs[selectedIndexPath.row].selectDeselectCell(select: false)
         }
         self.selectedIndexPath = indexPath
         tableView.reloadRows(at: [indexPath], with: .none)
     }
 }
 
-extension ModalTableViewModel: UISearchBarDelegate {
+extension ModalTableVM: UISearchBarDelegate {
     func searchBar(_ searchBar: UISearchBar, textDidChange searchText: String) {
         if searchText.isEmpty {
-            self.filteredCellViewModels = self.cellViewModels
+            self.filteredCellVMs = self.cellVMs
         } else {
-            self.filteredCellViewModels = self.cellViewModels.filter {
+            self.filteredCellVMs = self.cellVMs.filter {
                 return $0.title.lowercased().contains(searchText.lowercased())
             }
         }
@@ -218,11 +218,11 @@ extension ModalTableViewModel: UISearchBarDelegate {
     }
 }
 
-extension ModalTableViewModel: NSFetchedResultsControllerDelegate {
+extension ModalTableVM: NSFetchedResultsControllerDelegate {
     // Update screen if CRUD conducted on Categories or Exercises
     func controller(_ controller: NSFetchedResultsController<NSFetchRequestResult>,
                     didChange anObject: Any, at indexPath: IndexPath?, for type: NSFetchedResultsChangeType, newIndexPath: IndexPath?) {
-        self.initCellViewModels()
+        self.initCellVMs()
         self.tableView?.reloadData()
     }
 }

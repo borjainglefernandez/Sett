@@ -1,5 +1,5 @@
 //
-//  RoutineExerciseListViewModel.swift
+//  RoutineExerciseListVM.swift
 //  Sett
 //
 //  Created by Borja Ingle-Fernandez on 8/28/23.
@@ -9,9 +9,9 @@ import Foundation
 import CoreData
 import UIKit
 
-final class RoutineExerciseListViewModel: NSObject {
+final class RoutineExerciseListVM: NSObject {
     public let routine: Routine
-    private var cellViewModels: [RoutineExerciseListCellViewModel] = []
+    private var cellVMs: [RoutineExerciseListCellVM] = []
     lazy var fetchedResultsController: NSFetchedResultsController<Routine> = {
         return CoreDataBase.createFetchedResultsController(
                 withEntityName: "Routine",
@@ -32,7 +32,7 @@ final class RoutineExerciseListViewModel: NSObject {
         CoreDataBase.configureFetchedResults(controller: self.fetchedResultsController, expecting: Routine.self, with: self)
         
         // Reset variables in case of update
-        self.cellViewModels = []
+        self.cellVMs = []
         
         guard let workoutExercises = self.fetchedResultsController.fetchedObjects?.first?.workoutExercises else {
             return
@@ -42,22 +42,22 @@ final class RoutineExerciseListViewModel: NSObject {
             guard let workoutExerciseCast = workoutExercise as? WorkoutExercise else {
                 continue
             }
-            let viewModel = RoutineExerciseListCellViewModel(
+            let viewModel = RoutineExerciseListCellVM(
                                 routine: self.routine,
                                 workoutExercise: workoutExerciseCast)
-            self.cellViewModels.append(viewModel)
+            self.cellVMs.append(viewModel)
         }
     }
 }
 
 // MARK: - Collection View Delegate
-extension RoutineExerciseListViewModel: UICollectionViewDataSource, UICollectionViewDelegateFlowLayout {
+extension RoutineExerciseListVM: UICollectionViewDataSource, UICollectionViewDelegateFlowLayout {
     func numberOfSections(in collectionView: UICollectionView) -> Int {
         return 1
     }
     
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-        return self.cellViewModels.count
+        return self.cellVMs.count
     }
     
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
@@ -68,7 +68,7 @@ extension RoutineExerciseListViewModel: UICollectionViewDataSource, UICollection
             fatalError("Unsupported cell")
         }
         
-        cell.configure(with: cellViewModels[indexPath.row])
+        cell.configure(with: cellVMs[indexPath.row])
         return cell
     }
     
@@ -79,7 +79,7 @@ extension RoutineExerciseListViewModel: UICollectionViewDataSource, UICollection
     }
 }
 
-extension RoutineExerciseListViewModel: NSFetchedResultsControllerDelegate {
+extension RoutineExerciseListVM: NSFetchedResultsControllerDelegate {
     
     func controller(_ controller: NSFetchedResultsController<NSFetchRequestResult>,
                     didChange anObject: Any, at indexPath: IndexPath?, for type: NSFetchedResultsChangeType, newIndexPath: IndexPath?) {

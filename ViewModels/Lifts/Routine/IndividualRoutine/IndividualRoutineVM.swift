@@ -1,5 +1,5 @@
 //
-//  IndividualRoutineViewModel.swift
+//  IndividualRoutineVM.swift
 //  Sett
 //
 //  Created by Borja Ingle-Fernandez on 8/28/23.
@@ -8,7 +8,7 @@
 import Foundation
 import UIKit
 
-final class IndividualRoutineViewModel: NSObject {
+final class IndividualRoutineVM: NSObject {
     public let routine: Routine
 
     // MARK: - Init
@@ -21,7 +21,7 @@ final class IndividualRoutineViewModel: NSObject {
 }
 
 // MARK: - Text Field Delegate
-extension IndividualRoutineViewModel: UITextFieldDelegate {
+extension IndividualRoutineVM: UITextFieldDelegate {
     func textFieldDidEndEditing(_ textField: UITextField) {
         self.routine.name = textField.text
         CoreDataBase.save()

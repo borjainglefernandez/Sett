@@ -105,7 +105,7 @@ final class MonthWorkoutListCell: UITableViewCell {
     }
     
     // MARK: - Configurations
-    public func configure(with viewModel: MonthWorkoutListCellViewModel) {
+    public func configure(with viewModel: MonthWorkoutListCellVM) {
         if let startTime = viewModel.workout.startTime {
             let calendar = Calendar.current
             let components = calendar.dateComponents([.day], from: startTime)

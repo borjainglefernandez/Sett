@@ -1,5 +1,5 @@
 //
-//  ExerciseListViewModel.swift
+//  ExerciseListVM.swift
 //  Sett
 //
 //  Created by Borja Ingle-Fernandez on 8/11/23.
@@ -9,10 +9,10 @@ import Foundation
 import CoreData
 import UIKit
 
-final class ExerciseListViewModel: NSObject {
+final class ExerciseListVM: NSObject {
     public var exerciseListView: ExerciseListView?
     public var category: Category
-    private var cellViewModels: [ExerciseListCellViewModel] = []
+    private var cellVMs: [ExerciseListCellVM] = []
     lazy var fetchedResultsController: NSFetchedResultsController<Exercise> = {
         return CoreDataBase.createFetchedResultsController(
             withEntityName: "Exercise",
@@ -44,13 +44,13 @@ final class ExerciseListViewModel: NSObject {
         }
 
         for exercise in exercisesInCategory {
-            cellViewModels.append(ExerciseListCellViewModel(exercise: exercise))
+            cellVMs.append(ExerciseListCellVM(exercise: exercise))
         }
     }
 }
 
 // MARK: - Table View Delegate
-extension ExerciseListViewModel: UITableViewDataSource, UITableViewDelegate {
+extension ExerciseListVM: UITableViewDataSource, UITableViewDelegate {
 
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         guard let cell = tableView.dequeueReusableCell(
@@ -61,9 +61,9 @@ extension ExerciseListViewModel: UITableViewDataSource, UITableViewDelegate {
         }
 
         // Only show divider if not the last exercise in the category
-        let showDivider = indexPath.row != self.cellViewModels.count - 1
+        let showDivider = indexPath.row != self.cellVMs.count - 1
 
-        cell.configure(with: self.cellViewModels[indexPath.row], showDivider: showDivider)
+        cell.configure(with: self.cellVMs[indexPath.row], showDivider: showDivider)
         return cell
     }
 
@@ -72,7 +72,7 @@ extension ExerciseListViewModel: UITableViewDataSource, UITableViewDelegate {
     }
 
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return self.cellViewModels.count
+        return self.cellVMs.count
 
     }
     func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
@@ -81,7 +81,7 @@ extension ExerciseListViewModel: UITableViewDataSource, UITableViewDelegate {
 
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         if let parentViewController = tableView.getParentViewController(tableView) {
-            let exercise = self.cellViewModels[indexPath.row].exercise
+            let exercise = self.cellVMs[indexPath.row].exercise
             let individualExerciseModalViewController =
                 IndividualExerciseModalViewController(
                     category: self.category, exercise: exercise)
@@ -91,7 +91,7 @@ extension ExerciseListViewModel: UITableViewDataSource, UITableViewDelegate {
     }
 
     func tableView(_ tableView: UITableView, trailingSwipeActionsConfigurationForRowAt indexPath: IndexPath) -> UISwipeActionsConfiguration? {
-        let exercise =  self.cellViewModels[indexPath.row].exercise
+        let exercise =  self.cellVMs[indexPath.row].exercise
 
         // Trailing delete exercise action
         let deleteExerciseAction = UIContextualAction(style: .destructive, title: "") {  _, _, _ in
@@ -122,7 +122,7 @@ extension ExerciseListViewModel: UITableViewDataSource, UITableViewDelegate {
 }
 
 // MARK: - Fetched Results Controller Delegate
-extension ExerciseListViewModel: NSFetchedResultsControllerDelegate {
+extension ExerciseListVM: NSFetchedResultsControllerDelegate {
     // Update screen if CRUD conducted on Exercises in Category
     func controller(_ controller: NSFetchedResultsController<NSFetchRequestResult>,
                     didChange anObject: Any, at indexPath: IndexPath?,

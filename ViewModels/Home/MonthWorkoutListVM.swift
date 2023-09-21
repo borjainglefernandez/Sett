@@ -1,5 +1,5 @@
 //
-//  MonthWorkoutListViewModel.swift
+//  MonthWorkoutListVM.swift
 //  Sett
 //
 //  Created by Borja Ingle-Fernandez on 6/19/23.
@@ -9,15 +9,15 @@ import UIKit
 import CoreData
 
 protocol DeleteWorkoutDelegate: NSObject {
-    func deleteWorkout(workout: Workout, viewModel: MonthWorkoutListViewModel)
+    func deleteWorkout(workout: Workout, viewModel: MonthWorkoutListVM)
 }
 
-final class MonthWorkoutListViewModel: NSObject {
+final class MonthWorkoutListVM: NSObject {
     
     public var month: Int
     public var year: Int
     public var workouts: [Workout] = []
-    private var cellViewModels: [MonthWorkoutListCellViewModel] = []
+    private var cellVMs: [MonthWorkoutListCellVM] = []
     
     // MARK: - Init
     
@@ -35,7 +35,7 @@ final class MonthWorkoutListViewModel: NSObject {
     
     /// Fetch and set the workouts for the month
     public func setWorkouts() {
-        self.cellViewModels = []
+        self.cellVMs = []
         
         // Create start and end dates for a particular month
         let startDateComponents = DateComponents(year: self.year, month: self.month, day: 1, hour: 0, minute: 0, second: 0)
@@ -53,8 +53,8 @@ final class MonthWorkoutListViewModel: NSObject {
         if let workouts  = CoreDataBase.fetchEntities(withEntity: "Workout", expecting: Workout.self, predicates: [predicate]) {
             self.workouts = workouts
             for workout in self.workouts {
-                let viewModel = MonthWorkoutListCellViewModel(workout: workout)
-                self.cellViewModels.append(viewModel)
+                let viewModel = MonthWorkoutListCellVM(workout: workout)
+                self.cellVMs.append(viewModel)
             }
         }
         
@@ -63,7 +63,7 @@ final class MonthWorkoutListViewModel: NSObject {
 }
 
 // MARK: - Table View Delegate
-extension MonthWorkoutListViewModel: UITableViewDataSource, UITableViewDelegate {
+extension MonthWorkoutListVM: UITableViewDataSource, UITableViewDelegate {
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         guard let cell = tableView.dequeueReusableCell(
@@ -72,7 +72,7 @@ extension MonthWorkoutListViewModel: UITableViewDataSource, UITableViewDelegate 
         ) as? MonthWorkoutListCell else {
             fatalError("Unsupported cell")
         }
-        cell.configure(with: self.cellViewModels[indexPath.row])
+        cell.configure(with: self.cellVMs[indexPath.row])
         return cell
     }
     
@@ -90,8 +90,8 @@ extension MonthWorkoutListViewModel: UITableViewDataSource, UITableViewDelegate 
     
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         if let parentViewController = tableView.getParentViewController(tableView) {
-            let workoutViewModel = WorkoutViewModel(workout: cellViewModels[indexPath.row].workout)
-            let workoutViewController = WorkoutViewController(viewModel: workoutViewModel)
+            let workoutVM = WorkoutVM(workout: cellVMs[indexPath.row].workout)
+            let workoutViewController = WorkoutViewController(viewModel: workoutVM)
             workoutViewController.modalPresentationStyle = .fullScreen
             parentViewController.present(workoutViewController, animated: true)
         }
@@ -99,7 +99,7 @@ extension MonthWorkoutListViewModel: UITableViewDataSource, UITableViewDelegate 
     }
     
     func tableView(_ tableView: UITableView, trailingSwipeActionsConfigurationForRowAt indexPath: IndexPath) -> UISwipeActionsConfiguration? {
-        let workout =  self.cellViewModels[indexPath.row].workout
+        let workout =  self.cellVMs[indexPath.row].workout
         
         // Trailing delete workout action
         let deleteWorkoutAction = UIContextualAction(style: .destructive, title: "") { _, _, _ in 

@@ -10,7 +10,7 @@ import UIKit
 class RoutineExerciseListCell: UICollectionViewCell {
 
     static let cellIdentifier = "RoutineExerciseListCell"
-    private var routineExerciseListCellVM: RoutineExerciseListCellViewModel?
+    private var routineExerciseListCellVM: RoutineExerciseListCellVM?
     private var workoutExerciseNotesVM: WorkoutExerciseNotesVM?
     
     // Top menu bar
@@ -125,7 +125,7 @@ class RoutineExerciseListCell: UICollectionViewCell {
     }
     
     // MARK: - Configurations
-    public func configure(with viewModel: RoutineExerciseListCellViewModel) {
+    public func configure(with viewModel: RoutineExerciseListCellVM) {
         self.routineExerciseListCellVM = viewModel
         self.titleLabel.text = viewModel.workoutExercise.exercise?.name
         

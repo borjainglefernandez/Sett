@@ -100,7 +100,7 @@ class ModalTableViewCell: UITableViewCell {
     }
     
     // MARK: - Configurations
-    public func configure(with viewModel: ModalTableViewCellViewModel, showDivider: Bool = true) {
+    public func configure(with viewModel: ModalTableViewCellVM, showDivider: Bool = true) {
         self.titleLabel.text = viewModel.title
         self.subTitleLabel.text = viewModel.subTitle
         

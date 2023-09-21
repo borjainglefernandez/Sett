@@ -72,7 +72,7 @@ final class WorkoutGeneralStatsViewCell: UITableViewCell {
     }
     
     // MARK: - Configurations
-    public func configure(with viewModel: WorkoutGeneralStatsViewCellViewModel) {
+    public func configure(with viewModel: WorkoutGeneralStatsViewCellVM) {
         self.label.text = viewModel.displayTitle
         self.displayContent = viewModel.displayContent
         

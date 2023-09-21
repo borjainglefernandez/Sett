@@ -1,5 +1,5 @@
 //
-//  RoutinesViewModel.swift
+//  RoutinesVM.swift
 //  Sett
 //
 //  Created by Borja Ingle-Fernandez on 8/8/23.
@@ -9,10 +9,10 @@ import Foundation
 import CoreData
 import UIKit
 
-final class RoutinesViewModel: NSObject {
+final class RoutinesVM: NSObject {
     
     public var routinesView: RoutinesView?
-    private var cellViewModels: [RoutineDayOfTheWeekCellVM] = []
+    private var cellVMs: [RoutineDayOfTheWeekCellVM] = []
     private var isExpanded: [Bool] = []
     private var fetchedResultsController: NSFetchedResultsController<Routine> = {
         return CoreDataBase.createFetchedResultsController(
@@ -28,7 +28,7 @@ final class RoutinesViewModel: NSObject {
         
         CoreDataBase.configureFetchedResults(controller: self.fetchedResultsController, expecting: Routine.self, with: self)
     
-        self.cellViewModels = []
+        self.cellVMs = []
         self.isExpanded = []
         
         guard let routines: [Routine] = self.fetchedResultsController.fetchedObjects else {
@@ -50,7 +50,7 @@ final class RoutinesViewModel: NSObject {
             
             if !routinesPerformedOnDayOfTheWeek.isEmpty {
                 let viewModel = RoutineDayOfTheWeekCellVM(dayOfTheWeek: dayOfTheWeek, routines: routinesPerformedOnDayOfTheWeek)
-                self.cellViewModels.append(viewModel)
+                self.cellVMs.append(viewModel)
                 self.isExpanded.append(true)
             }
         }
@@ -62,27 +62,27 @@ final class RoutinesViewModel: NSObject {
         let dayOfWeekString = dateFormatter.string(from: currentDate)
         
         // Start from current day of the week
-        let currentDayOfTheWeekIndex: Int = self.cellViewModels.firstIndex(where: {$0.dayOfTheWeek?.rawValue == dayOfWeekString}) ?? 0
-        self.cellViewModels = Array(self.cellViewModels[currentDayOfTheWeekIndex...] + self.cellViewModels[0..<currentDayOfTheWeekIndex])
+        let currentDayOfTheWeekIndex: Int = self.cellVMs.firstIndex(where: {$0.dayOfTheWeek?.rawValue == dayOfWeekString}) ?? 0
+        self.cellVMs = Array(self.cellVMs[currentDayOfTheWeekIndex...] + self.cellVMs[0..<currentDayOfTheWeekIndex])
     
         // Add unspecified category if needed
         let routinesWithoutDayOfTheWeek: [Routine] = routines.filter { routine in
             return routine.daysOfTheWeek == nil || (routine.daysOfTheWeek?.isEmpty ?? true)
         }
         if !routinesWithoutDayOfTheWeek.isEmpty {
-            self.cellViewModels.append(RoutineDayOfTheWeekCellVM(routines: routinesWithoutDayOfTheWeek))
+            self.cellVMs.append(RoutineDayOfTheWeekCellVM(routines: routinesWithoutDayOfTheWeek))
             self.isExpanded.append(true)
         }
     }
     
     // MARK: - Actions 
     public func getRoutineCategoryLength() -> Int {
-        return self.cellViewModels.count
+        return self.cellVMs.count
     }
 }
 
 // MARK: - Collection View Delegate
-extension RoutinesViewModel: UICollectionViewDataSource, UICollectionViewDelegateFlowLayout {
+extension RoutinesVM: UICollectionViewDataSource, UICollectionViewDelegateFlowLayout {
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
         return self.getRoutineCategoryLength()
     }
@@ -94,7 +94,7 @@ extension RoutinesViewModel: UICollectionViewDataSource, UICollectionViewDelegat
         ) as? RoutineDayOfTheWeekCell else {
             fatalError("Unsupported cell")
         }
-        cell.configure(with: cellViewModels[indexPath.row],
+        cell.configure(with: cellVMs[indexPath.row],
                        at: indexPath,
                        for: collectionView,
                        isExpanded: self.isExpanded[indexPath.row],
@@ -107,7 +107,7 @@ extension RoutinesViewModel: UICollectionViewDataSource, UICollectionViewDelegat
     func collectionView(_ collectionView: UICollectionView,
                         layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
         if isExpanded[indexPath.row] {
-            let exerciseCount = self.cellViewModels[indexPath.row].routines.count
+            let exerciseCount = self.cellVMs[indexPath.row].routines.count
             return CGSize(width: (collectionView.safeAreaLayoutGuide.layoutFrame.width - 20), height: CGFloat(exerciseCount * 43) + 31)
         }
         return CGSize(width: (collectionView.safeAreaLayoutGuide.layoutFrame.width - 20), height: 30)
@@ -115,7 +115,7 @@ extension RoutinesViewModel: UICollectionViewDataSource, UICollectionViewDelegat
 }
 
 // MARK: - Expanded Cell Delegate
-extension RoutinesViewModel: CollapsibleContainerTopBarDelegate {
+extension RoutinesVM: CollapsibleContainerTopBarDelegate {
     /// Collapse or Expand selected Month Workout Container
     ///
     /// - Parameters:
@@ -133,7 +133,7 @@ extension RoutinesViewModel: CollapsibleContainerTopBarDelegate {
 }
 
 // MARK: - Fetched Results Controller Delegate
-extension RoutinesViewModel: NSFetchedResultsControllerDelegate {
+extension RoutinesVM: NSFetchedResultsControllerDelegate {
     // Update screen if CRUD conducted on Categories
     func controller(_ controller: NSFetchedResultsController<NSFetchRequestResult>,
                     didChange anObject: Any, at indexPath: IndexPath?, for type: NSFetchedResultsChangeType, newIndexPath: IndexPath?) {

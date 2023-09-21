@@ -8,7 +8,7 @@
 import AuthenticationServices
 import UIKit
 
-// TODO: Move UI Stuff to a UIView and ViewModel
+// TODO: Move UI Stuff to a UIView and VM
 
 final class LoginController: UIViewController {
     

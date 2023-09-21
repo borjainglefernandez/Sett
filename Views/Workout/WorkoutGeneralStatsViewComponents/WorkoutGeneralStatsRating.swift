@@ -9,10 +9,10 @@ import UIKit
 
 final class WorkoutGeneralStatsRating: StarRating {
     
-    private let viewModel: WorkoutGeneralStatsViewCellViewModel
+    private let viewModel: WorkoutGeneralStatsViewCellVM
     
     // MARK: - Init
-    init(frame: CGRect, viewModel: WorkoutGeneralStatsViewCellViewModel) {
+    init(frame: CGRect, viewModel: WorkoutGeneralStatsViewCellVM) {
         self.viewModel = viewModel
         super.init(frame: frame, interactable: true, starSize: 25, starMargin: 0.5, rating: self.viewModel.workout.rating)
         

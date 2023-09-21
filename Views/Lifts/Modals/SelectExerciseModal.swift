@@ -9,25 +9,25 @@ import UIKit
 
 class SelectExerciseModal: UIView {
     
-    private let viewModel: SelectExerciseModalViewModel
+    private let viewModel: SelectExerciseModalVM
     
     // Search Bar for categories
     lazy var searchBar: UISearchBar = SearchBar(searchBarDelegate: self.exerciseListView.viewModel)
     
     // Category list
     lazy var exerciseListView: ModalTableView = {
-        let categoryListViewModel = ModalTableViewModel(
+        let categoryListVM = ModalTableVM(
             modalTableViewType: .exercise,
             modalTableViewSelectionType: .toggle,
             selectedCellCallBack: self.viewModel.selectCellCallback,
             category: self.viewModel.category,
             routine: self.viewModel.routine)
-        let exerciseListView = ModalTableView(viewModel: categoryListViewModel)
+        let exerciseListView = ModalTableView(viewModel: categoryListVM)
         return exerciseListView
     }()
     
     // MARK: - Init
-    init(frame: CGRect = .zero, viewModel: SelectExerciseModalViewModel) {
+    init(frame: CGRect = .zero, viewModel: SelectExerciseModalVM) {
         self.viewModel = viewModel
         super.init(frame: frame)
         

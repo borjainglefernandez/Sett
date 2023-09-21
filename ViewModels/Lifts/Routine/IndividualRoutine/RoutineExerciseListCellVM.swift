@@ -1,5 +1,5 @@
 //
-//  RoutineExerciseListCellViewModel.swift
+//  RoutineExerciseListCellVM.swift
 //  Sett
 //
 //  Created by Borja Ingle-Fernandez on 8/28/23.
@@ -8,7 +8,7 @@
 import Foundation
 import UIKit
 
-final class RoutineExerciseListCellViewModel: NSObject {
+final class RoutineExerciseListCellVM: NSObject {
     public let routine: Routine
     public let workoutExercise: WorkoutExercise
 
@@ -26,7 +26,7 @@ final class RoutineExerciseListCellViewModel: NSObject {
 }
 
 // MARK: - Text Field Delegate
-extension RoutineExerciseListCellViewModel: UITextFieldDelegate {
+extension RoutineExerciseListCellVM: UITextFieldDelegate {
     func textFieldDidChangeSelection(_ textField: UITextField) {
         if let numSetts = Int64(textField.text ?? "") {
             self.workoutExercise.numSetts = numSetts

@@ -1,5 +1,5 @@
 //
-//  AddCategoryViewModel.swift
+//  AddCategoryVM.swift
 //  Sett
 //
 //  Created by Borja Ingle-Fernandez on 8/26/23.
@@ -8,7 +8,7 @@
 import Foundation
 import UIKit
 
-class AddCategoryViewModel: NSObject {
+class AddCategoryVM: NSObject {
     private var newCategoryName: String = ""
     private let category: Category?
     public let alertController: UIAlertController
@@ -74,7 +74,7 @@ class AddCategoryViewModel: NSObject {
 
 }
 
-extension AddCategoryViewModel: UITextFieldDelegate {
+extension AddCategoryVM: UITextFieldDelegate {
     func textFieldDidChangeSelection(_ textField: UITextField) {
         self.newCategoryName = textField.text ?? ""
         self.confirmAction.isEnabled = !self.newCategoryName.isEmpty && !self.categoryWithNewNameExists()

@@ -8,7 +8,7 @@
 import Foundation
 import UIKit
 
-final class SelectCategoryModalViewModel: NSObject {
+final class SelectCategoryModalVM: NSObject {
     
     public let routine: Routine
     

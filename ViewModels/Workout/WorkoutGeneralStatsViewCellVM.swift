@@ -1,5 +1,5 @@
 //
-//  WorkoutGeneralStatsViewCellViewModel.swift
+//  WorkoutGeneralStatsViewCellVM.swift
 //  Sett
 //
 //  Created by Borja Ingle-Fernandez on 7/17/23.
@@ -18,7 +18,7 @@ enum WorkoutGeneralStatsViewType: CaseIterable {
     case notes
 }
 
-final class WorkoutGeneralStatsViewCellViewModel: NSObject {
+final class WorkoutGeneralStatsViewCellVM: NSObject {
     public let weightRange: [Int] = Array(0...500)
     public let decimalRange: [Int] = Array(0...9)
     public let workout: Workout
@@ -77,7 +77,7 @@ final class WorkoutGeneralStatsViewCellViewModel: NSObject {
 }
 
 // MARK: - Notes View Protocol
-extension WorkoutGeneralStatsViewCellViewModel: NotesViewProtocol {
+extension WorkoutGeneralStatsViewCellVM: NotesViewProtocol {
     public func getNotes() -> String {
         return self.workout.notes ?? ""
     }
@@ -88,7 +88,7 @@ extension WorkoutGeneralStatsViewCellViewModel: NotesViewProtocol {
 }
 
 // MARK: - Picker View Delegate
-extension WorkoutGeneralStatsViewCellViewModel: UIPickerViewDataSource, UIPickerViewDelegate {
+extension WorkoutGeneralStatsViewCellVM: UIPickerViewDataSource, UIPickerViewDelegate {
 
     // Implement the required data source methods
     // Number of components in the picker view
@@ -134,7 +134,7 @@ extension WorkoutGeneralStatsViewCellViewModel: UIPickerViewDataSource, UIPicker
 }
 
 // MARK: - Text View Delegate
-extension WorkoutGeneralStatsViewCellViewModel: UITextViewDelegate {
+extension WorkoutGeneralStatsViewCellVM: UITextViewDelegate {
     func textViewDidEndEditing(_ textView: UITextView) {
         workout.notes = textView.text
         CoreDataBase.save()
@@ -142,7 +142,7 @@ extension WorkoutGeneralStatsViewCellViewModel: UITextViewDelegate {
 }
 
 // MARK: - Actions
-extension WorkoutGeneralStatsViewCellViewModel {
+extension WorkoutGeneralStatsViewCellVM {
     public func changeStartTime(newStartTime: Date) {
         self.workout.startTime = newStartTime
         CoreDataBase.save()

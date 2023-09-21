@@ -9,7 +9,7 @@ import UIKit
 
 class RoutineExerciseList: UIView {
 
-    public let viewModel: RoutineExerciseListViewModel
+    public let viewModel: RoutineExerciseListVM
     
     // Day of the week selector
     lazy var dayOfTheWeekPickerContainer: DayOfTheWeekPickerContainer = DayOfTheWeekPickerContainer(routine: self.viewModel.routine)
@@ -30,7 +30,7 @@ class RoutineExerciseList: UIView {
     lazy var addExerciseBottomBar: AddExerciseBottomBar = AddExerciseBottomBar(maskCorners: false, addExerciseCallBack: self.addExercise)
 
     // MARK: - Init
-    init(frame: CGRect = .zero, viewModel: RoutineExerciseListViewModel) {
+    init(frame: CGRect = .zero, viewModel: RoutineExerciseListVM) {
         self.viewModel = viewModel
         super.init(frame: frame)
         

@@ -8,7 +8,7 @@
 import UIKit
 
 final class WorkoutViewController: UIViewController {
-    private let viewModel: WorkoutViewModel
+    private let viewModel: WorkoutVM
     private let workoutGeneralStatsView: WorkoutGeneralStatsView
     
     private let topBar: MenuBar = MenuBar(frame: .zero)
@@ -26,7 +26,7 @@ final class WorkoutViewController: UIViewController {
     }()
 
     // MARK: - Init
-    init(viewModel: WorkoutViewModel) {
+    init(viewModel: WorkoutVM) {
         self.viewModel = viewModel
         self.workoutGeneralStatsView = WorkoutGeneralStatsView(frame: .zero, viewModel: self.viewModel)
         super.init(nibName: nil, bundle: nil)

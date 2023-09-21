@@ -1,5 +1,5 @@
 //
-//  RoutineListViewModel.swift
+//  RoutineListVM.swift
 //  Sett
 //
 //  Created by Borja Ingle-Fernandez on 9/10/23.
@@ -8,20 +8,20 @@
 import Foundation
 import UIKit
 
-class RoutineListViewModel: NSObject {
+class RoutineListVM: NSObject {
     public var routinesListView: RoutineListView?
-    private var cellViewModels: [RoutineListCellViewModel] = []
+    private var cellVMs: [RoutineListCellVM] = []
     
     // MARK: - Init
     init(routines: [Routine]) {
         for routine in routines {
-            self.cellViewModels.append(RoutineListCellViewModel(routine: routine))
+            self.cellVMs.append(RoutineListCellVM(routine: routine))
         }
     }
 }
 
 // MARK: - Table View Delegate
-extension RoutineListViewModel: UITableViewDataSource, UITableViewDelegate {
+extension RoutineListVM: UITableViewDataSource, UITableViewDelegate {
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         guard let cell = tableView.dequeueReusableCell(
@@ -32,9 +32,9 @@ extension RoutineListViewModel: UITableViewDataSource, UITableViewDelegate {
         }
         
         // Only show divider if not the last exercise in the category
-        let showDivider = indexPath.row != self.cellViewModels.count - 1
+        let showDivider = indexPath.row != self.cellVMs.count - 1
         
-        cell.configure(with: self.cellViewModels[indexPath.row], showDivider: showDivider)
+        cell.configure(with: self.cellVMs[indexPath.row], showDivider: showDivider)
         return cell
     }
     
@@ -43,7 +43,7 @@ extension RoutineListViewModel: UITableViewDataSource, UITableViewDelegate {
     }
     
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return self.cellViewModels.count
+        return self.cellVMs.count
 
     }
     func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
@@ -52,8 +52,8 @@ extension RoutineListViewModel: UITableViewDataSource, UITableViewDelegate {
     
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         if let parentViewController = tableView.getParentViewController(tableView) {
-            let routine = self.cellViewModels[indexPath.row].routine
-            let individualRoutineModalViewController = IndividualRoutineViewController(viewModel: IndividualRoutineViewModel(routine: routine))
+            let routine = self.cellVMs[indexPath.row].routine
+            let individualRoutineModalViewController = IndividualRoutineViewController(viewModel: IndividualRoutineVM(routine: routine))
             individualRoutineModalViewController.modalPresentationStyle = .fullScreen
             parentViewController.present(individualRoutineModalViewController, animated: true)
         }
@@ -61,7 +61,7 @@ extension RoutineListViewModel: UITableViewDataSource, UITableViewDelegate {
     }
     
     func tableView(_ tableView: UITableView, trailingSwipeActionsConfigurationForRowAt indexPath: IndexPath) -> UISwipeActionsConfiguration? {
-        let routine =  self.cellViewModels[indexPath.row].routine
+        let routine =  self.cellVMs[indexPath.row].routine
         
         // Trailing delete routine action
         let deleteRoutineAction = UIContextualAction(style: .destructive, title: "") {  _, _, _ in

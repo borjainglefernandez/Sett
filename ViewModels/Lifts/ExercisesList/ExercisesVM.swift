@@ -1,5 +1,5 @@
 //
-//  ExercisesViewModel.swift
+//  ExercisesVM.swift
 //  Sett
 //
 //  Created by Borja Ingle-Fernandez on 8/8/23.
@@ -9,10 +9,10 @@ import Foundation
 import CoreData
 import UIKit
 
-final class ExercisesViewModel: NSObject {
+final class ExercisesVM: NSObject {
 
     public var exercisesView: ExercisesView?
-    private var cellViewModels: [CategoryListCellViewModel] = []
+    private var cellVMs: [CategoryListCellVM] = []
     private var isExpanded: [Bool] = []
     private var fetchedResultsController: NSFetchedResultsController<Category> = {
         return CoreDataBase.createFetchedResultsController(withEntityName: "Category",
@@ -27,7 +27,7 @@ final class ExercisesViewModel: NSObject {
         CoreDataBase.configureFetchedResults(controller: self.fetchedResultsController, expecting: Category.self, with: self)
 
         // Reset variables in case of update
-        self.cellViewModels = []
+        self.cellVMs = []
         self.isExpanded = []
 
         guard let categories = self.fetchedResultsController.fetchedObjects else {
@@ -35,8 +35,8 @@ final class ExercisesViewModel: NSObject {
         }
 
         for category in categories {
-            let viewModel = CategoryListCellViewModel(category: category)
-            self.cellViewModels.append(viewModel)
+            let viewModel = CategoryListCellVM(category: category)
+            self.cellVMs.append(viewModel)
             self.isExpanded.append(true)
         }
     }
@@ -51,7 +51,7 @@ final class ExercisesViewModel: NSObject {
 }
 
 // MARK: - Collection View Delegate
-extension ExercisesViewModel: UICollectionViewDataSource, UICollectionViewDelegateFlowLayout {
+extension ExercisesVM: UICollectionViewDataSource, UICollectionViewDelegateFlowLayout {
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
         return getCategoriesLength()
     }
@@ -63,7 +63,7 @@ extension ExercisesViewModel: UICollectionViewDataSource, UICollectionViewDelega
         ) as? CategoryListCell else {
             fatalError("Unsupported cell")
         }
-        cell.configure(with: cellViewModels[indexPath.row],
+        cell.configure(with: cellVMs[indexPath.row],
                        at: indexPath, for: collectionView,
                        isExpanded: self.isExpanded[indexPath.row],
                        delegate: self)
@@ -76,7 +76,7 @@ extension ExercisesViewModel: UICollectionViewDataSource, UICollectionViewDelega
                         layout collectionViewLayout: UICollectionViewLayout,
                         sizeForItemAt indexPath: IndexPath) -> CGSize {
         if isExpanded[indexPath.row] {
-            let exerciseCount = self.cellViewModels[indexPath.row].category.exercises?.count ?? 0
+            let exerciseCount = self.cellVMs[indexPath.row].category.exercises?.count ?? 0
             return CGSize(width: (collectionView.safeAreaLayoutGuide.layoutFrame.width - 20), height: CGFloat(exerciseCount * 43) + 62)
         }
         return CGSize(width: (collectionView.safeAreaLayoutGuide.layoutFrame.width - 20), height: 30)
@@ -84,7 +84,7 @@ extension ExercisesViewModel: UICollectionViewDataSource, UICollectionViewDelega
 }
 
 // MARK: - Expanded Cell Delegate
-extension ExercisesViewModel: CollapsibleContainerTopBarDelegate {
+extension ExercisesVM: CollapsibleContainerTopBarDelegate {
     /// Collapse or Expand selected Month Workout Container
     ///
     /// - Parameters:
@@ -104,7 +104,7 @@ extension ExercisesViewModel: CollapsibleContainerTopBarDelegate {
 }
 
 // MARK: - Fetched Results Controller Delegate
-extension ExercisesViewModel: NSFetchedResultsControllerDelegate {
+extension ExercisesVM: NSFetchedResultsControllerDelegate {
     // Update screen if CRUD conducted on Categories
     func controller(_ controller: NSFetchedResultsController<NSFetchRequestResult>,
                     didChange anObject: Any, at indexPath: IndexPath?, for type: NSFetchedResultsChangeType, newIndexPath: IndexPath?) {

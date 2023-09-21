@@ -17,7 +17,7 @@ protocol CollapsibleContainerTopBarDelegate: NSObjectProtocol {
     func collapseExpand(indexPath: IndexPath, collectionView: UICollectionView)
 }
 
-final class CollapsibleContainerTopBarViewModel {
+final class CollapsibleContainerTopBarVM {
     
     public let collectionView: UICollectionView
     public var isExpanded: Bool

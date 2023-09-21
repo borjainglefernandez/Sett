@@ -9,7 +9,7 @@ import UIKit
 
 final class WorkoutGeneralStatsView: UIView {
     
-    private let viewModel: WorkoutViewModel
+    private let viewModel: WorkoutVM
     
     // Top bar of the general stats view container
     private let topBar: UIView = {
@@ -36,7 +36,7 @@ final class WorkoutGeneralStatsView: UIView {
     }()
     
     // MARK: - Init
-    init(frame: CGRect, viewModel: WorkoutViewModel) {
+    init(frame: CGRect, viewModel: WorkoutVM) {
         self.viewModel = viewModel
         super.init(frame: frame)
         

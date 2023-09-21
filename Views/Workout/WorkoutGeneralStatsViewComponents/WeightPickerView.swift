@@ -9,11 +9,11 @@ import UIKit
 
 final class WeightPickerView: UIView {
 
-    private let viewModel: WorkoutGeneralStatsViewCellViewModel
+    private let viewModel: WorkoutGeneralStatsViewCellVM
     lazy var weightPicker: WeightPicker = WeightPicker(frame: self.frame, viewModel: self.viewModel)
     
     // MARK: - Init
-    init(frame: CGRect, viewModel: WorkoutGeneralStatsViewCellViewModel) {
+    init(frame: CGRect, viewModel: WorkoutGeneralStatsViewCellVM) {
         self.viewModel = viewModel
         super.init(frame: frame)
         

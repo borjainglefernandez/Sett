@@ -93,7 +93,7 @@ class ExerciseListCell: UITableViewCell {
     }
     
     // MARK: - Configurations
-    public func configure(with viewModel: ExerciseListCellViewModel, showDivider: Bool = true) {
+    public func configure(with viewModel: ExerciseListCellVM, showDivider: Bool = true) {
         self.titleLabel.text = viewModel.exercise.name
         self.exerciseTypeLabel.text = viewModel.exercise.type?.exerciseType.rawValue
         

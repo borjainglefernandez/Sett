@@ -1,5 +1,5 @@
 //
-//  RoutineExerciseMenuViewModel.swift
+//  RoutineExerciseMenuVM.swift
 //  Sett
 //
 //  Created by Borja Ingle-Fernandez on 7/24/23.
@@ -12,7 +12,7 @@ enum RoutineExerciseMenuSelectionType: CaseIterable {
     case exercise
 }
 
-class RoutineExerciseMenuViewModel: NSObject {
+class RoutineExerciseMenuVM: NSObject {
     
     private let routineTitle: String = "Routines"
     private let exercisesTitle: String = "Exercises"

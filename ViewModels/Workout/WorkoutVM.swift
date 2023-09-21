@@ -1,5 +1,5 @@
 //
-//  WorkoutViewModel.swift
+//  WorkoutVM.swift
 //  Sett
 //
 //  Created by Borja Ingle-Fernandez on 7/14/23.
@@ -8,13 +8,13 @@
 import UIKit
 import CoreData
 
-final class WorkoutViewModel: NSObject {
+final class WorkoutVM: NSObject {
     
     public let workout: Workout
     public var tableView: UITableView?
-    private lazy var cellViewModels: [WorkoutGeneralStatsViewCellViewModel] = {
+    private lazy var cellVMs: [WorkoutGeneralStatsViewCellVM] = {
         return WorkoutGeneralStatsViewType.allCases.compactMap { type in
-            return WorkoutGeneralStatsViewCellViewModel(type: type, workout: self.workout)
+            return WorkoutGeneralStatsViewCellVM(type: type, workout: self.workout)
         }
     }()
     lazy var fetchedResultsController: NSFetchedResultsController<Workout> = {
@@ -34,13 +34,13 @@ final class WorkoutViewModel: NSObject {
 }
 
 // MARK: - Table View Delegate
-extension WorkoutViewModel: UITableViewDelegate, UITableViewDataSource {
+extension WorkoutVM: UITableViewDelegate, UITableViewDataSource {
     func numberOfSections(in tableView: UITableView) -> Int {
         return 1
     }
     
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return cellViewModels.count
+        return cellVMs.count
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
@@ -50,7 +50,7 @@ extension WorkoutViewModel: UITableViewDelegate, UITableViewDataSource {
         ) as? WorkoutGeneralStatsViewCell else {
             fatalError("Unsupported cell")
         }
-        cell.configure(with: cellViewModels[indexPath.row])
+        cell.configure(with: cellVMs[indexPath.row])
         return cell
     }
     func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
@@ -59,7 +59,7 @@ extension WorkoutViewModel: UITableViewDelegate, UITableViewDataSource {
 }
 
 // MARK: - Fetched Results Controller Delegate
-extension WorkoutViewModel: NSFetchedResultsControllerDelegate {
+extension WorkoutVM: NSFetchedResultsControllerDelegate {
     func controller(_ controller: NSFetchedResultsController<NSFetchRequestResult>,
                     didChange anObject: Any, at indexPath: IndexPath?, for type: NSFetchedResultsChangeType, newIndexPath: IndexPath?) {
         
@@ -77,7 +77,7 @@ extension WorkoutViewModel: NSFetchedResultsControllerDelegate {
 }
 
 // MARK: - Text Field Delegate
-extension WorkoutViewModel: UITextFieldDelegate {
+extension WorkoutVM: UITextFieldDelegate {
     func textFieldDidEndEditing(_ textField: UITextField) {
         self.workout.title = textField.text
         CoreDataBase.save()

@@ -9,7 +9,7 @@ import UIKit
 
 class RoutinesView: UIView {
     
-    let viewModel = RoutinesViewModel()
+    let viewModel = RoutinesVM()
     
     // View for when there are no exercises to display
     public let emptyView: UILabel = EmptyLabel(frame: .zero, labelText: "No routines created yet!")
@@ -32,15 +32,15 @@ class RoutinesView: UIView {
         super.init(frame: frame)
         
         self.backgroundColor = .systemCyan
-        translatesAutoresizingMaskIntoConstraints = false
+        self.translatesAutoresizingMaskIntoConstraints = false
         
         self.viewModel.configure()
         self.viewModel.routinesView = self
         self.setUpCollectionView()
         self.showHideCollectionView()
         
-        addSubviews(self.collectionView, self.emptyView)
-        addConstraints()
+        self.addSubviews(self.collectionView, self.emptyView)
+        self.addConstraints()
     }
     
     required init?(coder: NSCoder) {

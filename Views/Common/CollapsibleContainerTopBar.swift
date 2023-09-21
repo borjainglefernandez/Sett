@@ -10,7 +10,7 @@ import UIKit
 class CollapsibleContainerTopBar: UIView {
     
     // View Model to control actions
-    private var viewModel: CollapsibleContainerTopBarViewModel?
+    private var viewModel: CollapsibleContainerTopBarVM?
 
     // Top bar of the category list container
     private let topBar: UIView = MenuBar(frame: .zero)
@@ -53,7 +53,7 @@ class CollapsibleContainerTopBar: UIView {
     }
     
     // MARK: - Configurations
-    public func configure(with viewModel: CollapsibleContainerTopBarViewModel) {
+    public func configure(with viewModel: CollapsibleContainerTopBarVM) {
         self.viewModel = viewModel
         self.changeButtonIcon()
     }

@@ -9,7 +9,7 @@ import UIKit
 
 class ModalTableView: UIView {
     
-    public let viewModel: ModalTableViewModel
+    public let viewModel: ModalTableVM
     
     // Top Bar
     private let topBar: MenuBar = {
@@ -30,7 +30,7 @@ class ModalTableView: UIView {
     }()
     
     // MARK: - Init
-    init(frame: CGRect = .zero, viewModel: ModalTableViewModel) {
+    init(frame: CGRect = .zero, viewModel: ModalTableVM) {
         self.viewModel = viewModel
 
         super.init(frame: frame)

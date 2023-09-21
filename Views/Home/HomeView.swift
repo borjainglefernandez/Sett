@@ -16,7 +16,7 @@ protocol WorkoutsDelegate: NSObjectProtocol {
 
 final class HomeView: UIView {
     
-    let viewModel = HomeViewModel()
+    let viewModel = HomeVM()
     
     // Delegate to call to add workout
     weak var delegate: WorkoutsDelegate?

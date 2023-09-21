@@ -1,5 +1,5 @@
 //
-//  ExerciseListCellViewModel.swift
+//  ExerciseListCellVM.swift
 //  Sett
 //
 //  Created by Borja Ingle-Fernandez on 8/11/23.
@@ -7,7 +7,7 @@
 
 import Foundation
 
-final class ExerciseListCellViewModel {
+final class ExerciseListCellVM {
     public let exercise: Exercise
     
     init(exercise: Exercise) {

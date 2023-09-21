@@ -77,7 +77,7 @@ class CategoryListCell: UICollectionViewCell {
     }
     
     // MARK: - Configurations
-    public func configure(with viewModel: CategoryListCellViewModel,
+    public func configure(with viewModel: CategoryListCellVM,
                           at indexPath: IndexPath, for collectionView: UICollectionView,
                           isExpanded: Bool, delegate: CollapsibleContainerTopBarDelegate) {
         // Populate category object
@@ -89,15 +89,15 @@ class CategoryListCell: UICollectionViewCell {
         self.collapsibleContainerTopBar.setTitleLabelText(title: "\(viewModel.category.name!) - \(numExercises) \(exerciseSuffix)")
         
         // Configure view model of collapsible top bar
-        let collapsibleContainerTopBarViewModel = CollapsibleContainerTopBarViewModel(
+        let collapsibleContainerTopBarVM = CollapsibleContainerTopBarVM(
             collectionView: collectionView,
             isExpanded: isExpanded,
             indexPath: indexPath,
             delegate: delegate)
-        self.collapsibleContainerTopBar.configure(with: collapsibleContainerTopBarViewModel)
+        self.collapsibleContainerTopBar.configure(with: collapsibleContainerTopBarVM)
         
         // Configure exercises list view
-        self.exerciseListView.configure(with: ExerciseListViewModel(category: viewModel.category))
+        self.exerciseListView.configure(with: ExerciseListVM(category: viewModel.category))
         
         if !isExpanded {
             self.addExerciseBottomBar.removeFromSuperview()
@@ -111,9 +111,9 @@ class CategoryListCell: UICollectionViewCell {
         self.categorySettingsIconButton.showsMenuAsPrimaryAction = true
         
         let changeCategoryNameAction = UIAction(title: "Edit name", attributes: [], state: .off) { _ in
-            let addCategoryViewModel = AddCategoryViewModel(category: self.category)
+            let addCategoryVM = AddCategoryVM(category: self.category)
             if let parentViewController = self.getParentViewController(self) {
-                parentViewController.present(addCategoryViewModel.alertController, animated: true)
+                parentViewController.present(addCategoryVM.alertController, animated: true)
             }
             
         }

@@ -9,7 +9,7 @@ import UIKit
 
 final class MonthWorkoutListView: UIView {
     
-    private var viewModel: MonthWorkoutListViewModel?
+    private var viewModel: MonthWorkoutListVM?
     
     // Table View for workouts in each month
     private let tableView: UITableView = {
@@ -48,7 +48,7 @@ final class MonthWorkoutListView: UIView {
     }
     
     // MARK: - Configurations
-    public func configure(with viewModel: MonthWorkoutListViewModel) {
+    public func configure(with viewModel: MonthWorkoutListVM) {
         self.viewModel = viewModel
         setUpTableView()
     }

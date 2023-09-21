@@ -15,12 +15,12 @@ final class LiftsViewController: UIViewController {
     private let changeMenuButton: UIButton = IconButton(frame: .zero, imageName: "arrowtriangle.down.fill", color: .label, fontSize: 12.0)
     
     // Title label for currently selected feed
-    lazy var titleLabel: UILabel = Label(frame: .zero, title: self.routineExerciseMenuViewModel.mainMenuTitle)
+    lazy var titleLabel: UILabel = Label(frame: .zero, title: self.routineExerciseMenuVM.mainMenuTitle)
     
     // Button to change between routines and exercises
     private let addButton: UIButton = IconButton(frame: .zero, imageName: "plus.circle")
     
-    private let routineExerciseMenuViewModel: RoutineExerciseMenuViewModel = RoutineExerciseMenuViewModel()
+    private let routineExerciseMenuVM: RoutineExerciseMenuVM = RoutineExerciseMenuVM()
     
     private let routinesView: RoutinesView = RoutinesView()
     private let exercisesView: ExercisesView = ExercisesView()
@@ -28,9 +28,9 @@ final class LiftsViewController: UIViewController {
     private func setUpRoutineOrCategoryMenu() {
         self.changeMenuButton.showsMenuAsPrimaryAction = true
         
-        let changeWorkoutLabel = UIAction(title: self.routineExerciseMenuViewModel.changeMenuTitle, attributes: [], state: .off) { _ in
-            self.routineExerciseMenuViewModel.toggleType()
-            self.titleLabel.text = self.routineExerciseMenuViewModel.mainMenuTitle
+        let changeWorkoutLabel = UIAction(title: self.routineExerciseMenuVM.changeMenuTitle, attributes: [], state: .off) { _ in
+            self.routineExerciseMenuVM.toggleType()
+            self.titleLabel.text = self.routineExerciseMenuVM.mainMenuTitle
             self.setUpRoutineOrCategoryMenu()
             self.setUpContent()
         }
@@ -39,7 +39,7 @@ final class LiftsViewController: UIViewController {
     }
     
     private func setUpContent() {
-        switch self.routineExerciseMenuViewModel.type {
+        switch self.routineExerciseMenuVM.type {
         case .routine:
             self.routinesView.isHidden = false
             self.exercisesView.isHidden = true
@@ -111,16 +111,16 @@ final class LiftsViewController: UIViewController {
     // MARK: - Actions
     @objc func addRoutine() {
         // Navigate to routine screen with no routine so new one gets created
-        let individualRoutineViewModel: IndividualRoutineViewModel = IndividualRoutineViewModel()
-        let individualRoutineViewController: IndividualRoutineViewController = IndividualRoutineViewController(viewModel: individualRoutineViewModel)
+        let individualRoutineVM: IndividualRoutineVM = IndividualRoutineVM()
+        let individualRoutineViewController: IndividualRoutineViewController = IndividualRoutineViewController(viewModel: individualRoutineVM)
         
         individualRoutineViewController.modalPresentationStyle = .fullScreen
         present(individualRoutineViewController, animated: true, completion: nil)
     }
     
     @objc func addCategory() {
-        let addCategoryViewModel: AddCategoryViewModel = AddCategoryViewModel()
-        present(addCategoryViewModel.alertController, animated: true, completion: nil)
+        let addCategoryVM: AddCategoryVM = AddCategoryVM()
+        present(addCategoryVM.alertController, animated: true, completion: nil)
     }
     
     public func addExercise(category: Category, exercise: Exercise? = nil) {

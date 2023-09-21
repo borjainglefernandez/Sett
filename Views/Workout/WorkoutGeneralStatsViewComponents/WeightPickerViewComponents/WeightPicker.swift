@@ -9,7 +9,7 @@ import UIKit
 
 class WeightPicker: UITextField {
     
-    private let viewModel: WorkoutGeneralStatsViewCellViewModel
+    private let viewModel: WorkoutGeneralStatsViewCellVM
     
     private let weightPicker = UIPickerView()
     
@@ -25,7 +25,7 @@ class WeightPicker: UITextField {
     private let doneButton = UIBarButtonItem(title: "Done", style: .done, target: self, action: #selector(doneButtonTapped))
     
     // MARK: - Init
-    init(frame: CGRect, viewModel: WorkoutGeneralStatsViewCellViewModel) {
+    init(frame: CGRect, viewModel: WorkoutGeneralStatsViewCellVM) {
         self.viewModel = viewModel
         super.init(frame: frame)
         

@@ -9,30 +9,30 @@ import UIKit
 
 class IndividualExerciseModal: UIView {
     
-    private let viewModel: IndividualExerciseModalViewModel
+    private let viewModel: IndividualExerciseModalVM
     
     lazy var categoryListView: ModalTableView = {
-        let categoryListViewModel = ModalTableViewModel(
+        let categoryListVM = ModalTableVM(
             modalTableViewType: .category,
             modalTableViewSelectionType: .toggle,
             selectedCellCallBack: self.viewModel.selectCellCallback,
             category: self.viewModel.category)
-        let categoryListView = ModalTableView(viewModel: categoryListViewModel)
+        let categoryListView = ModalTableView(viewModel: categoryListVM)
         return categoryListView
     }()
     
     lazy var exerciseTypeListView: ModalTableView = {
-        let exerciseTypeListViewModel = ModalTableViewModel(
+        let exerciseTypeListVM = ModalTableVM(
             modalTableViewType: .exerciseType,
             modalTableViewSelectionType: .toggle,
             selectedCellCallBack: self.viewModel.selectCellCallback,
             exerciseType: self.viewModel.exercise?.type?.exerciseType)
-        let exerciseTypeListView = ModalTableView(viewModel: exerciseTypeListViewModel)
+        let exerciseTypeListView = ModalTableView(viewModel: exerciseTypeListVM)
         return exerciseTypeListView
     }()
     
     // MARK: - Init
-    init(frame: CGRect = .zero, viewModel: IndividualExerciseModalViewModel) {
+    init(frame: CGRect = .zero, viewModel: IndividualExerciseModalVM) {
         self.viewModel = viewModel
         super.init(frame: frame)
 

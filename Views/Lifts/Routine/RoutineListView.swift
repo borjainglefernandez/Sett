@@ -9,7 +9,7 @@ import UIKit
 
 class RoutineListView: UIView {
     
-    private var viewModel: RoutineListViewModel?
+    private var viewModel: RoutineListVM?
     
     // Table View for routines in each category
     public let tableView: UITableView = {
@@ -49,7 +49,7 @@ class RoutineListView: UIView {
     }
     
     // MARK: - Configurations
-    public func configure(with viewModel: RoutineListViewModel) {
+    public func configure(with viewModel: RoutineListVM) {
         self.viewModel = viewModel
         self.setUpTableView()
     }

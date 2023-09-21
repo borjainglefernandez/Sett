@@ -9,23 +9,23 @@ import UIKit
 
 class SelectCategoryModal: UIView {
     
-    private let viewModel: SelectCategoryModalViewModel
+    private let viewModel: SelectCategoryModalVM
     
     // Search Bar for categories
     lazy var searchBar: UISearchBar = SearchBar(searchBarDelegate: self.categoryListView.viewModel)
     
     // Category list
     lazy var categoryListView: ModalTableView = {
-        let categoryListViewModel = ModalTableViewModel(
+        let categoryListVM = ModalTableVM(
             modalTableViewType: .category,
             modalTableViewSelectionType: .select,
             selectedCellCallBack: self.viewModel.selectCellCallback)
-        let categoryListView = ModalTableView(viewModel: categoryListViewModel)
+        let categoryListView = ModalTableView(viewModel: categoryListVM)
         return categoryListView
     }()
     
     // MARK: - Init
-    init(frame: CGRect = .zero, viewModel: SelectCategoryModalViewModel) {
+    init(frame: CGRect = .zero, viewModel: SelectCategoryModalVM) {
         self.viewModel = viewModel
         super.init(frame: frame)
         

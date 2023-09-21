@@ -9,7 +9,7 @@ import UIKit
 
 class ExercisesView: UIView {
     
-    let viewModel = ExercisesViewModel()
+    let viewModel = ExercisesVM()
     
     // View for when there are no exercises to display
     public let emptyView: UILabel = EmptyLabel(frame: .zero, labelText: "No exercise created yet!")

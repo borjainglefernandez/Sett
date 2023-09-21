@@ -1,5 +1,5 @@
 //
-//  CategoryListCellViewModel.swift
+//  CategoryListCellVM.swift
 //  Sett
 //
 //  Created by Borja Ingle-Fernandez on 8/8/23.
@@ -7,7 +7,7 @@
 
 import Foundation
 
-final class CategoryListCellViewModel: NSObject {
+final class CategoryListCellVM: NSObject {
     public let category: Category
 
      // MARK: - Init

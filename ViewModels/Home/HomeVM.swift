@@ -1,5 +1,5 @@
 //
-//  WorkoutListViewModel.swift
+//  WorkoutListVM.swift
 //  Sett
 //
 //  Created by Borja Ingle-Fernandez on 6/16/23.
@@ -8,10 +8,10 @@
 import UIKit
 import CoreData
 
-final class HomeViewModel: NSObject {
+final class HomeVM: NSObject {
 
     public var homeView: HomeView?
-    private var cellViewModels: [MonthListCellViewModel] = []
+    private var cellVMs: [MonthListCellVM] = []
     private var isExpanded: [Bool] = []
     private var workoutsByMonth: [String: [Workout]] = [String: [Workout]]()
     private var fetchedResultsController: NSFetchedResultsController<Workout> = {
@@ -42,12 +42,12 @@ final class HomeViewModel: NSObject {
     }
 
     /// Initialize the cell view models from the workouts
-    private func initCellViewModels() {
+    private func initCellVMs() {
 
         let sortedKeys = self.workoutsByMonth.keys.sorted(using: .localizedStandard).reversed() // Reverse chronological order
         for monthYear in sortedKeys {
-            let viewModel = MonthListCellViewModel(monthName: monthYear, numWorkouts: workoutsByMonth[monthYear]?.count ?? 0)
-            self.cellViewModels.append(viewModel)
+            let viewModel = MonthListCellVM(monthName: monthYear, numWorkouts: workoutsByMonth[monthYear]?.count ?? 0)
+            self.cellVMs.append(viewModel)
             self.isExpanded.append(true)
         }
     }
@@ -57,7 +57,7 @@ final class HomeViewModel: NSObject {
         CoreDataBase.configureFetchedResults(controller: self.fetchedResultsController, expecting: Workout.self, with: self)
 
         // Reset variables in case of update
-        self.cellViewModels = []
+        self.cellVMs = []
         self.workoutsByMonth = [String: [Workout]]()
 
         // Get workouts in order of start time
@@ -65,7 +65,7 @@ final class HomeViewModel: NSObject {
             return
         }
         self.setMonthYearWorkoutsDict(workoutsByStartTime)
-        self.initCellViewModels()
+        self.initCellVMs()
     }
 
     // TODO: GET RID OF THIS
@@ -106,7 +106,7 @@ final class HomeViewModel: NSObject {
 }
 
 // MARK: - Collection View Delegate
-extension HomeViewModel: UICollectionViewDataSource, UICollectionViewDelegateFlowLayout {
+extension HomeVM: UICollectionViewDataSource, UICollectionViewDelegateFlowLayout {
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
         return self.workoutsByMonth.count
     }
@@ -119,7 +119,7 @@ extension HomeViewModel: UICollectionViewDataSource, UICollectionViewDelegateFlo
             fatalError("Unsupported cell")
         }
 
-        cell.configure(with: cellViewModels[indexPath.row],
+        cell.configure(with: cellVMs[indexPath.row],
                        at: indexPath, for: collectionView,
                        isExpanded: self.isExpanded[indexPath.row], delegate: self)
         cell.collapsibleContainerTopBar.changeButtonIcon() // Expand or collapse container
@@ -134,13 +134,13 @@ extension HomeViewModel: UICollectionViewDataSource, UICollectionViewDelegateFlo
 
             return CGSize(
                     width: (collectionView.safeAreaLayoutGuide.layoutFrame.width - 20),
-                    height: CGFloat(self.cellViewModels[indexPath.row].numWorkouts * 43) + 31)
+                    height: CGFloat(self.cellVMs[indexPath.row].numWorkouts * 43) + 31)
         }
         return CGSize(width: (collectionView.safeAreaLayoutGuide.layoutFrame.width - 20), height: 30)
     }
 }
 // MARK: - Expanded Cell Delegate
-extension HomeViewModel: CollapsibleContainerTopBarDelegate {
+extension HomeVM: CollapsibleContainerTopBarDelegate {
     /// Collapse or Expand selected Month Workout Container
     ///
     /// - Parameters:
@@ -158,7 +158,7 @@ extension HomeViewModel: CollapsibleContainerTopBarDelegate {
 }
 
 // MARK: - Fetched Results Controller Delegate
-extension HomeViewModel: NSFetchedResultsControllerDelegate {
+extension HomeVM: NSFetchedResultsControllerDelegate {
     // Update screen if CRUD conducted on Workouts
     func controller(_ controller: NSFetchedResultsController<NSFetchRequestResult>,
                     didChange anObject: Any, at indexPath: IndexPath?, for type: NSFetchedResultsChangeType, newIndexPath: IndexPath?) {
@@ -171,7 +171,7 @@ extension HomeViewModel: NSFetchedResultsControllerDelegate {
 }
 
 // MARK: - Workouts Delegate
-extension HomeViewModel: WorkoutsDelegate {
+extension HomeVM: WorkoutsDelegate {
     func addWorkout(collectionView: UICollectionView) {
         self.addWorkout()
     }

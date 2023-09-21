@@ -93,7 +93,7 @@ class RoutineListCell: UITableViewCell {
     }
     
     // MARK: - Configurations
-    public func configure(with viewModel: RoutineListCellViewModel, showDivider: Bool = true) {
+    public func configure(with viewModel: RoutineListCellVM, showDivider: Bool = true) {
         self.titleLabel.text = viewModel.routine.name
         
         var workoutCountLabelSuffix = "workout"

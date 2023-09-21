@@ -93,8 +93,8 @@ final class HomeViewController: UIViewController {
         CoreDataBase.save()
         
         // Navigate to new workout screen
-        let workoutViewModel = WorkoutViewModel(workout: newWorkout)
-        let workoutViewController = WorkoutViewController(viewModel: workoutViewModel)
+        let workoutVM = WorkoutVM(workout: newWorkout)
+        let workoutViewController = WorkoutViewController(viewModel: workoutVM)
         workoutViewController.modalPresentationStyle = .fullScreen
         self.present(workoutViewController, animated: true)
     }

@@ -9,7 +9,7 @@ import UIKit
 
 class SelectCategoryModalViewController: UIViewController {
     
-    private let viewModel: SelectCategoryModalViewModel
+    private let viewModel: SelectCategoryModalVM
     private let routine: Routine
     
     // Cancel Button
@@ -26,7 +26,7 @@ class SelectCategoryModalViewController: UIViewController {
     // MARK: - Init
     init(routine: Routine) {
         self.routine = routine
-        self.viewModel = SelectCategoryModalViewModel(routine: routine)
+        self.viewModel = SelectCategoryModalVM(routine: routine)
         self.selectCategoryModal = SelectCategoryModal(viewModel: self.viewModel)
         
         super.init(nibName: nil, bundle: nil)
@@ -73,7 +73,7 @@ class SelectCategoryModalViewController: UIViewController {
     }
     
     @objc func createNewCategory() {
-        let addCategoryViewModel: AddCategoryViewModel = AddCategoryViewModel()
-        present(addCategoryViewModel.alertController, animated: true, completion: nil)
+        let addCategoryVM: AddCategoryVM = AddCategoryVM()
+        present(addCategoryVM.alertController, animated: true, completion: nil)
     }
 }

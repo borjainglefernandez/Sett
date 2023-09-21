@@ -9,7 +9,7 @@ import UIKit
 
 class SelectExerciseModalViewController: UIViewController {
     
-    private let viewModel: SelectExerciseModalViewModel
+    private let viewModel: SelectExerciseModalVM
     private let routine: Routine
     private let category: Category
     
@@ -31,7 +31,7 @@ class SelectExerciseModalViewController: UIViewController {
     init(routine: Routine, category: Category) {
         self.routine = routine
         self.category = category
-        self.viewModel = SelectExerciseModalViewModel(routine: routine, category: category)
+        self.viewModel = SelectExerciseModalVM(routine: routine, category: category)
         self.selectExerciseModal = SelectExerciseModal(viewModel: self.viewModel)
         super.init(nibName: nil, bundle: nil)
     }

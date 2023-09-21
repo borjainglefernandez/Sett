@@ -60,15 +60,15 @@ class RoutineDayOfTheWeekCell: UICollectionViewCell {
         delegate: CollapsibleContainerTopBarDelegate) {
         
         // Configure view model of collapsible top bar and title
-        let collapsibleContainerTopBarViewModel = CollapsibleContainerTopBarViewModel(
+        let collapsibleContainerTopBarVM = CollapsibleContainerTopBarVM(
             collectionView: collectionView,
             isExpanded: isExpanded,
             indexPath: indexPath,
             delegate: delegate)
-        self.collapsibleContainerTopBar.configure(with: collapsibleContainerTopBarViewModel)
+        self.collapsibleContainerTopBar.configure(with: collapsibleContainerTopBarVM)
         self.collapsibleContainerTopBar.setTitleLabelText(title: "\(viewModel.title)")
         
         // Configure Routines list view with view model
-        self.routinesListView.configure(with: RoutineListViewModel(routines: viewModel.routines))
+        self.routinesListView.configure(with: RoutineListVM(routines: viewModel.routines))
     }
 }

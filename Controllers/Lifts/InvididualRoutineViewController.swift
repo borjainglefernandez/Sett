@@ -8,7 +8,7 @@
 import UIKit
 
 class IndividualRoutineViewController: UIViewController {
-    private let viewModel: IndividualRoutineViewModel
+    private let viewModel: IndividualRoutineVM
     
     private let topBar: MenuBar = MenuBar(frame: .zero)
     private let backButton: UIButton = IconButton(frame: .zero, imageName: "arrow.backward.circle.fill")
@@ -27,9 +27,9 @@ class IndividualRoutineViewController: UIViewController {
     private let routineExerciseList: RoutineExerciseList
     
     // MARK: - Init
-    init(viewModel: IndividualRoutineViewModel) {
+    init(viewModel: IndividualRoutineVM) {
         self.viewModel = viewModel
-        self.routineExerciseList = RoutineExerciseList(viewModel: RoutineExerciseListViewModel(routine: self.viewModel.routine))
+        self.routineExerciseList = RoutineExerciseList(viewModel: RoutineExerciseListVM(routine: self.viewModel.routine))
         
         super.init(nibName: nil, bundle: nil)
     }

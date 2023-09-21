@@ -9,11 +9,13 @@ import Foundation
 import UIKit
 
 enum ExerciseType: String, CaseIterable {
+    
     case dumbbell = "Dumbbell"
     case barbell = "Barbell"
     case cable = "Cable"
     case machine = "Machine"
     case bodyweight = "Bodyweight"
+    
     // MARK: - Init
     init(rawValue: String) {
         switch rawValue {

@@ -1,5 +1,5 @@
 //
-//  ModalTableViewCellViewModel.swift
+//  ModalTableViewCellVM.swift
 //  Sett
 //
 //  Created by Borja Ingle-Fernandez on 8/14/23.
@@ -12,7 +12,7 @@ protocol SelectedModalTableViewCellDelegate: NSObjectProtocol {
     func selectDeselectCell(select: Bool)
 }
 
-class ModalTableViewCellViewModel: NSObject {
+class ModalTableViewCellVM: NSObject {
     public let title: String
     public let subTitle: String
     public let modalTableViewSelectionType: ModalTableViewSelectionType

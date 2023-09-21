@@ -1,5 +1,5 @@
 //
-//  IndividualExerciseModalViewModel.swift
+//  IndividualExerciseModalVM.swift
 //  Sett
 //
 //  Created by Borja Ingle-Fernandez on 8/13/23.
@@ -8,7 +8,7 @@
 import Foundation
 import UIKit
 
-final class IndividualExerciseModalViewModel: NSObject {
+final class IndividualExerciseModalVM: NSObject {
     public var category: Category
     public var exercise: Exercise?
     private let existingExercise: Bool
@@ -90,7 +90,7 @@ final class IndividualExerciseModalViewModel: NSObject {
     }
 }
 
-extension IndividualExerciseModalViewModel: UITextFieldDelegate {
+extension IndividualExerciseModalVM: UITextFieldDelegate {
     func textFieldDidChangeSelection(_ textField: UITextField) {
         self.exercise?.name = textField.text
     }

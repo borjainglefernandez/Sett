@@ -1,5 +1,5 @@
 //
-//  SelectExerciseModalViewModel.swift
+//  SelectExerciseModalVM.swift
 //  Sett
 //
 //  Created by Borja Ingle-Fernandez on 8/31/23.
@@ -8,7 +8,7 @@
 import Foundation
 import UIKit
 
-final class SelectExerciseModalViewModel: NSObject {
+final class SelectExerciseModalVM: NSObject {
     public let routine: Routine
     public let category: Category
     private var exercise: Exercise?
@@ -22,10 +22,10 @@ final class SelectExerciseModalViewModel: NSObject {
     public func selectCellCallback(with title: String, and subTitle: String, for type: ModalTableViewType, view: UIView?) {
         let exerciseTypeToCompare = ExerciseTypeWrapper(ExerciseType(rawValue: subTitle))
         guard let exercise: Exercise = CoreDataBase.fetchEntity(
-                                            withEntity: "Exercise",
-                                            expecting: Exercise.self,
-                                            predicates: [NSPredicate(format: "name = %@", title),
-                                                         NSPredicate(format: "type = %@", exerciseTypeToCompare)])
+            withEntity: "Exercise",
+            expecting: Exercise.self,
+            predicates: [NSPredicate(format: "name = %@", title),
+                         NSPredicate(format: "type = %@", exerciseTypeToCompare)])
         else {
             return
         }
