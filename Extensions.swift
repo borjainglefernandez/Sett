@@ -5,6 +5,7 @@
 //  Created by Borja Ingle-Fernandez on 6/8/23.
 //
 
+import SwiftUI
 import UIKit
 
 extension UIView {
@@ -96,5 +97,22 @@ extension UITableView {
 
     func restore() {
         self.backgroundView = nil
+    }
+}
+
+extension View {
+    func cornerRadius(_ radius: CGFloat, corners: UIRectCorner) -> some View {
+        clipShape( RoundedCorner(radius: radius, corners: corners) )
+    }
+}
+
+struct RoundedCorner: Shape {
+
+    var radius: CGFloat = .infinity
+    var corners: UIRectCorner = .allCorners
+
+    func path(in rect: CGRect) -> Path {
+        let path = UIBezierPath(roundedRect: rect, byRoundingCorners: corners, cornerRadii: CGSize(width: radius, height: radius))
+        return Path(path.cgPath)
     }
 }

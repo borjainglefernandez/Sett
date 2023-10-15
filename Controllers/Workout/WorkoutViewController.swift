@@ -6,10 +6,13 @@
 //
 
 import UIKit
+import SwiftUI
 
 final class WorkoutViewController: UIViewController {
     private let viewModel: WorkoutVM
     private let workoutGeneralStatsView: WorkoutGeneralStatsView
+    let workoutExerciseListView: some View = WorkoutExerciseListView().environment(\.managedObjectContext, CoreDataBase.context)
+    lazy var workoutExerciseListViewHC: UIHostingController<some View> = UIHostingController(rootView: self.workoutExerciseListView)
     
     private let topBar: MenuBar = MenuBar(frame: .zero)
     private let backButton: UIButton = IconButton(frame: .zero, imageName: "arrow.backward.circle.fill")
@@ -41,6 +44,11 @@ final class WorkoutViewController: UIViewController {
         super.viewDidLoad()
         self.dismissKeyboardWhenTapOutside()
         
+        // Add Swift UI Components
+        self.addChild(workoutExerciseListViewHC)
+        self.workoutExerciseListViewHC.view.translatesAutoresizingMaskIntoConstraints = false
+        self.view.addSubview(workoutExerciseListViewHC.view)
+        
         self.view.backgroundColor = .systemCyan
         
         self.topBar.addSubviews(backButton, self.workoutName, self.moreButton)
@@ -69,7 +77,13 @@ final class WorkoutViewController: UIViewController {
             self.workoutGeneralStatsView.topAnchor.constraint(equalTo: self.topBar.bottomAnchor),
             self.workoutGeneralStatsView.leftAnchor.constraint(equalTo: self.view.safeAreaLayoutGuide.leftAnchor),
             self.workoutGeneralStatsView.rightAnchor.constraint(equalTo: self.view.safeAreaLayoutGuide.rightAnchor),
-            self.workoutGeneralStatsView.heightAnchor.constraint(equalToConstant: 285)
+            self.workoutGeneralStatsView.heightAnchor.constraint(equalToConstant: 285),
+            
+            self.workoutExerciseListViewHC.view.topAnchor.constraint(equalTo: self.workoutGeneralStatsView.bottomAnchor, constant: 10),
+            self.workoutExerciseListViewHC.view.leftAnchor.constraint(equalTo: self.view.safeAreaLayoutGuide.leftAnchor),
+            self.workoutExerciseListViewHC.view.rightAnchor.constraint(equalTo: self.view.safeAreaLayoutGuide.rightAnchor),
+            self.workoutExerciseListViewHC.view.heightAnchor.constraint(equalTo: self.view.safeAreaLayoutGuide.heightAnchor, multiplier: 0.5),
+            
         ])
     }
     

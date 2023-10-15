@@ -22,7 +22,7 @@ class WeightPicker: UITextField {
     
     // Add space button to put done button on right side
     private let spaceButton = UIBarButtonItem(barButtonSystemItem: .flexibleSpace, target: nil, action: nil)
-    private let doneButton = UIBarButtonItem(title: "Done", style: .done, target: WeightPicker.self, action: #selector(doneButtonTapped))
+    private let doneButton = UIBarButtonItem(title: "Done", style: .done, target: self, action: #selector(doneButtonTapped))
     
     // MARK: - Init
     init(frame: CGRect, viewModel: WorkoutGeneralStatsViewCellVM) {
@@ -44,6 +44,7 @@ class WeightPicker: UITextField {
     
     // MARK: - Actions
     @objc func doneButtonTapped() {
+        print("Here")
         self.text = "\(self.viewModel.workout.bodyweight)"
         self.resignFirstResponder()
     }
@@ -67,7 +68,7 @@ class WeightPicker: UITextField {
         
         // Pre-populate picker with body weight
         let integerPart = Int(self.viewModel.workout.bodyweight)
-        let decimalPart = Int((self.viewModel.workout.bodyweight.truncatingRemainder(dividingBy: 1)) * 100)
+        let decimalPart = Int(self.viewModel.workout.bodyweight.truncatingRemainder(dividingBy: 1) * 10)
         self.weightPicker.selectRow(integerPart, inComponent: 0, animated: false)
         self.weightPicker.selectRow(decimalPart, inComponent: 2, animated: false)
     }
