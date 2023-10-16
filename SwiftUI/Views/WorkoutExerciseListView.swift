@@ -48,11 +48,16 @@ struct WorkoutExerciseListView: View {
                         )
                     ) {
                         if showingSection1 {
-                            ForEach(contacts, id: \.self) { contact in
-                                Text(contact)
-                            }
+                            
+                                ForEach(contacts, id: \.self) { contact in
+                                    HStack {
+//                                        Rectangle().fill(Color(.clear))
+//                                        Text(contact).background(.clear)
+                                    }.background(Color(.systemCyan))
+                                }.background(Color(.systemCyan))
                         }
-                    }
+                    }.listRowBackground(Color(.clear))
+
                     
                     Section(
                         header: SectionHeader(
@@ -74,8 +79,7 @@ struct WorkoutExerciseListView: View {
                 .scrollContentBackground(.hidden)
                 
             }
-            .background(Color(.systemRed))
-//            .frame(width: geometry.size.width * 1.05, alignment: .center)
+            .background(Color(.systemCyan))
         }
 
      }
@@ -100,7 +104,7 @@ struct SectionHeader: View {
                 
                 
             Rectangle()
-                .cornerRadius(15, corners: [.topLeft, .topRight])
+                .cornerRadius(15, corners: isOn ? [.topLeft, .topRight] : [.topLeft, .topRight, .bottomLeft, .bottomRight] )
                 .scaleEffect(x: 1.1)
                 .frame(height: 30)
                 .foregroundColor(Color(.systemGray4))
