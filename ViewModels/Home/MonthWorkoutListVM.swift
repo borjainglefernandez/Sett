@@ -93,8 +93,8 @@ extension MonthWorkoutListVM: UITableViewDataSource, UITableViewDelegate {
     
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         if let parentViewController = tableView.getParentViewController(tableView) {
-            let workoutVM = WorkoutVM(workout: cellVMs[indexPath.row].workout)
-            let workoutViewController = WorkoutViewController(viewModel: workoutVM)
+            let workout = cellVMs[indexPath.row].workout
+            let workoutViewController = WorkoutViewController(workout: workout)
             workoutViewController.modalPresentationStyle = .fullScreen
             parentViewController.present(workoutViewController, animated: true)
         }

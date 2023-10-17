@@ -9,10 +9,13 @@ import UIKit
 import SwiftUI
 
 final class WorkoutViewController: UIViewController {
-    private let viewModel: WorkoutVM
+    private let workout: Workout
+    
+    private let generalStatsVM: WorkoutGeneralStatsVM
     private let workoutGeneralStatsView: WorkoutGeneralStatsView
-    let workoutExerciseListView: some View = WorkoutExerciseListView().environment(\.managedObjectContext, CoreDataBase.context)
-    lazy var workoutExerciseListViewHC: UIHostingController<some View> = UIHostingController(rootView: self.workoutExerciseListView)
+    
+    private let workoutExercisesVM: WorkoutExercisesVM
+    private let workoutExercisesView: WorkoutExercisesView
     
     private let topBar: MenuBar = MenuBar(frame: .zero)
     private let backButton: UIButton = IconButton(frame: .zero, imageName: "arrow.backward.circle.fill")
@@ -23,15 +26,21 @@ final class WorkoutViewController: UIViewController {
         workoutName.textColor = .label
         workoutName.font = .systemFont(ofSize: 17, weight: .bold)
         workoutName.translatesAutoresizingMaskIntoConstraints = false
-        workoutName.text = self.viewModel.workout.title
-        workoutName.delegate = self.viewModel
+        workoutName.text = self.generalStatsVM.workout.title
+        workoutName.delegate = self.generalStatsVM
         return workoutName
     }()
 
     // MARK: - Init
-    init(viewModel: WorkoutVM) {
-        self.viewModel = viewModel
-        self.workoutGeneralStatsView = WorkoutGeneralStatsView(frame: .zero, viewModel: self.viewModel)
+    init(workout: Workout) {
+        self.workout = workout
+        
+        self.generalStatsVM = WorkoutGeneralStatsVM(workout: workout)
+        self.workoutGeneralStatsView = WorkoutGeneralStatsView(frame: .zero, viewModel: self.generalStatsVM)
+        
+        self.workoutExercisesVM = WorkoutExercisesVM(workout: workout)
+        self.workoutExercisesView = WorkoutExercisesView(frame: .zero, viewModel: self.workoutExercisesVM)
+        
         super.init(nibName: nil, bundle: nil)
     }
     
@@ -44,18 +53,14 @@ final class WorkoutViewController: UIViewController {
         super.viewDidLoad()
         self.dismissKeyboardWhenTapOutside()
         
-        // Add Swift UI Components
-        self.addChild(workoutExerciseListViewHC)
-        self.workoutExerciseListViewHC.view.translatesAutoresizingMaskIntoConstraints = false
-        self.view.addSubview(workoutExerciseListViewHC.view)
-        
         self.view.backgroundColor = .systemCyan
         
-        self.topBar.addSubviews(backButton, self.workoutName, self.moreButton)
-        self.view.addSubviews(topBar, workoutGeneralStatsView)
+        self.topBar.addSubviews(self.backButton, self.workoutName, self.moreButton)
+        self.view.addSubviews(self.topBar, self.workoutGeneralStatsView, self.workoutExercisesView)
         self.addConstraints()
         
         self.backButton.addTarget(self, action: #selector(self.goBack), for: .touchUpInside)
+        self.moreButton.addTarget(self, action: #selector(self.addExercise), for: .touchUpInside)
     }
     
     // MARK: - Constraints
@@ -79,10 +84,10 @@ final class WorkoutViewController: UIViewController {
             self.workoutGeneralStatsView.rightAnchor.constraint(equalTo: self.view.safeAreaLayoutGuide.rightAnchor),
             self.workoutGeneralStatsView.heightAnchor.constraint(equalToConstant: 285),
             
-            self.workoutExerciseListViewHC.view.topAnchor.constraint(equalTo: self.workoutGeneralStatsView.bottomAnchor, constant: 10),
-            self.workoutExerciseListViewHC.view.leftAnchor.constraint(equalTo: self.view.safeAreaLayoutGuide.leftAnchor),
-            self.workoutExerciseListViewHC.view.rightAnchor.constraint(equalTo: self.view.safeAreaLayoutGuide.rightAnchor),
-            self.workoutExerciseListViewHC.view.heightAnchor.constraint(equalTo: self.view.safeAreaLayoutGuide.heightAnchor, multiplier: 0.5),
+            self.workoutExercisesView.topAnchor.constraint(equalTo: self.workoutGeneralStatsView.bottomAnchor, constant: 7),
+            self.workoutExercisesView.leftAnchor.constraint(equalTo: self.view.safeAreaLayoutGuide.leftAnchor),
+            self.workoutExercisesView.rightAnchor.constraint(equalTo: self.view.safeAreaLayoutGuide.rightAnchor),
+            self.workoutExercisesView.bottomAnchor.constraint(equalTo: self.view.safeAreaLayoutGuide.bottomAnchor)
             
         ])
     }
@@ -90,5 +95,15 @@ final class WorkoutViewController: UIViewController {
     // MARK: - Actions
     @objc func goBack() {
         self.dismiss(animated: true)
+    }
+    
+    // TODO: Get rid of later
+    @objc func addExercise() {
+        let workoutExercises = CoreDataBase.fetchEntities(withEntity: "WorkoutExercise", expecting: WorkoutExercise.self)
+        guard let workoutExercise = workoutExercises?.first else {
+            return
+        }
+        self.workout.addToWorkoutExercises(workoutExercise)
+        CoreDataBase.save()
     }
 }

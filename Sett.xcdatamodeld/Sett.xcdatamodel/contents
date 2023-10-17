@@ -42,14 +42,15 @@
     </entity>
     <entity name="Sett" representedClassName="Sett" syncable="YES" codeGenerationType="class">
         <attribute name="notes" optional="YES" attributeType="String"/>
-        <attribute name="reps" optional="YES" attributeType="Integer 64" defaultValueString="0" usesScalarValueType="YES"/>
-        <attribute name="weight" optional="YES" attributeType="Integer 64" defaultValueString="0" usesScalarValueType="YES"/>
+        <attribute name="reps" attributeType="Integer 64" minValueString="0" defaultValueString="0" usesScalarValueType="YES"/>
+        <attribute name="weight" attributeType="Integer 64" minValueString="0" defaultValueString="0" usesScalarValueType="YES"/>
         <relationship name="netProgress" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="NetProgress" inverseName="settNP" inverseEntity="NetProgress"/>
         <relationship name="partOf" maxCount="1" deletionRule="Nullify" destinationEntity="SettCollection" inverseName="setts" inverseEntity="SettCollection"/>
     </entity>
     <entity name="SettCollection" representedClassName="SettCollection" syncable="YES" codeGenerationType="class">
         <relationship name="exercise" maxCount="1" deletionRule="Nullify" destinationEntity="Exercise" inverseName="setCollections" inverseEntity="Exercise"/>
         <relationship name="setts" optional="YES" toMany="YES" deletionRule="Nullify" ordered="YES" destinationEntity="Sett" inverseName="partOf" inverseEntity="Sett"/>
+        <relationship name="workoutExercise" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="WorkoutExercise" inverseName="settCollection" inverseEntity="WorkoutExercise"/>
     </entity>
     <entity name="User" representedClassName="User" syncable="YES" codeGenerationType="class">
         <attribute name="email" optional="YES" attributeType="String"/>
@@ -71,9 +72,10 @@
     </entity>
     <entity name="WorkoutExercise" representedClassName="WorkoutExercise" syncable="YES" codeGenerationType="class">
         <attribute name="notes" optional="YES" attributeType="String"/>
-        <attribute name="numSetts" attributeType="Integer 64" defaultValueString="0" usesScalarValueType="YES"/>
+        <attribute name="numSetts" attributeType="Integer 64" minValueString="1" defaultValueString="1" usesScalarValueType="YES"/>
         <relationship name="exercise" maxCount="1" deletionRule="Nullify" destinationEntity="Exercise" inverseName="workoutExercises" inverseEntity="Exercise"/>
         <relationship name="routines" optional="YES" toMany="YES" deletionRule="Nullify" destinationEntity="Routine" inverseName="workoutExercises" inverseEntity="Routine"/>
+        <relationship name="settCollection" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="SettCollection" inverseName="workoutExercise" inverseEntity="SettCollection"/>
         <relationship name="workouts" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="Workout" inverseName="workoutExercises" inverseEntity="Workout"/>
     </entity>
 </model>

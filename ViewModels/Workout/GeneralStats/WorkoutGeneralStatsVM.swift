@@ -8,7 +8,7 @@
 import UIKit
 import CoreData
 
-final class WorkoutVM: NSObject {
+final class WorkoutGeneralStatsVM: NSObject {
     
     public let workout: Workout
     public var tableView: UITableView?
@@ -34,7 +34,7 @@ final class WorkoutVM: NSObject {
 }
 
 // MARK: - Table View Delegate
-extension WorkoutVM: UITableViewDelegate, UITableViewDataSource {
+extension WorkoutGeneralStatsVM: UITableViewDelegate, UITableViewDataSource {
     func numberOfSections(in tableView: UITableView) -> Int {
         return 1
     }
@@ -59,7 +59,7 @@ extension WorkoutVM: UITableViewDelegate, UITableViewDataSource {
 }
 
 // MARK: - Fetched Results Controller Delegate
-extension WorkoutVM: NSFetchedResultsControllerDelegate {
+extension WorkoutGeneralStatsVM: NSFetchedResultsControllerDelegate {
     func controller(_ controller: NSFetchedResultsController<NSFetchRequestResult>,
                     didChange anObject: Any, at indexPath: IndexPath?, for type: NSFetchedResultsChangeType, newIndexPath: IndexPath?) {
         
@@ -77,7 +77,7 @@ extension WorkoutVM: NSFetchedResultsControllerDelegate {
 }
 
 // MARK: - Text Field Delegate
-extension WorkoutVM: UITextFieldDelegate {
+extension WorkoutGeneralStatsVM: UITextFieldDelegate {
     func textFieldDidEndEditing(_ textField: UITextField) {
         self.workout.title = textField.text
         CoreDataBase.save()
