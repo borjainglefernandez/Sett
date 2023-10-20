@@ -8,10 +8,10 @@
 import Foundation
 
 final class WorkoutExercisesCellVM {
-    public let exercise: Exercise
+    public let workoutExercise: WorkoutExercise
     
     // MARK: - Init
-    init(exercise: Exercise) {
-        self.exercise = exercise
+    init(workoutExercise: WorkoutExercise) {
+        self.workoutExercise = workoutExercise
     }
 }

@@ -15,7 +15,7 @@ class SettListCell: UITableViewCell {
     private let containerView: UIView = {
         let containerView = UIView()
         containerView.translatesAutoresizingMaskIntoConstraints = false
-        containerView.backgroundColor = .clear
+        containerView.backgroundColor = .red
         return containerView
     }()
     

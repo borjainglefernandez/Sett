@@ -49,8 +49,8 @@
     </entity>
     <entity name="SettCollection" representedClassName="SettCollection" syncable="YES" codeGenerationType="class">
         <relationship name="exercise" maxCount="1" deletionRule="Nullify" destinationEntity="Exercise" inverseName="setCollections" inverseEntity="Exercise"/>
-        <relationship name="setts" optional="YES" toMany="YES" deletionRule="Nullify" ordered="YES" destinationEntity="Sett" inverseName="partOf" inverseEntity="Sett"/>
-        <relationship name="workoutExercise" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="WorkoutExercise" inverseName="settCollection" inverseEntity="WorkoutExercise"/>
+        <relationship name="setts" toMany="YES" deletionRule="Nullify" ordered="YES" destinationEntity="Sett" inverseName="partOf" inverseEntity="Sett"/>
+        <relationship name="workoutExercise" maxCount="1" deletionRule="Nullify" destinationEntity="WorkoutExercise" inverseName="settCollection" inverseEntity="WorkoutExercise"/>
     </entity>
     <entity name="User" representedClassName="User" syncable="YES" codeGenerationType="class">
         <attribute name="email" optional="YES" attributeType="String"/>
