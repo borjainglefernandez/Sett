@@ -65,14 +65,13 @@ class WorkoutExercisesCell: UICollectionViewCell {
             indexPath: indexPath,
             delegate: delegate)
         self.collapsibleContainerTopBar.configure(with: collapsibleContainerTopBarVM)
-            self.collapsibleContainerTopBar.setTitleLabelText(title: "\(String(describing: viewModel.workoutExercise.exercise?.name))")
+            self.collapsibleContainerTopBar.setTitleLabelText(title: viewModel.workoutExercise.exercise?.name ?? "")
         
         // Configure Sett list view with view model
-            guard let settCollection = viewModel.workoutExercise.settCollection else {
-                return
-            }
-            print(settCollection.setts?.count)
-            self.settListView.configure(with: SettListVM(settCollection: settCollection))
-//        self.settListView.configure(with: RoutineListVM(routines: viewModel.routines))
+        guard let settCollection = viewModel.workoutExercise.settCollection else {
+            return
+        }
+        
+        self.settListView.configure(with: SettListVM(settCollection: settCollection))
     }
 }

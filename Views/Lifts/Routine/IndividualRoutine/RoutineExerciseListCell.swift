@@ -32,19 +32,8 @@ class RoutineExerciseListCell: UICollectionViewCell {
         return exerciseContainer
     }()
     
-    // Label for number of sets title
-    private let setsTitleLabel: UILabel = Label(title: "Sets", fontSize: 11.0, weight: .light)
-    
-    // Text field for number of sets
-    private let setsTextField: UITextField = {
-        let setsTextField = UITextField()
-        setsTextField.translatesAutoresizingMaskIntoConstraints = false
-        setsTextField.tintColor = .label
-        setsTextField.font = .systemFont(ofSize: 12, weight: .bold)
-        setsTextField.placeholder = "0"
-        setsTextField.keyboardType = .numberPad
-        return setsTextField
-    }()
+    // Set Input
+    private let setInput: NumberInputView = NumberInputView(title: "Sets")
     
     // Label for notes title
     private let notesTitleLabel: UILabel = Label(title: "Notes", fontSize: 11.0, weight: .light)
@@ -71,7 +60,7 @@ class RoutineExerciseListCell: UICollectionViewCell {
         self.setUpMoreButton()
         
         self.menuBar.addSubviews(self.exerciseTypeIcon, self.moreButton)
-        self.exerciseContainer.addSubviews(self.setsTitleLabel, self.setsTextField, self.notesTitleLabel, self.notesTextField)
+        self.exerciseContainer.addSubviews(self.setInput, self.notesTitleLabel, self.notesTextField)
         self.addSubviews(self.menuBar, self.titleLabel, self.exerciseContainer)
         self.addConstraints()
     }
@@ -84,7 +73,7 @@ class RoutineExerciseListCell: UICollectionViewCell {
     override func prepareForReuse() {
         super.prepareForReuse()
         self.titleLabel.text = nil
-        self.setsTextField.text = nil
+        self.setInput.prepareForReuse()
         self.notesTextField.text = nil
     }
     
@@ -106,17 +95,15 @@ class RoutineExerciseListCell: UICollectionViewCell {
             self.exerciseContainer.widthAnchor.constraint(equalTo: self.menuBar.widthAnchor),
             self.exerciseContainer.heightAnchor.constraint(equalTo: self.menuBar.heightAnchor, multiplier: 1.5),
             
-            self.setsTitleLabel.topAnchor.constraint(equalTo: self.exerciseContainer.topAnchor, constant: 5),
-            self.setsTitleLabel.leftAnchor.constraint(equalTo: self.exerciseContainer.leftAnchor, constant: 25),
+            self.setInput.topAnchor.constraint(equalTo: self.exerciseContainer.topAnchor, constant: 5),
+            self.setInput.leftAnchor.constraint(equalTo: self.exerciseContainer.leftAnchor, constant: 25),
+            self.setInput.bottomAnchor.constraint(equalTo: self.exerciseContainer.bottomAnchor),
             
-            self.setsTextField.topAnchor.constraint(equalTo: self.setsTitleLabel.bottomAnchor),
-            self.setsTextField.centerXAnchor.constraint(equalTo: self.setsTitleLabel.centerXAnchor),
-            
-            self.notesTitleLabel.centerYAnchor.constraint(equalTo: self.setsTitleLabel.centerYAnchor),
-            self.notesTitleLabel.leftAnchor.constraint(equalTo: self.setsTitleLabel.rightAnchor, constant: 30),
+            self.notesTitleLabel.centerYAnchor.constraint(equalTo: self.setInput.titleLabel.centerYAnchor),
+            self.notesTitleLabel.leftAnchor.constraint(equalTo: self.setInput.titleLabel.rightAnchor, constant: 30),
             
             self.notesTextField.leftAnchor.constraint(equalTo: self.notesTitleLabel.leftAnchor),
-            self.notesTextField.centerYAnchor.constraint(equalTo: self.setsTextField.centerYAnchor),
+            self.notesTextField.centerYAnchor.constraint(equalTo: self.setInput.numberTextField.centerYAnchor),
             self.notesTextField.widthAnchor.constraint(equalTo: self.widthAnchor, multiplier: 0.7),
             
             self.moreButton.rightAnchor.constraint(equalTo: self.menuBar.rightAnchor, constant: -20),
@@ -134,8 +121,8 @@ class RoutineExerciseListCell: UICollectionViewCell {
             self.exerciseTypeIcon.setImage(iconImage, for: .normal)
         }
        
-        self.setsTextField.text = "\(viewModel.workoutExercise.numSetts)"
-        self.setsTextField.delegate = viewModel
+        self.setInput.setNumber(number: viewModel.workoutExercise.numSetts)
+        self.setInput.setDelegate(delegate: viewModel)
         self.notesTextField.text = viewModel.workoutExercise.notes
         self.workoutExerciseNotesVM = WorkoutExerciseNotesVM(workoutExercise: viewModel.workoutExercise)
         self.notesTextField.delegate = self.workoutExerciseNotesVM

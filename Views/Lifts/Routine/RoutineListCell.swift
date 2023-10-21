@@ -39,12 +39,7 @@ class RoutineListCell: UITableViewCell {
     }()
     
     // Dividier
-    private let divider: UIView = {
-        let divider = UIView()
-        divider.backgroundColor = .label
-        divider.translatesAutoresizingMaskIntoConstraints = false
-        return divider
-    }()
+    private let divider: UIView = Divider()
     
     // MARK: - Init
     override init(style: UITableViewCell.CellStyle, reuseIdentifier: String?) {
@@ -87,7 +82,6 @@ class RoutineListCell: UITableViewCell {
             
             self.divider.widthAnchor.constraint(equalTo: self.widthAnchor, multiplier: 0.95),
             self.divider.centerXAnchor.constraint(equalTo: self.centerXAnchor),
-            self.divider.heightAnchor.constraint(equalToConstant: 1),
             self.divider.bottomAnchor.constraint(equalTo: self.bottomAnchor)
         ])
     }

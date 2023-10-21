@@ -23,12 +23,7 @@ final class WorkoutGeneralStatsViewCell: UITableViewCell {
     }()
     
     // Divider between cells
-    private let divider: UIView = {
-        let divider = UIView()
-        divider.translatesAutoresizingMaskIntoConstraints = false
-        divider.backgroundColor = .white
-        return divider
-    }()
+    private let divider: UIView = Divider()
     
     // Actual content to display on the right side
     private var displayContent: UIView = UIView()
@@ -55,7 +50,6 @@ final class WorkoutGeneralStatsViewCell: UITableViewCell {
             self.label.widthAnchor.constraint(equalTo: self.widthAnchor, multiplier: 0.75),
             
             self.divider.widthAnchor.constraint(equalTo: self.widthAnchor, multiplier: 0.9),
-            self.divider.heightAnchor.constraint(equalToConstant: 1),
             self.divider.topAnchor.constraint(equalTo: self.label.bottomAnchor, constant: 8),
             self.divider.centerXAnchor.constraint(equalTo: self.centerXAnchor),
             

@@ -23,4 +23,9 @@ class Label: UILabel {
     required init?(coder: NSCoder) {
         fatalError("Unsupported initialiser")
     }
+    
+    // MARK: - Setter
+    public func setTitle(title: String) {
+        self.text = title
+    }
 }
