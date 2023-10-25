@@ -85,7 +85,7 @@ extension WorkoutExercisesVM: UICollectionViewDataSource, UICollectionViewDelega
                         layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
         if isExpanded[indexPath.row] {
             let settCount = self.cellVMs[indexPath.row].workoutExercise.settCollection?.setts?.count ?? 0
-            return CGSize(width: (collectionView.safeAreaLayoutGuide.layoutFrame.width - 20), height: CGFloat(settCount * 43) + 31)
+            return CGSize(width: (collectionView.safeAreaLayoutGuide.layoutFrame.width - 20), height: CGFloat(settCount * 43) + 80)
         }
         return CGSize(width: (collectionView.safeAreaLayoutGuide.layoutFrame.width - 20), height: 30)
     }

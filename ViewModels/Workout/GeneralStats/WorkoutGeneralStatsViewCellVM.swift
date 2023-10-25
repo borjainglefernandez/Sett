@@ -35,7 +35,7 @@ final class WorkoutGeneralStatsViewCellVM: NSObject {
         case .rating:
             return "Rating"
         case .startTime:
-            return "Start Time"
+            return "Start"
         case .bodyweight:
             return "Body Weight"
         case .netProgress:

@@ -45,7 +45,7 @@ final class WorkoutGeneralStatsViewCell: UITableViewCell {
     // MARK: - Constraints
     private func addConstraints() {
         NSLayoutConstraint.activate([
-            self.label.topAnchor.constraint(equalTo: self.topAnchor, constant: 10),
+            self.label.centerYAnchor.constraint(equalTo: self.centerYAnchor),
             self.label.leftAnchor.constraint(equalTo: self.leftAnchor, constant: 30),
             self.label.widthAnchor.constraint(equalTo: self.widthAnchor, multiplier: 0.75),
             

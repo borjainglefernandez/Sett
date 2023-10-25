@@ -62,6 +62,7 @@ final class WorkoutViewController: UIViewController {
         self.backButton.addTarget(self, action: #selector(self.goBack), for: .touchUpInside)
         self.moreButton.addTarget(self, action: #selector(self.addExercise), for: .touchUpInside)
     }
+
     
     // MARK: - Constraints
     private func addConstraints() {
@@ -82,7 +83,7 @@ final class WorkoutViewController: UIViewController {
             self.workoutGeneralStatsView.topAnchor.constraint(equalTo: self.topBar.bottomAnchor),
             self.workoutGeneralStatsView.leftAnchor.constraint(equalTo: self.view.safeAreaLayoutGuide.leftAnchor),
             self.workoutGeneralStatsView.rightAnchor.constraint(equalTo: self.view.safeAreaLayoutGuide.rightAnchor),
-            self.workoutGeneralStatsView.heightAnchor.constraint(equalToConstant: 285),
+            self.workoutGeneralStatsView.heightAnchor.constraint(equalTo: self.view.safeAreaLayoutGuide.heightAnchor, multiplier: 0.42),
             
             self.workoutExercisesView.topAnchor.constraint(equalTo: self.workoutGeneralStatsView.bottomAnchor, constant: 7),
             self.workoutExercisesView.leftAnchor.constraint(equalTo: self.view.safeAreaLayoutGuide.leftAnchor),

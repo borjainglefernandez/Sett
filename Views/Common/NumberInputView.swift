@@ -60,6 +60,6 @@ class NumberInputView: UIView {
     }
     
     public func setDelegate(delegate: UITextFieldDelegate) {
-//        self.numberTextField.delegate = delegate
+        self.numberTextField.delegate = delegate
     }
 }
