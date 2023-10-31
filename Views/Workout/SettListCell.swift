@@ -45,6 +45,8 @@ class SettListCell: UITableViewCell {
     // Net Reps Input
     private let netRepsInput: NumberInputView = NumberInputView(title: "Net")
     
+    // Notes Input
+    private let notesInput: SettNotesInput = SettNotesInput()
     
     // Divider
     private let divider: UIView = Divider()
@@ -56,7 +58,13 @@ class SettListCell: UITableViewCell {
         self.backgroundColor = UIColor.clear // Allows for customisability of cell
         self.configureClearSelectedBackground()
         
-        self.contentView.addSubviews(self.containerView, self.weightInput, self.netWeightInput, self.repsInput, self.netRepsInput, self.divider)
+        self.contentView.addSubviews(self.containerView,
+                                     self.weightInput,
+                                     self.netWeightInput,
+                                     self.repsInput,
+                                     self.netRepsInput,
+                                     self.notesInput,
+                                     self.divider)
         
         self.addConstraints()
     }
@@ -78,9 +86,8 @@ class SettListCell: UITableViewCell {
             
             self.weightInput.topAnchor.constraint(equalToSystemSpacingBelow: self.containerView.topAnchor, multiplier: 1),
             self.weightInput.leftAnchor.constraint(equalToSystemSpacingAfter: self.containerView.leftAnchor, multiplier: 2.5),
-            self.weightInput.centerYAnchor.constraint(equalTo: self.containerView.centerYAnchor),
             self.weightInput.bottomAnchor.constraint(equalTo: self.containerView.bottomAnchor),
-            
+
             self.netWeightInput.leftAnchor.constraint(equalToSystemSpacingAfter: self.weightInput.rightAnchor, multiplier: 2),
             self.netWeightInput.centerYAnchor.constraint(equalTo: self.weightInput.centerYAnchor),
             self.netWeightInput.bottomAnchor.constraint(equalTo: self.containerView.bottomAnchor),
@@ -88,11 +95,16 @@ class SettListCell: UITableViewCell {
             self.repsInput.leftAnchor.constraint(equalToSystemSpacingAfter: self.netWeightInput.rightAnchor, multiplier: 2.5),
             self.repsInput.centerYAnchor.constraint(equalTo: self.weightInput.centerYAnchor),
             self.repsInput.bottomAnchor.constraint(equalTo: self.containerView.bottomAnchor),
-            
+
             self.netRepsInput.leftAnchor.constraint(equalToSystemSpacingAfter: self.repsInput.rightAnchor, multiplier: 2.5),
             self.netRepsInput.centerYAnchor.constraint(equalTo: self.weightInput.centerYAnchor),
             self.netRepsInput.bottomAnchor.constraint(equalTo: self.containerView.bottomAnchor),
-
+            
+            self.notesInput.leftAnchor.constraint(equalToSystemSpacingAfter: self.netRepsInput.rightAnchor, multiplier: 2.5),
+            self.notesInput.centerYAnchor.constraint(equalTo: self.weightInput.centerYAnchor),
+            self.notesInput.bottomAnchor.constraint(equalTo: self.containerView.bottomAnchor),
+            self.notesInput.rightAnchor.constraint(equalTo: self.containerView.rightAnchor),
+            
             self.divider.widthAnchor.constraint(equalTo: self.containerView.widthAnchor, multiplier: 0.9),
             self.divider.centerXAnchor.constraint(equalTo: self.centerXAnchor),
             self.divider.bottomAnchor.constraint(equalTo: self.bottomAnchor)

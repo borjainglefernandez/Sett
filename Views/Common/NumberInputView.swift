@@ -25,6 +25,7 @@ class NumberInputView: UIView {
     // MARK: - Init
     init(frame: CGRect = .zero, title: String = "", placeholder: Int64 = 0) {
         super.init(frame: frame)
+
         self.titleLabel.setTitle(title: title)
         self.numberTextField.placeholder = "\(placeholder)"
         
