@@ -30,13 +30,13 @@ final class MonthWorkoutListCell: UITableViewCell {
         titleLabel.textColor = .label
         titleLabel.font = .systemFont(ofSize: 14, weight: .bold)
         titleLabel.translatesAutoresizingMaskIntoConstraints = false
-        titleLabel.numberOfLines = 1
+        titleLabel.numberOfLines = 2
         titleLabel.lineBreakMode = .byTruncatingTail
         return titleLabel
     }()
     
     // Display star rating of the workout
-    private let starRating = StarRating(frame: .zero, interactable: false, starSize: 20, starMargin: 0.5)
+    lazy var starRating = StarRating(frame: .zero, interactable: false, starSize: self.bounds.width / 17.5, starMargin: 0)
     
     // Display number of achievements of the workout
     private let achievementsNumberView = AchievementsNumberView()
@@ -83,22 +83,22 @@ final class MonthWorkoutListCell: UITableViewCell {
             self.containerView.heightAnchor.constraint(equalTo: self.heightAnchor, multiplier: 0.985),
             self.containerView.widthAnchor.constraint(equalTo: self.widthAnchor, multiplier: 0.985),
             
-            self.calendarDayView.leftAnchor.constraint(equalToSystemSpacingAfter: self.containerView.leftAnchor, multiplier: 1.5),
+            self.calendarDayView.leftAnchor.constraint(equalToSystemSpacingAfter: self.containerView.leftAnchor, multiplier: 1.2),
             self.calendarDayView.topAnchor.constraint(equalToSystemSpacingBelow: self.topAnchor, multiplier: 0.8),
             
             self.titleLabel.centerYAnchor.constraint(equalTo: self.containerView.centerYAnchor),
-            self.titleLabel.leftAnchor.constraint(equalToSystemSpacingAfter: self.calendarDayView.rightAnchor, multiplier: 6),
-            self.titleLabel.widthAnchor.constraint(equalToConstant: 100),
+            self.titleLabel.leftAnchor.constraint(equalToSystemSpacingAfter: self.calendarDayView.rightAnchor, multiplier: 5.5),
+            self.titleLabel.widthAnchor.constraint(equalTo: self.containerView.widthAnchor, multiplier: 0.3),
             
             self.starRating.centerYAnchor.constraint(equalTo: self.containerView.centerYAnchor),
-            self.starRating.leftAnchor.constraint(equalTo: self.titleLabel.rightAnchor, constant: 10),
+            self.starRating.leftAnchor.constraint(equalToSystemSpacingAfter: self.titleLabel.rightAnchor, multiplier: 1.2),
     
-            self.achievementsNumberView.leftAnchor.constraint(equalTo: self.starRating.rightAnchor, constant: 25),
-            self.achievementsNumberView.heightAnchor.constraint(equalToConstant: 25),
-            self.achievementsNumberView.widthAnchor.constraint(equalToConstant: 25),
+            self.achievementsNumberView.leftAnchor.constraint(equalToSystemSpacingAfter: self.starRating.rightAnchor, multiplier: 1.2),
+            self.achievementsNumberView.heightAnchor.constraint(equalTo: self.containerView.heightAnchor, multiplier: 0.6),
+            self.achievementsNumberView.widthAnchor.constraint(equalTo: self.containerView.heightAnchor, multiplier: 0.6),
             self.achievementsNumberView.centerYAnchor.constraint(equalTo: self.containerView.centerYAnchor),
             
-            self.durationLabel.leftAnchor.constraint(equalTo: self.achievementsNumberView.rightAnchor, constant: 25),
+            self.durationLabel.leftAnchor.constraint(equalToSystemSpacingAfter: self.achievementsNumberView.rightAnchor, multiplier: 1.2),
             self.durationLabel.centerYAnchor.constraint(equalTo: self.centerYAnchor)
         ])
     }
@@ -113,7 +113,7 @@ final class MonthWorkoutListCell: UITableViewCell {
                 self.starRating.starRating.rating = viewModel.workout.rating
                 self.calendarDayView.calendarLabel.text = "\(String(describing: day))"
                 self.achievementsNumberView.achievementsNumberLabel.text = String(describing: "2")
-                self.durationLabel.text = "45 min"
+                self.durationLabel.text = "120 min"
                 
             }
         }
