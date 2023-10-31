@@ -65,7 +65,6 @@ final class HomeViewController: UIViewController {
             self.topBar.topAnchor.constraint(equalTo: self.view.safeAreaLayoutGuide.topAnchor),
             self.topBar.centerXAnchor.constraint(equalTo: self.view.safeAreaLayoutGuide.centerXAnchor),
             self.topBar.widthAnchor.constraint(equalTo: self.view.safeAreaLayoutGuide.widthAnchor, multiplier: 0.95),
-            self.topBar.heightAnchor.constraint(equalToConstant: 30),
             
             self.titleLabel.leftAnchor.constraint(equalToSystemSpacingAfter: self.topBar.leftAnchor, multiplier: 2),
             self.titleLabel.centerYAnchor.constraint(equalTo: self.topBar.centerYAnchor),

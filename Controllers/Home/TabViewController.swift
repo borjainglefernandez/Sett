@@ -20,27 +20,22 @@ final class TabViewController: UITabBarController {
         let statsVC = StatsViewController()
         let profileVC = ProfileViewController()
         
-        let homeNav = UINavigationController(rootViewController: homeVC)
-        let liftsNav = UINavigationController(rootViewController: liftsVC)
-        let statsNav = UINavigationController(rootViewController: statsVC)
-        let profileNav = UINavigationController(rootViewController: profileVC)
-        
-        homeNav.tabBarItem = UITabBarItem(title: .none,
+        homeVC.tabBarItem = UITabBarItem(title: .none,
                                        image: UIImage(systemName: "house"),
                                        tag: 1)
-        liftsNav.tabBarItem = UITabBarItem(title: .none,
+        liftsVC.tabBarItem = UITabBarItem(title: .none,
                                        image: UIImage(systemName: "dumbbell"),
                                        tag: 2)
-        statsNav.tabBarItem = UITabBarItem(title: .none,
+        statsVC.tabBarItem = UITabBarItem(title: .none,
                                        image: UIImage(systemName: "chart.bar.fill"),
                                        tag: 3)
-        profileNav.tabBarItem = UITabBarItem(title: .none,
+        profileVC.tabBarItem = UITabBarItem(title: .none,
                                        image: UIImage(systemName: "person.circle"),
                                        tag: 4)
                 
         let tabBarAppearance = UITabBarAppearance()
         tabBarAppearance.backgroundColor = .systemGray4
-        
+
         // Configure the appearance of selected tab bar items
         let tabBarItemAppearance = UITabBarItemAppearance()
         tabBarItemAppearance.normal.iconColor = .white
@@ -55,7 +50,7 @@ final class TabViewController: UITabBarController {
         self.tabBar.scrollEdgeAppearance = tabBarAppearance
         
         self.setViewControllers(
-            [homeNav, liftsNav, statsNav, profileNav],
+            [homeVC, liftsVC, statsVC, profileVC],
             animated: true
         )
     }
