@@ -121,8 +121,9 @@ class RoutineExerciseListCell: UICollectionViewCell {
             self.exerciseTypeIcon.setImage(iconImage, for: .normal)
         }
        
-        self.setInput.setNumber(number: viewModel.workoutExercise.numSetts)
+        self.setInput.setNumber(number: NSNumber(value: viewModel.workoutExercise.numSetts))
         self.setInput.setDelegate(delegate: viewModel)
+        
         self.notesTextField.text = viewModel.workoutExercise.notes
         self.workoutExerciseNotesVM = WorkoutExerciseNotesVM(workoutExercise: viewModel.workoutExercise)
         self.notesTextField.delegate = self.workoutExerciseNotesVM

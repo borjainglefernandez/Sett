@@ -74,6 +74,9 @@ class SettListCell: UITableViewCell {
     }
     
     override func prepareForReuse() {
+        super.prepareForReuse()
+        self.weightInput.prepareForReuse()
+        self.repsInput.prepareForReuse()
     }
     
     // MARK: - Constraints
@@ -113,7 +116,16 @@ class SettListCell: UITableViewCell {
     
     // MARK: - Configurations
     public func configure(with viewModel: SettListCellVM) {
-        print(viewModel.sett)
+        // TODO: CONFIGURE THIS JAUNT
+        self.weightInput.setDelegate(delegate: viewModel.weightInputVM)
+        if let weight = viewModel.sett.weight {
+            self.weightInput.setNumber(number: weight)
+        }
+        self.repsInput.setDelegate(delegate: viewModel.repsInputVM)
+        if let reps = viewModel.sett.reps {
+            self.repsInput.setNumber(number: reps)
+        }
+        
     }
 
 }

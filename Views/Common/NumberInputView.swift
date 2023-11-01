@@ -9,8 +9,11 @@ import UIKit
 
 class NumberInputView: UIView {
     
+    // Title
+    private let title: String
+    
     // Title Label
-    public let titleLabel: Label = Label(title: "", fontSize: 11.0, weight: .light)
+    lazy var titleLabel: Label = Label(title: self.title, fontSize: 11.0, weight: .light)
     
     // Text field for number of sets
     public let numberTextField: UITextField = {
@@ -23,10 +26,10 @@ class NumberInputView: UIView {
     }()
     
     // MARK: - Init
-    init(frame: CGRect = .zero, title: String = "", placeholder: Int64 = 0) {
+    init(frame: CGRect = .zero, title: String, placeholder: Int64 = 0) {
+        self.title = title
         super.init(frame: frame)
-
-        self.titleLabel.setTitle(title: title)
+        
         self.numberTextField.placeholder = "\(placeholder)"
         
         self.translatesAutoresizingMaskIntoConstraints = false
@@ -51,12 +54,12 @@ class NumberInputView: UIView {
     
     // MARK: - Actions
     public func prepareForReuse() {
-        self.titleLabel.text = nil
         self.numberTextField.text = nil
+        self.numberTextField.delegate = nil
     }
     
     // MARK: - Setter
-    public func setNumber(number: Int64) {
+    public func setNumber(number: NSNumber) {
         self.numberTextField.text = "\(number)"
     }
     

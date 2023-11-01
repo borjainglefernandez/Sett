@@ -42,8 +42,8 @@
     </entity>
     <entity name="Sett" representedClassName="Sett" syncable="YES" codeGenerationType="class">
         <attribute name="notes" optional="YES" attributeType="String"/>
-        <attribute name="reps" attributeType="Integer 64" minValueString="0" defaultValueString="0" usesScalarValueType="YES"/>
-        <attribute name="weight" attributeType="Integer 64" minValueString="0" defaultValueString="0" usesScalarValueType="YES"/>
+        <attribute name="reps" optional="YES" attributeType="Integer 64" minValueString="0" defaultValueString="0" usesScalarValueType="NO"/>
+        <attribute name="weight" optional="YES" attributeType="Integer 64" minValueString="0" defaultValueString="0" usesScalarValueType="NO"/>
         <relationship name="netProgress" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="NetProgress" inverseName="settNP" inverseEntity="NetProgress"/>
         <relationship name="partOf" maxCount="1" deletionRule="Nullify" destinationEntity="SettCollection" inverseName="setts" inverseEntity="SettCollection"/>
     </entity>

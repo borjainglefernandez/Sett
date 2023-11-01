@@ -19,7 +19,6 @@ class SettNotesInput: UIView {
         notesTextField.tintColor = .label
         notesTextField.font = .systemFont(ofSize: 8, weight: .light)
         notesTextField.placeholder = "Add set notes..."
-        notesTextField
         return notesTextField
     }()
     
