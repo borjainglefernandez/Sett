@@ -12,7 +12,7 @@ class StaticDataCreator {
     
     /// Pulls in and creates the static data for Sett
     static public func createStaticData() {
-        guard let categories = Utils.readJsonArray(for: FileNames.categoriesExercisesFileName) else {
+        guard let categories = JSONUtils.readJsonArray(for: FileNames.categoriesExercisesFileName) else {
             return
         }
         
