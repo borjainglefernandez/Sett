@@ -15,7 +15,6 @@ class SettListCell: UITableViewCell {
     private let containerView: UIView = {
         let containerView = UIView()
         containerView.translatesAutoresizingMaskIntoConstraints = false
-        containerView.backgroundColor = .clear
         return containerView
     }()
     
@@ -106,26 +105,42 @@ class SettListCell: UITableViewCell {
             self.notesInput.leftAnchor.constraint(equalToSystemSpacingAfter: self.netRepsInput.rightAnchor, multiplier: 2.5),
             self.notesInput.centerYAnchor.constraint(equalTo: self.weightInput.centerYAnchor),
             self.notesInput.bottomAnchor.constraint(equalTo: self.containerView.bottomAnchor),
-            self.notesInput.rightAnchor.constraint(equalTo: self.containerView.rightAnchor),
             
             self.divider.widthAnchor.constraint(equalTo: self.containerView.widthAnchor, multiplier: 0.9),
             self.divider.centerXAnchor.constraint(equalTo: self.centerXAnchor),
-            self.divider.bottomAnchor.constraint(equalTo: self.bottomAnchor)
+            self.divider.bottomAnchor.constraint(equalTo: self.bottomAnchor),
+            
+            self.notesInput.rightAnchor.constraint(equalTo: self.divider.rightAnchor),
+
         ])
     }
     
     // MARK: - Configurations
     public func configure(with viewModel: SettListCellVM) {
-        // TODO: CONFIGURE THIS JAUNT
+        // Configure weight input
         self.weightInput.setDelegate(delegate: viewModel.weightInputVM)
         if let weight = viewModel.sett.weight {
             self.weightInput.setNumber(number: weight)
         }
+        
+        // Configure reps input
         self.repsInput.setDelegate(delegate: viewModel.repsInputVM)
         if let reps = viewModel.sett.reps {
             self.repsInput.setNumber(number: reps)
         }
         
+        // TODO: CONFIGURE NET REPS AND NET WEIGHT
+        
+        // Configure notes input
+        viewModel.settNotesInputVM.setSettListCell(to: self)
+        self.notesInput.setNotes(to: viewModel.sett.notes)
+        self.notesInput.setDelegate(delegate: viewModel.settNotesInputVM)
+        
+    }
+    
+    // MARK: - Actions
+    public func setNotes(to notes: String?) {
+        self.notesInput.setNotes(to: notes)
     }
 
 }

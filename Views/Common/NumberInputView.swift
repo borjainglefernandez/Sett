@@ -29,7 +29,7 @@ class NumberInputView: UIView {
     init(frame: CGRect = .zero, title: String, placeholder: Int64 = 0) {
         self.title = title
         super.init(frame: frame)
-        
+        self.backgroundColor = .yellow
         self.numberTextField.placeholder = "\(placeholder)"
         
         self.translatesAutoresizingMaskIntoConstraints = false

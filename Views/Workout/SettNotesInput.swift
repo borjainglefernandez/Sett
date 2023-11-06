@@ -8,6 +8,8 @@
 import UIKit
 
 class SettNotesInput: UIView {
+    
+    public var viewModel: SettNotesInputVM?
 
     // Title Label
     public let titleLabel: Label = Label(title: "Notes", fontSize: 11.0, weight: .light)
@@ -26,6 +28,7 @@ class SettNotesInput: UIView {
     override init(frame: CGRect = .zero) {
         super.init(frame: frame)
         self.translatesAutoresizingMaskIntoConstraints = false
+        self.backgroundColor = .brown
         
         self.addSubviews(self.titleLabel, self.notesTextField)
         self.addConstraints()
@@ -41,6 +44,7 @@ class SettNotesInput: UIView {
             self.titleLabel.leftAnchor.constraint(equalTo: self.leftAnchor),
             self.notesTextField.topAnchor.constraint(equalToSystemSpacingBelow: self.titleLabel.bottomAnchor, multiplier: 0.25),
             self.notesTextField.leftAnchor.constraint(equalTo: self.titleLabel.leftAnchor)
+//            self.notesTextField.rightAnchor.constraint(equalTo: self.rightAnchor)
         ])
     }
     
@@ -51,7 +55,15 @@ class SettNotesInput: UIView {
     }
     
     // MARK: - Setter
+    public func configure(with viewModel: SettNotesInputVM) {
+        self.viewModel = viewModel
+    }
+    
     public func setDelegate(delegate: UITextFieldDelegate) {
         self.notesTextField.delegate = delegate
+    }
+    
+    public func setNotes(to notes: String?) {
+        self.notesTextField.text = notes
     }
 }

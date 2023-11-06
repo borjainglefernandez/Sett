@@ -41,11 +41,10 @@ final class WorkoutGeneralStatsViewCellVM: NSObject {
         case .netProgress:
             return "Net Progress"
         case .notes:
-            if let notes = workout.notes {
+            if let notes = self.workout.notes {
                 if notes.count > 0 {
                     return notes
                 }
-                return "Notes..."
             }
             return "Notes..."
         }
