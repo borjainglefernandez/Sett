@@ -24,10 +24,34 @@ class SettNotesInputVM: NSObject {
     }
     
     // MARK: - Actions
-    public func viewNotes() {
-        if let settListCell = self.settListCell, let parentViewController = settListCell.getParentViewController(settListCell) {
-            let notesViewController = NotesViewController(viewModel: self)
-            parentViewController.present(notesViewController, animated: true)
+    
+    /// Whether or not notes are actively presented
+    /// - Returns: True if notes modal actively presented already
+    public func notesModalActivelyPresented() -> Bool {
+        if let settListCell = self.settListCell, settListCell.getParentViewController(settListCell)?.presentedViewController != nil {
+            return true
+        }
+        return false
+    }
+    
+    /// Whether or not notes modal should be presented
+    /// - Returns: True if:
+    ///   1.) Notes exceed certain character limit
+    ///   2.) Notes modal not already being presented
+    ///     ... False otherwise
+    public func shouldViewNotesModal() -> Bool {
+        return self.sett.notes?.count ?? 0 >= self.maxNotesCharacters && !self.notesModalActivelyPresented()
+    }
+    
+    public func viewNotesModalIfNecessary() {
+        // Check if notes modal should be shown
+        if self.shouldViewNotesModal() {
+            // If so, show it
+            if let settListCell = self.settListCell, let parentViewController = settListCell.getParentViewController(settListCell) {
+                
+                let notesViewController = NotesViewController(viewModel: self)
+                parentViewController.present(notesViewController, animated: true)
+            }
         }
     }
     
@@ -50,21 +74,11 @@ extension SettNotesInputVM: UITextFieldDelegate {
     func textFieldDidChangeSelection(_ textField: UITextField) {
         self.sett.notes = textField.text
         CoreDataBase.save()
+        self.viewNotesModalIfNecessary()
     }
-
-//    func textField(_ textField: UITextField, shouldChangeCharactersIn range: NSRange, replacementString string: String) -> Bool {
-//        if let text = textField.text,
-//           text.count >= self.maxNotesCharacters {
-//            textField.text = (text as NSString).substring(to: self.maxNotesCharacters) + "..."
-//            }
-//        return true
-//
-//    }
     
     func textFieldDidBeginEditing(_ textField: UITextField) {
-        if self.sett.notes?.count ?? 0 >= self.maxNotesCharacters {
-            self.viewNotes()
-        }
+        self.viewNotesModalIfNecessary()
     }
 }
 

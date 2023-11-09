@@ -28,7 +28,6 @@ class SettNotesInput: UIView {
     override init(frame: CGRect = .zero) {
         super.init(frame: frame)
         self.translatesAutoresizingMaskIntoConstraints = false
-        self.backgroundColor = .brown
         
         self.addSubviews(self.titleLabel, self.notesTextField)
         self.addConstraints()
@@ -43,8 +42,8 @@ class SettNotesInput: UIView {
         NSLayoutConstraint.activate([
             self.titleLabel.leftAnchor.constraint(equalTo: self.leftAnchor),
             self.notesTextField.topAnchor.constraint(equalToSystemSpacingBelow: self.titleLabel.bottomAnchor, multiplier: 0.25),
-            self.notesTextField.leftAnchor.constraint(equalTo: self.titleLabel.leftAnchor)
-//            self.notesTextField.rightAnchor.constraint(equalTo: self.rightAnchor)
+            self.notesTextField.leftAnchor.constraint(equalTo: self.titleLabel.leftAnchor),
+            self.notesTextField.rightAnchor.constraint(equalTo: self.rightAnchor)
         ])
     }
     

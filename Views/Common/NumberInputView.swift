@@ -29,7 +29,6 @@ class NumberInputView: UIView {
     init(frame: CGRect = .zero, title: String, placeholder: Int64 = 0) {
         self.title = title
         super.init(frame: frame)
-        self.backgroundColor = .yellow
         self.numberTextField.placeholder = "\(placeholder)"
         
         self.translatesAutoresizingMaskIntoConstraints = false
@@ -45,7 +44,7 @@ class NumberInputView: UIView {
     // MARK: - Constraints
     private func addConstraints() {
         NSLayoutConstraint.activate([
-            self.widthAnchor.constraint(equalTo: self.titleLabel.widthAnchor),
+//            self.widthAnchor.constraint(equalToConstant: 50),
             self.titleLabel.centerXAnchor.constraint(equalTo: self.centerXAnchor),
             self.numberTextField.topAnchor.constraint(equalTo: self.titleLabel.bottomAnchor),
             self.numberTextField.centerXAnchor.constraint(equalTo: self.titleLabel.centerXAnchor)
