@@ -9,13 +9,11 @@ import UIKit
 
 final class NetProgressView: UIView {
     
-    // Labels for Weight and Rep Titles
-    lazy var weightLabel: UILabel = Label(title: "Weight", fontSize: 12, weight: .light)
-    lazy var repsLabel: UILabel = Label(title: "Reps", fontSize: 12, weight: .light)
-
-    // Labels for Net Weight and Net Reps
-    lazy var weightContent: UILabel = Label(title: "0", fontSize: 17, weight: .bold)
-    lazy var repsContent: UILabel = Label(title: "0", fontSize: 17, weight: .bold)
+    // Net Weight
+    lazy var netWeightLabel: NumberLabelView = NumberLabelView(title: "Weight")
+    
+    // Net Reps
+    lazy var netRepsLabel: NumberLabelView = NumberLabelView(title: "Reps")
 
     // MARK: - Init
     override init(frame: CGRect) {
@@ -23,8 +21,8 @@ final class NetProgressView: UIView {
         
         self.translatesAutoresizingMaskIntoConstraints = false
         
-        self.addSubviews(repsLabel, repsContent, weightLabel, weightContent)
-        addConstraints()
+        self.addSubviews(self.netWeightLabel, self.netRepsLabel)
+        self.addConstraints()
     }
     
     required init?(coder: NSCoder) {
@@ -34,16 +32,11 @@ final class NetProgressView: UIView {
     // MARK: - Constraints
     private func addConstraints() {
         NSLayoutConstraint.activate([
-            self.repsLabel.rightAnchor.constraint(equalTo: self.rightAnchor),
             
-            self.repsContent.topAnchor.constraint(equalTo: self.repsLabel.bottomAnchor, constant: 5),
-            self.repsContent.centerXAnchor.constraint(equalTo: self.repsLabel.centerXAnchor),
-            
-            self.weightLabel.leftAnchor.constraint(equalTo: self.repsLabel.leftAnchor, constant: -60),
-            self.weightLabel.centerYAnchor.constraint(equalTo: self.repsLabel.centerYAnchor),
-            
-            self.weightContent.centerYAnchor.constraint(equalTo: self.repsContent.centerYAnchor),
-            self.weightContent.centerXAnchor.constraint(equalTo: self.weightLabel.centerXAnchor)
+            self.netRepsLabel.rightAnchor.constraint(equalTo: self.rightAnchor, constant: -10),
+            self.netWeightLabel.leftAnchor.constraint(equalTo: self.leftAnchor),
+            self.netRepsLabel.topAnchor.constraint(equalToSystemSpacingBelow: self.topAnchor, multiplier: 0.4),
+            self.netWeightLabel.centerYAnchor.constraint(equalTo: self.netRepsLabel.centerYAnchor)
         ])
     }
 }

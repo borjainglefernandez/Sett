@@ -11,12 +11,19 @@ final class WorkoutGeneralStatsViewCell: UITableViewCell {
     
     static let cellIdentifier = "WorkoutGeneralStatsViewCell"
     
+    // Cell container
+    private let cellContainer: UIView = {
+        let cellContainer = UIView()
+        cellContainer.translatesAutoresizingMaskIntoConstraints = false
+        return cellContainer
+    }()
+    
     // Label for the row content
     private let label: UILabel = {
         let label = UILabel()
         label.translatesAutoresizingMaskIntoConstraints = false
         label.textColor = .label
-        label.font = .systemFont(ofSize: 17, weight: .regular)
+        label.font = .systemFont(ofSize: 15, weight: .regular)
         label.numberOfLines = 1
         label.lineBreakMode = .byTruncatingTail // Added truncation for notes
         return label
@@ -33,9 +40,10 @@ final class WorkoutGeneralStatsViewCell: UITableViewCell {
         super.init(style: style, reuseIdentifier: reuseIdentifier)
         
         self.backgroundColor = .clear // Allows for customizability of cell
-        
+    
         self.configureClearSelectedBackground()
-        self.addSubviews(label, divider)
+        self.cellContainer.addSubviews(self.label, self.displayContent, self.divider)
+        self.addSubviews(self.cellContainer)
     }
     
     required init?(coder: NSCoder) {
@@ -45,23 +53,29 @@ final class WorkoutGeneralStatsViewCell: UITableViewCell {
     // MARK: - Constraints
     private func addConstraints() {
         NSLayoutConstraint.activate([
+            
+            self.cellContainer.widthAnchor.constraint(equalTo: self.widthAnchor, multiplier: 0.85),
+            self.cellContainer.heightAnchor.constraint(equalTo: self.heightAnchor),
+            self.cellContainer.centerXAnchor.constraint(equalTo: self.centerXAnchor),
+            
             self.label.centerYAnchor.constraint(equalTo: self.centerYAnchor),
-            self.label.leftAnchor.constraint(equalTo: self.leftAnchor, constant: 30),
-            self.label.widthAnchor.constraint(equalTo: self.widthAnchor, multiplier: 0.75),
+            self.label.leftAnchor.constraint(equalTo: self.cellContainer.leftAnchor),
+            self.label.widthAnchor.constraint(equalTo: self.cellContainer.widthAnchor, multiplier: 0.9),
             
             self.divider.widthAnchor.constraint(equalTo: self.widthAnchor, multiplier: 0.9),
             self.divider.topAnchor.constraint(equalTo: self.label.bottomAnchor, constant: 8),
             self.divider.centerXAnchor.constraint(equalTo: self.centerXAnchor),
             
             self.displayContent.centerYAnchor.constraint(equalTo: self.label.centerYAnchor),
-            self.displayContent.rightAnchor.constraint(equalTo: self.rightAnchor, constant: -30)  
+            self.displayContent.rightAnchor.constraint(equalTo: self.cellContainer.rightAnchor)
         ])
     }
     
     // Need to specify height anchor for net progress view to make it show up correctly
     private func addNetProgressConstraints() {
         NSLayoutConstraint.activate([
-            self.displayContent.heightAnchor.constraint(equalTo: self.heightAnchor)
+            self.displayContent.heightAnchor.constraint(equalTo: self.heightAnchor),
+            self.displayContent.widthAnchor.constraint(equalTo: self.cellContainer.widthAnchor, multiplier: 0.2)
         ])
     }
     

@@ -44,7 +44,6 @@ class NumberInputView: UIView {
     // MARK: - Constraints
     private func addConstraints() {
         NSLayoutConstraint.activate([
-//            self.widthAnchor.constraint(equalToConstant: 50),
             self.titleLabel.centerXAnchor.constraint(equalTo: self.centerXAnchor),
             self.numberTextField.topAnchor.constraint(equalTo: self.titleLabel.bottomAnchor),
             self.numberTextField.centerXAnchor.constraint(equalTo: self.titleLabel.centerXAnchor)

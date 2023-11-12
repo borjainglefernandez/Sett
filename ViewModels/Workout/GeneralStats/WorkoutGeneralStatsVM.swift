@@ -54,7 +54,7 @@ extension WorkoutGeneralStatsVM: UITableViewDelegate, UITableViewDataSource {
         return cell
     }
     func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
-        return tableView.safeAreaLayoutGuide.layoutFrame.height * 0.2
+        return tableView.safeAreaLayoutGuide.layoutFrame.height * (1.0 / CGFloat(self.cellVMs.count))
     }
 }
 

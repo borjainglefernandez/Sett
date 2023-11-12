@@ -35,14 +35,14 @@ class SettListCell: UITableViewCell {
     // Weight Input
     private let weightInput: NumberInputView = NumberInputView(title: "Weight")
     
-    // Net Weight Input
-    private let netWeightInput: NumberInputView = NumberInputView(title: "Net")
+    // Net Weight Label
+    private let netWeightLabel: NumberLabelView = NumberLabelView(title: "Net")
     
     // Reps Input
     private let repsInput: NumberInputView = NumberInputView(title: "Reps")
     
-    // Net Reps Input
-    private let netRepsInput: NumberInputView = NumberInputView(title: "Net")
+    // Net Reps Label
+    private let netRepsLabel: NumberLabelView = NumberLabelView(title: "Net")
     
     // Notes Input
     private let notesInput: SettNotesInput = SettNotesInput()
@@ -59,9 +59,9 @@ class SettListCell: UITableViewCell {
         
         self.contentView.addSubviews(self.containerView,
                                      self.weightInput,
-                                     self.netWeightInput,
+                                     self.netWeightLabel,
                                      self.repsInput,
-                                     self.netRepsInput,
+                                     self.netRepsLabel,
                                      self.notesInput,
                                      self.divider)
         
@@ -91,23 +91,23 @@ class SettListCell: UITableViewCell {
             self.weightInput.bottomAnchor.constraint(equalTo: self.containerView.bottomAnchor),
             self.weightInput.widthAnchor.constraint(equalTo: self.containerView.widthAnchor, multiplier: 0.075),
 
-            self.netWeightInput.leftAnchor.constraint(equalToSystemSpacingAfter: self.weightInput.rightAnchor, multiplier: 2),
-            self.netWeightInput.centerYAnchor.constraint(equalTo: self.weightInput.centerYAnchor),
-            self.netWeightInput.bottomAnchor.constraint(equalTo: self.containerView.bottomAnchor),
-            self.netWeightInput.widthAnchor.constraint(equalTo: self.weightInput.widthAnchor),
+            self.netWeightLabel.leftAnchor.constraint(equalToSystemSpacingAfter: self.weightInput.rightAnchor, multiplier: 2),
+            self.netWeightLabel.centerYAnchor.constraint(equalTo: self.weightInput.centerYAnchor),
+            self.netWeightLabel.bottomAnchor.constraint(equalTo: self.containerView.bottomAnchor),
+            self.netWeightLabel.widthAnchor.constraint(equalTo: self.weightInput.widthAnchor),
 
 
-            self.repsInput.leftAnchor.constraint(equalToSystemSpacingAfter: self.netWeightInput.rightAnchor, multiplier: 2.5),
+            self.repsInput.leftAnchor.constraint(equalToSystemSpacingAfter: self.netWeightLabel.rightAnchor, multiplier: 2.5),
             self.repsInput.centerYAnchor.constraint(equalTo: self.weightInput.centerYAnchor),
             self.repsInput.bottomAnchor.constraint(equalTo: self.containerView.bottomAnchor),
             self.repsInput.widthAnchor.constraint(equalTo: self.weightInput.widthAnchor),
             
-            self.netRepsInput.leftAnchor.constraint(equalToSystemSpacingAfter: self.repsInput.rightAnchor, multiplier: 2.5),
-            self.netRepsInput.centerYAnchor.constraint(equalTo: self.weightInput.centerYAnchor),
-            self.netRepsInput.bottomAnchor.constraint(equalTo: self.containerView.bottomAnchor),
-            self.netRepsInput.widthAnchor.constraint(equalTo: self.weightInput.widthAnchor),
+            self.netRepsLabel.leftAnchor.constraint(equalToSystemSpacingAfter: self.repsInput.rightAnchor, multiplier: 2.5),
+            self.netRepsLabel.centerYAnchor.constraint(equalTo: self.weightInput.centerYAnchor),
+            self.netRepsLabel.bottomAnchor.constraint(equalTo: self.containerView.bottomAnchor),
+            self.netRepsLabel.widthAnchor.constraint(equalTo: self.weightInput.widthAnchor),
             
-            self.notesInput.leftAnchor.constraint(equalToSystemSpacingAfter: self.netRepsInput.rightAnchor, multiplier: 2.5),
+            self.notesInput.leftAnchor.constraint(equalToSystemSpacingAfter: self.netRepsLabel.rightAnchor, multiplier: 2.5),
             self.notesInput.centerYAnchor.constraint(equalTo: self.weightInput.centerYAnchor),
             self.notesInput.bottomAnchor.constraint(equalTo: self.containerView.bottomAnchor),
             
@@ -134,6 +134,7 @@ class SettListCell: UITableViewCell {
         }
         
         // TODO: CONFIGURE NET REPS AND NET WEIGHT
+        self.netRepsLabel.setNumberText(text: "+10")
         
         // Configure notes input
         viewModel.settNotesInputVM.setSettListCell(to: self)

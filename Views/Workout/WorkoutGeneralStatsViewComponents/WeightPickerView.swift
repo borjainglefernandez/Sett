@@ -37,7 +37,7 @@ final class WeightPickerView: UIView {
             self.heightAnchor.constraint(equalToConstant: 30),
             
             self.weightPicker.topAnchor.constraint(equalTo: self.topAnchor),
-            self.weightPicker.leftAnchor.constraint(equalTo: self.leftAnchor),
+            self.weightPicker.centerXAnchor.constraint(equalTo: self.centerXAnchor),
             self.weightPicker.rightAnchor.constraint(equalTo: self.rightAnchor),
             self.weightPicker.bottomAnchor.constraint(equalTo: self.bottomAnchor)
         ])
