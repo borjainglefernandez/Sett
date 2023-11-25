@@ -16,13 +16,17 @@ class WorkoutExercisesCell: UICollectionViewCell {
     // List of all the routines for a particular category
     public let settListView: SettListView = SettListView()
     
+    //
+    public let workoutExerciseButtons: WorkoutExerciseButtons = WorkoutExerciseButtons()
+    
+    
     // MARK: - Init
     override init(frame: CGRect) {
         super.init(frame: frame)
         
         self.contentView.layer.cornerRadius = 15
 
-        self.addSubviews(self.collapsibleContainerTopBar, self.settListView)
+        self.addSubviews(self.collapsibleContainerTopBar, self.settListView, self.workoutExerciseButtons)
         self.addConstraints()
     }
     
@@ -42,11 +46,18 @@ class WorkoutExercisesCell: UICollectionViewCell {
             self.collapsibleContainerTopBar.heightAnchor.constraint(equalToConstant: 30),
             self.collapsibleContainerTopBar.leftAnchor.constraint(equalTo: self.leftAnchor),
             self.collapsibleContainerTopBar.rightAnchor.constraint(equalTo: self.rightAnchor),
+            self.collapsibleContainerTopBar.topAnchor.constraint(equalTo: self.topAnchor),
             
+            self.settListView.topAnchor.constraint(equalTo: self.collapsibleContainerTopBar.bottomAnchor),
             self.settListView.heightAnchor.constraint(equalTo: self.heightAnchor, multiplier: 1, constant: -30),
-            self.settListView.bottomAnchor.constraint(equalTo: self.bottomAnchor),
             self.settListView.rightAnchor.constraint(equalTo: self.rightAnchor),
-            self.settListView.leftAnchor.constraint(equalTo: self.leftAnchor)
+            self.settListView.leftAnchor.constraint(equalTo: self.leftAnchor),
+            
+            self.workoutExerciseButtons.topAnchor.constraint(equalTo: self.settListView.bottomAnchor),
+            self.workoutExerciseButtons.leftAnchor.constraint(equalTo: self.leftAnchor),
+            self.workoutExerciseButtons.rightAnchor.constraint(equalTo: self.rightAnchor),
+//            self.workoutExerciseButtons.bottomAnchor.constraint(equalTo: self.bottomAnchor)
+            self.workoutExerciseButtons.heightAnchor.constraint(equalToConstant: 30)
         ])
     }
     

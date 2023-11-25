@@ -7,18 +7,39 @@
 
 import Foundation
 import UIKit
+import CoreData
 
 final class SettListVM: NSObject {
     public var settListView: SettListView?
     private var cellVMs: [SettListCellVM] = []
+    private var settCollection: SettCollection
+    lazy var fetchedResultsController: NSFetchedResultsController<SettCollection> = {
+        return CoreDataBase.createFetchedResultsController(
+                    withEntityName: "SettCollection",
+                    expecting: SettCollection.self,
+                    predicates: [NSPredicate(format: "SELF = %@", self.settCollection.objectID)])
+    }()
     
     // MARK: - Init
     init(settCollection: SettCollection) {
+        self.settCollection = settCollection
+        super.init()
+        self.configure()
+    }
+    
+    // MARK: - Configurations
+    public func configure() {
+        // Listen for updates to specific workout
+        CoreDataBase.configureFetchedResults(controller: self.fetchedResultsController, expecting: SettCollection.self, with: self)
+        guard let settCollection = self.fetchedResultsController.fetchedObjects?.first else {
+            return
+        }
+        
         for sett in settCollection.setts ?? [] {
             guard let settCast = sett as? Sett else {
                 continue
             }
-            cellVMs.append(SettListCellVM(sett: settCast))
+            self.cellVMs.append(SettListCellVM(sett: settCast))
         }
     }
 }
@@ -78,5 +99,17 @@ extension SettListVM: UITableViewDataSource, UITableViewDelegate {
         deleteSettAction.image = UIImage(systemName: "trash")
         let swipeActions = UISwipeActionsConfiguration(actions: [deleteSettAction])
         return swipeActions
+    }
+}
+
+// MARK: - Fetched Results Controller Delegate
+extension SettListVM: NSFetchedResultsControllerDelegate {
+    // Update screen if CRUD conducted on SettCollection
+    func controller(_ controller: NSFetchedResultsController<NSFetchRequestResult>,
+                    didChange anObject: Any, at indexPath: IndexPath?, for type: NSFetchedResultsChangeType, newIndexPath: IndexPath?) {
+        DispatchQueue.main.async {
+            self.configure()
+            self.settListView?.tableView.reloadData()
+        }
     }
 }

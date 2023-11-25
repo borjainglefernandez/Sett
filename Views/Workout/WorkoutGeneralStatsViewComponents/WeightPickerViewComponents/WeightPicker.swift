@@ -44,7 +44,6 @@ class WeightPicker: UITextField {
     
     // MARK: - Actions
     @objc func doneButtonTapped() {
-        print("Here")
         self.text = "\(self.viewModel.workout.bodyweight)"
         self.resignFirstResponder()
     }

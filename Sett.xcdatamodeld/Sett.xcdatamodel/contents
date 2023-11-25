@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8" standalone="yes"?>
-<model type="com.apple.IDECoreDataModeler.DataModel" documentVersion="1.0" lastSavedToolsVersion="21513" systemVersion="22F66" minimumToolsVersion="Automatic" sourceLanguage="Swift" userDefinedModelVersionIdentifier="">
+<model type="com.apple.IDECoreDataModeler.DataModel" documentVersion="1.0" lastSavedToolsVersion="22225" systemVersion="23B81" minimumToolsVersion="Automatic" sourceLanguage="Swift" userDefinedModelVersionIdentifier="">
     <entity name="Achievement" representedClassName="Achievement" syncable="YES" codeGenerationType="class">
         <attribute name="subTitle" optional="YES" attributeType="String"/>
         <attribute name="subTitleDescription" optional="YES" attributeType="String"/>
@@ -68,7 +68,7 @@
         <relationship name="achievements" optional="YES" toMany="YES" deletionRule="Nullify" ordered="YES" destinationEntity="Achievement" inverseName="workout" inverseEntity="Achievement"/>
         <relationship name="netProgress" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="NetProgress" inverseName="workoutNP" inverseEntity="NetProgress"/>
         <relationship name="routine" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="Routine" inverseName="workouts" inverseEntity="Routine"/>
-        <relationship name="workoutExercises" optional="YES" toMany="YES" deletionRule="Nullify" ordered="YES" destinationEntity="WorkoutExercise" inverseName="workouts" inverseEntity="WorkoutExercise"/>
+        <relationship name="workoutExercises" optional="YES" toMany="YES" deletionRule="Nullify" ordered="YES" destinationEntity="WorkoutExercise" inverseName="workout" inverseEntity="WorkoutExercise"/>
     </entity>
     <entity name="WorkoutExercise" representedClassName="WorkoutExercise" syncable="YES" codeGenerationType="class">
         <attribute name="notes" optional="YES" attributeType="String"/>
@@ -76,6 +76,6 @@
         <relationship name="exercise" maxCount="1" deletionRule="Nullify" destinationEntity="Exercise" inverseName="workoutExercises" inverseEntity="Exercise"/>
         <relationship name="routines" optional="YES" toMany="YES" deletionRule="Nullify" destinationEntity="Routine" inverseName="workoutExercises" inverseEntity="Routine"/>
         <relationship name="settCollection" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="SettCollection" inverseName="workoutExercise" inverseEntity="SettCollection"/>
-        <relationship name="workouts" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="Workout" inverseName="workoutExercises" inverseEntity="Workout"/>
+        <relationship name="workout" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="Workout" inverseName="workoutExercises" inverseEntity="Workout"/>
     </entity>
 </model>

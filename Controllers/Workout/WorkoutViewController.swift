@@ -101,15 +101,20 @@ final class WorkoutViewController: UIViewController {
     // TODO: Get rid of later
     @objc func addExercise() {
         let workoutExercises = CoreDataBase.fetchEntities(withEntity: "WorkoutExercise", expecting: WorkoutExercise.self)
-        guard let workoutExercise = workoutExercises?.last else {
+        guard let workoutExerciseTemplate = workoutExercises?.last else {
             return
         }
+
+        let workoutExercise = WorkoutExercise(context: CoreDataBase.context)
         workoutExercise.numSetts = 4
+        workoutExercise.exercise = workoutExerciseTemplate.exercise
+        
         let settCollection = SettCollection(context: CoreDataBase.context)
-        for i in 1...workoutExercise.numSetts {
+        for _ in 1...workoutExercise.numSetts {
             let sett = Sett(context: CoreDataBase.context)
             settCollection.addToSetts(sett)
         }
+        settCollection.workoutExercise = workoutExercise
         settCollection.exercise = workoutExercise.exercise
         workoutExercise.settCollection = settCollection
         self.workout.addToWorkoutExercises(workoutExercise)

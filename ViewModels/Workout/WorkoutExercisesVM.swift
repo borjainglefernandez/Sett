@@ -111,7 +111,7 @@ extension WorkoutExercisesVM: CollapsibleContainerTopBarDelegate {
 
 // MARK: - Fetched Results Controller Delegate
 extension WorkoutExercisesVM: NSFetchedResultsControllerDelegate {
-    // Update screen if CRUD conducted on Categories
+    // Update screen if CRUD conducted on Workout
     func controller(_ controller: NSFetchedResultsController<NSFetchRequestResult>,
                     didChange anObject: Any, at indexPath: IndexPath?, for type: NSFetchedResultsChangeType, newIndexPath: IndexPath?) {
         DispatchQueue.main.async {
