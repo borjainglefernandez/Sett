@@ -15,11 +15,11 @@ final class WorkoutExercisesVM: NSObject {
     private var isExpanded: [Bool] = []
     private var cellVMs: [WorkoutExercisesCellVM] = []
     public var workoutExercisesView: WorkoutExercisesView?
-    lazy var fetchedResultsController: NSFetchedResultsController<Workout> = {
+    lazy var fetchedResultsController: NSFetchedResultsController<WorkoutExercise> = {
         return CoreDataBase.createFetchedResultsController(
-                    withEntityName: "Workout",
-                    expecting: Workout.self,
-                    predicates: [NSPredicate(format: "SELF = %@", self.workout.objectID)])
+                    withEntityName: "WorkoutExercise",
+                    expecting: WorkoutExercise.self,
+                    predicates: [NSPredicate(format: "workout = %@", self.workout.objectID)])
     }()
     
     // MARK: - Init
@@ -31,8 +31,8 @@ final class WorkoutExercisesVM: NSObject {
     // MARK: - Configurations
     public func configure() {
         // Listen for updates to specific workout
-        CoreDataBase.configureFetchedResults(controller: self.fetchedResultsController, expecting: Workout.self, with: self)
-        guard let workoutExercises = self.fetchedResultsController.fetchedObjects?.first?.workoutExercises else {
+        CoreDataBase.configureFetchedResults(controller: self.fetchedResultsController, expecting: WorkoutExercise.self, with: self)
+        guard let workoutExercises = self.fetchedResultsController.fetchedObjects else {
             return
         }
         
@@ -42,10 +42,7 @@ final class WorkoutExercisesVM: NSObject {
         
         // Add relevant cell vms
         for workoutExercise in workoutExercises {
-            guard let workoutExerciseCast = workoutExercise as? WorkoutExercise else {
-                continue
-            }
-            let viewModel = WorkoutExercisesCellVM(workoutExercise: workoutExerciseCast)
+            let viewModel = WorkoutExercisesCellVM(workoutExercise: workoutExercise)
             self.isExpanded.append(true)
             self.cellVMs.append(viewModel)
         }

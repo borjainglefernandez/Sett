@@ -21,8 +21,5 @@ final class SettListCellVM: NSObject {
         self.weightInputVM = WeightInputVM(sett: self.sett)
         self.repsInputVM = RepsInputVM(sett: self.sett)
         self.settNotesInputVM = SettNotesInputVM(sett: self.sett)
-
     }
-    
 }
-

@@ -10,7 +10,7 @@ import UIKit
 import CoreData
 
 final class SettListVM: NSObject {
-    public var settListView: SettListView?
+    public var tableView: UITableView?
     private var cellVMs: [SettListCellVM] = []
     private var settCollection: SettCollection
     lazy var fetchedResultsController: NSFetchedResultsController<SettCollection> = {
@@ -34,6 +34,8 @@ final class SettListVM: NSObject {
         guard let settCollection = self.fetchedResultsController.fetchedObjects?.first else {
             return
         }
+        // New information, overwrite
+        self.cellVMs = []
         
         for sett in settCollection.setts ?? [] {
             guard let settCast = sett as? Sett else {
@@ -85,7 +87,12 @@ extension SettListVM: UITableViewDataSource, UITableViewDelegate {
             
             // Actions
             deleteSettAlertController.addAction(UIAlertAction(title: "Delete", style: .destructive, handler: { _ in
+                self.settCollection.workoutExercise?.numSetts -= 1
+                self.settCollection.removeFromSetts(sett)
                 CoreDataBase.context.delete(sett)
+                if let workoutExercise = self.settCollection.workoutExercise, workoutExercise.numSetts == 0 {
+                    CoreDataBase.context.delete(workoutExercise)
+                }
                 CoreDataBase.save()
 
             }))
@@ -109,7 +116,7 @@ extension SettListVM: NSFetchedResultsControllerDelegate {
                     didChange anObject: Any, at indexPath: IndexPath?, for type: NSFetchedResultsChangeType, newIndexPath: IndexPath?) {
         DispatchQueue.main.async {
             self.configure()
-            self.settListView?.tableView.reloadData()
+            self.tableView?.reloadData()
         }
     }
 }

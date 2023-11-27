@@ -57,6 +57,7 @@ class SettListView: UIView {
     private func setUpTableView() {
         self.tableView.dataSource = self.viewModel
         self.tableView.delegate = self.viewModel
+        self.viewModel?.tableView = self.tableView
     }
 
 }
