@@ -44,6 +44,14 @@ final class SettListVM: NSObject {
             self.cellVMs.append(SettListCellVM(sett: settCast))
         }
     }
+    
+    // MARK: - Actions
+    public func addSett() {
+        let sett = Sett(context: CoreDataBase.context)
+        self.settCollection.addToSetts(sett)
+        self.settCollection.workoutExercise?.numSetts += 1
+        CoreDataBase.save()
+    }
 }
 
 // MARK: - Table View Delegate
@@ -73,6 +81,34 @@ extension SettListVM: UITableViewDataSource, UITableViewDelegate {
         return 43
     }
     
+    func tableView(_ tableView: UITableView, leadingSwipeActionsConfigurationForRowAt indexPath: IndexPath) -> UISwipeActionsConfiguration? {
+        let sett =  self.cellVMs[indexPath.row].sett
+            
+        // Copy sett action
+        let copySettAction = UIContextualAction(style: .normal, title: "") {  _, _, _ in
+            
+            // Copy Sett
+            self.settCollection.workoutExercise?.numSetts += 1
+            let copiedSett = Sett(context: CoreDataBase.context)
+            copiedSett.weight = sett.weight
+            copiedSett.reps = sett.reps
+            copiedSett.notes = sett.notes
+            
+            // Insert at correct spot
+            self.settCollection.insertIntoSetts(copiedSett, at: indexPath.row)
+            CoreDataBase.save()
+            
+            // Dismiss Menu
+            tableView.setEditing(false, animated: true)
+        }
+        
+        copySettAction.image = UIImage(systemName: "square.3.layers.3d.down.backward")
+        copySettAction.backgroundColor = .systemGray
+        let swipeActions = UISwipeActionsConfiguration(actions: [copySettAction])
+        
+        return swipeActions
+    }
+    
     func tableView(_ tableView: UITableView, trailingSwipeActionsConfigurationForRowAt indexPath: IndexPath) -> UISwipeActionsConfiguration? {
         let sett =  self.cellVMs[indexPath.row].sett
         
@@ -91,6 +127,7 @@ extension SettListVM: UITableViewDataSource, UITableViewDelegate {
                 self.settCollection.removeFromSetts(sett)
                 CoreDataBase.context.delete(sett)
                 if let workoutExercise = self.settCollection.workoutExercise, workoutExercise.numSetts == 0 {
+                    CoreDataBase.context.delete(self.settCollection)
                     CoreDataBase.context.delete(workoutExercise)
                 }
                 CoreDataBase.save()

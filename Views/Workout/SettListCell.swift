@@ -96,7 +96,6 @@ class SettListCell: UITableViewCell {
             self.netWeightLabel.bottomAnchor.constraint(equalTo: self.containerView.bottomAnchor),
             self.netWeightLabel.widthAnchor.constraint(equalTo: self.weightInput.widthAnchor),
 
-
             self.repsInput.leftAnchor.constraint(equalToSystemSpacingAfter: self.netWeightLabel.rightAnchor, multiplier: 2.5),
             self.repsInput.centerYAnchor.constraint(equalTo: self.weightInput.centerYAnchor),
             self.repsInput.bottomAnchor.constraint(equalTo: self.containerView.bottomAnchor),
