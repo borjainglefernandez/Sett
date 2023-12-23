@@ -64,12 +64,13 @@ class SettListView: UIView {
             self.tableView.topAnchor.constraint(equalTo: self.topAnchor),
             self.tableView.leftAnchor.constraint(equalTo: self.leftAnchor),
             self.tableView.rightAnchor.constraint(equalTo: self.rightAnchor),
-            self.tableView.bottomAnchor.constraint(equalTo: self.bottomAnchor, constant: -32),
+            self.tableView.heightAnchor.constraint(equalTo: self.heightAnchor, multiplier: 0.88),
             
             self.workoutExercisesButtonsContainer.topAnchor.constraint(equalTo: self.tableView.bottomAnchor),
             self.workoutExercisesButtonsContainer.leftAnchor.constraint(equalTo: self.leftAnchor),
             self.workoutExercisesButtonsContainer.rightAnchor.constraint(equalTo: self.rightAnchor),
-            self.workoutExercisesButtonsContainer.bottomAnchor.constraint(equalTo: self.bottomAnchor),
+          self.workoutExercisesButtonsContainer.bottomAnchor.constraint(equalTo: self.bottomAnchor),
+            self.workoutExercisesButtonsContainer.heightAnchor.constraint(equalTo: self.heightAnchor, multiplier: 0.12),
             
             self.addSettButton.leftAnchor.constraint(equalToSystemSpacingAfter: self.leftAnchor, multiplier: 3.375),
             self.addSettButton.centerYAnchor.constraint(equalTo: self.workoutExercisesButtonsContainer.centerYAnchor),
@@ -80,11 +81,13 @@ class SettListView: UIView {
             self.reorderSettsButton.leftAnchor.constraint(equalToSystemSpacingAfter: self.viewStatsButton.rightAnchor, multiplier: 3.25),
             self.reorderSettsButton.centerYAnchor.constraint(equalTo: self.addSettButton.centerYAnchor)
         ])
+
     }
     
     // MARK: - Configurations
     public func configure(with viewModel: SettListVM) {
         self.viewModel = viewModel
+        self.workoutExercisesButtonsContainer.isHidden = !viewModel.isExpanded
         self.setUpTableView()
     }
     

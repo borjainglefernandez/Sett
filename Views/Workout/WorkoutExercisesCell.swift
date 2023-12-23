@@ -45,7 +45,7 @@ class WorkoutExercisesCell: UICollectionViewCell {
             self.collapsibleContainerTopBar.topAnchor.constraint(equalTo: self.topAnchor),
             
             self.settListView.topAnchor.constraint(equalTo: self.collapsibleContainerTopBar.bottomAnchor),
-            self.settListView.heightAnchor.constraint(equalTo: self.heightAnchor, multiplier: 1, constant: -30),
+            self.settListView.heightAnchor.constraint(equalTo: self.heightAnchor, constant: -30),
             self.settListView.rightAnchor.constraint(equalTo: self.rightAnchor),
             self.settListView.leftAnchor.constraint(equalTo: self.leftAnchor)
         ])
@@ -73,6 +73,6 @@ class WorkoutExercisesCell: UICollectionViewCell {
             return
         }
         
-        self.settListView.configure(with: SettListVM(settCollection: settCollection))
+        self.settListView.configure(with: SettListVM(settCollection: settCollection, isExpanded: isExpanded))
     }
 }

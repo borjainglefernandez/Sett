@@ -13,6 +13,7 @@ final class SettListVM: NSObject {
     public var tableView: UITableView?
     private var cellVMs: [SettListCellVM] = []
     private var settCollection: SettCollection
+    public var isExpanded: Bool
     lazy var fetchedResultsController: NSFetchedResultsController<SettCollection> = {
         return CoreDataBase.createFetchedResultsController(
                     withEntityName: "SettCollection",
@@ -21,8 +22,9 @@ final class SettListVM: NSObject {
     }()
     
     // MARK: - Init
-    init(settCollection: SettCollection) {
+    init(settCollection: SettCollection, isExpanded: Bool) {
         self.settCollection = settCollection
+        self.isExpanded = isExpanded
         super.init()
         self.configure()
     }
