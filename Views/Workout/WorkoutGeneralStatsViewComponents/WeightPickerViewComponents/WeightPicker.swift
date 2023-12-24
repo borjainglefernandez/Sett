@@ -11,25 +11,21 @@ class WeightPicker: UITextField {
     
     private let viewModel: WorkoutGeneralStatsViewCellVM
     
+    // Picker to change weight
     private let weightPicker = UIPickerView()
     
-    lazy var toolbar: UIToolbar = {
-        let toolbar = UIToolbar()
-        toolbar.sizeToFit()
-        toolbar.setItems([self.spaceButton, self.doneButton], animated: false)
-        return toolbar
-    }()
-    
-    // Add space button to put done button on right side
-    private let spaceButton = UIBarButtonItem(barButtonSystemItem: .flexibleSpace, target: nil, action: nil)
-    private let doneButton = UIBarButtonItem(title: "Done", style: .done, target: self, action: #selector(doneButtonTapped))
+    // Toolbar when in a picker
+    lazy var pickerToolBar: PickerToolBar = PickerToolBar(doneSelector: self.doneButtonTapped)
     
     // MARK: - Init
     init(frame: CGRect, viewModel: WorkoutGeneralStatsViewCellVM) {
         self.viewModel = viewModel
         super.init(frame: frame)
         
+        self.translatesAutoresizingMaskIntoConstraints = false
         self.configure()
+        self.configureToolBar()
+        self.configureWeightLabel()
         self.configureWeightPicker()
     }
     
@@ -39,13 +35,8 @@ class WeightPicker: UITextField {
     
     // MARK: - Override
     override func caretRect(for position: UITextPosition) -> CGRect {
+        // Get rid of cursor
         return CGRect.zero
-    }
-    
-    // MARK: - Actions
-    @objc func doneButtonTapped() {
-        self.text = "\(self.viewModel.workout.bodyweight)"
-        self.resignFirstResponder()
     }
     
     // MARK: - Configurations
@@ -53,12 +44,18 @@ class WeightPicker: UITextField {
         self.translatesAutoresizingMaskIntoConstraints = false
         self.textColor = .label
         self.textAlignment = .center
-        self.font = .systemFont(ofSize: 17, weight: .regular)
-        
+        self.backgroundColor = .systemFill.withAlphaComponent(0.3)
+        self.layer.cornerRadius = 7.5
+        self.font = .systemFont(ofSize: 15, weight: .regular)
+    }
+    
+    private func configureToolBar() {
         self.inputView = self.weightPicker
+        self.inputAccessoryView = self.pickerToolBar
+    }
+    
+    private func configureWeightLabel() {
         self.text = "\(self.viewModel.workout.bodyweight)"
-        
-        self.inputAccessoryView = self.toolbar
     }
     
     private func configureWeightPicker() {
@@ -70,5 +67,11 @@ class WeightPicker: UITextField {
         let decimalPart = Int(self.viewModel.workout.bodyweight.truncatingRemainder(dividingBy: 1) * 10)
         self.weightPicker.selectRow(integerPart, inComponent: 0, animated: false)
         self.weightPicker.selectRow(decimalPart, inComponent: 2, animated: false)
+    }
+    
+    // MARK: - Actions
+    public func doneButtonTapped() {
+        self.text = "\(self.viewModel.workout.bodyweight)"
+        self.resignFirstResponder()
     }
 }

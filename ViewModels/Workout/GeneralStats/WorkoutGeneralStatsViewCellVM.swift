@@ -64,7 +64,7 @@ final class WorkoutGeneralStatsViewCellVM: NSObject {
         case .rating:
             return WorkoutGeneralStatsRating(frame: .zero, viewModel: self)
         case .startTime:
-            return StartTimePicker(frame: .zero, viewModel: self)
+            return StartTimePickerView(frame: .zero, viewModel: self)
         case .bodyweight:
             return WeightPickerView(frame: .zero, viewModel: self)
         case .netProgress:

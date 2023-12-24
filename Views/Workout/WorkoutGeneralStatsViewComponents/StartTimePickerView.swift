@@ -1,16 +1,18 @@
 //
-//  WeightPickerView.swift
+//  StartTimePicker.swift
 //  Sett
 //
-//  Created by Borja Ingle-Fernandez on 7/19/23.
+//  Created by Borja Ingle-Fernandez on 7/17/23.
 //
 
 import UIKit
 
-final class WeightPickerView: UIView {
-
+final class StartTimePickerView: UIView {
+    
     private let viewModel: WorkoutGeneralStatsViewCellVM
-    lazy var weightPicker: WeightPicker = WeightPicker(frame: self.frame, viewModel: self.viewModel)
+    
+    // Picker to change start time
+    lazy var startTimePicker: StartTimePicker = StartTimePicker(workout: self.viewModel.workout)
     
     // MARK: - Init
     init(frame: CGRect, viewModel: WorkoutGeneralStatsViewCellVM) {
@@ -18,12 +20,11 @@ final class WeightPickerView: UIView {
         super.init(frame: frame)
         
         self.translatesAutoresizingMaskIntoConstraints = false
+        self.addSubview(self.startTimePicker)
         self.layer.cornerRadius = 7.5
 
-        self.configureBackgroundColor()
-
-        self.addSubview(weightPicker)
         self.addConstraints()
+        self.configureBackgroundColor()
     }
     
     required init?(coder: NSCoder) {
@@ -33,13 +34,14 @@ final class WeightPickerView: UIView {
     // MARK: - Constraints
     private func addConstraints() {
         NSLayoutConstraint.activate([
-            self.widthAnchor.constraint(equalToConstant: 50),
+            // TODO: Figure out way to make this relative
+            self.widthAnchor.constraint(equalToConstant: 125),
             self.heightAnchor.constraint(equalToConstant: 25),
             
-            self.weightPicker.topAnchor.constraint(equalTo: self.topAnchor),
-            self.weightPicker.centerXAnchor.constraint(equalTo: self.centerXAnchor),
-            self.weightPicker.rightAnchor.constraint(equalTo: self.rightAnchor),
-            self.weightPicker.bottomAnchor.constraint(equalTo: self.bottomAnchor)
+            self.startTimePicker.topAnchor.constraint(equalTo: self.topAnchor),
+            self.startTimePicker.centerXAnchor.constraint(equalTo: self.centerXAnchor),
+            self.startTimePicker.rightAnchor.constraint(equalTo: self.rightAnchor),
+            self.startTimePicker.bottomAnchor.constraint(equalTo: self.bottomAnchor)
         ])
     }
     
@@ -51,5 +53,4 @@ final class WeightPickerView: UIView {
         }
         self.backgroundColor = .systemFill.withAlphaComponent(alphaComponent)
     }
-
 }

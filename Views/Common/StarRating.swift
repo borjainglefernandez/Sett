@@ -11,13 +11,13 @@ import Cosmos
 class StarRating: UIView {
     
     // Star Rating for an object
-    public let starRating: CosmosView = {
+    lazy var starRating: CosmosView = {
         let starRating = CosmosView()
         starRating.translatesAutoresizingMaskIntoConstraints = false
         starRating.settings.filledColor = .systemCyan
         starRating.settings.emptyColor = .systemGray
-        starRating.settings.emptyBorderColor = .systemGray2
-        starRating.settings.filledBorderColor = .systemGray2
+        starRating.settings.emptyBorderColor = .black
+        starRating.settings.filledBorderColor = .black
         starRating.settings.fillMode = .half
         starRating.settings.minTouchRating = 0
         return starRating
