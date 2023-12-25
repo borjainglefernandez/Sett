@@ -17,12 +17,12 @@ class ModalTableVM: NSObject {
     
     // Callback
     private let selectedCellCallback: ((String, String, ModalTableViewType, UIView?) -> Void)
+    private let shouldShowExerciseCallback: ((Exercise) -> Bool)?
     
     // Entities to select
     private let category: Category?
     private let exercise: Exercise?
     private let exerciseType: ExerciseType?
-    private let routine: Routine?
     
     // VM's
     public var cellVMs: [ModalTableViewCellVM]
@@ -40,17 +40,17 @@ class ModalTableVM: NSObject {
     init(modalTableViewType: ModalTableViewType,
          modalTableViewSelectionType: ModalTableViewSelectionType,
          selectedCellCallBack: @escaping ((String, String, ModalTableViewType, UIView?) -> Void),
+         shouldShowExerciseCallback: ((Exercise) -> Bool)? = nil,
          category: Category? = nil,
          exercise: Exercise? = nil,
-         exerciseType: ExerciseType? = nil,
-         routine: Routine? = nil) {
+         exerciseType: ExerciseType? = nil) {
         self.modalTableViewType = modalTableViewType
         self.modalTableViewSelectionType = modalTableViewSelectionType
         self.selectedCellCallback = selectedCellCallBack
+        self.shouldShowExerciseCallback = shouldShowExerciseCallback
         self.category = category
         self.exercise = exercise
         self.exerciseType = exerciseType
-        self.routine = routine
         self.cellVMs = []
         self.filteredCellVMs = []
         super.init()
@@ -111,9 +111,8 @@ class ModalTableVM: NSObject {
         let exercises: [Exercise] = self.exerciseFetchedResultsController?.fetchedObjects ?? []
 
         for exercise in exercises {
-            // Check if routine already has workout exercise with that exercise
-            // and don't add it to list if it does
-            if self.routine?.workoutExercises?.contains(where: {($0 as? WorkoutExercise)?.exercise == exercise}) ?? false {
+            // Check if we should add it
+            if let shouldShowExerciseCallback = self.shouldShowExerciseCallback, !shouldShowExerciseCallback(exercise){
                 continue
             }
             

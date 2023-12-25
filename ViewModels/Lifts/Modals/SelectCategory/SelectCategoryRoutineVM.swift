@@ -1,15 +1,14 @@
 //
-//  SelectCategoryModal.swift
+//  SelectCategoryRoutineVM.swift
 //  Sett
 //
-//  Created by Borja Ingle-Fernandez on 8/29/23.
+//  Created by Borja Ingle-Fernandez on 12/25/23.
 //
 
 import Foundation
 import UIKit
 
-final class SelectCategoryModalVM: NSObject {
-    
+final class SelectCategoryRoutineVM: SelectCategoryModalVM {
     public let routine: Routine
     
     // MARK: - Init
@@ -18,7 +17,7 @@ final class SelectCategoryModalVM: NSObject {
     }
     
     // MARK: - Callback
-    public func selectCellCallback(with title: String, and subTitle: String, for type: ModalTableViewType, view: UIView?) {
+    public override func selectCellCallback(with title: String, and subTitle: String, for type: ModalTableViewType, view: UIView?) {
         guard let category: Category = CoreDataBase.fetchEntity(
             withEntity: "Category",
             expecting: Category.self,
@@ -28,7 +27,8 @@ final class SelectCategoryModalVM: NSObject {
         
         // Navigate to selecting the exercise in category
         if let view = view, let parentViewController = view.getParentViewController(view), parentViewController.presentedViewController == nil {
-            let selectExerciseModalViewController = SelectExerciseModalViewController(routine: self.routine, category: category)
+            let viewModel = SelectExerciseRoutineVM(routine: routine, category: category)
+            let selectExerciseModalViewController = SelectExerciseModalViewController(viewModel: viewModel)
             parentViewController.present(selectExerciseModalViewController, animated: true)
         }
     }

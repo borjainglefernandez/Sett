@@ -10,7 +10,6 @@ import UIKit
 class SelectCategoryModalViewController: UIViewController {
     
     private let viewModel: SelectCategoryModalVM
-    private let routine: Routine
     
     // Cancel Button
     private let cancelButton: UIButton = IconButton(frame: .zero, imageName: "x.circle")
@@ -24,9 +23,8 @@ class SelectCategoryModalViewController: UIViewController {
     private let selectCategoryModal: SelectCategoryModal
     
     // MARK: - Init
-    init(routine: Routine) {
-        self.routine = routine
-        self.viewModel = SelectCategoryModalVM(routine: routine)
+    init(viewModel: SelectCategoryModalVM) {
+        self.viewModel = viewModel
         self.selectCategoryModal = SelectCategoryModal(viewModel: self.viewModel)
         
         super.init(nibName: nil, bundle: nil)

@@ -79,7 +79,7 @@ class RoutineExerciseList: UIView {
     // MARK: - Actions
     public func addExercise() {
         if let parentViewController = self.getParentViewController(self) {
-            let selectCategoryModalViewController = SelectCategoryModalViewController(routine: self.viewModel.routine)
+            let selectCategoryModalViewController = SelectCategoryModalViewController(viewModel: SelectCategoryRoutineVM(routine: self.viewModel.routine))
             parentViewController.present(selectCategoryModalViewController, animated: true)
         }
     }

@@ -60,7 +60,10 @@ final class WorkoutViewController: UIViewController {
         self.addConstraints()
         
         self.backButton.addTarget(self, action: #selector(self.goBack), for: .touchUpInside)
-        self.moreButton.addTarget(self, action: #selector(self.addExercise), for: .touchUpInside)
+
+        self.moreButton.showsMenuAsPrimaryAction = true
+//        self.moreButton.menu = UIMenu(preferredElementSize: .small, children: [AddExerciseMenuItem()])
+        self.moreButton.menu = OverallWorkoutMenu(workout: self.workout, overallView: self.view).getMenu()
     }
 
     

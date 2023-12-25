@@ -10,11 +10,9 @@ import UIKit
 class SelectExerciseModalViewController: UIViewController {
     
     private let viewModel: SelectExerciseModalVM
-    private let routine: Routine
-    private let category: Category
     
     // Cancel Button
-    private let cancelButton: UIButton = IconButton(frame: .zero, imageName: "x.circle.fill")
+    private let cancelButton: UIButton = IconButton(frame: .zero, imageName: "x.circle")
     
     // Modal Title
     private let titleLabel: Label = Label(title: "Exercise Selection")
@@ -28,10 +26,8 @@ class SelectExerciseModalViewController: UIViewController {
     private let selectExerciseModal: SelectExerciseModal
         
     // MARK: - Init
-    init(routine: Routine, category: Category) {
-        self.routine = routine
-        self.category = category
-        self.viewModel = SelectExerciseModalVM(routine: routine, category: category)
+    init(viewModel: SelectExerciseModalVM) {
+        self.viewModel = viewModel
         self.selectExerciseModal = SelectExerciseModal(viewModel: self.viewModel)
         super.init(nibName: nil, bundle: nil)
     }
@@ -96,7 +92,7 @@ class SelectExerciseModalViewController: UIViewController {
     }
     
     @objc func createNewExercise() {
-        let individualExerciseModalViewController = IndividualExerciseModalViewController(category: self.category)
+        let individualExerciseModalViewController = IndividualExerciseModalViewController(category: self.viewModel.category)
         individualExerciseModalViewController.isModalInPresentation = true // Disable dismissing of modal
         self.present(individualExerciseModalViewController, animated: true, completion: nil)
     }

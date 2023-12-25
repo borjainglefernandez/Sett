@@ -138,7 +138,10 @@ class RoutineExerciseListCell: UICollectionViewCell {
             self.routineExerciseListCellVM?.deleteWorkoutExercise()
             if let parentViewController = self.getParentViewController(self),
                let routineExerciseListCellVM = self.routineExerciseListCellVM {
-                let selectCategoryModalViewController = SelectCategoryModalViewController(routine: routineExerciseListCellVM.routine)
+                let selectCategoryRoutineVM = SelectCategoryRoutineVM(routine: routineExerciseListCellVM.routine)
+                let selectCategoryModalViewController =
+                    SelectCategoryModalViewController(
+                        viewModel: selectCategoryRoutineVM)
                 parentViewController.present(selectCategoryModalViewController, animated: true)
             }
         }

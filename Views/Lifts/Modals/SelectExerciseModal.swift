@@ -20,8 +20,8 @@ class SelectExerciseModal: UIView {
             modalTableViewType: .exercise,
             modalTableViewSelectionType: .toggle,
             selectedCellCallBack: self.viewModel.selectCellCallback,
-            category: self.viewModel.category,
-            routine: self.viewModel.routine)
+            shouldShowExerciseCallback: self.viewModel.shouldIncludeExercise(exercise:),
+            category: self.viewModel.category)
         let exerciseListView = ModalTableView(viewModel: categoryListVM)
         return exerciseListView
     }()

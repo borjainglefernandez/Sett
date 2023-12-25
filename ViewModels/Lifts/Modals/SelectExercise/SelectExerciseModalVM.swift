@@ -8,15 +8,14 @@
 import Foundation
 import UIKit
 
-final class SelectExerciseModalVM: NSObject {
-    public let routine: Routine
-    public let category: Category
+class SelectExerciseModalVM: NSObject {
     private var exercise: Exercise?
+    public let category: Category
     
     // MARK: - Init
-    init(routine: Routine, category: Category) {
-        self.routine = routine
+    init(category: Category) {
         self.category = category
+
     }
     
     // MARK: - Callback
@@ -33,15 +32,15 @@ final class SelectExerciseModalVM: NSObject {
         self.exercise = exercise
     }
     
+    public func shouldIncludeExercise(exercise: Exercise) -> Bool {return true}
+    
+    // MARK: - Getters
+    public func getExercise() -> Exercise? {
+        return self.exercise
+    }
+    
     // MARK: - Actions
     public func confirmExerciseSelection() -> Bool {
-        guard let exercise = self.exercise else {
-            return false
-        }
-        let workoutExercise = WorkoutExercise(context: CoreDataBase.context)
-        workoutExercise.exercise = exercise
-        self.routine.addToWorkoutExercises(workoutExercise)
-        CoreDataBase.save()
-        return true
+        fatalError("This method should be implemented in sub class.")
     }
 }
