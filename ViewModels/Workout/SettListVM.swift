@@ -60,6 +60,17 @@ final class SettListVM: NSObject {
 extension SettListVM: UITableViewDataSource, UITableViewDelegate {
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
+        // If last row return action buttons
+        if indexPath.row == self.cellVMs.count {
+            guard let cell = tableView.dequeueReusableCell(
+                withIdentifier: SettListActionView.cellIdentifier,
+                for: indexPath) as? SettListActionView else {
+                    fatalError("Unsupported cell")
+            }
+            cell.configure(with: self)
+            return cell
+        }
+        
         guard let cell = tableView.dequeueReusableCell(
             withIdentifier: SettListCell.cellIdentifier,
             for: indexPath
@@ -76,7 +87,8 @@ extension SettListVM: UITableViewDataSource, UITableViewDelegate {
     }
     
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return self.cellVMs.count
+        // All the setts + action button group
+        return self.cellVMs.count + 1
 
     }
     func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
