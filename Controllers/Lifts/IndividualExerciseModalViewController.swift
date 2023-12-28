@@ -14,7 +14,7 @@ class IndividualExerciseModalViewController: UIViewController {
     private let exercise: Exercise?
     
     // Cancel Button
-    private let cancelButton: UIButton = IconButton(frame: .zero, imageName: "x.circle.fill")
+    private let cancelButton: UIButton = IconButton(frame: .zero, imageName: "x.circle")
     
     // Confirm Button
     private let confirmButton: UIButton = IconButton(frame: .zero, imageName: "checkmark.circle")
