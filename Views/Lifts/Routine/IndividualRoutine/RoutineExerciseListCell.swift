@@ -12,6 +12,7 @@ class RoutineExerciseListCell: UICollectionViewCell {
     static let cellIdentifier = "RoutineExerciseListCell"
     private var routineExerciseListCellVM: RoutineExerciseListCellVM?
     private var workoutExerciseNotesVM: WorkoutExerciseNotesVM?
+    private var index: Int?
     
     // Top menu bar
     private let menuBar = MenuBar(maskedCorners: [.layerMinXMinYCorner, .layerMaxXMinYCorner])
@@ -75,6 +76,7 @@ class RoutineExerciseListCell: UICollectionViewCell {
         self.titleLabel.text = nil
         self.setInput.prepareForReuse()
         self.notesTextField.text = nil
+        self.index = nil
     }
     
     // MARK: - Constraints
@@ -112,7 +114,7 @@ class RoutineExerciseListCell: UICollectionViewCell {
     }
     
     // MARK: - Configurations
-    public func configure(with viewModel: RoutineExerciseListCellVM) {
+    public func configure(with viewModel: RoutineExerciseListCellVM, at index: Int) {
         self.routineExerciseListCellVM = viewModel
         self.titleLabel.text = viewModel.workoutExercise.exercise?.name
         
@@ -127,6 +129,8 @@ class RoutineExerciseListCell: UICollectionViewCell {
         self.notesTextField.text = viewModel.workoutExercise.notes
         self.workoutExerciseNotesVM = WorkoutExerciseNotesVM(workoutExercise: viewModel.workoutExercise)
         self.notesTextField.delegate = self.workoutExerciseNotesVM
+        
+        self.index = index
     }
     
     private func setUpMoreButton() {
@@ -135,10 +139,10 @@ class RoutineExerciseListCell: UICollectionViewCell {
             image: UIImage(systemName: "arrow.2.squarepath"),
             attributes: [],
             state: .off) { _ in
-            self.routineExerciseListCellVM?.deleteWorkoutExercise()
+//            self.routineExerciseListCellVM?.deleteWorkoutExercise()
             if let parentViewController = self.getParentViewController(self),
                let routineExerciseListCellVM = self.routineExerciseListCellVM {
-                let selectCategoryRoutineVM = SelectCategoryRoutineVM(routine: routineExerciseListCellVM.routine)
+                let selectCategoryRoutineVM = SelectCategoryRoutineVM(routine: routineExerciseListCellVM.routine, replacementIndex: self.index)
                 let selectCategoryModalViewController =
                     SelectCategoryModalViewController(
                         viewModel: selectCategoryRoutineVM)

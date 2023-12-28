@@ -12,8 +12,9 @@ final class SelectCategoryRoutineVM: SelectCategoryModalVM {
     public let routine: Routine
     
     // MARK: - Init
-    init(routine: Routine) {
+    init(routine: Routine, replacementIndex: Int? = nil) {
         self.routine = routine
+        super.init(replacementIndex: replacementIndex)
     }
     
     // MARK: - Callback
@@ -27,7 +28,7 @@ final class SelectCategoryRoutineVM: SelectCategoryModalVM {
         
         // Navigate to selecting the exercise in category
         if let view = view, let parentViewController = view.getParentViewController(view), parentViewController.presentedViewController == nil {
-            let viewModel = SelectExerciseRoutineVM(routine: routine, category: category)
+            let viewModel = SelectExerciseRoutineVM(routine: routine, category: category, replacementIndex: self.replacementIndex)
             let selectExerciseModalViewController = SelectExerciseModalViewController(viewModel: viewModel)
             parentViewController.present(selectExerciseModalViewController, animated: true)
         }

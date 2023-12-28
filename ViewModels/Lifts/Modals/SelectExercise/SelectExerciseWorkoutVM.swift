@@ -12,9 +12,9 @@ class SelectExerciseWorkoutVM: SelectExerciseModalVM {
     public let workout: Workout
     
     // MARK: - Init
-    init(workout: Workout, category: Category) {
+    init(workout: Workout, category: Category, replacementIndex: Int? = nil) {
         self.workout = workout
-        super.init(category: category)
+        super.init(category: category, replacementIndex: replacementIndex)
     }
     
     // MARK: - Callbacks

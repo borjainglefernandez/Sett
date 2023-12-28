@@ -68,7 +68,7 @@ extension RoutineExerciseListVM: UICollectionViewDataSource, UICollectionViewDel
             fatalError("Unsupported cell")
         }
         
-        cell.configure(with: cellVMs[indexPath.row])
+        cell.configure(with: cellVMs[indexPath.row], at: indexPath.row)
         return cell
     }
     

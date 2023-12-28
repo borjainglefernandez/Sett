@@ -10,8 +10,12 @@ import UIKit
 
 class SelectCategoryModalVM: NSObject {
     
+    // Index to replace workout exercise upon selection
+    public let replacementIndex: Int?
+    
     // MARK: - Init
-    override init() {
+    init(replacementIndex: Int?) {
+        self.replacementIndex = replacementIndex
     }
     
     // MARK: - Callback

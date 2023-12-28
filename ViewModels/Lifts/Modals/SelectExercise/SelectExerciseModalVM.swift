@@ -9,12 +9,17 @@ import Foundation
 import UIKit
 
 class SelectExerciseModalVM: NSObject {
-    private var exercise: Exercise?
+    
     public let category: Category
+    // Index to replace workout exercise upon selection
+    public let replacementIndex: Int?
+    private var exercise: Exercise?
+    
     
     // MARK: - Init
-    init(category: Category) {
+    init(category: Category, replacementIndex: Int?) {
         self.category = category
+        self.replacementIndex = replacementIndex
 
     }
     
