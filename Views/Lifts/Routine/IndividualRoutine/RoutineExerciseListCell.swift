@@ -139,7 +139,6 @@ class RoutineExerciseListCell: UICollectionViewCell {
             image: UIImage(systemName: "arrow.2.squarepath"),
             attributes: [],
             state: .off) { _ in
-//            self.routineExerciseListCellVM?.deleteWorkoutExercise()
             if let parentViewController = self.getParentViewController(self),
                let routineExerciseListCellVM = self.routineExerciseListCellVM {
                 let selectCategoryRoutineVM = SelectCategoryRoutineVM(routine: routineExerciseListCellVM.routine, replacementIndex: self.index)

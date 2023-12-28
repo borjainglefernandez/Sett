@@ -16,7 +16,7 @@ class CollapsibleContainerTopBar: UIView {
     private let topBar: UIView = MenuBar(frame: .zero)
     
     // Title label for the container
-    private let titleLabel: UILabel = Label(frame: .zero, title: "", fontSize: 14.0)
+    public let titleLabel: UILabel = Label(frame: .zero, title: "", fontSize: 14.0)
     
     // Button to expand or collapse cell
     public let expandCollapseButton: IconButton = IconButton(imageName: "chevron.right", color: .label)

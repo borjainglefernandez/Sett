@@ -12,6 +12,9 @@ class WorkoutExercisesCell: UICollectionViewCell {
 
     // Top bar of the category list container
     public let collapsibleContainerTopBar: CollapsibleContainerTopBar = CollapsibleContainerTopBar()
+    
+    // Icon for the exercise type
+    private let exerciseTypeIcon = IconButton(imageName: "dumbbell.fill", color: .label, fontSize: 14)
 
     // List of all the routines for a particular category
     public let settListView: SettListView = SettListView()
@@ -22,6 +25,7 @@ class WorkoutExercisesCell: UICollectionViewCell {
         
         self.contentView.layer.cornerRadius = 15
 
+        self.collapsibleContainerTopBar.addSubview(self.exerciseTypeIcon)
         self.addSubviews(self.collapsibleContainerTopBar, self.settListView)
         self.addConstraints()
     }
@@ -43,6 +47,9 @@ class WorkoutExercisesCell: UICollectionViewCell {
             self.collapsibleContainerTopBar.leftAnchor.constraint(equalTo: self.leftAnchor),
             self.collapsibleContainerTopBar.rightAnchor.constraint(equalTo: self.rightAnchor),
             self.collapsibleContainerTopBar.topAnchor.constraint(equalTo: self.topAnchor),
+            
+            self.exerciseTypeIcon.centerYAnchor.constraint(equalTo: self.collapsibleContainerTopBar.centerYAnchor),
+            self.exerciseTypeIcon.leftAnchor.constraint(equalTo: self.collapsibleContainerTopBar.titleLabel.rightAnchor, constant: 5),
             
             self.settListView.topAnchor.constraint(equalTo: self.collapsibleContainerTopBar.bottomAnchor),
             self.settListView.heightAnchor.constraint(equalTo: self.heightAnchor, constant: -30),
@@ -67,6 +74,12 @@ class WorkoutExercisesCell: UICollectionViewCell {
             delegate: delegate)
         self.collapsibleContainerTopBar.configure(with: collapsibleContainerTopBarVM)
             self.collapsibleContainerTopBar.setTitleLabelText(title: viewModel.workoutExercise.exercise?.name ?? "")
+            
+        // Configure exercise icon
+        if let iconImage = viewModel.workoutExercise.exercise?.type?.exerciseType.icon() {
+            iconImage.withTintColor(.label)
+            self.exerciseTypeIcon.setImage(iconImage, for: .normal)
+        }
         
         // Configure Sett list view with view model
         guard let settCollection = viewModel.workoutExercise.settCollection else {
