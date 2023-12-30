@@ -10,6 +10,12 @@ import UIKit
 class SettListCell: UITableViewCell {
     
     static let cellIdentifier = "SettListCell"
+    
+    // View Models
+    private var weightInputVM: WeightInputVM?
+    private var repsInputVM: RepsInputVM?
+    
+    
 
     // Each individual cell container
     private let containerView: UIView = {
@@ -27,7 +33,7 @@ class SettListCell: UITableViewCell {
         weightTextField.translatesAutoresizingMaskIntoConstraints = false
         weightTextField.tintColor = .label
         weightTextField.font = .systemFont(ofSize: 12, weight: .bold)
-        weightTextField.placeholder = "0"
+//        weightTextField.placeholder = "0"
         weightTextField.keyboardType = .numberPad
         return weightTextField
     }()
@@ -121,30 +127,61 @@ class SettListCell: UITableViewCell {
     // MARK: - Configurations
     public func configure(with viewModel: SettListCellVM) {
         // Configure weight input
-        self.weightInput.setDelegate(delegate: viewModel.weightInputVM)
+        self.weightInputVM = WeightInputVM(sett: viewModel.sett, previousSett: viewModel.getPreviousSett(), setNetWeightLabel: self.setNetWeight)
+        self.weightInput.setDelegate(delegate: weightInputVM!)
         if let weight = viewModel.sett.weight {
             self.weightInput.setNumber(number: weight)
         }
         
         // Configure reps input
-        self.repsInput.setDelegate(delegate: viewModel.repsInputVM)
+        self.repsInputVM = RepsInputVM(sett: viewModel.sett, previousSett: viewModel.getPreviousSett(), setNetRepsLabel: self.setNetReps)
+        self.repsInput.setDelegate(delegate: repsInputVM!)
         if let reps = viewModel.sett.reps {
             self.repsInput.setNumber(number: reps)
         }
-        
-        // TODO: CONFIGURE NET REPS AND NET WEIGHT
-        self.netRepsLabel.setNumberText(text: "+10")
         
         // Configure notes input
         viewModel.settNotesInputVM.setSettListCell(to: self)
         self.notesInput.setNotes(to: viewModel.sett.notes)
         self.notesInput.setDelegate(delegate: viewModel.settNotesInputVM)
         
+        // Populate previous sett information
+        let previousSett: Sett? = viewModel.getPreviousSett()
+        if let previousSett = previousSett {
+            if let previousWeight = previousSett.weight?.stringValue {
+                weightInput.numberTextField.placeholder = previousWeight
+            }
+            
+            if let previousReps = previousSett.reps?.stringValue {
+                repsInput.numberTextField.placeholder = previousReps
+            }
+        }
+        
+        // Configure net weight and reps
+        if let netProgress = viewModel.sett.netProgress {
+            
+            // Net weight
+            let netWeightLabel = NumberUtils.getNumWithSign(for: Int(netProgress.weight))
+            self.setNetWeight(to: netWeightLabel)
+            
+            // Net reps
+            let netRepsLabel = NumberUtils.getNumWithSign(for: Int(netProgress.reps))
+            self.setNetReps(to: netRepsLabel)
+        }
+        
     }
     
     // MARK: - Actions
     public func setNotes(to notes: String?) {
         self.notesInput.setNotes(to: notes)
+    }
+    
+    public func setNetWeight(to netWeight: String) {
+        self.netWeightLabel.setNumberText(text: netWeight)
+    }
+    
+    public func setNetReps(to netReps: String) {
+        self.netRepsLabel.setNumberText(text: netReps)
     }
 
 }

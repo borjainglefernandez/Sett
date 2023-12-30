@@ -9,21 +9,46 @@ import Foundation
 import UIKit
 
 final class RepsInputVM: NSObject {
+    
     public let sett: Sett
+    private let previousSett: Sett?
+    private let setNetRepsLabel: (String) -> Void
 
     // MARK: - Init
-    init(sett: Sett) {
+    init(sett: Sett, 
+         previousSett: Sett?,
+         setNetRepsLabel: @escaping((String) -> Void)) {
         self.sett = sett
+        self.previousSett = previousSett
+        self.setNetRepsLabel = setNetRepsLabel
+    }
+    
+    // MARK: - Actions
+    private func setNetReps() {
+        if let currentReps = self.sett.reps as? Int,
+           let previousReps = self.previousSett?.reps as? Int {
+                
+                // Sett net progress
+                let netReps: Int64 = Int64(currentReps - previousReps)
+                let settNetProgress = self.sett.netProgress ?? NetProgress(context: CoreDataBase.context)
+                settNetProgress.reps = netReps
+                settNetProgress.settNP = sett
+                
+                // Set net reps label
+                self.setNetRepsLabel(NumberUtils.getNumWithSign(for: Int(netReps)))
+        }
     }
 }
 
 // MARK: - Text Field Delegate
 extension RepsInputVM: UITextFieldDelegate {
-    func textFieldDidChangeSelection(_ textField: UITextField) {
+    
+    func textFieldDidEndEditing(_ textField: UITextField) {
         if let reps = NumberFormatter().number(from: textField.text ?? "") {
-            self.sett.reps = reps
-            CoreDataBase.save()
-        }
+           self.sett.reps = reps
+           self.setNetReps()
+           CoreDataBase.save()
+       }
     }
     
     func textField(_ textField: UITextField, shouldChangeCharactersIn range: NSRange, replacementString string: String) -> Bool {

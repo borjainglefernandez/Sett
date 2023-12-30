@@ -9,19 +9,44 @@ import Foundation
 import UIKit
 
 final class WeightInputVM: NSObject {
+    
     public let sett: Sett
+    private let previousSett: Sett?
+    private let setNetWeightLabel: (String) -> Void
 
     // MARK: - Init
-    init(sett: Sett) {
+    init(sett: Sett, 
+         previousSett: Sett?,
+         setNetWeightLabel: @escaping((String) -> Void)) {
         self.sett = sett
+        self.previousSett = previousSett
+        self.setNetWeightLabel = setNetWeightLabel
+    }
+    
+    // MARK: - Actions
+    private func setNetWeight() {
+        if let currentWeight = self.sett.weight as? Int,
+           let previousWeight = self.previousSett?.weight as? Int {
+                
+                // Sett net progress
+                let netWeight: Int64 = Int64(currentWeight - previousWeight)
+                let settNetProgress = self.sett.netProgress ?? NetProgress(context: CoreDataBase.context)
+                settNetProgress.weight = netWeight
+                settNetProgress.settNP = sett
+                
+                // Set net weight label
+                self.setNetWeightLabel(NumberUtils.getNumWithSign(for: Int(netWeight)))
+        }
     }
 }
 
 // MARK: - Text Field Delegate
 extension WeightInputVM: UITextFieldDelegate {
-    func textFieldDidChangeSelection(_ textField: UITextField) {
+    
+    func textFieldDidEndEditing(_ textField: UITextField) {
         if let weight = NumberFormatter().number(from: textField.text ?? "") {
             self.sett.weight = weight
+            self.setNetWeight()
             CoreDataBase.save()
         }
     }

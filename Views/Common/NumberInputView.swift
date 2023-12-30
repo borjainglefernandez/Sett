@@ -22,6 +22,7 @@ class NumberInputView: UIView {
         numberTextField.tintColor = .label
         numberTextField.font = .systemFont(ofSize: 12, weight: .bold)
         numberTextField.keyboardType = .numberPad
+        numberTextField.textAlignment = .center
         return numberTextField
     }()
     

@@ -39,11 +39,11 @@ final class SettListVM: NSObject {
         // New information, overwrite
         self.cellVMs = []
         
-        for sett in settCollection.setts ?? [] {
-            guard let settCast = sett as? Sett else {
+        for i in 0..<(settCollection.setts?.count ?? 0) {
+            guard let settCast = settCollection.setts?.array[i] as? Sett else {
                 continue
             }
-            self.cellVMs.append(SettListCellVM(sett: settCast))
+            self.cellVMs.append(SettListCellVM(sett: settCast, settIndex: i))
         }
     }
     
