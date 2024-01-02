@@ -49,13 +49,15 @@ class SettNotesInput: UIView {
     
     // MARK: - Actions
     public func prepareForReuse() {
-        self.titleLabel.text = nil
         self.notesTextField.text = nil
+        self.notesTextField.placeholder = nil
     }
     
     // MARK: - Setter
     public func configure(with viewModel: SettNotesInputVM) {
         self.viewModel = viewModel
+        self.setDelegate(delegate: viewModel)
+        self.setNotes(to: viewModel.getNotes())
     }
     
     public func setDelegate(delegate: UITextFieldDelegate) {

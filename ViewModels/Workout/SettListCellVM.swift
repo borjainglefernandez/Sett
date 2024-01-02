@@ -11,14 +11,12 @@ import UIKit
 final class SettListCellVM: NSObject {
     
     public let sett: Sett
-    public var settNotesInputVM: SettNotesInputVM
     private let settIndex: Int
     
     // MARK: - Init
     init(sett: Sett, settIndex: Int) {
         self.sett = sett
         self.settIndex = settIndex
-        self.settNotesInputVM = SettNotesInputVM(sett: self.sett)
     }
     
     // MARK: - Getters

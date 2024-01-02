@@ -14,7 +14,7 @@ class SettListCell: UITableViewCell {
     // View Models
     private var weightInputVM: WeightInputVM?
     private var repsInputVM: RepsInputVM?
-    
+    private var notesInputVM: SettNotesInputVM?
     
 
     // Each individual cell container
@@ -33,7 +33,6 @@ class SettListCell: UITableViewCell {
         weightTextField.translatesAutoresizingMaskIntoConstraints = false
         weightTextField.tintColor = .label
         weightTextField.font = .systemFont(ofSize: 12, weight: .bold)
-//        weightTextField.placeholder = "0"
         weightTextField.keyboardType = .numberPad
         return weightTextField
     }()
@@ -80,8 +79,6 @@ class SettListCell: UITableViewCell {
     
     override func prepareForReuse() {
         super.prepareForReuse()
-        self.weightInput.prepareForReuse()
-        self.repsInput.prepareForReuse()
     }
     
     // MARK: - Constraints
@@ -126,6 +123,7 @@ class SettListCell: UITableViewCell {
     
     // MARK: - Configurations
     public func configure(with viewModel: SettListCellVM) {
+        
         // Configure weight input
         self.weightInputVM = WeightInputVM(sett: viewModel.sett, previousSett: viewModel.getPreviousSett(), setNetWeightLabel: self.setNetWeight)
         self.weightInput.setDelegate(delegate: weightInputVM!)
@@ -141,9 +139,9 @@ class SettListCell: UITableViewCell {
         }
         
         // Configure notes input
-        viewModel.settNotesInputVM.setSettListCell(to: self)
-        self.notesInput.setNotes(to: viewModel.sett.notes)
-        self.notesInput.setDelegate(delegate: viewModel.settNotesInputVM)
+        self.notesInputVM = SettNotesInputVM(sett: viewModel.sett)
+        self.notesInputVM!.setSettListCell(to: self)
+        self.notesInput.configure(with: self.notesInputVM!)
         
         // Populate previous sett information
         let previousSett: Sett? = viewModel.getPreviousSett()
@@ -154,6 +152,11 @@ class SettListCell: UITableViewCell {
             
             if let previousReps = previousSett.reps?.stringValue {
                 repsInput.numberTextField.placeholder = previousReps
+            }
+            
+            if let previousNotes = previousSett.notes,
+               !previousNotes.isEmpty {
+                notesInput.notesTextField.placeholder = previousNotes
             }
         }
         
