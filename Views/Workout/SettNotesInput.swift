@@ -50,7 +50,7 @@ class SettNotesInput: UIView {
     // MARK: - Actions
     public func prepareForReuse() {
         self.notesTextField.text = nil
-        self.notesTextField.placeholder = nil
+        self.notesTextField.placeholder = "Add set notes..."
     }
     
     // MARK: - Setter

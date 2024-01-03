@@ -15,7 +15,6 @@ class SettListCell: UITableViewCell {
     private var weightInputVM: WeightInputVM?
     private var repsInputVM: RepsInputVM?
     private var notesInputVM: SettNotesInputVM?
-    
 
     // Each individual cell container
     private let containerView: UIView = {
@@ -79,6 +78,18 @@ class SettListCell: UITableViewCell {
     
     override func prepareForReuse() {
         super.prepareForReuse()
+        
+        self.weightInputVM = nil
+        self.weightInput.prepareForReuse()
+        self.setNetWeight(to: "0")
+        
+        self.repsInputVM = nil
+        self.repsInput.prepareForReuse()
+        self.setNetReps(to: "0")
+        
+        self.notesInputVM = nil
+        self.notesInput.prepareForReuse()
+        self.setNotes(to: "")
     }
     
     // MARK: - Constraints

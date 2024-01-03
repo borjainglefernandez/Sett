@@ -54,7 +54,7 @@ class NumberInputView: UIView {
     // MARK: - Actions
     public func prepareForReuse() {
         self.numberTextField.text = nil
-        self.numberTextField.delegate = nil
+        self.numberTextField.placeholder = "0"
     }
     
     // MARK: - Setter
