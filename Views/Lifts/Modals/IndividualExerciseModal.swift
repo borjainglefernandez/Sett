@@ -52,7 +52,7 @@ class IndividualExerciseModal: UIView {
             self.categoryListView.topAnchor.constraint(equalTo: self.topAnchor),
             self.categoryListView.centerXAnchor.constraint(equalTo: self.centerXAnchor),
             self.categoryListView.widthAnchor.constraint(equalTo: self.widthAnchor, multiplier: 0.95),
-            self.categoryListView.heightAnchor.constraint(equalToConstant: 30 + 49 * 4),
+            self.categoryListView.heightAnchor.constraint(equalTo: self.heightAnchor, multiplier: 0.4),
             
             self.exerciseTypeListView.topAnchor.constraint(equalTo: self.categoryListView.bottomAnchor, constant: 30),
             self.exerciseTypeListView.centerXAnchor.constraint(equalTo: self.categoryListView.centerXAnchor),

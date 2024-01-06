@@ -16,13 +16,14 @@ class NumberInputView: UIView {
     lazy var titleLabel: Label = Label(title: self.title, fontSize: 11.0, weight: .light)
     
     // Text field for number of sets
-    public let numberTextField: UITextField = {
+    lazy var numberTextField: UITextField = {
         let numberTextField = UITextField()
         numberTextField.translatesAutoresizingMaskIntoConstraints = false
         numberTextField.tintColor = .label
         numberTextField.font = .systemFont(ofSize: 12, weight: .bold)
         numberTextField.keyboardType = .numberPad
         numberTextField.textAlignment = .center
+        numberTextField.inputAccessoryView = NumberInputKeyboardAccessory()
         return numberTextField
     }()
     

@@ -27,6 +27,9 @@ class IndividualExerciseModalViewController: UIViewController {
         exerciseNameTextField.translatesAutoresizingMaskIntoConstraints = false
         exerciseNameTextField.delegate = self.viewModel
         exerciseNameTextField.becomeFirstResponder()
+        if let exercise = viewModel.exercise {
+            exerciseNameTextField.text = exercise.name
+        }
         return exerciseNameTextField
     }()
     
