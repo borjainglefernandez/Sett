@@ -21,6 +21,8 @@ final class RepsInputVM: NSObject {
         self.sett = sett
         self.previousSett = previousSett
         self.setNetRepsLabel = setNetRepsLabel
+        super.init()
+        self.setNetReps()
     }
     
     // MARK: - Actions
@@ -36,7 +38,18 @@ final class RepsInputVM: NSObject {
                 
                 // Set net reps label
                 self.setNetRepsLabel(NumberUtils.getNumWithSign(for: Int(netReps)))
+        } else {
+            
+            // Reset net progress to 0
+            let settNetProgress = self.sett.netProgress ?? NetProgress(context: CoreDataBase.context)
+            settNetProgress.reps = 0
+            settNetProgress.settNP = sett
+            
+            // Set net reps label
+            self.setNetRepsLabel("0")
         }
+        
+        CoreDataBase.save()
     }
 }
 

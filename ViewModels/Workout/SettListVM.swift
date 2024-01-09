@@ -109,7 +109,7 @@ extension SettListVM: UITableViewDataSource, UITableViewDelegate {
             copiedSett.notes = sett.notes
             
             // Insert at correct spot
-            self.settCollection.insertIntoSetts(copiedSett, at: indexPath.row)
+            self.settCollection.insertIntoSetts(copiedSett, at: indexPath.row + 1)
             CoreDataBase.save()
             
             // Dismiss Menu
