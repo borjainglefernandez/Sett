@@ -9,17 +9,24 @@ import UIKit
 
 final class NetProgressView: UIView {
     
+    // View Model
+    private let viewModel: WorkoutGeneralStatsViewCellVM
+    
     // Net Weight
-    lazy var netWeightLabel: NumberLabelView = NumberLabelView(title: "Weight")
+    private let netWeightLabel: NumberLabelView = NumberLabelView(title: "Weight")
     
     // Net Reps
-    lazy var netRepsLabel: NumberLabelView = NumberLabelView(title: "Reps")
+    private let netRepsLabel: NumberLabelView = NumberLabelView(title: "Reps")
 
     // MARK: - Init
-    override init(frame: CGRect) {
+    init(frame: CGRect, viewModel: WorkoutGeneralStatsViewCellVM) {
+        self.viewModel = viewModel
         super.init(frame: frame)
         
         self.translatesAutoresizingMaskIntoConstraints = false
+        
+        self.configureNetWeight()
+        self.configureNetReps()
         
         self.addSubviews(self.netWeightLabel, self.netRepsLabel)
         self.addConstraints()
@@ -28,6 +35,7 @@ final class NetProgressView: UIView {
     required init?(coder: NSCoder) {
         fatalError("Unsupported initialiser")
     }
+    
     
     // MARK: - Constraints
     private func addConstraints() {
@@ -38,5 +46,18 @@ final class NetProgressView: UIView {
             self.netRepsLabel.topAnchor.constraint(equalToSystemSpacingBelow: self.topAnchor, multiplier: 0.4),
             self.netWeightLabel.centerYAnchor.constraint(equalTo: self.netRepsLabel.centerYAnchor)
         ])
+    }
+    
+    // MARK: - Configurations
+    private func configureNetWeight() {
+        if let netWeight = viewModel.workout.netProgress?.weight {
+            self.netWeightLabel.setNumberText(text: NumberUtils.getNumWithSign(for: Int(netWeight)))
+        }
+    }
+    
+    private func configureNetReps() {
+        if let netReps = viewModel.workout.netProgress?.reps {
+            self.netRepsLabel.setNumberText(text: NumberUtils.getNumWithSign(for: Int(netReps)))
+        }
     }
 }

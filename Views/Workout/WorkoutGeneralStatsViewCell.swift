@@ -79,6 +79,11 @@ final class WorkoutGeneralStatsViewCell: UITableViewCell {
         ])
     }
     
+    // MARK: - Reuse
+    override func prepareForReuse() {
+        self.displayContent.removeFromSuperview()
+    }
+    
     // MARK: - Configurations
     public func configure(with viewModel: WorkoutGeneralStatsViewCellVM) {
         self.label.text = viewModel.displayTitle

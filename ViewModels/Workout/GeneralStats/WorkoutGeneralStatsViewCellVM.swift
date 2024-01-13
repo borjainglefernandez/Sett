@@ -68,7 +68,7 @@ final class WorkoutGeneralStatsViewCellVM: NSObject {
         case .bodyweight:
             return WeightPickerView(frame: .zero, viewModel: self)
         case .netProgress:
-            return NetProgressView(frame: .zero)
+            return NetProgressView(frame: .zero, viewModel: self)
         case .notes:
             return NotesButton(frame: .zero, viewModel: self)
         }

@@ -21,22 +21,49 @@ final class WeightInputVM: NSObject {
         self.sett = sett
         self.previousSett = previousSett
         self.setNetWeightLabel = setNetWeightLabel
+        super.init()
+        self.setNetWeight()
     }
     
     // MARK: - Actions
     private func setNetWeight() {
+        // Get rid of net progress from before for workout
+        let workoutNetProgress = self.sett.partOf?.workoutExercise?.workout?.netProgress ?? NetProgress(context: CoreDataBase.context)
+                if let previousNetProgress = self.sett.netProgress {
+            workoutNetProgress.weight -= previousNetProgress.weight
+        }
+        
+        // Get current set net progress
+        let settNetProgress = self.sett.netProgress ?? NetProgress(context: CoreDataBase.context)
+        
+        // If there is a previous sett
         if let currentWeight = self.sett.weight as? Int,
            let previousWeight = self.previousSett?.weight as? Int {
                 
                 // Sett net progress
                 let netWeight: Int64 = Int64(currentWeight - previousWeight)
-                let settNetProgress = self.sett.netProgress ?? NetProgress(context: CoreDataBase.context)
                 settNetProgress.weight = netWeight
                 settNetProgress.settNP = sett
                 
                 // Set net weight label
                 self.setNetWeightLabel(NumberUtils.getNumWithSign(for: Int(netWeight)))
+        } else { // If no previous sett
+            
+            // Reset net progress to 0
+            settNetProgress.weight = 0
+            settNetProgress.settNP = sett
+            
+            // Set net reps label
+            self.setNetWeightLabel("0")
         }
+        
+        // Add new net progress to workout
+        workoutNetProgress.weight += settNetProgress.weight
+        if let workout = self.sett.partOf?.workoutExercise?.workout {
+            workout.netProgress = workoutNetProgress
+        }
+                
+        CoreDataBase.save()
     }
 }
 

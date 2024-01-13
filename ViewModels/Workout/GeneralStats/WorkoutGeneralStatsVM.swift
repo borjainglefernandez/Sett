@@ -53,6 +53,7 @@ extension WorkoutGeneralStatsVM: UITableViewDelegate, UITableViewDataSource {
         cell.configure(with: cellVMs[indexPath.row])
         return cell
     }
+    
     func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
         return tableView.safeAreaLayoutGuide.layoutFrame.height * (1.0 / CGFloat(self.cellVMs.count))
     }
@@ -73,6 +74,12 @@ extension WorkoutGeneralStatsVM: NSFetchedResultsControllerDelegate {
         if changedProperties["notes"] != nil {
             self.tableView?.reloadRows(at: [notesIndexPath], with: .automatic)
         }
+        
+        let netProgressIndexPath = IndexPath(row: 3, section: 0)
+
+        // Update net progress if those have changes
+        self.tableView?.reloadRows(at: [netProgressIndexPath], with: .automatic)
+        
     }
 }
 

@@ -27,12 +27,20 @@ final class RepsInputVM: NSObject {
     
     // MARK: - Actions
     private func setNetReps() {
+        // Get rid of net progress from before for workout
+        let workoutNetProgress = self.sett.partOf?.workoutExercise?.workout?.netProgress ?? NetProgress(context: CoreDataBase.context)
+                if let previousNetProgress = self.sett.netProgress {
+            workoutNetProgress.reps -= previousNetProgress.reps
+        }
+        
+        // Get current set net progress
+        let settNetProgress = self.sett.netProgress ?? NetProgress(context: CoreDataBase.context)
+        
         if let currentReps = self.sett.reps as? Int,
            let previousReps = self.previousSett?.reps as? Int {
                 
                 // Sett net progress
                 let netReps: Int64 = Int64(currentReps - previousReps)
-                let settNetProgress = self.sett.netProgress ?? NetProgress(context: CoreDataBase.context)
                 settNetProgress.reps = netReps
                 settNetProgress.settNP = sett
                 
@@ -41,12 +49,17 @@ final class RepsInputVM: NSObject {
         } else {
             
             // Reset net progress to 0
-            let settNetProgress = self.sett.netProgress ?? NetProgress(context: CoreDataBase.context)
             settNetProgress.reps = 0
             settNetProgress.settNP = sett
             
             // Set net reps label
             self.setNetRepsLabel("0")
+        }
+        
+        // Add new net progress to workout
+        workoutNetProgress.reps += settNetProgress.reps
+        if let workout = self.sett.partOf?.workoutExercise?.workout {
+            workout.netProgress = workoutNetProgress
         }
         
         CoreDataBase.save()
