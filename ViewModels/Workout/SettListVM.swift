@@ -14,6 +14,7 @@ final class SettListVM: NSObject {
     private var cellVMs: [SettListCellVM] = []
     private var settCollection: SettCollection
     public var isExpanded: Bool
+    public var inputTags: [Int]
     lazy var fetchedResultsController: NSFetchedResultsController<SettCollection> = {
         return CoreDataBase.createFetchedResultsController(
                     withEntityName: "SettCollection",
@@ -22,9 +23,10 @@ final class SettListVM: NSObject {
     }()
     
     // MARK: - Init
-    init(settCollection: SettCollection, isExpanded: Bool) {
+    init(settCollection: SettCollection, isExpanded: Bool, inputTags: [Int]) {
         self.settCollection = settCollection
         self.isExpanded = isExpanded
+        self.inputTags = inputTags
         super.init()
         self.configure()
     }
@@ -43,7 +45,13 @@ final class SettListVM: NSObject {
             guard let settCast = settCollection.setts?.array[i] as? Sett else {
                 continue
             }
-            self.cellVMs.append(SettListCellVM(sett: settCast, settIndex: i))
+            let viewModel = SettListCellVM(sett: settCast, settIndex: i)
+            viewModel.inputTags = Array(self.inputTags.prefix(3))
+            
+            if self.inputTags.count >= 3 {
+                self.inputTags.removeFirst(3)
+            }
+            self.cellVMs.append(viewModel)
         }
     }
     

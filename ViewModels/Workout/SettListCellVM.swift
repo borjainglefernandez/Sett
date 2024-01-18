@@ -11,12 +11,14 @@ import UIKit
 final class SettListCellVM: NSObject {
     
     public let sett: Sett
-    private let settIndex: Int
+    public let settIndex: Int
+    public var inputTags: [Int]
     
     // MARK: - Init
-    init(sett: Sett, settIndex: Int) {
+    init(sett: Sett, settIndex: Int, inputTags: [Int] = []) {
         self.sett = sett
         self.settIndex = settIndex
+        self.inputTags = inputTags
     }
     
     // MARK: - Getters

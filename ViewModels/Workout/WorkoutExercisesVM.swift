@@ -40,13 +40,22 @@ final class WorkoutExercisesVM: NSObject {
         self.cellVMs = []
         self.isExpanded = []
         
+        // Index each individual set for navigation
+        var overallSettIndex: Int = 1
+        
         // Add relevant cell vms
         for workoutExercise in workoutExercises {
             let viewModel = WorkoutExercisesCellVM(workoutExercise: workoutExercise)
+            for _ in 0..<(workoutExercise.settCollection?.setts?.count ?? 0) {
+                viewModel.inputTags.append(overallSettIndex)
+                viewModel.inputTags.append(overallSettIndex + 1)
+                viewModel.inputTags.append(overallSettIndex + 2)
+                overallSettIndex += 3
+            }
             self.isExpanded.append(true)
             self.cellVMs.append(viewModel)
         }
-        
+                
     }
     
     // MARK: - Actions
@@ -68,6 +77,7 @@ extension WorkoutExercisesVM: UICollectionViewDataSource, UICollectionViewDelega
         ) as? WorkoutExercisesCell else {
             fatalError("Unsupported cell")
         }
+
         cell.configure(with: cellVMs[indexPath.row],
                        at: indexPath,
                        for: collectionView,

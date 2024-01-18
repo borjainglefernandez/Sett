@@ -134,13 +134,13 @@ class SettListCell: UITableViewCell {
     
     // MARK: - Configurations
     public func configure(with viewModel: SettListCellVM) {
-        
         // Configure weight input
         self.weightInputVM = WeightInputVM(sett: viewModel.sett, previousSett: viewModel.getPreviousSett(), setNetWeightLabel: self.setNetWeight)
         self.weightInput.setDelegate(delegate: weightInputVM!)
         if let weight = viewModel.sett.weight {
             self.weightInput.setNumber(number: weight)
         }
+        self.weightInput.numberTextField.tag = viewModel.inputTags[0]
         
         // Configure reps input
         self.repsInputVM = RepsInputVM(sett: viewModel.sett, previousSett: viewModel.getPreviousSett(), setNetRepsLabel: self.setNetReps)
@@ -148,11 +148,13 @@ class SettListCell: UITableViewCell {
         if let reps = viewModel.sett.reps {
             self.repsInput.setNumber(number: reps)
         }
+        self.repsInput.numberTextField.tag = viewModel.inputTags[1]
         
         // Configure notes input
         self.notesInputVM = SettNotesInputVM(sett: viewModel.sett)
         self.notesInputVM!.setSettListCell(to: self)
         self.notesInput.configure(with: self.notesInputVM!)
+        self.notesInput.notesTextField.tag = viewModel.inputTags[2]
         
         // Populate previous sett information
         let previousSett: Sett? = viewModel.getPreviousSett()
@@ -183,6 +185,18 @@ class SettListCell: UITableViewCell {
             self.setNetReps(to: netRepsLabel)
         }
         
+        // Configure all keyboard accessories
+        let overallSuperView = self.contentView.superview?.superview?.superview?.superview?.superview
+        
+        self.weightInput.numberTextField.inputAccessoryView = NumberInputKeyboardAccessory(
+            currentTextField: self.weightInput.numberTextField,
+            overallSuperView: overallSuperView)
+        self.repsInput.numberTextField.inputAccessoryView = NumberInputKeyboardAccessory(
+            currentTextField: self.repsInput.numberTextField,
+            overallSuperView: overallSuperView)
+        self.notesInput.notesTextField.inputAccessoryView = NumberInputKeyboardAccessory(
+            currentTextField: self.notesInput.notesTextField,
+            overallSuperView: overallSuperView)
     }
     
     // MARK: - Actions

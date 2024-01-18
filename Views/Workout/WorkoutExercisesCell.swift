@@ -85,7 +85,6 @@ class WorkoutExercisesCell: UICollectionViewCell {
         guard let settCollection = viewModel.workoutExercise.settCollection else {
             return
         }
-        
-        self.settListView.configure(with: SettListVM(settCollection: settCollection, isExpanded: isExpanded))
+            self.settListView.configure(with: SettListVM(settCollection: settCollection, isExpanded: isExpanded, inputTags: viewModel.inputTags))
     }
 }
