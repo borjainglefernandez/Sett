@@ -45,6 +45,19 @@ extension UIView {
         }
         return nil
     }
+    
+    func findTextField(withTag tag: Int, in view: UIView?) -> UITextField? {
+        if let view = view {
+            for subview in view.subviews {
+                if let textField = subview as? UITextField, textField.tag == tag {
+                    return textField
+                } else if let foundTextField = findTextField(withTag: tag, in: subview) {
+                    return foundTextField
+                }
+            }
+        }
+       return nil
+   }
 }
 
 extension UITextField {

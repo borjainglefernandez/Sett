@@ -47,7 +47,8 @@ class NumberInputView: UIView {
         NSLayoutConstraint.activate([
             self.titleLabel.centerXAnchor.constraint(equalTo: self.centerXAnchor),
             self.numberTextField.topAnchor.constraint(equalTo: self.titleLabel.bottomAnchor),
-            self.numberTextField.centerXAnchor.constraint(equalTo: self.titleLabel.centerXAnchor)
+            self.numberTextField.centerXAnchor.constraint(equalTo: self.titleLabel.centerXAnchor),
+            self.numberTextField.widthAnchor.constraint(equalToConstant: 100)
         ])
     }
     

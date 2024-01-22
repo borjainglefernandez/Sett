@@ -66,7 +66,6 @@ final class WorkoutViewController: UIViewController {
         self.moreButton.menu = OverallWorkoutMenu(workout: self.workout, overallView: self.view).getMenu()
     }
 
-    
     // MARK: - Constraints
     private func addConstraints() {
         NSLayoutConstraint.activate([
@@ -100,27 +99,5 @@ final class WorkoutViewController: UIViewController {
     @objc func goBack() {
         self.dismiss(animated: true)
     }
-    
-    // TODO: Get rid of later
-    @objc func addExercise() {
-        let workoutExercises = CoreDataBase.fetchEntities(withEntity: "WorkoutExercise", expecting: WorkoutExercise.self)
-        guard let workoutExerciseTemplate = workoutExercises?.last else {
-            return
-        }
 
-        let workoutExercise = WorkoutExercise(context: CoreDataBase.context)
-        workoutExercise.numSetts = 4
-        workoutExercise.exercise = workoutExerciseTemplate.exercise
-        
-        let settCollection = SettCollection(context: CoreDataBase.context)
-        for _ in 1...workoutExercise.numSetts {
-            let sett = Sett(context: CoreDataBase.context)
-            settCollection.addToSetts(sett)
-        }
-        settCollection.workoutExercise = workoutExercise
-        settCollection.exercise = workoutExercise.exercise
-        workoutExercise.settCollection = settCollection
-        self.workout.addToWorkoutExercises(workoutExercise)
-        CoreDataBase.save()
-    }
 }
