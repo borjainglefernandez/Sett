@@ -71,11 +71,16 @@ final class WeightInputVM: NSObject {
 extension WeightInputVM: UITextFieldDelegate {
     
     func textFieldDidEndEditing(_ textField: UITextField) {
+        if textField.text == nil || textField.text == "" {
+            self.sett.weight = nil
+        }
+        
         if let weight = NumberFormatter().number(from: textField.text ?? "") {
             self.sett.weight = weight
-            self.setNetWeight()
-            CoreDataBase.save()
         }
+        
+        self.setNetWeight()
+        CoreDataBase.save()
     }
     
     func textField(_ textField: UITextField, shouldChangeCharactersIn range: NSRange, replacementString string: String) -> Bool {

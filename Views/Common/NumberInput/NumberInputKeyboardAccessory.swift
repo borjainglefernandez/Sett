@@ -26,7 +26,8 @@ class NumberInputKeyboardAccessory: UIToolbar {
         let checkMarkButton = UIBarButtonItem(
             image: UIImage(systemName: "checkmark"), style: .plain, target: nil, action: #selector(self.checkMarkButtonTapped))
         checkMarkButton.isEnabled = (self.currentTextField.text == nil || self.currentTextField.text == "")
-            && (self.currentTextField.placeholder != nil)
+            && (self.currentTextField.placeholder != nil && self.currentTextField.placeholder != "Add set notes...")
+            
         return checkMarkButton
     }()
     
@@ -53,7 +54,6 @@ class NumberInputKeyboardAccessory: UIToolbar {
         let flexibleSpace = UIBarButtonItem(barButtonSystemItem: .flexibleSpace, target: nil, action: nil)
 
         self.setItems([backButton, forwardButton, flexibleSpace, checkMarkButton, flexibleSpace, keyboardDismissButton], animated: false)
-//        self.updateButtonStates()
     }
     
     required init?(coder: NSCoder) {

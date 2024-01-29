@@ -70,11 +70,16 @@ final class RepsInputVM: NSObject {
 extension RepsInputVM: UITextFieldDelegate {
     
     func textFieldDidEndEditing(_ textField: UITextField) {
+        if textField.text == nil || textField.text == "" {
+            self.sett.reps = nil
+        }
+        
         if let reps = NumberFormatter().number(from: textField.text ?? "") {
            self.sett.reps = reps
-           self.setNetReps()
-           CoreDataBase.save()
        }
+        
+        self.setNetReps()
+        CoreDataBase.save()
     }
     
     func textField(_ textField: UITextField, shouldChangeCharactersIn range: NSRange, replacementString string: String) -> Bool {

@@ -38,4 +38,19 @@ final class SettListCellVM: NSObject {
         }
         return nil
     }
+    
+    // MARK: - Actions
+    public func autofillSettFromPrevious() {
+        let previousSett = getPreviousSett()
+        
+        if previousSett != nil {
+            self.sett.weight = previousSett?.weight ?? 0
+            self.sett.reps = previousSett?.reps ?? 0
+        } else {
+            self.sett.weight = 0
+            self.sett.reps = 0
+        }
+        
+        CoreDataBase.save()
+    }
 }
