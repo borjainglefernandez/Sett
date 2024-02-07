@@ -14,8 +14,8 @@ class DatePickerVM: NSObject {
     public let workout: Workout
     
     // Ranges for date
-    public let yearRange: [Int] = DatePickerConstants.yearRange
-    public let monthRange: [String] = DatePickerConstants.monthRange
+    public let yearRange: [Int] = DatePickerConstants.YEAR_RANGE
+    public let monthRange: [String] = DatePickerConstants.MONTH_RANGE
     public var dayRange: [Int] = Array(1...31)
 
     // Change day range when month and year change

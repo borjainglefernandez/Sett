@@ -9,9 +9,9 @@ import Foundation
 
 struct TimePickerConstants {
     
-    static let hourRange: [Int] = Array(1...12)
-    static let minuteRange: [Int] = Array(0...60)
-    static let meridiemRange: [String] = ["AM", "PM"]
+    static let HOUR_RANGE: [Int] = Array(1...12)
+    static let MINUTE_RANGE: [Int] = Array(0...60)
+    static let MERIDIEM_RANGE: [String] = ["AM", "PM"]
     
     
     /// Gets the index of the hour range from a date
@@ -26,7 +26,7 @@ struct TimePickerConstants {
             hour = hour - 12
         }
         
-        if let hourIndex = TimePickerConstants.hourRange.firstIndex(of: hour) {
+        if let hourIndex = TimePickerConstants.HOUR_RANGE.firstIndex(of: hour) {
             return hourIndex
         }
         return nil
@@ -38,7 +38,7 @@ struct TimePickerConstants {
     /// - Returns: the index of the minute from the minute range, if valid minute
     static func getMinuteIndex(date: Date) -> Int? {
         let minute = Calendar.current.component(.minute, from: date)
-        if let minuteIndex = TimePickerConstants.minuteRange.firstIndex(of: minute) {
+        if let minuteIndex = TimePickerConstants.MINUTE_RANGE.firstIndex(of: minute) {
             return minuteIndex
         }
         return nil

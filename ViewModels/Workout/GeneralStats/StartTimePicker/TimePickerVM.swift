@@ -14,9 +14,9 @@ class TimePickerVM: NSObject {
     public let workout: Workout
     
     // Ranges for the time
-    public let hourRange: [Int] = TimePickerConstants.hourRange
-    public let minuteRange: [Int] = TimePickerConstants.minuteRange
-    public let meridiemRange: [String] = TimePickerConstants.meridiemRange
+    public let hourRange: [Int] = TimePickerConstants.HOUR_RANGE
+    public let minuteRange: [Int] = TimePickerConstants.MINUTE_RANGE
+    public let meridiemRange: [String] = TimePickerConstants.MERIDIEM_RANGE
     
     // MARK: - Init
     init(workout: Workout) {

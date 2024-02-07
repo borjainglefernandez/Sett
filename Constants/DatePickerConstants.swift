@@ -9,8 +9,8 @@ import Foundation
 
 struct DatePickerConstants {
     
-    static let yearRange: [Int] = Array(1900...2100)
-    static let monthRange: [String] = DateFormatter().monthSymbols
+    static let YEAR_RANGE: [Int] = Array(1900...2100)
+    static let MONTH_RANGE: [String] = DateFormatter().monthSymbols
     
     /// Gets the index of the year range from a date
     ///
@@ -18,7 +18,7 @@ struct DatePickerConstants {
     /// - Returns: the index of the year from the year range, if valid year
     static func getYearIndex(date: Date) -> Int? {
         let year = Calendar.current.component(.year, from: date)
-        if let yearIndex = DatePickerConstants.yearRange.firstIndex(of: year) {
+        if let yearIndex = DatePickerConstants.YEAR_RANGE.firstIndex(of: year) {
             return yearIndex
         }
         return nil
@@ -35,7 +35,7 @@ struct DatePickerConstants {
         dateFormatter.dateFormat = "MMMM"
         let monthString = dateFormatter.string(from: date)
         
-        if let monthIndex = DatePickerConstants.monthRange.firstIndex(of: monthString) {
+        if let monthIndex = DatePickerConstants.MONTH_RANGE.firstIndex(of: monthString) {
             return monthIndex
         }
         return nil
