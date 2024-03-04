@@ -12,7 +12,6 @@ final class WorkoutViewController: UIViewController {
     private let workout: Workout
     
     private let generalStatsVM: WorkoutGeneralStatsVM
-    private let workoutGeneralStatsView: WorkoutGeneralStatsView
     
     private let workoutExercisesVM: WorkoutExercisesVM
     private let workoutExercisesView: WorkoutExercisesView
@@ -36,7 +35,6 @@ final class WorkoutViewController: UIViewController {
         self.workout = workout
         
         self.generalStatsVM = WorkoutGeneralStatsVM(workout: workout)
-        self.workoutGeneralStatsView = WorkoutGeneralStatsView(frame: .zero, viewModel: self.generalStatsVM)
         
         self.workoutExercisesVM = WorkoutExercisesVM(workout: workout)
         self.workoutExercisesView = WorkoutExercisesView(frame: .zero, viewModel: self.workoutExercisesVM)
@@ -56,7 +54,7 @@ final class WorkoutViewController: UIViewController {
         self.view.backgroundColor = .systemCyan
         
         self.topBar.addSubviews(self.backButton, self.workoutName, self.moreButton)
-        self.view.addSubviews(self.topBar, self.workoutGeneralStatsView, self.workoutExercisesView)
+        self.view.addSubviews(self.topBar, self.workoutExercisesView)
         self.addConstraints()
         
         self.backButton.addTarget(self, action: #selector(self.goBack), for: .touchUpInside)
@@ -82,12 +80,7 @@ final class WorkoutViewController: UIViewController {
             self.moreButton.centerYAnchor.constraint(equalTo: self.topBar.centerYAnchor),
             self.moreButton.rightAnchor.constraint(equalTo: self.topBar.rightAnchor, constant: -7),
             
-            self.workoutGeneralStatsView.topAnchor.constraint(equalTo: self.topBar.bottomAnchor),
-            self.workoutGeneralStatsView.leftAnchor.constraint(equalTo: self.view.safeAreaLayoutGuide.leftAnchor),
-            self.workoutGeneralStatsView.rightAnchor.constraint(equalTo: self.view.safeAreaLayoutGuide.rightAnchor),
-            self.workoutGeneralStatsView.heightAnchor.constraint(equalTo: self.view.safeAreaLayoutGuide.heightAnchor, multiplier: 0.3),
-            
-            self.workoutExercisesView.topAnchor.constraint(equalTo: self.workoutGeneralStatsView.bottomAnchor, constant: 7),
+            self.workoutExercisesView.topAnchor.constraint(equalTo: self.topBar.bottomAnchor, constant: 7),
             self.workoutExercisesView.leftAnchor.constraint(equalTo: self.view.safeAreaLayoutGuide.leftAnchor),
             self.workoutExercisesView.rightAnchor.constraint(equalTo: self.view.safeAreaLayoutGuide.rightAnchor),
             self.workoutExercisesView.bottomAnchor.constraint(equalTo: self.view.safeAreaLayoutGuide.bottomAnchor)

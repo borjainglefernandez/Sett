@@ -96,6 +96,30 @@ extension WorkoutExercisesVM: UICollectionViewDataSource, UICollectionViewDelega
         }
         return CGSize(width: (collectionView.safeAreaLayoutGuide.layoutFrame.width - 20), height: 30)
     }
+    
+    func collectionView(_ collectionView: UICollectionView, 
+                        viewForSupplementaryElementOfKind kind: String,
+                        at indexPath: IndexPath) -> UICollectionReusableView {
+        if kind == UICollectionView.elementKindSectionHeader {
+            let workoutGeneralStatsView = collectionView.dequeueReusableSupplementaryView(
+                ofKind: kind,
+                withReuseIdentifier: "WorkoutGeneralStatsView",
+                for: indexPath) as? WorkoutGeneralStatsView
+            let workoutGeneralStatsVM = WorkoutGeneralStatsVM(workout: self.workout)
+            workoutGeneralStatsView?.configure(viewModel: workoutGeneralStatsVM)
+            return workoutGeneralStatsView!
+        } else {
+            return UICollectionReusableView()
+        }
+    }
+    
+    func collectionView(_ collectionView: UICollectionView, 
+                        layout collectionViewLayout: UICollectionViewLayout,
+                        referenceSizeForHeaderInSection section: Int) -> CGSize {
+        let screenHeight = UIScreen.main.bounds.height
+        let headerHeight = screenHeight * 0.3
+        return CGSize(width: collectionView.frame.width, height: headerHeight) // Adjust the height as needed
+    }
 }
 
 // MARK: - Expanded Cell Delegate

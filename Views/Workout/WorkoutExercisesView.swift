@@ -21,6 +21,9 @@ class WorkoutExercisesView: UIView {
         layout.scrollDirection = .vertical
         let collectionView = UICollectionView(frame: .zero, collectionViewLayout: layout)
         collectionView.translatesAutoresizingMaskIntoConstraints = false
+        collectionView.register(WorkoutGeneralStatsView.self,
+                                forSupplementaryViewOfKind: UICollectionView.elementKindSectionHeader,
+                                withReuseIdentifier: "WorkoutGeneralStatsView")
         collectionView.register(WorkoutExercisesCell.self, forCellWithReuseIdentifier: WorkoutExercisesCell.cellIdentifier)
         collectionView.backgroundColor = .systemCyan
         collectionView.isHidden = true

@@ -7,9 +7,9 @@
 
 import UIKit
 
-final class WorkoutGeneralStatsView: UIView {
+final class WorkoutGeneralStatsView: UICollectionReusableView {
     
-    private let viewModel: WorkoutGeneralStatsVM
+    private var viewModel: WorkoutGeneralStatsVM?
     
     // Top bar of the general stats view container
     private let topBar: UIView = {
@@ -36,14 +36,10 @@ final class WorkoutGeneralStatsView: UIView {
     }()
     
     // MARK: - Init
-    init(frame: CGRect, viewModel: WorkoutGeneralStatsVM) {
-        self.viewModel = viewModel
+    override init(frame: CGRect) {
         super.init(frame: frame)
         
         self.translatesAutoresizingMaskIntoConstraints = false
-
-        self.setUpTableView()
-
         self.addSubviews(topBar, tableView)
         self.addConstraints()
     }
@@ -70,7 +66,14 @@ final class WorkoutGeneralStatsView: UIView {
     private func setUpTableView() {
         self.tableView.dataSource = self.viewModel
         self.tableView.delegate = self.viewModel
-        self.viewModel.tableView = self.tableView
+        self.viewModel?.tableView = self.tableView
+    }
+    
+    // MARK: - Configurations
+    public func configure(viewModel: WorkoutGeneralStatsVM) {
+        self.viewModel = viewModel
+        self.setUpTableView()
+
     }
     
 }
