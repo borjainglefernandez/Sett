@@ -11,11 +11,6 @@ import SwiftUI
 final class WorkoutViewController: UIViewController {
     private let workout: Workout
     
-    private let generalStatsVM: WorkoutGeneralStatsVM
-    
-    private let workoutExercisesVM: WorkoutExercisesVM
-    private let workoutExercisesView: WorkoutExercisesView
-    
     private let topBar: MenuBar = MenuBar(frame: .zero)
     private let backButton: UIButton = IconButton(frame: .zero, imageName: "arrow.backward.circle.fill")
     private let moreButton: UIButton = IconButton(frame: .zero, imageName: "ellipsis.circle.fill")
@@ -29,6 +24,12 @@ final class WorkoutViewController: UIViewController {
         workoutName.delegate = self.generalStatsVM
         return workoutName
     }()
+    
+    private let generalStatsVM: WorkoutGeneralStatsVM
+    
+    private let workoutExercisesView: WorkoutExercisesView
+    
+    private let workoutBottomBarView: WorkoutBottomBarView
 
     // MARK: - Init
     init(workout: Workout) {
@@ -36,8 +37,11 @@ final class WorkoutViewController: UIViewController {
         
         self.generalStatsVM = WorkoutGeneralStatsVM(workout: workout)
         
-        self.workoutExercisesVM = WorkoutExercisesVM(workout: workout)
-        self.workoutExercisesView = WorkoutExercisesView(frame: .zero, viewModel: self.workoutExercisesVM)
+        let workoutExercisesVM = WorkoutExercisesVM(workout: workout)
+        self.workoutExercisesView = WorkoutExercisesView(frame: .zero, viewModel: workoutExercisesVM)
+        
+        let workoutBottomBarVM = WorkoutBottomBarVM(workout: workout)
+        self.workoutBottomBarView = WorkoutBottomBarView(frame: .zero, viewModel: workoutBottomBarVM)
         
         super.init(nibName: nil, bundle: nil)
     }
@@ -54,7 +58,7 @@ final class WorkoutViewController: UIViewController {
         self.view.backgroundColor = .systemCyan
         
         self.topBar.addSubviews(self.backButton, self.workoutName, self.moreButton)
-        self.view.addSubviews(self.topBar, self.workoutExercisesView)
+        self.view.addSubviews(self.topBar, self.workoutExercisesView, self.workoutBottomBarView)
         self.addConstraints()
         
         self.backButton.addTarget(self, action: #selector(self.goBack), for: .touchUpInside)
@@ -83,7 +87,14 @@ final class WorkoutViewController: UIViewController {
             self.workoutExercisesView.topAnchor.constraint(equalTo: self.topBar.bottomAnchor, constant: 7),
             self.workoutExercisesView.leftAnchor.constraint(equalTo: self.view.safeAreaLayoutGuide.leftAnchor),
             self.workoutExercisesView.rightAnchor.constraint(equalTo: self.view.safeAreaLayoutGuide.rightAnchor),
-            self.workoutExercisesView.bottomAnchor.constraint(equalTo: self.view.safeAreaLayoutGuide.bottomAnchor)
+            self.workoutExercisesView.heightAnchor.constraint(equalTo: self.view.safeAreaLayoutGuide.heightAnchor, multiplier: 0.90),
+            
+            self.workoutBottomBarView.topAnchor.constraint(equalTo: self.workoutExercisesView.bottomAnchor, constant: 7),
+            self.workoutBottomBarView.centerXAnchor.constraint(equalTo: self.topBar.centerXAnchor),
+            self.workoutBottomBarView.widthAnchor.constraint(equalTo: self.topBar.widthAnchor),
+            self.workoutBottomBarView.heightAnchor.constraint(equalTo: self.topBar.heightAnchor)
+            
+            //            self.workoutExercisesView.bottomAnchor.constraint(equalTo: self.view.safeAreaLayoutGuide.bottomAnchor)
             
         ])
     }

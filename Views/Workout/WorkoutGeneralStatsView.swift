@@ -39,8 +39,7 @@ final class WorkoutGeneralStatsView: UICollectionReusableView {
     override init(frame: CGRect) {
         super.init(frame: frame)
         
-        self.translatesAutoresizingMaskIntoConstraints = false
-        self.addSubviews(topBar, tableView)
+        self.addSubviews(self.topBar, self.tableView)
         self.addConstraints()
     }
     

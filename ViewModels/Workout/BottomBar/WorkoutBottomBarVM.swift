@@ -15,4 +15,10 @@ final class WorkoutBottomBarVM: NSObject {
         self.workout = workout
     }
     
+    
+    public func getWorkoutDateFormatted() -> String {
+        let dateFormatter = DateFormatter()
+        dateFormatter.dateFormat = "MM/dd/yy"
+        return dateFormatter.string(from: self.workout.startTime!)
+    }
 }
