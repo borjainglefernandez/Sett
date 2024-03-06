@@ -17,7 +17,7 @@ class AddExerciseMenuItem: NSObject {
     }
     
     public func getMenuItem() -> UIAction {
-        let actionHandler: UIActionHandler = { action in
+        let actionHandler: UIActionHandler = { _ in
             if let parentViewController = self.menuView.getParentViewController(self.menuView) {
                 let selectCategoryModalViewController = SelectCategoryModalViewController(viewModel: SelectCategoryWorkoutVM(workout: self.workout))
                 parentViewController.present(selectCategoryModalViewController, animated: true)
