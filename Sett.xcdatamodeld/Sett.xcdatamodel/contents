@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8" standalone="yes"?>
-<model type="com.apple.IDECoreDataModeler.DataModel" documentVersion="1.0" lastSavedToolsVersion="22522" systemVersion="23B92" minimumToolsVersion="Automatic" sourceLanguage="Swift" userDefinedModelVersionIdentifier="">
+<model type="com.apple.IDECoreDataModeler.DataModel" documentVersion="1.0" lastSavedToolsVersion="22757" systemVersion="23B92" minimumToolsVersion="Automatic" sourceLanguage="Swift" userDefinedModelVersionIdentifier="">
     <entity name="Achievement" representedClassName="Achievement" syncable="YES" codeGenerationType="class">
         <attribute name="subTitle" optional="YES" attributeType="String"/>
         <attribute name="subTitleDescription" optional="YES" attributeType="String"/>
@@ -59,8 +59,9 @@
     </entity>
     <entity name="Workout" representedClassName="Workout" syncable="YES" codeGenerationType="class">
         <attribute name="bodyweight" optional="YES" attributeType="Float" defaultValueString="0.0" usesScalarValueType="YES"/>
-        <attribute name="duration" optional="YES" attributeType="Integer 64" usesScalarValueType="YES"/>
-        <attribute name="endTime" optional="YES" attributeType="Date" usesScalarValueType="NO"/>
+        <attribute name="durationSeconds" optional="YES" attributeType="Integer 64" usesScalarValueType="NO"/>
+        <attribute name="isOngoing" optional="YES" attributeType="Boolean" defaultValueString="YES" usesScalarValueType="YES"/>
+        <attribute name="mostRecentResume" optional="YES" attributeType="Date" usesScalarValueType="NO"/>
         <attribute name="notes" attributeType="String" defaultValueString=""/>
         <attribute name="rating" attributeType="Double" minValueString="0" maxValueString="5" defaultValueString="3" usesScalarValueType="YES"/>
         <attribute name="startTime" attributeType="Date" usesScalarValueType="NO"/>
