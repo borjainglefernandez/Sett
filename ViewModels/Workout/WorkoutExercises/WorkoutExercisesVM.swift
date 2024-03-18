@@ -46,6 +46,7 @@ final class WorkoutExercisesVM: NSObject {
         // Add relevant cell vms
         for workoutExercise in workoutExercises {
             let viewModel = WorkoutExercisesCellVM(workoutExercise: workoutExercise)
+            
             for _ in 0..<(workoutExercise.settCollection?.setts?.count ?? 0) {
                 viewModel.inputTags.append(overallSettIndex)
                 viewModel.inputTags.append(overallSettIndex + 1)
@@ -77,7 +78,6 @@ extension WorkoutExercisesVM: UICollectionViewDataSource, UICollectionViewDelega
         ) as? WorkoutExercisesCell else {
             fatalError("Unsupported cell")
         }
-
         cell.configure(with: cellVMs[indexPath.row],
                        at: indexPath,
                        for: collectionView,
@@ -142,6 +142,7 @@ extension WorkoutExercisesVM: CollapsibleContainerTopBarDelegate {
 
 // MARK: - Fetched Results Controller Delegate
 extension WorkoutExercisesVM: NSFetchedResultsControllerDelegate {
+    
     // Update screen if CRUD conducted on Workout
     func controller(_ controller: NSFetchedResultsController<NSFetchRequestResult>,
                     didChange anObject: Any, at indexPath: IndexPath?, for type: NSFetchedResultsChangeType, newIndexPath: IndexPath?) {
@@ -151,4 +152,5 @@ extension WorkoutExercisesVM: NSFetchedResultsControllerDelegate {
             self.workoutExercisesView?.showHideCollectionView()
         }
     }
+    
 }

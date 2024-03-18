@@ -51,6 +51,7 @@ extension WorkoutGeneralStatsVM: UITableViewDelegate, UITableViewDataSource {
             fatalError("Unsupported cell")
         }
         cell.configure(with: cellVMs[indexPath.row])
+
         return cell
     }
     
@@ -67,18 +68,7 @@ extension WorkoutGeneralStatsVM: NSFetchedResultsControllerDelegate {
         guard let managedObject = anObject as? NSManagedObject else {
             return // Ensure the object is a managed object
         }
-        let notesIndexPath = IndexPath(row: 4, section: 0)
-        let changedProperties = managedObject.changedValues()
-        
-        // Update notes if those have changes (the rest will update automatically)
-        if changedProperties["notes"] != nil {
-            self.tableView?.reloadRows(at: [notesIndexPath], with: .automatic)
-        }
-        
-        let netProgressIndexPath = IndexPath(row: 3, section: 0)
-
-        // Update net progress if those have changes
-        self.tableView?.reloadRows(at: [netProgressIndexPath], with: .automatic)
+        self.tableView?.reloadData()
         
     }
 }

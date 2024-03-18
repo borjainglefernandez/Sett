@@ -82,6 +82,8 @@ final class WorkoutGeneralStatsViewCell: UITableViewCell {
     // MARK: - Reuse
     override func prepareForReuse() {
         self.displayContent.removeFromSuperview()
+        self.divider.isHidden = false
+        self.label.text = nil
     }
     
     // MARK: - Configurations
@@ -91,7 +93,7 @@ final class WorkoutGeneralStatsViewCell: UITableViewCell {
         
         self.addSubview(self.displayContent)
         self.addConstraints()
-
+        
         if !viewModel.displayDivider {
             self.divider.isHidden = true
         }
