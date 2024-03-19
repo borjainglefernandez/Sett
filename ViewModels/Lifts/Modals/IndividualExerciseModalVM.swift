@@ -85,7 +85,7 @@ final class IndividualExerciseModalVM: NSObject {
         return CoreDataBase.doesEntityExist(
                 withEntity: "Exercise",
                 expecting: Exercise.self,
-                predicates: [NSPredicate(format: "name = %@", exerciseName),
+                predicates: [NSPredicate(format: "name ==[c] %@", exerciseName),
                              NSPredicate(format: "type = %@", exerciseType),
                              NSPredicate(format: "category = %@", self.category)])
 

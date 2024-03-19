@@ -69,7 +69,7 @@ class AddCategoryVM: NSObject {
     private func categoryWithNewNameExists() -> Bool {
         return CoreDataBase.doesEntityExist(withEntity: "Category",
                                             expecting: Category.self,
-                                            predicates: [NSPredicate(format: "name = %@", self.newCategoryName)])
+                                            predicates: [NSPredicate(format: "name ==[c] %@", self.newCategoryName)])
     }
 
 }
