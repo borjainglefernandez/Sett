@@ -64,7 +64,6 @@ final class WorkoutViewController: UIViewController {
         self.backButton.addTarget(self, action: #selector(self.goBack), for: .touchUpInside)
 
         self.moreButton.showsMenuAsPrimaryAction = true
-//        self.moreButton.menu = UIMenu(preferredElementSize: .small, children: [AddExerciseMenuItem()])
         self.moreButton.menu = OverallWorkoutMenu(workout: self.workout, overallView: self.view).getMenu()
     }
 
@@ -93,9 +92,6 @@ final class WorkoutViewController: UIViewController {
             self.workoutBottomBarView.centerXAnchor.constraint(equalTo: self.topBar.centerXAnchor),
             self.workoutBottomBarView.widthAnchor.constraint(equalTo: self.topBar.widthAnchor),
             self.workoutBottomBarView.heightAnchor.constraint(equalTo: self.topBar.heightAnchor)
-            
-            //            self.workoutExercisesView.bottomAnchor.constraint(equalTo: self.view.safeAreaLayoutGuide.bottomAnchor)
-            
         ])
     }
     
