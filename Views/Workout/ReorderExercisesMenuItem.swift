@@ -22,7 +22,6 @@ class ReorderExercisesMenuItem: NSObject {
         let actionHandler: UIActionHandler = { _ in
             if let parentViewController = self.menuView.getParentViewController(self.menuView) {
                 let reorderExercisesViewController = ReorderExercisesViewController(workout: self.workout)
-                reorderExercisesViewController.modalPresentationStyle = .fullScreen
                 parentViewController.present(reorderExercisesViewController, animated: true)
             }
 

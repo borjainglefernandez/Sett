@@ -50,7 +50,7 @@ final class WorkoutViewController: UIViewController {
         fatalError("Unsupported initialiser")
     }
     
-    // MARK: - LifeCycle
+    // MARK: - LifeCycle    
     override func viewDidLoad() {
         super.viewDidLoad()
         self.dismissKeyboardWhenTapOutside()

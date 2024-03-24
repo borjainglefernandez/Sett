@@ -11,14 +11,13 @@ class ReorderExercisesViewController: UIViewController {
     private let workout: Workout
     
     private let topBar: MenuBar = MenuBar(frame: .zero)
-    private let backButton: UIButton = IconButton(frame: .zero, imageName: "arrow.backward.circle.fill")
+//    private let backButton: UIButton = IconButton(frame: .zero, imageName: "arrow.backward.circle.fill")
     private let confirmButton: UIButton = IconButton(frame: .zero, imageName: "checkmark.circle.fill")
 
     lazy var workoutName: Label = Label(title: self.workout.title ?? "Reorder Exercises")
-    
+    lazy var reorderExercisesVM: ReorderExercisesVM = ReorderExercisesVM(workout: self.workout)
     lazy var reorderExercisesView: ReorderExercisesView = {
-        let viewModel = ReorderExercisesVM(workout: self.workout)
-        let reorderExercisesView = ReorderExercisesView(viewModel: viewModel)
+        let reorderExercisesView = ReorderExercisesView(viewModel: self.reorderExercisesVM)
         return reorderExercisesView
     }()
 
@@ -40,12 +39,12 @@ class ReorderExercisesViewController: UIViewController {
         
         self.view.backgroundColor = .systemCyan
         
-        self.topBar.addSubviews(self.backButton, self.workoutName, self.confirmButton)
-        // ADD VIEWS
+        self.topBar.addSubviews(self.workoutName, self.confirmButton)
+        
         self.view.addSubviews(self.topBar, reorderExercisesView)
         self.addConstraints()
         
-        self.backButton.addTarget(self, action: #selector(self.goBack), for: .touchUpInside)
+//        self.backButton.addTarget(self, action: #selector(self.goBack), for: .touchUpInside)
         self.confirmButton.addTarget(self, action: #selector(self.confirm), for: .touchUpInside)
 
     }
@@ -53,13 +52,13 @@ class ReorderExercisesViewController: UIViewController {
     // MARK: - Constraints
     private func addConstraints() {
         NSLayoutConstraint.activate([
-            self.topBar.topAnchor.constraint(equalTo: self.view.safeAreaLayoutGuide.topAnchor),
+            self.topBar.topAnchor.constraint(equalTo: self.view.safeAreaLayoutGuide.topAnchor, constant: 10),
             self.topBar.centerXAnchor.constraint(equalTo: self.view.safeAreaLayoutGuide.centerXAnchor),
             self.topBar.widthAnchor.constraint(equalTo: self.view.safeAreaLayoutGuide.widthAnchor, multiplier: 0.95),
             
-            self.backButton.centerYAnchor.constraint(equalTo: self.topBar.centerYAnchor),
-            self.backButton.leftAnchor.constraint(equalTo: self.topBar.leftAnchor, constant: 7),
-            
+//            self.backButton.centerYAnchor.constraint(equalTo: self.topBar.centerYAnchor),
+//            self.backButton.leftAnchor.constraint(equalTo: self.topBar.leftAnchor, constant: 7),
+//            
             self.workoutName.centerYAnchor.constraint(equalTo: self.topBar.centerYAnchor),
             self.workoutName.centerXAnchor.constraint(equalTo: self.topBar.centerXAnchor),
             
@@ -74,12 +73,13 @@ class ReorderExercisesViewController: UIViewController {
     }
     
     // MARK: - Actions
-    @objc func goBack() {
-        self.dismiss(animated: true)
-    }
+//    @objc func goBack() {
+//        self.dismiss(animated: true)
+//    }
     
     @objc func confirm() {
-        print("CONFIRMATION")
+        self.reorderExercisesVM.confirmChanges()
+        self.dismiss(animated: true)
     }
 
 }

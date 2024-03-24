@@ -35,6 +35,10 @@ class SelectExerciseWorkoutVM: SelectExerciseModalVM {
         let workoutExercise = WorkoutExercise(context: CoreDataBase.context)
         workoutExercise.exercise = exercise
         
+        if let exerciseCount = self.workout.workoutExercises?.count {
+            workoutExercise.exerciseIndex = Int64(exerciseCount)
+        }
+      
         // Configure to 1 sett
         workoutExercise.numSetts = 1
         let settCollection = SettCollection(context: CoreDataBase.context)

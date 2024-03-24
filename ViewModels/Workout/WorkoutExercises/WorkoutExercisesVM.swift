@@ -19,7 +19,8 @@ final class WorkoutExercisesVM: NSObject {
         return CoreDataBase.createFetchedResultsController(
                     withEntityName: "WorkoutExercise",
                     expecting: WorkoutExercise.self,
-                    predicates: [NSPredicate(format: "workout = %@", self.workout.objectID)])
+                    predicates: [NSPredicate(format: "workout = %@", self.workout.objectID)],
+                    sortDescriptors: [NSSortDescriptor(key: "exerciseIndex", ascending: true)])
     }()
     
     // MARK: - Init

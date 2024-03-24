@@ -11,6 +11,10 @@ class ReorderExercisesCell: UITableViewCell {
     
     static let cellIdentifier = "ReorderExercisesCellTableViewCell"
     
+    private var viewModel: ReorderExercisesCellVM?
+    
+    private let exerciseNameLabel: Label = Label(title: "")
+    
     private let containerView: UIView = {
        let containerView = UIView()
         containerView.backgroundColor = .systemGray4
@@ -26,6 +30,7 @@ class ReorderExercisesCell: UITableViewCell {
         self.backgroundColor = UIColor.clear // Allows for customisability of cell
         self.configureClearSelectedBackground()
         
+        self.containerView.addSubviews(self.exerciseNameLabel)
         self.contentView.addSubviews(self.containerView)
         
         self.addConstraints()
@@ -45,12 +50,16 @@ class ReorderExercisesCell: UITableViewCell {
             self.containerView.topAnchor.constraint(equalTo: self.topAnchor),
             self.containerView.centerXAnchor.constraint(equalTo: self.centerXAnchor),
             self.containerView.heightAnchor.constraint(equalTo: self.heightAnchor, multiplier: 0.985),
-            self.containerView.widthAnchor.constraint(equalTo: self.widthAnchor, multiplier: 0.985),
+            self.containerView.widthAnchor.constraint(equalTo: self.widthAnchor, multiplier: 0.95),
+            
+            self.exerciseNameLabel.leftAnchor.constraint(equalTo: self.containerView.leftAnchor, constant: 50),
+            self.exerciseNameLabel.centerYAnchor.constraint(equalTo: self.containerView.centerYAnchor),
         ])
     }
     
     // MARK: - Configurations
     public func configure(with viewModel: ReorderExercisesCellVM) {
-        print(viewModel.workoutExercise.exercise?.name)
+        self.exerciseNameLabel.text = viewModel.workoutExercise.exercise?.name
+        self.viewModel = viewModel
     }
 }

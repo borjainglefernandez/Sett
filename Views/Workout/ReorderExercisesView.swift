@@ -19,6 +19,7 @@ class ReorderExercisesView: UIView {
         tableView.register(ReorderExercisesCell.self, forCellReuseIdentifier: ReorderExercisesCell.cellIdentifier)
         tableView.separatorStyle = UITableViewCell.SeparatorStyle.none
         tableView.isEditing = true
+        tableView.allowsSelectionDuringEditing = true
         return tableView
     }()
     
@@ -26,12 +27,14 @@ class ReorderExercisesView: UIView {
     init(frame: CGRect = .zero, viewModel: ReorderExercisesVM) {
         self.viewModel = viewModel
         super.init(frame: frame)
+        
         self.backgroundColor = .systemCyan
         self.translatesAutoresizingMaskIntoConstraints = false
         
         self.tableView.dataSource = self.viewModel
         self.tableView.delegate = self.viewModel
-        
+        self.viewModel.reorderExercisesView = self
+
         self.addSubviews(self.tableView)
         self.addConstraints()
     }

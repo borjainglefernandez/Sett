@@ -9,14 +9,16 @@ import Foundation
 import CoreData
 import UIKit
 
-final class ReorderExercisesVM: NSObject, NSFetchedResultsControllerDelegate {
+final class ReorderExercisesVM: NSObject {
     
     public var workout: Workout
+    public var reorderExercisesView: ReorderExercisesView?
     lazy var fetchedResultsController: NSFetchedResultsController<WorkoutExercise> = {
         return CoreDataBase.createFetchedResultsController(
                     withEntityName: "WorkoutExercise",
                     expecting: WorkoutExercise.self,
-                    predicates: [NSPredicate(format: "workout = %@", self.workout.objectID)])
+                    predicates: [NSPredicate(format: "workout = %@", self.workout.objectID)],
+                    sortDescriptors: [NSSortDescriptor(key: "exerciseIndex", ascending: true)])
     }()
     private var cellVMs: [ReorderExercisesCellVM] = []
 
@@ -45,6 +47,14 @@ final class ReorderExercisesVM: NSObject, NSFetchedResultsControllerDelegate {
         }
     }
     
+    // MARK: - Actions
+    public func confirmChanges() {
+        for (index, cellVM) in self.cellVMs.enumerated() {
+            cellVM.workoutExercise.exerciseIndex = Int64(index)
+            CoreDataBase.save()
+        }
+    }
+    
 }
 
 extension ReorderExercisesVM: UITableViewDataSource, UITableViewDelegate {
@@ -67,4 +77,67 @@ extension ReorderExercisesVM: UITableViewDataSource, UITableViewDelegate {
     func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
         return 43
     }
+    
+    func tableView(_ tableView: UITableView, commit editingStyle: UITableViewCell.EditingStyle, forRowAt indexPath: IndexPath) {
+        if editingStyle == .delete {
+            let workoutExercise = cellVMs[indexPath.row].workoutExercise
+            
+            // Controller
+            let deleteWorkoutExerciseAlertController = UIAlertController(
+                title: "Remove \(String(describing: workoutExercise.exercise?.name)) from \(String(describing: self.workout.title))?",
+                message: "This action cannot be undone.",
+                preferredStyle: .actionSheet)
+            
+            // Actions
+            deleteWorkoutExerciseAlertController.addAction(UIAlertAction(title: "Delete", style: .destructive, handler: { _ in
+                if let settCollection = workoutExercise.settCollection {
+                    
+                    if let setts = settCollection.setts {
+                        for sett in setts {
+                            if let sett = sett as? Sett {
+                                if let np = sett.netProgress {
+                                    CoreDataBase.context.delete(np) // Delete net progress
+                                }
+                                CoreDataBase.context.delete(sett) // Delete all setts
+                            }
+                        }
+                    }
+                    CoreDataBase.context.delete(settCollection) // Delete sett collection
+                }
+                CoreDataBase.context.delete(workoutExercise)
+                CoreDataBase.save()
+
+            }))
+            deleteWorkoutExerciseAlertController.addAction(UIAlertAction(title: "Cancel", style: .cancel))
+            
+            if let parentViewController = tableView.getParentViewController(tableView) {
+                parentViewController.present(deleteWorkoutExerciseAlertController, animated: true)
+            }
+        }
+    }
+    
+    func tableView(_ tableView: UITableView, canMoveRowAt indexPath: IndexPath) -> Bool {
+        // Return true if the row is movable
+        return true
+    }
+    
+    func tableView(_ tableView: UITableView, moveRowAt sourceIndexPath: IndexPath, to destinationIndexPath: IndexPath) {
+        // Perform the move operation in your data source array
+        let movedVM = cellVMs.remove(at: sourceIndexPath.row)
+        cellVMs.insert(movedVM, at: destinationIndexPath.row)
+    }
+}
+
+// MARK: - Fetched Results Controller Delegate
+extension ReorderExercisesVM: NSFetchedResultsControllerDelegate {
+    
+    // Update screen if CRUD conducted on Workout
+    func controller(_ controller: NSFetchedResultsController<NSFetchRequestResult>,
+                    didChange anObject: Any, at indexPath: IndexPath?, for type: NSFetchedResultsChangeType, newIndexPath: IndexPath?) {
+        DispatchQueue.main.async {
+            self.configure()
+            self.reorderExercisesView?.tableView.reloadData()
+        }
+    }
+    
 }
