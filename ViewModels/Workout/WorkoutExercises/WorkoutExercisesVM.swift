@@ -31,15 +31,15 @@ final class WorkoutExercisesVM: NSObject {
     
     // MARK: - Configurations
     public func configure() {
+        // New information, overwrite
+        self.cellVMs = []
+        self.isExpanded = []
+        
         // Listen for updates to specific workout
         CoreDataBase.configureFetchedResults(controller: self.fetchedResultsController, expecting: WorkoutExercise.self, with: self)
         guard let workoutExercises = self.fetchedResultsController.fetchedObjects else {
             return
         }
-        
-        // New information, overwrite
-        self.cellVMs = []
-        self.isExpanded = []
         
         // Index each individual set for navigation
         var overallSettIndex: Int = 1

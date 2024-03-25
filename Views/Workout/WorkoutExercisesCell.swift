@@ -16,7 +16,7 @@ class WorkoutExercisesCell: UICollectionViewCell {
     // Icon for the exercise type
     private let exerciseTypeIcon = IconButton(imageName: "dumbbell.fill", color: .label, fontSize: 14)
 
-    // List of all the routines for a particular category
+    // List of all the routines for a partic if ular category
     public let settListView: SettListView = SettListView()
     
     // MARK: - Init

@@ -44,12 +44,12 @@
         <attribute name="notes" optional="YES" attributeType="String"/>
         <attribute name="reps" optional="YES" attributeType="Integer 64" minValueString="0" usesScalarValueType="NO"/>
         <attribute name="weight" optional="YES" attributeType="Integer 64" minValueString="0" usesScalarValueType="NO"/>
-        <relationship name="netProgress" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="NetProgress" inverseName="settNP" inverseEntity="NetProgress"/>
+        <relationship name="netProgress" optional="YES" maxCount="1" deletionRule="Cascade" destinationEntity="NetProgress" inverseName="settNP" inverseEntity="NetProgress"/>
         <relationship name="partOf" maxCount="1" deletionRule="Nullify" destinationEntity="SettCollection" inverseName="setts" inverseEntity="SettCollection"/>
     </entity>
     <entity name="SettCollection" representedClassName="SettCollection" syncable="YES" codeGenerationType="class">
         <relationship name="exercise" maxCount="1" deletionRule="Nullify" destinationEntity="Exercise" inverseName="setCollections" inverseEntity="Exercise"/>
-        <relationship name="setts" toMany="YES" deletionRule="Nullify" ordered="YES" destinationEntity="Sett" inverseName="partOf" inverseEntity="Sett"/>
+        <relationship name="setts" toMany="YES" deletionRule="Cascade" ordered="YES" destinationEntity="Sett" inverseName="partOf" inverseEntity="Sett"/>
         <relationship name="workoutExercise" maxCount="1" deletionRule="Nullify" destinationEntity="WorkoutExercise" inverseName="settCollection" inverseEntity="WorkoutExercise"/>
     </entity>
     <entity name="User" representedClassName="User" syncable="YES" codeGenerationType="class">
@@ -77,7 +77,7 @@
         <attribute name="numSetts" attributeType="Integer 64" minValueString="1" defaultValueString="1" usesScalarValueType="YES"/>
         <relationship name="exercise" maxCount="1" deletionRule="Nullify" destinationEntity="Exercise" inverseName="workoutExercises" inverseEntity="Exercise"/>
         <relationship name="routines" optional="YES" toMany="YES" deletionRule="Nullify" destinationEntity="Routine" inverseName="workoutExercises" inverseEntity="Routine"/>
-        <relationship name="settCollection" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="SettCollection" inverseName="workoutExercise" inverseEntity="SettCollection"/>
+        <relationship name="settCollection" optional="YES" maxCount="1" deletionRule="Cascade" destinationEntity="SettCollection" inverseName="workoutExercise" inverseEntity="SettCollection"/>
         <relationship name="workout" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="Workout" inverseName="workoutExercises" inverseEntity="Workout"/>
     </entity>
 </model>

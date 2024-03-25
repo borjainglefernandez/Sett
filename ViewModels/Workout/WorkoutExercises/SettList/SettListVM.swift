@@ -12,14 +12,14 @@ import CoreData
 final class SettListVM: NSObject {
     public var tableView: UITableView?
     private var cellVMs: [SettListCellVM] = []
-    private var settCollection: SettCollection
+    private var settCollection: SettCollection?
     public var isExpanded: Bool
     public var inputTags: [Int]
     lazy var fetchedResultsController: NSFetchedResultsController<SettCollection> = {
         return CoreDataBase.createFetchedResultsController(
                     withEntityName: "SettCollection",
                     expecting: SettCollection.self,
-                    predicates: [NSPredicate(format: "SELF = %@", self.settCollection.objectID)])
+                    predicates: [NSPredicate(format: "SELF = %@", self.settCollection?.objectID ?? 0)])
     }()
     
     // MARK: - Init
@@ -33,13 +33,15 @@ final class SettListVM: NSObject {
     
     // MARK: - Configurations
     public func configure() {
+        // New information, overwrite
+        self.cellVMs = []
+        
         // Listen for updates to specific workout
         CoreDataBase.configureFetchedResults(controller: self.fetchedResultsController, expecting: SettCollection.self, with: self)
         guard let settCollection = self.fetchedResultsController.fetchedObjects?.first else {
             return
         }
-        // New information, overwrite
-        self.cellVMs = []
+
         var inputTagsCopy = self.inputTags // Make a copy so it resets properly
         
         for i in 0..<(settCollection.setts?.count ?? 0) {
@@ -59,8 +61,8 @@ final class SettListVM: NSObject {
     // MARK: - Actions
     public func addSett() {
         let sett = Sett(context: CoreDataBase.context)
-        self.settCollection.addToSetts(sett)
-        self.settCollection.workoutExercise?.numSetts += 1
+        self.settCollection?.addToSetts(sett)
+        self.settCollection?.workoutExercise?.numSetts += 1
         CoreDataBase.save()
     }
 }
@@ -97,9 +99,11 @@ extension SettListVM: UITableViewDataSource, UITableViewDelegate {
     
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         // All the setts + action button group
+        print(self.settCollection?.setts)
+        print(self.settCollection?.workoutExercise?.exercise?.name)
         return self.cellVMs.count + 1
-
     }
+    
     func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
         return 43
     }
@@ -127,7 +131,7 @@ extension SettListVM: UITableViewDataSource, UITableViewDelegate {
         let copySettAction = UIContextualAction(style: .normal, title: "") {  _, _, _ in
             
             // Copy Sett
-            self.settCollection.workoutExercise?.numSetts += 1
+            self.settCollection?.workoutExercise?.numSetts += 1
             let copiedSett = Sett(context: CoreDataBase.context)
             let sett = cellVM.sett
             copiedSett.weight = sett.weight
@@ -135,7 +139,7 @@ extension SettListVM: UITableViewDataSource, UITableViewDelegate {
             copiedSett.notes = sett.notes
             
             // Insert at correct spot
-            self.settCollection.insertIntoSetts(copiedSett, at: indexPath.row + 1)
+            self.settCollection?.insertIntoSetts(copiedSett, at: indexPath.row + 1)
             CoreDataBase.save()
             
             // Dismiss Menu
@@ -170,11 +174,12 @@ extension SettListVM: UITableViewDataSource, UITableViewDelegate {
             
             // Actions
             deleteSettAlertController.addAction(UIAlertAction(title: "Delete", style: .destructive, handler: { _ in
-                self.settCollection.workoutExercise?.numSetts -= 1
-                self.settCollection.removeFromSetts(sett)
+                self.settCollection?.workoutExercise?.numSetts -= 1
+                self.settCollection?.removeFromSetts(sett)
                 CoreDataBase.context.delete(sett)
-                if let workoutExercise = self.settCollection.workoutExercise, workoutExercise.numSetts == 0 {
-                    CoreDataBase.context.delete(self.settCollection)
+                if  let settCollection = self.settCollection,
+                    let workoutExercise = settCollection.workoutExercise, workoutExercise.numSetts == 0 {
+                    CoreDataBase.context.delete(settCollection)
                     CoreDataBase.context.delete(workoutExercise)
                 }
                 CoreDataBase.save()
@@ -199,6 +204,14 @@ extension SettListVM: NSFetchedResultsControllerDelegate {
     func controller(_ controller: NSFetchedResultsController<NSFetchRequestResult>,
                     didChange anObject: Any, at indexPath: IndexPath?, for type: NSFetchedResultsChangeType, newIndexPath: IndexPath?) {
         DispatchQueue.main.async {
+            // If we deleted sett collection, clean up
+            if type == .delete {
+                if let deletedSettCollection = anObject as? SettCollection {
+                   if deletedSettCollection == self.settCollection {
+                       self.settCollection = nil
+                   }
+                }
+            }
             self.configure()
             self.tableView?.reloadData()
         }

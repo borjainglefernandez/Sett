@@ -43,7 +43,7 @@ final class WeightInputVM: NSObject {
                 // Sett net progress
                 let netWeight: Int64 = Int64(currentWeight - previousWeight)
                 settNetProgress.weight = netWeight
-                settNetProgress.settNP = sett
+                settNetProgress.settNP = self.sett
                 
                 // Set net weight label
                 self.setNetWeightLabel(NumberUtils.getNumWithSign(for: Int(netWeight)))
@@ -51,7 +51,7 @@ final class WeightInputVM: NSObject {
             
             // Reset net progress to 0
             settNetProgress.weight = 0
-            settNetProgress.settNP = sett
+            settNetProgress.settNP = self.sett
             
             // Set net reps label
             self.setNetWeightLabel("0")
