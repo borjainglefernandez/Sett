@@ -69,6 +69,7 @@ class SettListView: UIView {
         self.tableView.dataSource = self.viewModel
         self.tableView.delegate = self.viewModel
         self.viewModel?.tableView = self.tableView
+        self.tableView.reloadData()
     }
 
 }
