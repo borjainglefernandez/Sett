@@ -18,8 +18,11 @@ class OverallWorkoutMenu: NSObject {
     
     public func getMenu() -> UIMenu {
         let addExerciseMenuItem = AddExerciseMenuItem(workout: self.workout, menuView: self.overallView).getMenuItem()
+        let repeatWorkoutMenuItem = RepeatWorkoutMenuItem(workout: self.workout, menuView: self.overallView).getMenuItem()
         let reorderExercisesMenuItem = ReorderExercisesMenuItem(workout: self.workout, menuView: self.overallView).getMenuItem()
-        let menu = UIMenu(preferredElementSize: .large, children: [addExerciseMenuItem, reorderExercisesMenuItem])
+        let menu = UIMenu(preferredElementSize: .large, children: [addExerciseMenuItem,
+                                                                   repeatWorkoutMenuItem,
+                                                                   reorderExercisesMenuItem])
         return menu
     }
 }

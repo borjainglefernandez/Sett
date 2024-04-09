@@ -91,22 +91,6 @@ extension ReorderExercisesVM: UITableViewDataSource, UITableViewDelegate {
             // Actions
             deleteWorkoutExerciseAlertController.addAction(UIAlertAction(title: "Delete", style: .destructive, handler: { _ in
                 DispatchQueue.main.async {
-                    if let settCollection = workoutExercise.settCollection {
-                        
-                        if let setts = settCollection.setts {
-                            for sett in setts {
-                                if let sett = sett as? Sett {
-                                    //                                if let np = sett.netProgress {
-                                    //                                    print("Should delete")
-                                    ////                                    CoreDataBase.context.delete(np) // Delete net progress
-                                    //                                }
-                                    CoreDataBase.context.delete(sett) // Delete all setts
-                                }
-                            }
-                        }
-                        CoreDataBase.context.delete(settCollection) // Delete sett collection
-                    }
-                    self.workout.removeFromWorkoutExercises(workoutExercise)
                     CoreDataBase.context.delete(workoutExercise)
                     CoreDataBase.save()
                 }

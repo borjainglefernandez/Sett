@@ -15,7 +15,6 @@ class SelectExerciseModalVM: NSObject {
     public let replacementIndex: Int?
     private var exercise: Exercise?
     
-    
     // MARK: - Init
     init(category: Category, replacementIndex: Int?) {
         self.category = category

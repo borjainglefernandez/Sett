@@ -99,8 +99,6 @@ extension SettListVM: UITableViewDataSource, UITableViewDelegate {
     
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         // All the setts + action button group
-        print(self.settCollection?.setts)
-        print(self.settCollection?.workoutExercise?.exercise?.name)
         return self.cellVMs.count + 1
     }
     

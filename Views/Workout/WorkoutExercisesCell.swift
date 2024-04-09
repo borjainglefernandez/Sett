@@ -11,7 +11,7 @@ class WorkoutExercisesCell: UICollectionViewCell {
     static let cellIdentifier = "WorkoutExerciseCell"
 
     // Top bar of the category list container
-    public let collapsibleContainerTopBar: CollapsibleContainerTopBar = CollapsibleContainerTopBar()
+    public let collapsibleContainerTopBar: CollapsibleContainerTopBar = CollapsibleContainerTopBar(showRightLabel: true)
     
     // Icon for the exercise type
     private let exerciseTypeIcon = IconButton(imageName: "dumbbell.fill", color: .label, fontSize: 14)
@@ -66,25 +66,27 @@ class WorkoutExercisesCell: UICollectionViewCell {
         isExpanded: Bool,
         delegate: CollapsibleContainerTopBarDelegate) {
         
-        // Configure view model of collapsible top bar and title
-        let collapsibleContainerTopBarVM = CollapsibleContainerTopBarVM(
-            collectionView: collectionView,
-            isExpanded: isExpanded,
-            indexPath: indexPath,
-            delegate: delegate)
-        self.collapsibleContainerTopBar.configure(with: collapsibleContainerTopBarVM)
+            // Configure view model of collapsible top bar and title
+            let collapsibleContainerTopBarVM = CollapsibleContainerTopBarVM(
+                collectionView: collectionView,
+                isExpanded: isExpanded,
+                indexPath: indexPath,
+                delegate: delegate)
+            self.collapsibleContainerTopBar.configure(with: collapsibleContainerTopBarVM)
             self.collapsibleContainerTopBar.setTitleLabelText(title: viewModel.workoutExercise.exercise?.name ?? "")
+            self.collapsibleContainerTopBar.setRightLabelText(title: viewModel.getSetsCompleted())
+            self.collapsibleContainerTopBar.setMenu(menu: WorkoutExerciseMenu(workoutExercise: viewModel.workoutExercise, overallView: self).getMenu())
             
-        // Configure exercise icon
-        if let iconImage = viewModel.workoutExercise.exercise?.type?.exerciseType.icon() {
-            iconImage.withTintColor(.label)
-            self.exerciseTypeIcon.setImage(iconImage, for: .normal)
-        }
-        
-        // Configure Sett list view with view model
-        guard let settCollection = viewModel.workoutExercise.settCollection else {
-            return
-        }
-            self.settListView.configure(with: SettListVM(settCollection: settCollection, isExpanded: isExpanded, inputTags: viewModel.inputTags))
+            // Configure exercise icon
+            if let iconImage = viewModel.workoutExercise.exercise?.type?.exerciseType.icon() {
+                iconImage.withTintColor(.label)
+                self.exerciseTypeIcon.setImage(iconImage, for: .normal)
+            }
+            
+            // Configure Sett list view with view model
+            guard let settCollection = viewModel.workoutExercise.settCollection else {
+                return
+            }
+                self.settListView.configure(with: SettListVM(settCollection: settCollection, isExpanded: isExpanded, inputTags: viewModel.inputTags))
     }
 }

@@ -94,7 +94,7 @@ extension ExerciseListVM: UITableViewDataSource, UITableViewDelegate {
 
         // Trailing delete exercise action
         let deleteExerciseAction = UIContextualAction(style: .destructive, title: "") {  _, _, _ in
-
+ 
             // Controller
             let deleteExerciseAlertController =
                 UIAlertController(title: "Delete \(String(describing: exercise.name!))?",

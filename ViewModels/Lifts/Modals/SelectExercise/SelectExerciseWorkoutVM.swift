@@ -49,7 +49,12 @@ class SelectExerciseWorkoutVM: SelectExerciseModalVM {
         settCollection.workoutExercise = workoutExercise
         settCollection.exercise = exercise
         
-        self.workout.addToWorkoutExercises(workoutExercise)
+        // Replace workout exercise
+        if let replacementIndex = self.replacementIndex {
+            self.workout.replaceWorkoutExercises(at: replacementIndex, with: workoutExercise)
+        } else { // Add workout exercise
+            self.workout.addToWorkoutExercises(workoutExercise)
+        }
         CoreDataBase.save()
         return true
     }

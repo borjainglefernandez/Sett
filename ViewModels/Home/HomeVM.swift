@@ -43,8 +43,7 @@ final class HomeVM: NSObject {
 
     /// Initialize the cell view models from the workouts
     private func initCellVMs() {
-
-        let sortedKeys = self.workoutsByMonth.keys.sorted(using: .localizedStandard).reversed() // Reverse chronological order
+        let sortedKeys = self.workoutsByMonth.keys.sorted().reversed() // Reverse chronological order
         for monthYear in sortedKeys {
             let viewModel = MonthListCellVM(monthName: monthYear, numWorkouts: workoutsByMonth[monthYear]?.count ?? 0)
             self.cellVMs.append(viewModel)

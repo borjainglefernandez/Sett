@@ -53,7 +53,10 @@ final class MonthWorkoutListVM: NSObject {
         // Get workouts for particular month
         let predicate = NSPredicate(format: "(startTime >= %@) AND (startTime < %@)", startDate as NSDate, endDate as NSDate)
         
-        if let workouts  = CoreDataBase.fetchEntities(withEntity: "Workout", expecting: Workout.self, predicates: [predicate]) {
+        if let workouts  = CoreDataBase.fetchEntities(withEntity: "Workout", 
+                                                      expecting: Workout.self,
+                                                      predicates: [predicate],
+                                                      sortDescriptors: [NSSortDescriptor(key: "startTime", ascending: false)]) {
             self.workouts = workouts
             for workout in self.workouts {
                 let viewModel = MonthWorkoutListCellVM(workout: workout)
