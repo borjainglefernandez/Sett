@@ -72,7 +72,10 @@ class NumberInputKeyboardAccessory: UIToolbar {
     }
     
     @objc func checkMarkButtonTapped() {
-        self.currentTextField.text = currentTextField.placeholder
+        if let currentText = self.currentTextField.text,
+           currentText.isEmpty {
+            self.currentTextField.text = currentTextField.placeholder
+        }
         let nextTextField = self.currentTextField.findTextField(withTag: currentTextField.tag + 1, in: self.overallSuperView)
         nextTextField?.becomeFirstResponder()
         self.updateButtonStates()

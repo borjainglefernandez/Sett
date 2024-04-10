@@ -79,6 +79,10 @@ extension WeightInputVM: UITextFieldDelegate {
             self.sett.weight = weight
         }
         
+        if let textFieldText = textField.text {
+            textField.text = NumberUtils.stripLeadingZeros(from: textFieldText)
+        }
+        
         self.setNetWeight()
         CoreDataBase.save()
     }

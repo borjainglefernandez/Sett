@@ -77,6 +77,9 @@ extension RepsInputVM: UITextFieldDelegate {
         if let reps = NumberFormatter().number(from: textField.text ?? "") {
            self.sett.reps = reps
        }
+        if let textFieldText = textField.text {
+            textField.text = NumberUtils.stripLeadingZeros(from: textFieldText)
+        }
         
         self.setNetReps()
         CoreDataBase.save()

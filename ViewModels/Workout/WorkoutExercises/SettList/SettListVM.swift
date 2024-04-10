@@ -168,6 +168,16 @@ extension SettListVM: UITableViewDataSource, UITableViewDelegate {
             let deleteSettAlertController = DeleteAlertViewController(
                                                 title: "Delete this set?",
                                                 deleteAction: ({
+                                                    // Update net progress
+                                                    if let workoutNetProgress = sett.partOf?.workoutExercise?.workout?.netProgress {
+                                                        if let netReps = sett.netProgress?.reps as? Int64 {
+                                                            workoutNetProgress.reps -= netReps
+                                                        }
+                                                        if let netWeight = sett.netProgress?.weight as? Int64 {
+                                                            workoutNetProgress.weight -= netWeight
+                                                        }
+                                                    }
+                                                    
                                                     // Delete sett
                                                     self.settCollection?.workoutExercise?.numSetts -= 1
                                                     self.settCollection?.removeFromSetts(sett)

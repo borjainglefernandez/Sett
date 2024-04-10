@@ -19,4 +19,18 @@ class NumberUtils {
         }
         return "+\(num)"
     }
+    
+    /// Removes leading zeros from a string representing a number.
+    ///
+    /// - Parameter numberString: The string representing the number with leading zeros.
+    /// - Returns: A string with leading zeros removed.
+    static public func stripLeadingZeros(from numberString: String) -> String {
+        var strippedString = numberString
+        
+        // Remove leading zeros
+        while strippedString.hasPrefix("0") && strippedString.count > 1 {
+            strippedString.removeFirst()
+        }
+        return strippedString
+    }
 }
