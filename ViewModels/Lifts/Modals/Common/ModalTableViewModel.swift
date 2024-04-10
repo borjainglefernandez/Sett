@@ -112,7 +112,7 @@ class ModalTableVM: NSObject {
 
         for exercise in exercises {
             // Check if we should add it
-            if let shouldShowExerciseCallback = self.shouldShowExerciseCallback, !shouldShowExerciseCallback(exercise){
+            if let shouldShowExerciseCallback = self.shouldShowExerciseCallback, !shouldShowExerciseCallback(exercise) {
                 continue
             }
             

@@ -68,6 +68,11 @@ final class WorkoutExercisesVM: NSObject {
 
 // MARK: - Collection View Delegate
 extension WorkoutExercisesVM: UICollectionViewDataSource, UICollectionViewDelegateFlowLayout {
+
+    func numberOfSections(in collectionView: UICollectionView) -> Int {
+        1
+    }
+    
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
         return self.getWorkoutExercisesLength()
     }

@@ -111,18 +111,12 @@ extension MonthWorkoutListVM: UITableViewDataSource, UITableViewDelegate {
         let deleteWorkoutAction = UIContextualAction(style: .destructive, title: "") { _, _, _ in 
 
             // Controller
-            let deleteWorkoutAlertController = UIAlertController(
-                                                title: "Delete \(String(describing: workout.title!))?",
-                                                message: "This action cannot be undone.",
-                                                preferredStyle: .actionSheet)
-            
-            // Actions
-            deleteWorkoutAlertController.addAction(UIAlertAction(title: "Delete", style: .destructive, handler: { _ in
-                CoreDataBase.context.delete(workout)
-                CoreDataBase.save()
-
-            }))
-            deleteWorkoutAlertController.addAction(UIAlertAction(title: "Cancel", style: .cancel))
+            let deleteWorkoutAlertController = DeleteAlertViewController(
+                                                title: "Delete \(String(describing: workout.title ?? ""))?",
+                                                deleteAction: ({
+                                                    CoreDataBase.context.delete(workout)
+                                                    CoreDataBase.save()
+                                                }))
             
             if let parentViewController = tableView.getParentViewController(tableView) {
                 parentViewController.present(deleteWorkoutAlertController, animated: true)

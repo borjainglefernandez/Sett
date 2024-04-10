@@ -107,6 +107,13 @@ class CategoryListCell: UICollectionViewCell {
         self.addConstraints(isExpanded: isExpanded)
     }
     
+    public func deleteCategory() {
+        if let category = self.category {
+            CoreDataBase.context.delete(category)
+            CoreDataBase.save()
+        }
+    }
+    
     private func setUpCategorySettingsButton() {
         self.categorySettingsIconButton.showsMenuAsPrimaryAction = true
         
@@ -122,18 +129,9 @@ class CategoryListCell: UICollectionViewCell {
                                             attributes: [.destructive], state: .off) { _ in
             if let category = self.category {
                 // Controller
-                let deleteCategoryViewController = UIAlertController(
-                    title: "Delete \(String(describing: category.name!))?",
-                    message: "This action cannot be undone.",
-                    preferredStyle: .actionSheet)
-                
-                // Actions
-                deleteCategoryViewController.addAction(UIAlertAction(title: "Delete", style: .destructive, handler: { _ in
-                    CoreDataBase.context.delete(category)
-                    CoreDataBase.save()
-                    
-                }))
-                deleteCategoryViewController.addAction(UIAlertAction(title: "Cancel", style: .cancel))
+                let deleteCategoryViewController = DeleteAlertViewController(
+                    title: "Delete \(String(describing: category.name ?? ""))?",
+                    deleteAction: self.deleteCategory)
                 
                 if let parentViewController = self.getParentViewController(self) {
                     parentViewController.present(deleteCategoryViewController, animated: true)

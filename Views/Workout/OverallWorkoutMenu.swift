@@ -20,9 +20,15 @@ class OverallWorkoutMenu: NSObject {
         let addExerciseMenuItem = AddExerciseMenuItem(workout: self.workout, menuView: self.overallView).getMenuItem()
         let repeatWorkoutMenuItem = RepeatWorkoutMenuItem(workout: self.workout, menuView: self.overallView).getMenuItem()
         let reorderExercisesMenuItem = ReorderExercisesMenuItem(workout: self.workout, menuView: self.overallView).getMenuItem()
-        let menu = UIMenu(preferredElementSize: .large, children: [addExerciseMenuItem,
-                                                                   repeatWorkoutMenuItem,
-                                                                   reorderExercisesMenuItem])
+        let saveRoutineMenuItem = SaveRoutineMenuItem(workout: self.workout, menuView: self.overallView).getMenuItem()
+        let deleteWorkoutMenuItem = DeleteWorkoutMenuItem(workout: self.workout, menuView: self.overallView).getMenuItem()
+        let menu = UIMenu(preferredElementSize: .large, children: [
+            addExerciseMenuItem,
+            repeatWorkoutMenuItem,
+            reorderExercisesMenuItem,
+            saveRoutineMenuItem,
+            deleteWorkoutMenuItem]
+        )
         return menu
     }
 }

@@ -9,6 +9,7 @@ import UIKit
 
 class WorkoutExercisesView: UIView {
     
+    private var showNoExercisesView: (() -> Void)?
     private let viewModel: WorkoutExercisesVM
 
     // View for when there are no exercises to display
@@ -26,7 +27,7 @@ class WorkoutExercisesView: UIView {
                                 withReuseIdentifier: "WorkoutGeneralStatsView")
         collectionView.register(WorkoutExercisesCell.self, forCellWithReuseIdentifier: WorkoutExercisesCell.cellIdentifier)
         collectionView.backgroundColor = .systemCyan
-        collectionView.isHidden = true
+//        collectionView.isHidden = true
         return collectionView
     }()
 
@@ -51,17 +52,34 @@ class WorkoutExercisesView: UIView {
         fatalError("Unsupported initialiser")
     }
     
+    public func setShowNoExercisesText(showNoExercisesView: @escaping (() -> Void)) {
+        self.showNoExercisesView = showNoExercisesView
+        if let showNoExercisesView = self.showNoExercisesView {
+            showNoExercisesView()
+        }
+    }
+    
     // MARK: - Constraints
     private func addConstraints() {
+        // Base constraints
         NSLayoutConstraint.activate([
             self.collectionView.topAnchor.constraint(equalTo: topAnchor),
             self.collectionView.leftAnchor.constraint(equalTo: leftAnchor),
-            self.collectionView.rightAnchor.constraint(equalTo: rightAnchor),
-            self.collectionView.bottomAnchor.constraint(equalTo: bottomAnchor),
-            
-            self.emptyView.centerXAnchor.constraint(equalTo: self.centerXAnchor),
-            self.emptyView.centerYAnchor.constraint(equalTo: self.centerYAnchor)
+            self.collectionView.rightAnchor.constraint(equalTo: rightAnchor)
         ])
+        
+        // Full screen collection view if we have exercises
+        if self.emptyView.isHidden {
+            NSLayoutConstraint.activate([
+                self.collectionView.heightAnchor.constraint(equalTo: self.heightAnchor)
+            ])
+        } else { // Smaller screen collection view if no exercises
+            NSLayoutConstraint.activate([
+                self.collectionView.heightAnchor.constraint(equalTo: self.heightAnchor, multiplier: 0.65),
+                self.emptyView.centerXAnchor.constraint(equalTo: self.centerXAnchor),
+                self.emptyView.topAnchor.constraint(equalTo: self.collectionView.bottomAnchor)
+            ])
+        }
     }
     
     // MARK: - Configurations
@@ -75,10 +93,8 @@ class WorkoutExercisesView: UIView {
     // Shows or hides collection view depending on whether or not there are exercises in workout
     public func showHideCollectionView() {
         if self.viewModel.getWorkoutExercisesLength() > 0 {
-            self.collectionView.isHidden = false
             self.emptyView.isHidden = true
         } else {
-            self.collectionView.isHidden = true
             self.emptyView.isHidden = false
         }
     }

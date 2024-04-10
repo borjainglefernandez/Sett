@@ -25,6 +25,7 @@ final class WorkoutViewController: UIViewController {
         return workoutName
     }()
     
+    private let workoutExercisesVM: WorkoutExercisesVM
     private let generalStatsVM: WorkoutGeneralStatsVM
     
     private let workoutExercisesView: WorkoutExercisesView
@@ -37,7 +38,7 @@ final class WorkoutViewController: UIViewController {
         
         self.generalStatsVM = WorkoutGeneralStatsVM(workout: workout)
         
-        let workoutExercisesVM = WorkoutExercisesVM(workout: workout)
+        self.workoutExercisesVM = WorkoutExercisesVM(workout: workout)
         self.workoutExercisesView = WorkoutExercisesView(frame: .zero, viewModel: workoutExercisesVM)
         
         let workoutBottomBarVM = WorkoutBottomBarVM(workout: workout)

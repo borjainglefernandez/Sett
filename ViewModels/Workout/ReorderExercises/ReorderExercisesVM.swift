@@ -83,20 +83,12 @@ extension ReorderExercisesVM: UITableViewDataSource, UITableViewDelegate {
             let workoutExercise = cellVMs[indexPath.row].workoutExercise
             
             // Controller
-            let deleteWorkoutExerciseAlertController = UIAlertController(
-                title: "Remove \(String(describing: workoutExercise.exercise?.name)) from \(String(describing: self.workout.title))?",
-                message: "This action cannot be undone.",
-                preferredStyle: .actionSheet)
-            
-            // Actions
-            deleteWorkoutExerciseAlertController.addAction(UIAlertAction(title: "Delete", style: .destructive, handler: { _ in
-                DispatchQueue.main.async {
+            let deleteWorkoutExerciseAlertController = DeleteAlertViewController(
+                title: "Remove \(String(describing: workoutExercise.exercise?.name ?? "")) from \(String(describing: self.workout.title ?? ""))?",
+                deleteAction: ({
                     CoreDataBase.context.delete(workoutExercise)
                     CoreDataBase.save()
-                }
-
-            }))
-            deleteWorkoutExerciseAlertController.addAction(UIAlertAction(title: "Cancel", style: .cancel))
+                }))
             
             if let parentViewController = tableView.getParentViewController(tableView) {
                 parentViewController.present(deleteWorkoutExerciseAlertController, animated: true)

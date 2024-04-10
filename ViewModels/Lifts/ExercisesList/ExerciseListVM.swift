@@ -97,17 +97,12 @@ extension ExerciseListVM: UITableViewDataSource, UITableViewDelegate {
  
             // Controller
             let deleteExerciseAlertController =
-                UIAlertController(title: "Delete \(String(describing: exercise.name!))?",
-                                  message: "This action cannot be undone.",
-                                  preferredStyle: .actionSheet)
-            
-            // Actions
-            deleteExerciseAlertController.addAction(UIAlertAction(title: "Delete", style: .destructive, handler: { _ in
-                CoreDataBase.context.delete(exercise)
-                CoreDataBase.save()
-
-            }))
-            deleteExerciseAlertController.addAction(UIAlertAction(title: "Cancel", style: .cancel))
+                DeleteAlertViewController(title: "Delete \(String(describing: exercise.name!))?",
+                                          deleteAction: ({
+                                             CoreDataBase.context.delete(exercise)
+                                             CoreDataBase.save()
+                                             tableView.setEditing(false, animated: true) // Dismiss Menu
+                                            }))
 
             if let parentViewController = tableView.getParentViewController(tableView) {
                 parentViewController.present(deleteExerciseAlertController, animated: true)

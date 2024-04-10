@@ -18,6 +18,9 @@ class RoutineListVM: NSObject {
             self.cellVMs.append(RoutineListCellVM(routine: routine))
         }
     }
+    
+    // MARK: - Actions
+    
 }
 
 // MARK: - Table View Delegate
@@ -67,18 +70,13 @@ extension RoutineListVM: UITableViewDataSource, UITableViewDelegate {
         let deleteRoutineAction = UIContextualAction(style: .destructive, title: "") {  _, _, _ in
             
             // Controller
-            let deleteRoutineAlertController = UIAlertController(
-                                                title: "Delete \(String(describing: routine.name!))?",
-                                                message: "This action cannot be undone.",
-                                                preferredStyle: .actionSheet)
-            
-            // Actions
-            deleteRoutineAlertController.addAction(UIAlertAction(title: "Delete", style: .destructive, handler: { _ in
-                CoreDataBase.context.delete(routine)
-                CoreDataBase.save()
-
-            }))
-            deleteRoutineAlertController.addAction(UIAlertAction(title: "Cancel", style: .cancel))
+            let deleteRoutineAlertController = DeleteAlertViewController(
+                title: "Delete \(String(describing: routine.name ?? ""))?",
+                deleteAction: ({
+                    CoreDataBase.context.delete(routine)
+                    CoreDataBase.save()
+                    tableView.setEditing(false, animated: true) // Dismiss Menu
+                }))
             
             if let parentViewController = tableView.getParentViewController(tableView) {
                 parentViewController.present(deleteRoutineAlertController, animated: true)

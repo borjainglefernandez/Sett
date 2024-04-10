@@ -165,25 +165,23 @@ extension SettListVM: UITableViewDataSource, UITableViewDelegate {
         let deleteSettAction = UIContextualAction(style: .destructive, title: "") {  _, _, _ in
             
             // Controller
-            let deleteSettAlertController = UIAlertController(
+            let deleteSettAlertController = DeleteAlertViewController(
                                                 title: "Delete this set?",
-                                                message: "This action cannot be undone.",
-                                                preferredStyle: .actionSheet)
-            
-            // Actions
-            deleteSettAlertController.addAction(UIAlertAction(title: "Delete", style: .destructive, handler: { _ in
-                self.settCollection?.workoutExercise?.numSetts -= 1
-                self.settCollection?.removeFromSetts(sett)
-                CoreDataBase.context.delete(sett)
-                if  let settCollection = self.settCollection,
-                    let workoutExercise = settCollection.workoutExercise, workoutExercise.numSetts == 0 {
-                    CoreDataBase.context.delete(settCollection)
-                    CoreDataBase.context.delete(workoutExercise)
-                }
-                CoreDataBase.save()
-
-            }))
-            deleteSettAlertController.addAction(UIAlertAction(title: "Cancel", style: .cancel))
+                                                deleteAction: ({
+                                                    // Delete sett
+                                                    self.settCollection?.workoutExercise?.numSetts -= 1
+                                                    self.settCollection?.removeFromSetts(sett)
+                                                    CoreDataBase.context.delete(sett)
+                                                    
+                                                    // If last sett, delete sett collection
+                                                    if let settCollection = self.settCollection,
+                                                       let workoutExercise = settCollection.workoutExercise, workoutExercise.numSetts == 0 {
+                                                        CoreDataBase.context.delete(settCollection)
+                                                        CoreDataBase.context.delete(workoutExercise)
+                                                    }
+                                                    CoreDataBase.save()
+                                                    tableView.setEditing(false, animated: true) // Dismiss Menu
+                                                }))
             
             if let parentViewController = tableView.getParentViewController(tableView) {
                 parentViewController.present(deleteSettAlertController, animated: true)
