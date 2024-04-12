@@ -8,7 +8,11 @@
 import UIKit
 
 final class MonthWorkoutListCell: UITableViewCell {
+    
     static let cellIdentifier = "MonthWorkoutTableViewCell"
+    
+    private var timeElapsedTimer: Timer? // Timer for updating time elapsed in an ongoing workout
+    private var viewModel: MonthWorkoutListCellVM?
     
     // Each individual cell container
     private let containerView: UIView = {
@@ -73,6 +77,17 @@ final class MonthWorkoutListCell: UITableViewCell {
     // MARK: - LifeCycle
     override func prepareForReuse() {
         super.prepareForReuse()
+        self.durationLabel.textColor = .label
+        self.timeElapsedTimer?.invalidate()
+    }
+    
+    override func awakeFromNib() {
+        super.awakeFromNib()
+        if let isOngoing = self.viewModel?.workout.isOngoing,
+           isOngoing,
+           self.viewModel != nil {
+            self.startTimer()
+        }
     }
     
     // MARK: - Constraints
@@ -105,17 +120,42 @@ final class MonthWorkoutListCell: UITableViewCell {
     
     // MARK: - Configurations
     public func configure(with viewModel: MonthWorkoutListCellVM) {
+        self.viewModel = viewModel
+        self.titleLabel.text =  viewModel.workout.title
+        self.starRating.starRating.rating = viewModel.workout.rating
+        self.achievementsNumberView.achievementsNumberLabel.text = String(describing: "2")
+        
+        // Duration label
+        if viewModel.workout.isOngoing {
+            self.durationLabel.textColor = .systemCyan
+            self.startTimer()
+        } else {
+            self.timeElapsedTimer?.invalidate()
+        }
+        self.durationLabel.text = viewModel.calculateWorkoutTime()
+        
+        // Calendar day label
         if let startTime = viewModel.workout.startTime {
             let calendar = Calendar.current
             let components = calendar.dateComponents([.day], from: startTime)
             if let day = components.day {
-                self.titleLabel.text =  viewModel.workout.title
-                self.starRating.starRating.rating = viewModel.workout.rating
                 self.calendarDayView.calendarLabel.text = "\(String(describing: day))"
-                self.achievementsNumberView.achievementsNumberLabel.text = String(describing: "2")
-                self.durationLabel.text = "120 min"
                 
             }
+        }
+    }
+    
+    private func startTimer() {
+        self.timeElapsedTimer = Timer.scheduledTimer(
+            timeInterval: 60, target: self,
+            selector: #selector(updateTimeElapsed), userInfo: nil, repeats: true)
+
+    }
+    
+    // MARK: - Actions
+    @objc private func updateTimeElapsed() {
+        if let viewModel = self.viewModel {
+            self.durationLabel.text = viewModel.calculateWorkoutTime()
         }
     }
 }

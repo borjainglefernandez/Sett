@@ -16,4 +16,16 @@ final class MonthWorkoutListCellVM: NSObject {
      ) {
          self.workout = workout
      }
+    
+    public func calculateWorkoutTime() -> String {
+        
+        let workoutTimeElapsedSeconds: Int = WorkoutUtils.getWorkoutElapsedTimeSeconds(workout: self.workout)
+        var workoutTimeElapsedMinutes: Int = Int(round((Double(truncating: workoutTimeElapsedSeconds as NSNumber)) / 60))
+        if workoutTimeElapsedMinutes > 9999 {
+            return ">9999 min"
+        }
+        
+        return "\(workoutTimeElapsedMinutes) min"
+
+    }
 }

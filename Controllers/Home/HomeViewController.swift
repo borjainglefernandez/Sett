@@ -9,6 +9,7 @@ import UIKit
 import CoreData
 
 final class HomeViewController: UIViewController {
+
     
     // Top bar of the home page
     private let topBar: UIView = MenuBar(frame: .zero)
@@ -24,6 +25,9 @@ final class HomeViewController: UIViewController {
         
     // Home View
     private let homeView = HomeView()
+    
+    // Selected Index for sort menu
+    private var selectedIndex = 0;
     
     // Add Workout Menu
     private func setUpAddWorkoutMenu() {
@@ -56,6 +60,10 @@ final class HomeViewController: UIViewController {
         
         self.topBar.addSubviews(self.titleLabel, self.addWorkoutButton, self.sortWorkoutButton)
         self.view.addSubviews(self.topBar, self.homeView)
+        
+        sortWorkoutButton.showsMenuAsPrimaryAction = true
+        sortWorkoutButton.menu = SortWorkoutsMenu(homeViewController: self, selectedIndex: self.selectedIndex).getMenu()
+        
         self.addConstraints()
     }
     
@@ -105,5 +113,29 @@ final class HomeViewController: UIViewController {
 //        // Show collection view if previously hidden
 //        showHideCollectionView()
         
+    }
+}
+
+
+extension HomeViewController { // Sort Menu actions
+    
+    public func sortByDate() {
+        self.selectedIndex = 0
+        self.viewDidLoad()
+    }
+    
+    public func sortByRating() {
+        self.selectedIndex = 1
+        self.viewDidLoad()
+    }
+    
+    public func sortByDuration() {
+        self.selectedIndex = 2
+        self.viewDidLoad()
+    }
+    
+    public func sortByAchievements() {
+        self.selectedIndex = 3
+        self.viewDidLoad()
     }
 }
