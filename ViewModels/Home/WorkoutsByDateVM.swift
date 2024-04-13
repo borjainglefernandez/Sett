@@ -8,7 +8,7 @@
 import UIKit
 import CoreData
 
-final class HomeVM: NSObject {
+final class WorkoutsByDateVM: NSObject {
 
     public var homeView: HomeView?
     private var cellVMs: [MonthListCellVM] = []
@@ -45,7 +45,7 @@ final class HomeVM: NSObject {
     private func initCellVMs() {
         let sortedKeys = self.workoutsByMonth.keys.sorted().reversed() // Reverse chronological order
         for monthYear in sortedKeys {
-            let viewModel = MonthListCellVM(monthName: monthYear, numWorkouts: workoutsByMonth[monthYear]?.count ?? 0)
+            let viewModel = MonthListCellVM(monthYear: monthYear, numWorkouts: workoutsByMonth[monthYear]?.count ?? 0)
             self.cellVMs.append(viewModel)
             self.isExpanded.append(true)
         }
@@ -105,7 +105,7 @@ final class HomeVM: NSObject {
 }
 
 // MARK: - Collection View Delegate
-extension HomeVM: UICollectionViewDataSource, UICollectionViewDelegateFlowLayout {
+extension WorkoutsByDateVM: UICollectionViewDataSource, UICollectionViewDelegateFlowLayout {
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
         return self.workoutsByMonth.count
     }
@@ -139,7 +139,7 @@ extension HomeVM: UICollectionViewDataSource, UICollectionViewDelegateFlowLayout
     }
 }
 // MARK: - Expanded Cell Delegate
-extension HomeVM: CollapsibleContainerTopBarDelegate {
+extension WorkoutsByDateVM: CollapsibleContainerTopBarDelegate {
     /// Collapse or Expand selected Month Workout Container
     ///
     /// - Parameters:
@@ -157,20 +157,20 @@ extension HomeVM: CollapsibleContainerTopBarDelegate {
 }
 
 // MARK: - Fetched Results Controller Delegate
-extension HomeVM: NSFetchedResultsControllerDelegate {
+extension WorkoutsByDateVM: NSFetchedResultsControllerDelegate {
     // Update screen if CRUD conducted on Workouts
     func controller(_ controller: NSFetchedResultsController<NSFetchRequestResult>,
                     didChange anObject: Any, at indexPath: IndexPath?, for type: NSFetchedResultsChangeType, newIndexPath: IndexPath?) {
         DispatchQueue.main.async {
             self.configure()
-            self.homeView?.collectionView.reloadData()
-            self.homeView?.showHideMonthCollectionView()
+            self.homeView?.workoutsByMonthCollectionView.reloadData()
+            self.homeView?.showHideMonthWorkoutsByMonthCollectionView()
         }
     }
 }
 
 // MARK: - Workouts Delegate
-extension HomeVM: WorkoutsDelegate {
+extension WorkoutsByDateVM: WorkoutsDelegate {
     func addWorkout(collectionView: UICollectionView) {
         self.addWorkout()
     }

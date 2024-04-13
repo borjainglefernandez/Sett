@@ -16,7 +16,7 @@ protocol WorkoutsDelegate: NSObjectProtocol {
 
 final class HomeView: UIView {
     
-    let viewModel = HomeVM()
+    let workoutsByDateVM = WorkoutsByDateVM()
     
     // Delegate to call to add workout
     weak var delegate: WorkoutsDelegate?
@@ -25,7 +25,7 @@ final class HomeView: UIView {
     public let emptyView: UILabel = EmptyLabel(frame: .zero, labelText: "No workouts completed yet!")
     
     // Collection view of the month workout containers
-    public let collectionView: UICollectionView = {
+    public let workoutsByMonthCollectionView: UICollectionView = {
         let layout = UICollectionViewFlowLayout()
         layout.sectionInset = UIEdgeInsets(top: 10, left: 10, bottom: 10, right: 10)
         layout.scrollDirection = .vertical
@@ -37,19 +37,35 @@ final class HomeView: UIView {
         return collectionView
     }()
     
+    // Table View for workouts sorted by something other than date
+    private let workoutsTableView: UITableView = {
+        let workoutsTableView = UITableView()
+        workoutsTableView.backgroundColor = .systemGray3.withAlphaComponent(0.44)
+        workoutsTableView.translatesAutoresizingMaskIntoConstraints = false
+        workoutsTableView.register( WorkoutListCell.self, forCellReuseIdentifier: WorkoutListCell.cellIdentifier)
+        workoutsTableView.layer.cornerRadius = 15
+        workoutsTableView.layer.maskedCorners = [.layerMaxXMaxYCorner, .layerMinXMaxYCorner]
+        workoutsTableView.isScrollEnabled = false
+        workoutsTableView.separatorStyle = UITableViewCell.SeparatorStyle.none
+        return workoutsTableView
+    }()
+    
     // MARK: - Init
-    override init(frame: CGRect) {
+    init(frame: CGRect, workoutSortByType: WorkoutSortByType) {
         super.init(frame: frame)
         
         self.backgroundColor = .systemCyan
         self.translatesAutoresizingMaskIntoConstraints = false
         
-        self.viewModel.configure()
-        self.setUpDelegate()
-        self.setUpCollectionView()
-        self.showHideMonthCollectionView()
-        
-        self.addSubviews(collectionView, emptyView)
+        if workoutSortByType == .date {
+            self.workoutsByDateVM.configure()
+            self.setUpDelegate()
+            self.setUpWorkoutsByMonthCollectionView()
+            self.showHideMonthWorkoutsByMonthCollectionView()
+        } else {
+            
+        }
+        self.addSubviews(self.workoutsByMonthCollectionView, emptyView)
         self.addConstraints()
     }
     required init?(coder: NSCoder) {
@@ -59,10 +75,10 @@ final class HomeView: UIView {
     // MARK: - Constraints
     private func addConstraints() {
         NSLayoutConstraint.activate([
-            self.collectionView.topAnchor.constraint(equalTo: self.topAnchor),
-            self.collectionView.leftAnchor.constraint(equalTo: self.leftAnchor),
-            self.collectionView.rightAnchor.constraint(equalTo: self.rightAnchor),
-            self.collectionView.bottomAnchor.constraint(equalTo: self.bottomAnchor),
+            self.workoutsByMonthCollectionView.topAnchor.constraint(equalTo: self.topAnchor),
+            self.workoutsByMonthCollectionView.leftAnchor.constraint(equalTo: self.leftAnchor),
+            self.workoutsByMonthCollectionView.rightAnchor.constraint(equalTo: self.rightAnchor),
+            self.workoutsByMonthCollectionView.bottomAnchor.constraint(equalTo: self.bottomAnchor),
             
             self.emptyView.centerXAnchor.constraint(equalTo: self.centerXAnchor),
             self.emptyView.centerYAnchor.constraint(equalTo: self.centerYAnchor)
@@ -71,22 +87,22 @@ final class HomeView: UIView {
     
     // MARK: - Configurations
     private func setUpDelegate() {
-        self.delegate = self.viewModel
+        self.delegate = self.workoutsByDateVM
     }
     
-    private func setUpCollectionView() {
-        self.collectionView.dataSource = self.viewModel
-        self.collectionView.delegate = self.viewModel
-        self.viewModel.homeView = self
+    private func setUpWorkoutsByMonthCollectionView() {
+        self.workoutsByMonthCollectionView.dataSource = self.workoutsByDateVM
+        self.workoutsByMonthCollectionView.delegate = self.workoutsByDateVM
+        self.workoutsByDateVM.homeView = self
     }
     
     // Shows or hides collection view depending on whether or not there are workouts
-    public func showHideMonthCollectionView() {
-        if self.viewModel.getWorkoutsLength() > 0 {
-            self.collectionView.isHidden = false
+    public func showHideMonthWorkoutsByMonthCollectionView() {
+        if self.workoutsByDateVM.getWorkoutsLength() > 0 {
+            self.workoutsByMonthCollectionView.isHidden = false
             self.emptyView.isHidden = true
         } else {
-            self.collectionView.isHidden = true
+            self.workoutsByMonthCollectionView.isHidden = true
             self.emptyView.isHidden = false
         }
     }

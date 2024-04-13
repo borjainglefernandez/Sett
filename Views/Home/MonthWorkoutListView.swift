@@ -9,14 +9,14 @@ import UIKit
 
 final class MonthWorkoutListView: UIView {
     
-    private var viewModel: MonthWorkoutListVM?
+    private var viewModel: WorkoutListVM?
     
     // Table View for workouts in each month
     private let tableView: UITableView = {
         let tableView = UITableView()
         tableView.backgroundColor = .systemGray3.withAlphaComponent(0.44)
         tableView.translatesAutoresizingMaskIntoConstraints = false
-        tableView.register(MonthWorkoutListCell.self, forCellReuseIdentifier: MonthWorkoutListCell.cellIdentifier)
+        tableView.register(WorkoutListCell.self, forCellReuseIdentifier: WorkoutListCell.cellIdentifier)
         tableView.layer.cornerRadius = 15
         tableView.layer.maskedCorners = [.layerMaxXMaxYCorner, .layerMinXMaxYCorner]
         tableView.isScrollEnabled = false
@@ -48,7 +48,7 @@ final class MonthWorkoutListView: UIView {
     }
     
     // MARK: - Configurations
-    public func configure(with viewModel: MonthWorkoutListVM) {
+    public func configure(with viewModel: WorkoutListVM) {
         self.viewModel = viewModel
         self.setUpTableView()
     }

@@ -57,7 +57,7 @@ final class MonthListCell: UICollectionViewCell {
                           delegate: CollapsibleContainerTopBarDelegate) {
         // Populate title label text
         let workoutSuffix = viewModel.numWorkouts == 1 ? "Workout" : "Workouts"
-        self.collapsibleContainerTopBar.setTitleLabelText(title: "\(viewModel.monthName) - \(viewModel.numWorkouts) \(workoutSuffix)")
+        self.collapsibleContainerTopBar.setTitleLabelText(title: "\(viewModel.monthYearFormatted) - \(viewModel.numWorkouts) \(workoutSuffix)")
         
         // Configure view model of collapsible top bar
         let collapsibleContainerTopBarVM = CollapsibleContainerTopBarVM(
@@ -68,11 +68,11 @@ final class MonthListCell: UICollectionViewCell {
         self.collapsibleContainerTopBar.configure(with: collapsibleContainerTopBarVM)
         
         // Extract month and year then configure view model of workout
-        guard let month = Int(viewModel.monthName.components(separatedBy: "/")[0]),
-              let year = Int(viewModel.monthName.components(separatedBy: "/")[1]) else {
+        guard let month = Int(viewModel.monthYear.components(separatedBy: "/")[0]),
+              let year = Int(viewModel.monthYear.components(separatedBy: "/")[1]) else {
                   fatalError("Could not get month or year from string")
               }
-        let monthWorkoutListVM = MonthWorkoutListVM(month: month, year: year)
+        let monthWorkoutListVM = WorkoutListVM(month: month, year: year)
         self.monthWorkoutListView.configure(with: monthWorkoutListVM)
     }
 }

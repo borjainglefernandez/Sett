@@ -1,5 +1,5 @@
 //
-//  MonthWorkoutListCellVM.swift
+//  WorkoutListCellVM.swift
 //  Sett
 //
 //  Created by Borja Ingle-Fernandez on 6/22/23.
@@ -7,7 +7,7 @@
 
 import Foundation
 
-final class MonthWorkoutListCellVM: NSObject {
+final class WorkoutListCellVM: NSObject {
     public let workout: Workout
 
      // MARK: - Init

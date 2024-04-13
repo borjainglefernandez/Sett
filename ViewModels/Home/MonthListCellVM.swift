@@ -8,15 +8,30 @@
 import Foundation
 
 final class MonthListCellVM: NSObject {
-    public let monthName: String
+    public var monthYear: String
+    public var monthYearFormatted: String = ""
     public let numWorkouts: Int
 
      // MARK: - Init
      init(
-        monthName: String,
+        monthYear: String,
         numWorkouts: Int
      ) {
-         self.monthName = monthName
+         self.monthYear = monthYear
          self.numWorkouts = numWorkouts
+         super.init()
+         self.monthYearFormatted = self.transformMonthYearString(self.monthYear)
      }
+    
+    // Changes from 4/2024 to April 2024
+    func transformMonthYearString(_ dateString: String) -> String {
+            let dateFormatter = DateFormatter()
+            dateFormatter.dateFormat = "M/yyyy"
+            if let date = dateFormatter.date(from: dateString) {
+                dateFormatter.dateFormat = "MMMM yyyy"
+                return dateFormatter.string(from: date)
+            } else {
+                return "Invalid Date"
+            }
+        }
 }

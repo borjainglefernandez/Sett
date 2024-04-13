@@ -7,12 +7,12 @@
 
 import UIKit
 
-final class MonthWorkoutListCell: UITableViewCell {
+final class WorkoutListCell: UITableViewCell {
     
-    static let cellIdentifier = "MonthWorkoutTableViewCell"
+    static let cellIdentifier = "WorkoutListCell"
     
     private var timeElapsedTimer: Timer? // Timer for updating time elapsed in an ongoing workout
-    private var viewModel: MonthWorkoutListCellVM?
+    private var viewModel: WorkoutListCellVM?
     
     // Each individual cell container
     private let containerView: UIView = {
@@ -119,7 +119,7 @@ final class MonthWorkoutListCell: UITableViewCell {
     }
     
     // MARK: - Configurations
-    public func configure(with viewModel: MonthWorkoutListCellVM) {
+    public func configure(with viewModel: WorkoutListCellVM) {
         self.viewModel = viewModel
         self.titleLabel.text =  viewModel.workout.title
         self.starRating.starRating.rating = viewModel.workout.rating

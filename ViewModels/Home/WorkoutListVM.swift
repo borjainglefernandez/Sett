@@ -1,5 +1,5 @@
 //
-//  MonthWorkoutListVM.swift
+//  WorkoutListVM.swift
 //  Sett
 //
 //  Created by Borja Ingle-Fernandez on 6/19/23.
@@ -13,25 +13,30 @@ protocol DeleteWorkoutDelegate: NSObjectProtocol {
     /// - Parameters:
     ///   - workout: workout to delete
     ///   - viewModel: update view model after deleting workout
-    func deleteWorkout(workout: Workout, viewModel: MonthWorkoutListVM)
+    func deleteWorkout(workout: Workout, viewModel: WorkoutListVM)
 }
 
-final class MonthWorkoutListVM: NSObject {
+final class WorkoutListVM: NSObject {
     
-    public var month: Int
-    public var year: Int
+    public var month: Int?
+    public var year: Int?
     public var workouts: [Workout] = []
-    private var cellVMs: [MonthWorkoutListCellVM] = []
+    private var cellVMs: [WorkoutListCellVM] = []
+    
     
     // MARK: - Init
     init(
-        month: Int,
-        year: Int
+        month: Int?,
+        year: Int?
     ) {
         self.month = month
         self.year = year
         super.init()
-        self.setWorkouts()
+        
+        if self.month != nil,
+           self.year !=  nil {
+            self.setWorkouts()
+        }
     }
     
     // MARK: - Actions
@@ -59,7 +64,7 @@ final class MonthWorkoutListVM: NSObject {
                                                       sortDescriptors: [NSSortDescriptor(key: "startTime", ascending: false)]) {
             self.workouts = workouts
             for workout in self.workouts {
-                let viewModel = MonthWorkoutListCellVM(workout: workout)
+                let viewModel = WorkoutListCellVM(workout: workout)
                 self.cellVMs.append(viewModel)
             }
         }
@@ -69,13 +74,13 @@ final class MonthWorkoutListVM: NSObject {
 }
 
 // MARK: - Table View Delegate
-extension MonthWorkoutListVM: UITableViewDataSource, UITableViewDelegate {
+extension WorkoutListVM: UITableViewDataSource, UITableViewDelegate {
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         guard let cell = tableView.dequeueReusableCell(
-            withIdentifier: MonthWorkoutListCell.cellIdentifier,
+            withIdentifier: WorkoutListCell.cellIdentifier,
             for: indexPath
-        ) as? MonthWorkoutListCell else {
+        ) as? WorkoutListCell else {
             fatalError("Unsupported cell")
         }
         cell.configure(with: self.cellVMs[indexPath.row])

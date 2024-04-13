@@ -23,11 +23,14 @@ final class HomeViewController: UIViewController {
     // Button to sort workouts
     private let sortWorkoutButton: UIButton = IconButton(frame: .zero, imageName: "arrow.up.arrow.down.circle")
         
+    // Workouts sort by type
+    private var workoutSortByType: WorkoutSortByType = .date
+    
     // Home View
-    private let homeView = HomeView()
+    lazy var homeView: HomeView = HomeView(frame: .zero, workoutSortByType: self.workoutSortByType)
     
     // Selected Index for sort menu
-    private var selectedIndex = 0;
+    private var selectedIndex = 0
     
     // Add Workout Menu
     private func setUpAddWorkoutMenu() {
@@ -106,16 +109,9 @@ final class HomeViewController: UIViewController {
     }
     
     private func startRoutine() {
-//        if let delegate = self.delegate {
-//            delegate.addWorkout(collectionView: self.collectionView)
-//        }
-//        
-//        // Show collection view if previously hidden
-//        showHideCollectionView()
-        
+        self.tabBarController?.selectedIndex = 1
     }
 }
-
 
 extension HomeViewController { // Sort Menu actions
     
