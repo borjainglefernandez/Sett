@@ -86,10 +86,7 @@ final class HomeView: UIView {
             self.sortByWorkoutContainerView.topAnchor.constraint(equalTo: self.topAnchor, constant: 10),
             self.sortByWorkoutContainerView.centerXAnchor.constraint(equalTo: self.centerXAnchor),
             self.sortByWorkoutContainerView.widthAnchor.constraint(equalTo: self.widthAnchor, multiplier: 0.95),
-            self.sortByWorkoutContainerView.bottomAnchor.constraint(equalTo: self.bottomAnchor, constant: -60),
-            
-            self.emptyView.centerXAnchor.constraint(equalTo: self.centerXAnchor),
-            self.emptyView.centerYAnchor.constraint(equalTo: self.centerYAnchor)
+            self.sortByWorkoutContainerView.bottomAnchor.constraint(equalTo: self.bottomAnchor, constant: -10)
         ])
     }
     

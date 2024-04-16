@@ -18,6 +18,7 @@ protocol DeleteWorkoutDelegate: NSObjectProtocol {
 
 final class WorkoutListVM: NSObject {
     
+    public var sortByWorkoutContainerView: SortByWorkoutListContainerView?
     public var workoutList: WorkoutListView?
     public var month: Int?
     public var year: Int?
@@ -105,6 +106,10 @@ final class WorkoutListVM: NSObject {
         
     }
     
+    public func getNumberOfWorkouts() -> Int {
+        return self.cellVMs.count
+    }
+    
 }
 
 // MARK: - Table View Delegate
@@ -174,9 +179,9 @@ extension WorkoutListVM: NSFetchedResultsControllerDelegate {
     func controller(_ controller: NSFetchedResultsController<NSFetchRequestResult>,
                     didChange anObject: Any, at indexPath: IndexPath?, for type: NSFetchedResultsChangeType, newIndexPath: IndexPath?) {
         DispatchQueue.main.async {
-
             self.configure()
             self.workoutList?.tableView.reloadData()
+            self.sortByWorkoutContainerView?.showHideTableView()
         }
     }
 }
