@@ -7,12 +7,12 @@
 
 import UIKit
 
-final class MonthWorkoutListView: UIView {
+final class WorkoutListView: UIView {
     
     private var viewModel: WorkoutListVM?
     
     // Table View for workouts in each month
-    private let tableView: UITableView = {
+    public let tableView: UITableView = {
         let tableView = UITableView()
         tableView.backgroundColor = .systemGray3.withAlphaComponent(0.44)
         tableView.translatesAutoresizingMaskIntoConstraints = false
@@ -21,6 +21,7 @@ final class MonthWorkoutListView: UIView {
         tableView.layer.maskedCorners = [.layerMaxXMaxYCorner, .layerMinXMaxYCorner]
         tableView.isScrollEnabled = false
         tableView.separatorStyle = UITableViewCell.SeparatorStyle.none
+        tableView.translatesAutoresizingMaskIntoConstraints = false
         return tableView
     }()
     
@@ -56,5 +57,6 @@ final class MonthWorkoutListView: UIView {
     private func setUpTableView() {
         self.tableView.dataSource = self.viewModel
         self.tableView.delegate = self.viewModel
+        self.viewModel?.workoutList = self
     }
 }

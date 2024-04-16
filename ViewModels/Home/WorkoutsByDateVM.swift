@@ -9,17 +9,23 @@ import UIKit
 import CoreData
 
 final class WorkoutsByDateVM: NSObject {
-
+    
+    public let workoutSortByVM: WorkoutSortByVM
     public var homeView: HomeView?
     private var cellVMs: [MonthListCellVM] = []
     private var isExpanded: [Bool] = []
     private var workoutsByMonth: [String: [Workout]] = [String: [Workout]]()
-    private var fetchedResultsController: NSFetchedResultsController<Workout> = {
+    lazy var fetchedResultsController: NSFetchedResultsController<Workout> = {
         return CoreDataBase.createFetchedResultsController(
                 withEntityName: "Workout",
                 expecting: Workout.self,
-                sortDescriptors: [NSSortDescriptor(key: "startTime", ascending: true)])
+                sortDescriptors: [NSSortDescriptor(key: "startTime", ascending: self.workoutSortByVM.ascending)])
     }()
+    
+    // MARK: - Init
+    init(workoutSortByVM: WorkoutSortByVM) {
+        self.workoutSortByVM = workoutSortByVM
+    }
 
     // MARK: - Configurations
 
@@ -43,9 +49,15 @@ final class WorkoutsByDateVM: NSObject {
 
     /// Initialize the cell view models from the workouts
     private func initCellVMs() {
-        let sortedKeys = self.workoutsByMonth.keys.sorted().reversed() // Reverse chronological order
+        var sortedKeys = self.workoutsByMonth.keys.sorted() // chronological order
+        if !self.workoutSortByVM.ascending {
+            sortedKeys = sortedKeys.reversed() // reverse chronological order
+        }
+        
         for monthYear in sortedKeys {
-            let viewModel = MonthListCellVM(monthYear: monthYear, numWorkouts: workoutsByMonth[monthYear]?.count ?? 0)
+            let viewModel = MonthListCellVM(monthYear: monthYear, 
+                                            numWorkouts: workoutsByMonth[monthYear]?.count ?? 0,
+                                            workoutSortByVM: self.workoutSortByVM)
             self.cellVMs.append(viewModel)
             self.isExpanded.append(true)
         }

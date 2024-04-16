@@ -18,55 +18,89 @@ protocol DeleteWorkoutDelegate: NSObjectProtocol {
 
 final class WorkoutListVM: NSObject {
     
+    public var workoutList: WorkoutListView?
     public var month: Int?
     public var year: Int?
+    public let workoutSortByVM: WorkoutSortByVM
     public var workouts: [Workout] = []
     private var cellVMs: [WorkoutListCellVM] = []
-    
+    lazy var fetchedResultsController: NSFetchedResultsController<Workout> = {
+        var predicate: NSPredicate?
+        let ascendingStartTime: Bool = self.workoutSortByVM.workoutSortByType == .date && self.workoutSortByVM.ascending
+        var sortDescriptors = [
+            NSSortDescriptor(key: "startTime", ascending: ascendingStartTime)]
+        if let month = self.month, let year = self.year {
+            // Create start and end dates for a particular month
+            let startDateComponents = DateComponents(year: self.year, month: self.month, day: 1, hour: 0, minute: 0, second: 0)
+            var incrementDateComponents = DateComponents()
+            incrementDateComponents.month = 1
+            let calendar: Calendar = Calendar.current
+            guard let startDate: Date = calendar.date(from: startDateComponents),
+                  let endDate: Date = calendar.date(byAdding: incrementDateComponents, to: startDate) else {
+                fatalError("Dates could not be converted")
+            }
+            predicate = NSPredicate(format: "(startTime >= %@) AND (startTime < %@)", startDate as NSDate, endDate as NSDate)
+        }
+        
+        
+        switch workoutSortByVM.workoutSortByType {
+            case .date:
+                break // Already default
+            case .rating:
+                sortDescriptors.insert(NSSortDescriptor(key: "rating", ascending: workoutSortByVM.ascending), at: 0)
+            case .duration:
+                sortDescriptors.insert(NSSortDescriptor(key: "durationSeconds", ascending: workoutSortByVM.ascending), at: 0)
+            case .achievements:
+                break // Handled elsewhere as derived attribute
+        }
+        
+     
+        return CoreDataBase.createFetchedResultsController(
+                withEntityName: "Workout",
+                expecting: Workout.self,
+                predicates: predicate != nil ? [predicate!] : [],
+                sortDescriptors: sortDescriptors)
+    }()
     
     // MARK: - Init
     init(
-        month: Int?,
-        year: Int?
+        workoutSortByVM: WorkoutSortByVM,
+        month: Int? = nil,
+        year: Int? = nil
     ) {
         self.month = month
         self.year = year
+        self.workoutSortByVM = workoutSortByVM
         super.init()
         
-        if self.month != nil,
-           self.year !=  nil {
-            self.setWorkouts()
-        }
+        self.configure()
+        
     }
     
-    // MARK: - Actions
-    
-    /// Fetch and set the workouts for the month
-    public func setWorkouts() {
+    // MARK: - Configurations
+    public func configure() {
+        CoreDataBase.configureFetchedResults(controller: self.fetchedResultsController, expecting: Workout.self, with: self)
+        
+        // Reset variables in case of update
         self.cellVMs = []
         
-        // Create start and end dates for a particular month
-        let startDateComponents = DateComponents(year: self.year, month: self.month, day: 1, hour: 0, minute: 0, second: 0)
-        var incrementDateComponents = DateComponents()
-        incrementDateComponents.month = 1
-        let calendar: Calendar = Calendar.current
-        guard let startDate: Date = calendar.date(from: startDateComponents),
-              let endDate: Date = calendar.date(byAdding: incrementDateComponents, to: startDate) else {
-            fatalError("Dates could not be converted")
+        guard var workouts = self.fetchedResultsController.fetchedObjects else {
+            return
         }
         
-        // Get workouts for particular month
-        let predicate = NSPredicate(format: "(startTime >= %@) AND (startTime < %@)", startDate as NSDate, endDate as NSDate)
-        
-        if let workouts  = CoreDataBase.fetchEntities(withEntity: "Workout", 
-                                                      expecting: Workout.self,
-                                                      predicates: [predicate],
-                                                      sortDescriptors: [NSSortDescriptor(key: "startTime", ascending: false)]) {
-            self.workouts = workouts
-            for workout in self.workouts {
-                let viewModel = WorkoutListCellVM(workout: workout)
-                self.cellVMs.append(viewModel)
+        if self.workoutSortByVM.workoutSortByType == .achievements {
+            if (self.workoutSortByVM.ascending) {
+                workouts.sort { $0.achievementsCount > $1.achievementsCount }
+            } else {
+                workouts.sort { $0.achievementsCount < $1.achievementsCount }
             }
+        }
+        
+        self.workouts = workouts
+        for workout in self.workouts {
+            let viewModel = WorkoutListCellVM(workout: workout)
+            self.cellVMs.append(viewModel)
+            
         }
         
     }
@@ -131,5 +165,18 @@ extension WorkoutListVM: UITableViewDataSource, UITableViewDelegate {
         deleteWorkoutAction.image = UIImage(systemName: "trash")
         let swipeActions = UISwipeActionsConfiguration(actions: [deleteWorkoutAction])
         return swipeActions
+    }
+}
+
+// MARK: - Fetched Results Controller Delegate
+extension WorkoutListVM: NSFetchedResultsControllerDelegate {
+    // Update screen if CRUD conducted on Workouts
+    func controller(_ controller: NSFetchedResultsController<NSFetchRequestResult>,
+                    didChange anObject: Any, at indexPath: IndexPath?, for type: NSFetchedResultsChangeType, newIndexPath: IndexPath?) {
+        DispatchQueue.main.async {
+
+            self.configure()
+            self.workoutList?.tableView.reloadData()
+        }
     }
 }

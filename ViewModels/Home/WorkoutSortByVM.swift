@@ -14,12 +14,13 @@ enum WorkoutSortByType: CaseIterable {
     case achievements
 }
 
-class WorkoutsSortByVM {
+class WorkoutSortByVM {
     
-    let workoutSortByType: WorkoutSortByType
+    public var workoutSortByType: WorkoutSortByType
+    public var ascending: Bool
     
-    
-    init(workoutSortByType: WorkoutSortByType) {
+    init(workoutSortByType: WorkoutSortByType, ascending: Bool = true) {
         self.workoutSortByType = workoutSortByType
+        self.ascending = ascending
     }
 }

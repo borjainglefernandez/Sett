@@ -13,7 +13,7 @@ final class MonthListCell: UICollectionViewCell {
     
     public let collapsibleContainerTopBar: CollapsibleContainerTopBar = CollapsibleContainerTopBar()
     
-    public let monthWorkoutListView = MonthWorkoutListView()
+    public let workoutListView = WorkoutListView()
     
     // MARK: - Init
     override init(frame: CGRect) {
@@ -21,7 +21,7 @@ final class MonthListCell: UICollectionViewCell {
         
         self.contentView.layer.cornerRadius = 15
 
-        self.addSubviews(self.collapsibleContainerTopBar, self.monthWorkoutListView)
+        self.addSubviews(self.collapsibleContainerTopBar, self.workoutListView)
         self.addConstraints()
     }
     
@@ -42,10 +42,10 @@ final class MonthListCell: UICollectionViewCell {
             self.collapsibleContainerTopBar.leftAnchor.constraint(equalTo: self.leftAnchor),
             self.collapsibleContainerTopBar.rightAnchor.constraint(equalTo: self.rightAnchor),
             
-            self.monthWorkoutListView.heightAnchor.constraint(equalTo: self.heightAnchor, multiplier: 1, constant: -30),
-            self.monthWorkoutListView.bottomAnchor.constraint(equalTo: self.bottomAnchor),
-            self.monthWorkoutListView.rightAnchor.constraint(equalTo: self.rightAnchor),
-            self.monthWorkoutListView.leftAnchor.constraint(equalTo: self.leftAnchor)
+            self.workoutListView.heightAnchor.constraint(equalTo: self.heightAnchor, multiplier: 1, constant: -30),
+            self.workoutListView.bottomAnchor.constraint(equalTo: self.bottomAnchor),
+            self.workoutListView.rightAnchor.constraint(equalTo: self.rightAnchor),
+            self.workoutListView.leftAnchor.constraint(equalTo: self.leftAnchor)
         ])
     }
     
@@ -72,7 +72,7 @@ final class MonthListCell: UICollectionViewCell {
               let year = Int(viewModel.monthYear.components(separatedBy: "/")[1]) else {
                   fatalError("Could not get month or year from string")
               }
-        let monthWorkoutListVM = WorkoutListVM(month: month, year: year)
-        self.monthWorkoutListView.configure(with: monthWorkoutListVM)
+        let workoutListVM = WorkoutListVM(workoutSortByVM: viewModel.workoutSortByVM, month: month, year: year)
+        self.workoutListView.configure(with: workoutListVM)
     }
 }

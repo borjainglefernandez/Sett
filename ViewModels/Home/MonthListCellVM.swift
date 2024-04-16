@@ -11,14 +11,17 @@ final class MonthListCellVM: NSObject {
     public var monthYear: String
     public var monthYearFormatted: String = ""
     public let numWorkouts: Int
+    public let workoutSortByVM: WorkoutSortByVM
 
      // MARK: - Init
      init(
         monthYear: String,
-        numWorkouts: Int
+        numWorkouts: Int,
+        workoutSortByVM: WorkoutSortByVM
      ) {
          self.monthYear = monthYear
          self.numWorkouts = numWorkouts
+         self.workoutSortByVM = workoutSortByVM
          super.init()
          self.monthYearFormatted = self.transformMonthYearString(self.monthYear)
      }

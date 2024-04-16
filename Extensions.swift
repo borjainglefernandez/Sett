@@ -130,3 +130,9 @@ struct RoundedCorner: Shape {
     }
 }
 
+extension Workout {
+    // Transient property to represent the count of achievements
+       @objc var achievementsCount: Int {
+           return achievements?.count ?? 0
+       }
+}

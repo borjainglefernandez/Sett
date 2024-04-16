@@ -1,34 +1,34 @@
+////
+////  SortByAchievementsMenuItem.swift
+////  Sett
+////
+////  Created by Borja Ingle-Fernandez on 4/11/24.
+////
 //
-//  SortByAchievementsMenuItem.swift
-//  Sett
+//import Foundation
+//import UIKit
 //
-//  Created by Borja Ingle-Fernandez on 4/11/24.
+//class SortByAchievementsMenuItem: NSObject {
+//    
+//    private let homeViewController: HomeViewController
+//    private let selected: Bool
+//    
+//    init(homeViewController: HomeViewController, selected: Bool) {
+//        self.homeViewController = homeViewController
+//        self.selected = selected
+//    }
+//    
+//    public func getMenuItem() -> UIAction {
+//        let actionHandler: UIActionHandler = { _ in
+//            self.homeViewController.sortByAchievements()
+//            }
 //
-
-import Foundation
-import UIKit
-
-class SortByAchievementsMenuItem: NSObject {
-    
-    private let homeViewController: HomeViewController
-    private let selected: Bool
-    
-    init(homeViewController: HomeViewController, selected: Bool) {
-        self.homeViewController = homeViewController
-        self.selected = selected
-    }
-    
-    public func getMenuItem() -> UIAction {
-        let actionHandler: UIActionHandler = { _ in
-            self.homeViewController.sortByAchievements()
-            }
-
-        return UIAction(
-            title: "By Achievements",
-            image: self.selected ? UIImage(systemName: "checkmark") : nil,
-            attributes: [],
-            state: .off,
-            handler: actionHandler
-        )
-    }
-}
+//        return UIAction(
+//            title: "By Achievements",
+//            image: self.selected ? UIImage(systemName: "checkmark") : nil,
+//            attributes: [],
+//            state: .off,
+//            handler: actionHandler
+//        )
+//    }
+//}

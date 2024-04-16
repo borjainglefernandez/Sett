@@ -10,7 +10,6 @@ import CoreData
 
 final class HomeViewController: UIViewController {
 
-    
     // Top bar of the home page
     private let topBar: UIView = MenuBar(frame: .zero)
     
@@ -23,14 +22,17 @@ final class HomeViewController: UIViewController {
     // Button to sort workouts
     private let sortWorkoutButton: UIButton = IconButton(frame: .zero, imageName: "arrow.up.arrow.down.circle")
         
-    // Workouts sort by type
-    private var workoutSortByType: WorkoutSortByType = .date
+    // Workouts sort by typed default
+    private var workoutSortByVM = WorkoutSortByVM(workoutSortByType: .date, ascending: false)
     
     // Home View
-    lazy var homeView: HomeView = HomeView(frame: .zero, workoutSortByType: self.workoutSortByType)
+    lazy var homeView: HomeView = HomeView(frame: .zero, workoutSortByVM: self.workoutSortByVM)
     
     // Selected Index for sort menu
-    private var selectedIndex = 0
+    private var sortSelectedIndex = 0
+    
+    // Whether or not we are in ascending order
+    private var sortAscending = false
     
     // Add Workout Menu
     private func setUpAddWorkoutMenu() {
@@ -62,10 +64,16 @@ final class HomeViewController: UIViewController {
         self.setUpAddWorkoutMenu()
         
         self.topBar.addSubviews(self.titleLabel, self.addWorkoutButton, self.sortWorkoutButton)
+        
+        self.homeView = HomeView(frame: .zero, workoutSortByVM: self.workoutSortByVM)
+        
         self.view.addSubviews(self.topBar, self.homeView)
         
         sortWorkoutButton.showsMenuAsPrimaryAction = true
-        sortWorkoutButton.menu = SortWorkoutsMenu(homeViewController: self, selectedIndex: self.selectedIndex).getMenu()
+        sortWorkoutButton.menu = SortWorkoutsMenu(
+            homeViewController: self,
+            workoutSortByVM: self.workoutSortByVM
+        ).getMenu()
         
         self.addConstraints()
     }
@@ -115,23 +123,31 @@ final class HomeViewController: UIViewController {
 
 extension HomeViewController { // Sort Menu actions
     
-    public func sortByDate() {
-        self.selectedIndex = 0
-        self.viewDidLoad()
+    public func calculateAscending(workoutSortByType: WorkoutSortByType) {
+        // If we are already toggling this category of sort by,
+        // then change the sort order
+        if self.workoutSortByVM.workoutSortByType == workoutSortByType {
+            self.sortAscending = !self.sortAscending
+        } else {
+            // Default is descending for new sort category
+            self.sortAscending = false
+        }
     }
     
-    public func sortByRating() {
-        self.selectedIndex = 1
-        self.viewDidLoad()
-    }
-    
-    public func sortByDuration() {
-        self.selectedIndex = 2
-        self.viewDidLoad()
-    }
-    
-    public func sortByAchievements() {
-        self.selectedIndex = 3
+    public func sortBy(workoutSortByType: WorkoutSortByType) {
+        
+        // If we are already toggling this category of sort by,
+        // then change the sort order
+        if self.workoutSortByVM.workoutSortByType == workoutSortByType {
+            self.workoutSortByVM.ascending = !self.workoutSortByVM.ascending
+        } else {
+            // Default is descending for new sort category
+            self.workoutSortByVM.ascending = false
+        }
+        
+        self.workoutSortByVM.workoutSortByType = workoutSortByType
+        
+        // Reload views
         self.viewDidLoad()
     }
 }

@@ -65,7 +65,7 @@
         <attribute name="notes" attributeType="String" defaultValueString=""/>
         <attribute name="rating" attributeType="Double" minValueString="0" maxValueString="5" defaultValueString="3" usesScalarValueType="YES"/>
         <attribute name="startTime" attributeType="Date" usesScalarValueType="NO"/>
-        <attribute name="title" attributeType="String" defaultValueString="New Workout"/>
+        <attribute name="title" attributeType="String"/>
         <relationship name="achievements" optional="YES" toMany="YES" deletionRule="Nullify" ordered="YES" destinationEntity="Achievement" inverseName="workout" inverseEntity="Achievement"/>
         <relationship name="netProgress" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="NetProgress" inverseName="workoutNP" inverseEntity="NetProgress"/>
         <relationship name="routine" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="Routine" inverseName="workouts" inverseEntity="Routine"/>

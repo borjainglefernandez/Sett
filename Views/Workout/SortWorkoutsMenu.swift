@@ -10,22 +10,37 @@ import UIKit
 
 class SortWorkoutsMenu: NSObject {
     private let homeViewController: HomeViewController
-    private let selectedIndex: Int
+    private let workoutSortByVM: WorkoutSortByVM
     
-    init(homeViewController: HomeViewController, selectedIndex: Int) {
+    init(homeViewController: HomeViewController, workoutSortByVM: WorkoutSortByVM) {
         self.homeViewController = homeViewController
-        self.selectedIndex = selectedIndex
+        self.workoutSortByVM = workoutSortByVM
+    }
+    
+    public func getSortByActionHandler(workoutSortByType: WorkoutSortByType) -> UIActionHandler {
+        let actionHandler: UIActionHandler = { _ in
+            self.homeViewController.sortBy(workoutSortByType: workoutSortByType)
+            }
+        return actionHandler
     }
     
     public func getMenu() -> UIMenu {
-        let sortByDateMenuItem = SortByDateMenuItem(homeViewController: homeViewController,
-                                                    selected: self.selectedIndex == 0).getMenuItem()
-        let sortByRatingMenuItem = SortByRatingMenuItem(homeViewController: homeViewController,
-                                                        selected: self.selectedIndex == 1).getMenuItem()
-        let sortByDurationMenuItem = SortByDurationMenuItem(homeViewController: homeViewController,
-                                                            selected: self.selectedIndex == 2).getMenuItem()
-        let sortByAchievementsMenuItem = SortByAchievementsMenuItem(homeViewController: homeViewController,
-                                                                    selected: self.selectedIndex == 3).getMenuItem()
+        let sortByDateMenuItem = SortByMenuItem(title: "By Date",
+                                                selected: self.workoutSortByVM.workoutSortByType == .date,
+                                                ascending: self.workoutSortByVM.ascending,
+                                                actionHandler: getSortByActionHandler(workoutSortByType: .date)).getMenuItem()
+        let sortByRatingMenuItem = SortByMenuItem(title: "By Rating",
+                                                selected: self.workoutSortByVM.workoutSortByType == .rating,
+                                                ascending: self.workoutSortByVM.ascending,
+                                                actionHandler: getSortByActionHandler(workoutSortByType: .rating)).getMenuItem()
+        let sortByDurationMenuItem = SortByMenuItem(title: "By Duration",
+                                                selected: self.workoutSortByVM.workoutSortByType == .duration,
+                                                ascending: self.workoutSortByVM.ascending,
+                                                actionHandler: getSortByActionHandler(workoutSortByType: .duration)).getMenuItem()
+        let sortByAchievementsMenuItem = SortByMenuItem(title: "By Achievements",
+                                                selected: self.workoutSortByVM.workoutSortByType == .achievements,
+                                                ascending: self.workoutSortByVM.ascending,
+                                                actionHandler: getSortByActionHandler(workoutSortByType: .achievements)).getMenuItem()
         let menu = UIMenu(preferredElementSize: .large,
                           children: [sortByDateMenuItem, sortByRatingMenuItem,
                                      sortByDurationMenuItem, sortByAchievementsMenuItem])

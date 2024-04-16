@@ -16,8 +16,10 @@ protocol WorkoutsDelegate: NSObjectProtocol {
 
 final class HomeView: UIView {
     
-    let workoutsByDateVM = WorkoutsByDateVM()
-    
+    private let workoutSortByVM: WorkoutSortByVM
+    lazy var workoutsByDateVM = WorkoutsByDateVM(workoutSortByVM: self.workoutSortByVM)
+    let workoutsListVM: WorkoutListVM
+
     // Delegate to call to add workout
     weak var delegate: WorkoutsDelegate?
     
@@ -37,48 +39,54 @@ final class HomeView: UIView {
         return collectionView
     }()
     
-    // Table View for workouts sorted by something other than date
-    private let workoutsTableView: UITableView = {
-        let workoutsTableView = UITableView()
-        workoutsTableView.backgroundColor = .systemGray3.withAlphaComponent(0.44)
-        workoutsTableView.translatesAutoresizingMaskIntoConstraints = false
-        workoutsTableView.register( WorkoutListCell.self, forCellReuseIdentifier: WorkoutListCell.cellIdentifier)
-        workoutsTableView.layer.cornerRadius = 15
-        workoutsTableView.layer.maskedCorners = [.layerMaxXMaxYCorner, .layerMinXMaxYCorner]
-        workoutsTableView.isScrollEnabled = false
-        workoutsTableView.separatorStyle = UITableViewCell.SeparatorStyle.none
-        return workoutsTableView
-    }()
+    // Sort by workout container view if we are sorting
+    private let sortByWorkoutContainerView: SortByWorkoutListContainerView
     
     // MARK: - Init
-    init(frame: CGRect, workoutSortByType: WorkoutSortByType) {
+    init(frame: CGRect, workoutSortByVM: WorkoutSortByVM) {
+        self.workoutSortByVM = workoutSortByVM
+        self.workoutsListVM = WorkoutListVM(workoutSortByVM: workoutSortByVM)
+        self.sortByWorkoutContainerView = SortByWorkoutListContainerView( workoutListVM: self.workoutsListVM)
         super.init(frame: frame)
         
         self.backgroundColor = .systemCyan
         self.translatesAutoresizingMaskIntoConstraints = false
         
-        if workoutSortByType == .date {
+        if workoutSortByVM.workoutSortByType == .date {
             self.workoutsByDateVM.configure()
             self.setUpDelegate()
             self.setUpWorkoutsByMonthCollectionView()
             self.showHideMonthWorkoutsByMonthCollectionView()
+            self.addSubviews(self.workoutsByMonthCollectionView, emptyView)
+            self.addConstraintsWorkoutsByMonth()
         } else {
-            
+            self.addSubviews(self.sortByWorkoutContainerView, emptyView)
+            self.addConstraintsWorkoutsByX()
         }
-        self.addSubviews(self.workoutsByMonthCollectionView, emptyView)
-        self.addConstraints()
     }
     required init?(coder: NSCoder) {
         fatalError("Unsupported initialiser")
     }
     
     // MARK: - Constraints
-    private func addConstraints() {
+    private func addConstraintsWorkoutsByMonth() {
         NSLayoutConstraint.activate([
             self.workoutsByMonthCollectionView.topAnchor.constraint(equalTo: self.topAnchor),
             self.workoutsByMonthCollectionView.leftAnchor.constraint(equalTo: self.leftAnchor),
             self.workoutsByMonthCollectionView.rightAnchor.constraint(equalTo: self.rightAnchor),
             self.workoutsByMonthCollectionView.bottomAnchor.constraint(equalTo: self.bottomAnchor),
+            
+            self.emptyView.centerXAnchor.constraint(equalTo: self.centerXAnchor),
+            self.emptyView.centerYAnchor.constraint(equalTo: self.centerYAnchor)
+        ])
+    }
+    
+    private func addConstraintsWorkoutsByX() {
+        NSLayoutConstraint.activate([
+            self.sortByWorkoutContainerView.topAnchor.constraint(equalTo: self.topAnchor, constant: 10),
+            self.sortByWorkoutContainerView.centerXAnchor.constraint(equalTo: self.centerXAnchor),
+            self.sortByWorkoutContainerView.widthAnchor.constraint(equalTo: self.widthAnchor, multiplier: 0.95),
+            self.sortByWorkoutContainerView.bottomAnchor.constraint(equalTo: self.bottomAnchor, constant: -60),
             
             self.emptyView.centerXAnchor.constraint(equalTo: self.centerXAnchor),
             self.emptyView.centerYAnchor.constraint(equalTo: self.centerYAnchor)
