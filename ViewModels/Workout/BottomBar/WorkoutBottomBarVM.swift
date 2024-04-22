@@ -56,10 +56,14 @@ final class WorkoutBottomBarVM: NSObject {
     }
     
     // MARK: - Actions
-    public func pauseOrFinishWorkout(durationSeconds: Int) {
+    public func pauseOrFinishWorkoutTimer(durationSeconds: Int) {
         self.workout.isOngoing = false
         self.workout.durationSeconds = (durationSeconds) as NSNumber
         CoreDataBase.save()
+    }
+    
+    public func finishWorkout() {
+        AchievementUtils.checkIfAchievementsHit(workout: self.workout)
     }
     
     public func resumeWorkout() {

@@ -17,6 +17,7 @@
     </entity>
     <entity name="Exercise" representedClassName="Exercise" syncable="YES" codeGenerationType="class">
         <attribute name="name" attributeType="String" defaultValueString=""/>
+        <attribute name="prWeight" optional="YES" attributeType="Integer 64" defaultValueString="0" usesScalarValueType="YES"/>
         <attribute name="type" attributeType="Transformable" valueTransformerName="ExerciseTypeTransformer" customClassName="ExerciseTypeWrapper"/>
         <relationship name="category" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="Category" inverseName="exercises" inverseEntity="Category"/>
         <relationship name="setCollections" optional="YES" toMany="YES" deletionRule="Nullify" ordered="YES" destinationEntity="SettCollection" inverseName="exercise" inverseEntity="SettCollection"/>

@@ -9,7 +9,7 @@ import UIKit
 
 class WorkoutTimer: UILabel {
     
-    private let viewModel: WorkoutBottomBarVM
+    public let viewModel: WorkoutBottomBarVM
     private var timer: Timer?
     private var seconds = 0
     
@@ -63,6 +63,6 @@ class WorkoutTimer: UILabel {
     
     public func stopTime() {
         timer?.invalidate()
-        self.viewModel.pauseOrFinishWorkout(durationSeconds: seconds)
+        self.viewModel.pauseOrFinishWorkoutTimer(durationSeconds: seconds)
     }
 }

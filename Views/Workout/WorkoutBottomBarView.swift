@@ -80,6 +80,7 @@ class WorkoutBottomBarView: UIView {
     
     @objc func completeWorkout() {
         self.workoutTimer.stopTime()
+        self.workoutTimer.viewModel.finishWorkout()
         self.showHidePlayPause()
     }
     

@@ -9,6 +9,18 @@ import Foundation
 
 class WorkoutUtils {
     
+    static public func getWorkoutExerciseList(workout: Workout) -> [WorkoutExercise] {
+        var result: [WorkoutExercise] = []
+        if let workoutExercises = workout.workoutExercises {
+            for workoutExercise in workoutExercises {
+                if let workoutExercise = workoutExercise as? WorkoutExercise {
+                    result.append(workoutExercise)
+                }
+            }
+        }
+        return result
+    }
+    
     static public func getWorkoutElapsedTimeSeconds(workout: Workout) -> Int {
         if workout.isOngoing {
             // If we have recently resumed, our current time elapsed =
