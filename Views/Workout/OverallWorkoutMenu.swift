@@ -21,14 +21,21 @@ class OverallWorkoutMenu: NSObject {
         let repeatWorkoutMenuItem = RepeatWorkoutMenuItem(workout: self.workout, menuView: self.overallView).getMenuItem()
         let reorderExercisesMenuItem = ReorderExercisesMenuItem(workout: self.workout, menuView: self.overallView).getMenuItem()
         let saveRoutineMenuItem = SaveRoutineMenuItem(workout: self.workout, menuView: self.overallView).getMenuItem()
+        let workoutSummaryMenuItem = WorkoutSummaryMenuItem(workout: self.workout, menuView: self.overallView).getMenuItem()
         let deleteWorkoutMenuItem = DeleteWorkoutMenuItem(workout: self.workout, menuView: self.overallView).getMenuItem()
-        let menu = UIMenu(preferredElementSize: .large, children: [
+        
+        var menuItems = [
             addExerciseMenuItem,
             repeatWorkoutMenuItem,
             reorderExercisesMenuItem,
             saveRoutineMenuItem,
             deleteWorkoutMenuItem]
-        )
+        
+        if !self.workout.isOngoing {
+            menuItems.insert(workoutSummaryMenuItem, at: 4)
+        }
+        
+        let menu = UIMenu(preferredElementSize: .large, children: menuItems)
         return menu
     }
 }

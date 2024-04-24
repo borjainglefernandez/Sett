@@ -1,5 +1,5 @@
 //
-//  AchievementsNumberView.swift
+//  MiniAchievementsNumberView.swift
 //  Sett
 //
 //  Created by Borja Ingle-Fernandez on 6/26/23.
@@ -7,7 +7,7 @@
 
 import UIKit
 
-final class AchievementsNumberView: UIView {
+final class MiniAchievementsNumberView: UIView {
     
     // Circular container
     private let achievementsNumberContainer: UIView = {
@@ -54,5 +54,15 @@ final class AchievementsNumberView: UIView {
             self.achievementsNumberLabel.centerYAnchor.constraint(equalTo: self.achievementsNumberContainer.centerYAnchor),
             self.achievementsNumberLabel.centerXAnchor.constraint(equalTo: self.achievementsNumberContainer.centerXAnchor)
         ])
+    }
+    
+    // MARK: - Configurations
+    public func configure(numberOfAchievements: Int) {
+        if numberOfAchievements > 0 {
+            achievementsNumberLabel.text = String(describing: numberOfAchievements)
+        } else {
+            achievementsNumberLabel.isHidden = true
+            achievementsNumberContainer.isHidden = true
+        }
     }
 }

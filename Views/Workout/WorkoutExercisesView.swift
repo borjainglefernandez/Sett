@@ -27,7 +27,6 @@ class WorkoutExercisesView: UIView {
                                 withReuseIdentifier: "WorkoutGeneralStatsView")
         collectionView.register(WorkoutExercisesCell.self, forCellWithReuseIdentifier: WorkoutExercisesCell.cellIdentifier)
         collectionView.backgroundColor = .systemCyan
-//        collectionView.isHidden = true
         return collectionView
     }()
 

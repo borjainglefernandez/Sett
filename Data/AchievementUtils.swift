@@ -94,7 +94,6 @@ class AchievementUtils {
                 let calendar = Calendar.current
                 let currentDate = Date()
                 
-                let earliestWorkoutIndex = sameWorkouts.count - 1
                 guard let earliestWorkoutDate = sameWorkouts[sameWorkouts.count - 1].startTime else {
                     return
                 }

@@ -43,7 +43,7 @@ final class WorkoutListCell: UITableViewCell {
     lazy var starRating = StarRating(frame: .zero, interactable: false, starSize: self.bounds.width / 17.5, starMargin: 0)
     
     // Display number of achievements of the workout
-    private let achievementsNumberView = AchievementsNumberView()
+    private let achievementsNumberView = MiniAchievementsNumberView()
     
     // Display duration of the workout
     private let durationLabel: UILabel = {
@@ -123,7 +123,7 @@ final class WorkoutListCell: UITableViewCell {
         self.viewModel = viewModel
         self.titleLabel.text =  viewModel.workout.title
         self.starRating.starRating.rating = viewModel.workout.rating
-        self.achievementsNumberView.achievementsNumberLabel.text = String(describing: "2")
+        self.achievementsNumberView.configure(numberOfAchievements: viewModel.workout.achievements?.count ?? 0)
         
         // Duration label
         if viewModel.workout.isOngoing {

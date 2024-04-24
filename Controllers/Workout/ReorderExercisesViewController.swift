@@ -11,7 +11,6 @@ class ReorderExercisesViewController: UIViewController {
     private let workout: Workout
     
     private let topBar: MenuBar = MenuBar(frame: .zero)
-//    private let backButton: UIButton = IconButton(frame: .zero, imageName: "arrow.backward.circle.fill")
     private let confirmButton: UIButton = IconButton(frame: .zero, imageName: "checkmark.circle.fill")
 
     lazy var workoutName: Label = Label(title: self.workout.title ?? "Reorder Exercises")
@@ -44,7 +43,6 @@ class ReorderExercisesViewController: UIViewController {
         self.view.addSubviews(self.topBar, reorderExercisesView)
         self.addConstraints()
         
-//        self.backButton.addTarget(self, action: #selector(self.goBack), for: .touchUpInside)
         self.confirmButton.addTarget(self, action: #selector(self.confirm), for: .touchUpInside)
 
     }
@@ -55,10 +53,7 @@ class ReorderExercisesViewController: UIViewController {
             self.topBar.topAnchor.constraint(equalTo: self.view.safeAreaLayoutGuide.topAnchor, constant: 10),
             self.topBar.centerXAnchor.constraint(equalTo: self.view.safeAreaLayoutGuide.centerXAnchor),
             self.topBar.widthAnchor.constraint(equalTo: self.view.safeAreaLayoutGuide.widthAnchor, multiplier: 0.95),
-            
-//            self.backButton.centerYAnchor.constraint(equalTo: self.topBar.centerYAnchor),
-//            self.backButton.leftAnchor.constraint(equalTo: self.topBar.leftAnchor, constant: 7),
-//            
+                        
             self.workoutName.centerYAnchor.constraint(equalTo: self.topBar.centerYAnchor),
             self.workoutName.centerXAnchor.constraint(equalTo: self.topBar.centerXAnchor),
             
@@ -73,10 +68,6 @@ class ReorderExercisesViewController: UIViewController {
     }
     
     // MARK: - Actions
-//    @objc func goBack() {
-//        self.dismiss(animated: true)
-//    }
-    
     @objc func confirm() {
         self.reorderExercisesVM.confirmChanges()
         self.dismiss(animated: true)
