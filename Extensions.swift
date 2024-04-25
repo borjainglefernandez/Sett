@@ -136,3 +136,25 @@ extension Workout {
            return achievements?.count ?? 0
        }
 }
+
+extension UILabel {
+    func setImage(image: UIImage, fontSize: CGFloat, fontWeight: UIFont.Weight) {
+        let attachment = NSTextAttachment()
+               attachment.image = image
+               
+               let attachmentString = NSAttributedString(attachment: attachment)
+               
+               let attributes: [NSAttributedString.Key: Any] = [
+                   .font: UIFont.systemFont(ofSize: fontSize, weight: fontWeight),
+                   .foregroundColor: UIColor.label
+               ]
+               
+               let textString = NSAttributedString(string: text ?? "", attributes: attributes)
+               
+               let mutableAttributedString = NSMutableAttributedString()
+               mutableAttributedString.append(attachmentString)
+               mutableAttributedString.append(textString)
+               
+               attributedText = mutableAttributedString
+        }
+}

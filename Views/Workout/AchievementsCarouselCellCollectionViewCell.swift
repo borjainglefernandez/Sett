@@ -10,13 +10,13 @@ import UIKit
 class AchievementsCarouselCell: UICollectionViewCell {
     static let cellIdentifier = "AchievementsCarouselCell"
     
-    private let label: UILabel = Label(title: "oh")
+    private let achievementMedal: AchievementMedal = AchievementMedal()
 
     // MARK: - Init
     override init(frame: CGRect) {
         super.init(frame: frame)
         
-        self.addSubviews(self.label)
+        self.addSubviews(self.achievementMedal)
         self.addConstraints()
     }
     
@@ -32,16 +32,15 @@ class AchievementsCarouselCell: UICollectionViewCell {
     // MARK: - Constraints
     private func addConstraints() {
         NSLayoutConstraint.activate([
-            
-            self.label.topAnchor.constraint(equalTo: self.topAnchor),
-            self.label.leftAnchor.constraint(equalTo: self.leftAnchor),
-            self.label.rightAnchor.constraint(equalTo: self.rightAnchor),
-            self.label.bottomAnchor.constraint(equalTo: self.bottomAnchor)
+            self.achievementMedal.topAnchor.constraint(equalTo: self.topAnchor, constant: 15),
+            self.achievementMedal.heightAnchor.constraint(equalTo: self.widthAnchor, multiplier: 0.5),
+            self.achievementMedal.widthAnchor.constraint(equalTo: self.widthAnchor, multiplier: 0.5),
+            self.achievementMedal.centerXAnchor.constraint(equalTo: self.centerXAnchor)
         ])
     }
     
     // MARK: - Configurations
     public func configure(with viewModel: AchievementsCarouselCellVM) {
-        self.label.text = viewModel.achievement.title
+        self.achievementMedal.configure(achievement: viewModel.achievement)
     }
 }
