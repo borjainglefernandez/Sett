@@ -14,14 +14,14 @@ class AchievementsCarouselView: UIView {
     // Collection view of the achievements carousel
     public let collectionView: UICollectionView = {
         let layout = UICollectionViewFlowLayout()
-        layout.sectionInset = UIEdgeInsets(top: 10, left: 10, bottom: 10, right: 10)
         layout.scrollDirection = .horizontal
+        layout.minimumLineSpacing = 0
         
         let collectionView = UICollectionView(frame: .zero, collectionViewLayout: layout)
         collectionView.translatesAutoresizingMaskIntoConstraints = false
         collectionView.register(AchievementsCarouselCell.self, forCellWithReuseIdentifier: AchievementsCarouselCell.cellIdentifier)
         collectionView.backgroundColor = .systemCyan
-        collectionView.showsHorizontalScrollIndicator = true
+        collectionView.showsHorizontalScrollIndicator = false
         collectionView.isPagingEnabled = true
         return collectionView
     }()

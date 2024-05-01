@@ -77,15 +77,27 @@ extension AchievementsCarouselVM: UICollectionViewDataSource, UICollectionViewDe
     func collectionView(_ collectionView: UICollectionView, 
                         layout collectionViewLayout: UICollectionViewLayout,
                         sizeForItemAt indexPath: IndexPath) -> CGSize {
-            return CGSize(width: collectionView.frame.width, height: collectionView.frame.height)
-        }
+        return CGSize(width: collectionView.frame.width, height: collectionView.frame.height)
+    }
         
-        func collectionView(_ collectionView: UICollectionView, 
-                            layout collectionViewLayout: UICollectionViewLayout,
-                            minimumInteritemSpacingForSectionAt section: Int) -> CGFloat {
-            return 0 // No spacing between items
-        }
+    func collectionView(_ collectionView: UICollectionView,
+                        layout collectionViewLayout: UICollectionViewLayout,
+                        minimumInteritemSpacingForSectionAt section: Int) -> CGFloat {
+        return 0 // No spacing between items
+    }
     
+}
+
+// MARK: - UICollection View Delegate
+extension AchievementsCarouselVM: UICollectionViewDelegate {
+    func scrollViewDidEndDecelerating(_ scrollView: UIScrollView) {
+        let pageWidth = scrollView.frame.size.width
+        let currentPage = Int(scrollView.contentOffset.x / pageWidth)
+        if let workoutSummaryViewController =
+            scrollView.getParentViewController(scrollView) as? WorkoutSummaryViewController {
+            workoutSummaryViewController.changePagination(currentPage: currentPage)
+        }
+    }
 }
 
 // MARK: - Fetched Results Controller Delegate

@@ -29,6 +29,17 @@ class WorkoutSummaryViewController: UIViewController {
         return workoutName
     }()
     
+    // Pagination Dots
+    lazy var paginationDots: UIPageControl = {
+        let paginationDots = UIPageControl()
+        paginationDots.translatesAutoresizingMaskIntoConstraints = false
+        paginationDots.currentPageIndicatorTintColor = .label
+        paginationDots.pageIndicatorTintColor = .black
+        paginationDots.currentPage = 0
+        paginationDots.numberOfPages = self.generalStatsVM.workout.achievementsCount
+        return paginationDots
+      }()
+    
     // MARK: - Init
     init(workout: Workout) {
         self.workout = workout
@@ -51,7 +62,7 @@ class WorkoutSummaryViewController: UIViewController {
         self.view.backgroundColor = .systemCyan
         
         self.topBar.addSubviews(self.backButton, self.workoutName, self.confirmButton)
-        self.view.addSubviews(self.topBar, self.achievementsCarouselView)
+        self.view.addSubviews(self.topBar, self.achievementsCarouselView, self.paginationDots)
         self.addConstraints()
         
         self.backButton.addTarget(self, action: #selector(self.goBack), for: .touchUpInside)
@@ -78,7 +89,11 @@ class WorkoutSummaryViewController: UIViewController {
             self.achievementsCarouselView.topAnchor.constraint(equalTo: self.topBar.bottomAnchor, constant: 7),
             self.achievementsCarouselView.leftAnchor.constraint(equalTo: self.view.safeAreaLayoutGuide.leftAnchor),
             self.achievementsCarouselView.rightAnchor.constraint(equalTo: self.view.safeAreaLayoutGuide.rightAnchor),
-            self.achievementsCarouselView.heightAnchor.constraint(equalTo: self.view.safeAreaLayoutGuide.heightAnchor, multiplier: 0.90)
+            self.achievementsCarouselView.heightAnchor.constraint(equalTo: self.view.safeAreaLayoutGuide.heightAnchor, multiplier: 0.38),
+            
+            self.paginationDots.topAnchor.constraint(equalTo: self.achievementsCarouselView.bottomAnchor),
+            self.paginationDots.centerXAnchor.constraint(equalTo: self.view.centerXAnchor)
+            
         ])
     }
     
@@ -89,5 +104,9 @@ class WorkoutSummaryViewController: UIViewController {
     
     @objc func confirm() {
         self.dismiss(animated: true)
+    }
+    
+    public func changePagination(currentPage: Int) {
+        self.paginationDots.currentPage = currentPage
     }
 }
