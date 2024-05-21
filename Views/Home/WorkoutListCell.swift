@@ -108,7 +108,7 @@ final class WorkoutListCell: UITableViewCell {
             self.starRating.centerYAnchor.constraint(equalTo: self.containerView.centerYAnchor),
             self.starRating.leftAnchor.constraint(equalToSystemSpacingAfter: self.titleLabel.rightAnchor, multiplier: 1.2),
     
-            self.achievementsNumberView.leftAnchor.constraint(equalToSystemSpacingAfter: self.starRating.rightAnchor, multiplier: 1.2),
+            self.achievementsNumberView.leftAnchor.constraint(equalToSystemSpacingAfter: self.starRating.rightAnchor, multiplier: 1.1),
             self.achievementsNumberView.heightAnchor.constraint(equalTo: self.containerView.heightAnchor, multiplier: 0.6),
             self.achievementsNumberView.widthAnchor.constraint(equalTo: self.containerView.heightAnchor, multiplier: 0.6),
             self.achievementsNumberView.centerYAnchor.constraint(equalTo: self.containerView.centerYAnchor),

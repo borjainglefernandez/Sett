@@ -17,7 +17,6 @@ class WorkoutExerciseNotesInputVM: NSObject {
     
 }
 
-
 // MARK: - Notes View Protocol
 extension WorkoutExerciseNotesInputVM: NotesViewProtocol {
     public func getNotes() -> String {
@@ -28,7 +27,6 @@ extension WorkoutExerciseNotesInputVM: NotesViewProtocol {
         return self
     }
 }
-
 
 // MARK: - UITextViewDelegate
 extension WorkoutExerciseNotesInputVM: UITextViewDelegate {

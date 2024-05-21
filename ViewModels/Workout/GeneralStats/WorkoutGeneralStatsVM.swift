@@ -24,6 +24,8 @@ final class WorkoutGeneralStatsVM: NSObject {
                     predicates: [NSPredicate(format: "SELF = %@", self.workout.objectID)])
     }()
     
+    public var overallWorkoutMenuProtocol: OverallWorkoutMenuProtocol?
+    
     // MARK: - Init
     init(workout: Workout) {
         self.workout = workout
@@ -69,7 +71,7 @@ extension WorkoutGeneralStatsVM: NSFetchedResultsControllerDelegate {
             return // Ensure the object is a managed object
         }
         self.tableView?.reloadData()
-        
+        self.overallWorkoutMenuProtocol?.reloadOverallWorkoutMenu()
     }
 }
 

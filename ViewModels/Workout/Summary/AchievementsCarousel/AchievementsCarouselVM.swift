@@ -54,10 +54,6 @@ final class AchievementsCarouselVM: NSObject {
 // MARK: - Collection View Delegate
 extension AchievementsCarouselVM: UICollectionViewDataSource, UICollectionViewDelegateFlowLayout {
 
-//    func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-//        return items.count
-//    }
-//    
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
         return self.getAchievementsLength()
     }

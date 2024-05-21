@@ -90,8 +90,8 @@ extension TimePickerVM: UIPickerViewDataSource, UIPickerViewDelegate {
                 return 80
             case 2:
                 return 60
-        default:
-            return 0
+            default:
+                return 0
         }
     }
 }

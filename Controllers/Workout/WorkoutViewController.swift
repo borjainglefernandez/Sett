@@ -45,6 +45,7 @@ final class WorkoutViewController: UIViewController {
         self.workoutBottomBarView = WorkoutBottomBarView(frame: .zero, viewModel: workoutBottomBarVM)
         
         super.init(nibName: nil, bundle: nil)
+        self.generalStatsVM.overallWorkoutMenuProtocol = self
     }
     
     required init?(coder: NSCoder) {
@@ -87,9 +88,9 @@ final class WorkoutViewController: UIViewController {
             self.workoutExercisesView.topAnchor.constraint(equalTo: self.topBar.bottomAnchor, constant: 7),
             self.workoutExercisesView.leftAnchor.constraint(equalTo: self.view.safeAreaLayoutGuide.leftAnchor),
             self.workoutExercisesView.rightAnchor.constraint(equalTo: self.view.safeAreaLayoutGuide.rightAnchor),
-            self.workoutExercisesView.heightAnchor.constraint(equalTo: self.view.safeAreaLayoutGuide.heightAnchor, multiplier: 0.90),
+            self.workoutExercisesView.heightAnchor.constraint(equalTo: self.view.safeAreaLayoutGuide.heightAnchor, multiplier: 0.88),
             
-            self.workoutBottomBarView.topAnchor.constraint(equalTo: self.workoutExercisesView.bottomAnchor, constant: 7),
+            self.workoutBottomBarView.topAnchor.constraint(equalToSystemSpacingBelow: self.workoutExercisesView.bottomAnchor, multiplier: 1),
             self.workoutBottomBarView.centerXAnchor.constraint(equalTo: self.topBar.centerXAnchor),
             self.workoutBottomBarView.widthAnchor.constraint(equalTo: self.topBar.widthAnchor),
             self.workoutBottomBarView.heightAnchor.constraint(equalTo: self.topBar.heightAnchor)
@@ -100,5 +101,10 @@ final class WorkoutViewController: UIViewController {
     @objc func goBack() {
         self.dismiss(animated: true)
     }
+}
 
+extension WorkoutViewController: OverallWorkoutMenuProtocol {
+    func reloadOverallWorkoutMenu() {
+        self.moreButton.menu = OverallWorkoutMenu(workout: self.workout, overallView: self.view).getMenu()
+    }
 }
