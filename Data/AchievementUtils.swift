@@ -9,11 +9,32 @@ import Foundation
 
 class AchievementUtils {
     
+    static public func doesAchievementExistInWorkout(workout: Workout,
+                                                     title: String,
+                                                     subtitle: String,
+                                                     subtitleDescription: String) -> Bool {
+        return CoreDataBase.entityCount(
+            withEntityName: "Achievement",
+            expecting: Achievement.self,
+            predicates: [
+                      NSPredicate(format: "workout = %@", workout.objectID),
+                      NSPredicate(format: "title == %@", title),
+                      NSPredicate(format: "subTitle == %@", subtitle),
+                      NSPredicate(format: "subTitleDescription == %@", subtitleDescription)]
+        ) != 0
+    }
+    
     static public func createAchievement(workout: Workout,
                                          title: String,
                                          subtitle: String,
                                          subtitleDescription: String) {
-        print(title)
+        if doesAchievementExistInWorkout(workout: workout,
+                                          title: title,
+                                          subtitle: subtitle,
+                                          subtitleDescription: subtitleDescription) {
+            return
+        }
+
         let newAchievement = Achievement(context: CoreDataBase.context)
         newAchievement.workout = workout
         newAchievement.title = title
@@ -21,7 +42,6 @@ class AchievementUtils {
         newAchievement.subTitleDescription = subtitleDescription
         CoreDataBase.save()
     }
-    
     
     static public func prWeightAchievement(workout: Workout) {
         for workoutExercise in WorkoutUtils.getWorkoutExerciseList(workout: workout) {
@@ -129,7 +149,6 @@ class AchievementUtils {
     }
     
     static public func checkIfAchievementsHit(workout: Workout) {
-        print("Here")
         AchievementUtils.prWeightAchievement(workout: workout)
         AchievementUtils.netIncreaseOrPerfectWorkoutAchievement(workout: workout)
         AchievementUtils.workoutStreakAchievement(workout: workout)
