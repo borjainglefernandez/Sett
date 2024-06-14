@@ -16,6 +16,15 @@ enum WorkoutGeneralStatsViewType: CaseIterable {
     case bodyweight
     case netProgress
     case notes
+    
+    public static func getGeneralStatsWorkoutComponents() -> [WorkoutGeneralStatsViewType] {
+        return [.rating, .startTime, .bodyweight, .netProgress, .notes]
+    }
+    
+    public static func getGeneralStatsSummaryComponents() -> [WorkoutGeneralStatsViewType] {
+        return [.rating, .startTime, .bodyweight, .netProgress, .notes]
+        
+    }
 }
 
 final class WorkoutGeneralStatsViewCellVM: NSObject {

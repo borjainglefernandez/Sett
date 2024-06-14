@@ -12,11 +12,7 @@ final class WorkoutGeneralStatsVM: NSObject {
     
     public let workout: Workout
     public var tableView: UITableView?
-    private lazy var cellVMs: [WorkoutGeneralStatsViewCellVM] = {
-        return WorkoutGeneralStatsViewType.allCases.compactMap { type in
-            return WorkoutGeneralStatsViewCellVM(type: type, workout: self.workout)
-        }
-    }()
+    private let cellVMs: [WorkoutGeneralStatsViewCellVM]
     lazy var fetchedResultsController: NSFetchedResultsController<Workout> = {
         return CoreDataBase.createFetchedResultsController(
                     withEntityName: "Workout",
@@ -27,8 +23,9 @@ final class WorkoutGeneralStatsVM: NSObject {
     public var overallWorkoutMenuProtocol: OverallWorkoutMenuProtocol?
     
     // MARK: - Init
-    init(workout: Workout) {
+    init(workout: Workout, cellVMs: [WorkoutGeneralStatsViewCellVM]) {
         self.workout = workout
+        self.cellVMs = cellVMs
         super.init()
         
         CoreDataBase.configureFetchedResults(controller: self.fetchedResultsController, expecting: Workout.self, with: self)

@@ -36,7 +36,10 @@ final class WorkoutViewController: UIViewController {
     init(workout: Workout) {
         self.workout = workout
         
-        self.generalStatsVM = WorkoutGeneralStatsVM(workout: workout)
+        let cellVMs = WorkoutGeneralStatsViewType.getGeneralStatsWorkoutComponents().compactMap { type in
+            return WorkoutGeneralStatsViewCellVM(type: type, workout: workout)
+        }
+        self.generalStatsVM = WorkoutGeneralStatsVM(workout: workout, cellVMs: cellVMs)
         
         self.workoutExercisesVM = WorkoutExercisesVM(workout: workout)
         self.workoutExercisesView = WorkoutExercisesView(frame: .zero, viewModel: workoutExercisesVM)

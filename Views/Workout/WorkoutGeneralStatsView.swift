@@ -9,6 +9,8 @@ import UIKit
 
 final class WorkoutGeneralStatsView: UICollectionReusableView {
     
+    private let tableColor: UIColor
+    private let withTopBar: Bool
     private var viewModel: WorkoutGeneralStatsVM?
     
     // Top bar of the general stats view container
@@ -22,9 +24,9 @@ final class WorkoutGeneralStatsView: UICollectionReusableView {
     }()
     
     // Table View for each category of general stats
-    private let tableView: UITableView = {
+    lazy var tableView: UITableView = {
         let tableView = UITableView()
-        tableView.backgroundColor = .systemGray3.withAlphaComponent(0.44)
+        tableView.backgroundColor = self.tableColor
         tableView.translatesAutoresizingMaskIntoConstraints = false
         tableView.register(WorkoutGeneralStatsViewCell.self, forCellReuseIdentifier: WorkoutGeneralStatsViewCell.cellIdentifier)
         tableView.layer.cornerRadius = 15
@@ -37,6 +39,17 @@ final class WorkoutGeneralStatsView: UICollectionReusableView {
     
     // MARK: - Init
     override init(frame: CGRect) {
+        self.tableColor = .systemGray3.withAlphaComponent(0.44)
+        self.withTopBar = true
+        super.init(frame: frame)
+        
+        self.addSubviews(self.topBar, self.tableView)
+        self.addConstraints()
+    }
+    
+    init(frame: CGRect = .zero, tableColor: UIColor, withTopBar: Bool) {
+        self.tableColor = tableColor
+        self.withTopBar = withTopBar
         super.init(frame: frame)
         
         self.addSubviews(self.topBar, self.tableView)
@@ -49,17 +62,26 @@ final class WorkoutGeneralStatsView: UICollectionReusableView {
     
     // MARK: - Constraints
     private func addConstraints() {
-        NSLayoutConstraint.activate([
-            self.topBar.topAnchor.constraint(equalTo: self.topAnchor, constant: 10),
-            self.topBar.centerXAnchor.constraint(equalTo: self.centerXAnchor),
-            self.topBar.widthAnchor.constraint(equalTo: self.widthAnchor, multiplier: 0.95),
-            self.topBar.heightAnchor.constraint(equalToConstant: 30),
-            
-            self.tableView.topAnchor.constraint(equalTo: self.topBar.bottomAnchor),
-            self.tableView.leftAnchor.constraint(equalTo: self.topBar.leftAnchor),
-            self.tableView.rightAnchor.constraint(equalTo: self.topBar.rightAnchor),
-            self.tableView.bottomAnchor.constraint(equalTo: self.bottomAnchor)
-        ])
+        if self.withTopBar {
+            NSLayoutConstraint.activate([
+                self.topBar.topAnchor.constraint(equalTo: self.topAnchor, constant: 10),
+                self.topBar.centerXAnchor.constraint(equalTo: self.centerXAnchor),
+                self.topBar.widthAnchor.constraint(equalTo: self.widthAnchor, multiplier: 0.95),
+                self.topBar.heightAnchor.constraint(equalToConstant: 30),
+                
+                self.tableView.topAnchor.constraint(equalTo: self.topBar.bottomAnchor),
+                self.tableView.leftAnchor.constraint(equalTo: self.topBar.leftAnchor),
+                self.tableView.rightAnchor.constraint(equalTo: self.topBar.rightAnchor),
+                self.tableView.bottomAnchor.constraint(equalTo: self.bottomAnchor)
+            ])
+        } else {
+            NSLayoutConstraint.activate([
+                self.tableView.topAnchor.constraint(equalTo: self.topAnchor, constant: 10),
+                self.tableView.widthAnchor.constraint(equalTo: self.widthAnchor, multiplier: 0.95),
+                self.tableView.centerXAnchor.constraint(equalTo: self.centerXAnchor),
+                self.tableView.bottomAnchor.constraint(equalTo: self.bottomAnchor)
+            ])
+        }
     }
     
     private func setUpTableView() {

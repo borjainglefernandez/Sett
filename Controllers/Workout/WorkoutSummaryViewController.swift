@@ -43,7 +43,10 @@ class WorkoutSummaryViewController: UIViewController {
     // MARK: - Init
     init(workout: Workout) {
         self.workout = workout
-        self.generalStatsVM = WorkoutGeneralStatsVM(workout: workout)
+        let cellVMs = WorkoutGeneralStatsViewType.getGeneralStatsWorkoutComponents().compactMap { type in
+            return WorkoutGeneralStatsViewCellVM(type: type, workout: workout)
+        }
+        self.generalStatsVM = WorkoutGeneralStatsVM(workout: workout, cellVMs: cellVMs)
         self.achievementsCarouselView = AchievementsCarouselView(viewModel: AchievementsCarouselVM(workout: workout))
 
         super.init(nibName: nil, bundle: nil)

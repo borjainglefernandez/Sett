@@ -111,7 +111,10 @@ extension WorkoutExercisesVM: UICollectionViewDataSource, UICollectionViewDelega
                 ofKind: kind,
                 withReuseIdentifier: "WorkoutGeneralStatsView",
                 for: indexPath) as? WorkoutGeneralStatsView
-            let workoutGeneralStatsVM = WorkoutGeneralStatsVM(workout: self.workout)
+            let cellVMs = WorkoutGeneralStatsViewType.getGeneralStatsWorkoutComponents().compactMap { type in
+                return WorkoutGeneralStatsViewCellVM(type: type, workout: self.workout)
+            }
+            let workoutGeneralStatsVM = WorkoutGeneralStatsVM(workout: self.workout, cellVMs: cellVMs)
             workoutGeneralStatsView?.configure(viewModel: workoutGeneralStatsVM)
             return workoutGeneralStatsView!
         } else {
