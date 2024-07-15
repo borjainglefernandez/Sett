@@ -9,7 +9,7 @@ import UIKit
 import CoreData
 
 final class WorkoutGeneralStatsVM: NSObject {
-    
+     
     public let workout: Workout
     public var tableView: UITableView?
     private let cellVMs: [WorkoutGeneralStatsViewCellVM]

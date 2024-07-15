@@ -16,13 +16,14 @@ enum WorkoutGeneralStatsViewType: CaseIterable {
     case bodyweight
     case netProgress
     case notes
+    case duration
     
     public static func getGeneralStatsWorkoutComponents() -> [WorkoutGeneralStatsViewType] {
         return [.rating, .startTime, .bodyweight, .netProgress, .notes]
     }
     
     public static func getGeneralStatsSummaryComponents() -> [WorkoutGeneralStatsViewType] {
-        return [.rating, .startTime, .bodyweight, .netProgress, .notes]
+        return [.rating, .netProgress, .startTime, .duration]
         
     }
 }
@@ -45,6 +46,8 @@ final class WorkoutGeneralStatsViewCellVM: NSObject {
             return "Rating"
         case .startTime:
             return "Start"
+        case .duration:
+            return "Duration"
         case .bodyweight:
             return "Body Weight"
         case .netProgress:
@@ -61,7 +64,7 @@ final class WorkoutGeneralStatsViewCellVM: NSObject {
 
     var displayDivider: Bool {
         switch self.type {
-        case .rating, .startTime, .bodyweight, .netProgress:
+        case .rating, .startTime, .bodyweight, .netProgress, .duration:
             return true
         case .notes:
             return false
@@ -74,6 +77,8 @@ final class WorkoutGeneralStatsViewCellVM: NSObject {
             return WorkoutGeneralStatsRating(frame: .zero, viewModel: self)
         case .startTime:
             return StartTimePickerView(frame: .zero, viewModel: self)
+        case .duration:
+            return DurationView(frame: .zero, viewModel: self)
         case .bodyweight:
             return WeightPickerView(frame: .zero, viewModel: self)
         case .netProgress:

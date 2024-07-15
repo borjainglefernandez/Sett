@@ -43,6 +43,16 @@ final class AchievementsCarouselVM: NSObject {
             let viewModel = AchievementsCarouselCellVM(achievement: achievement)
             self.cellVMs.append(viewModel)
         }
+        
+        if self.cellVMs.isEmpty { // The No Achievement Achievement
+            let achievement = Achievement(context: CoreDataBase.context)
+            achievement.title = "flag.checkered"
+            achievement.subTitle = "Completed Workout"
+            achievement.subTitleDescription = "The No Achievement Achievement"
+            
+            let viewModel = AchievementsCarouselCellVM(achievement: achievement)
+            self.cellVMs.append(viewModel)
+        }
     }
     
     // MARK: - Actions

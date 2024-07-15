@@ -10,12 +10,12 @@ import UIKit
 class EmptyLabel: UILabel {
     
     // MARK: - Init
-    init(frame: CGRect, labelText: String) {
+    init(frame: CGRect, fontSize: Double = 17.0, labelText: String) {
         super.init(frame: frame)
         self.translatesAutoresizingMaskIntoConstraints = false
         
         self.textColor = .label
-        self.font = .systemFont(ofSize: 17.0, weight: .bold)
+        self.font = .systemFont(ofSize: fontSize, weight: .bold)
         self.text = labelText
         self.textAlignment = .center
         self.isHidden = true

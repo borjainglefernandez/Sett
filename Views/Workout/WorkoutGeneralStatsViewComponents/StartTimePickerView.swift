@@ -37,7 +37,7 @@ final class StartTimePickerView: UIView {
             // TODO: Figure out way to make this relative
             self.widthAnchor.constraint(equalToConstant: 125),
             self.heightAnchor.constraint(equalToConstant: 25),
-            
+
             self.startTimePicker.topAnchor.constraint(equalTo: self.topAnchor),
             self.startTimePicker.centerXAnchor.constraint(equalTo: self.centerXAnchor),
             self.startTimePicker.rightAnchor.constraint(equalTo: self.rightAnchor),

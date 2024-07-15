@@ -16,8 +16,9 @@ class WorkoutSummaryViewController: UIViewController {
     private let confirmButton: UIButton = IconButton(frame: .zero, imageName: "checkmark.circle.fill")
     
     private let generalStatsVM: WorkoutGeneralStatsVM
-    
     private let achievementsCarouselView: AchievementsCarouselView
+    private let workoutSummaryStatsView: WorkoutSummaryStatsView
+    private let workoutNotesSummaryView: WorkoutNotesSummaryView
 
     lazy var workoutName: UITextField = {
         let workoutName = UITextField()
@@ -34,7 +35,7 @@ class WorkoutSummaryViewController: UIViewController {
         let paginationDots = UIPageControl()
         paginationDots.translatesAutoresizingMaskIntoConstraints = false
         paginationDots.currentPageIndicatorTintColor = .label
-        paginationDots.pageIndicatorTintColor = .black
+        paginationDots.pageIndicatorTintColor = .systemGray
         paginationDots.currentPage = 0
         paginationDots.numberOfPages = self.generalStatsVM.workout.achievementsCount
         return paginationDots
@@ -43,13 +44,21 @@ class WorkoutSummaryViewController: UIViewController {
     // MARK: - Init
     init(workout: Workout) {
         self.workout = workout
-        let cellVMs = WorkoutGeneralStatsViewType.getGeneralStatsWorkoutComponents().compactMap { type in
+        let cellVMs = WorkoutGeneralStatsViewType.getGeneralStatsSummaryComponents().compactMap { type in
             return WorkoutGeneralStatsViewCellVM(type: type, workout: workout)
         }
         self.generalStatsVM = WorkoutGeneralStatsVM(workout: workout, cellVMs: cellVMs)
+        
         self.achievementsCarouselView = AchievementsCarouselView(viewModel: AchievementsCarouselVM(workout: workout))
-
+        
+        self.workoutSummaryStatsView = WorkoutSummaryStatsView(frame: .zero, tableColor: .clear, withTopBar: false)
+        self.workoutSummaryStatsView.translatesAutoresizingMaskIntoConstraints = false
+        
+        self.workoutNotesSummaryView = WorkoutNotesSummaryView(viewModel: WorkoutNotesSummaryVM(workout: workout))
+        
         super.init(nibName: nil, bundle: nil)
+        self.workoutSummaryStatsView.configure(viewModel: self.generalStatsVM)
+
     }
     
     required init?(coder: NSCoder) {
@@ -65,7 +74,7 @@ class WorkoutSummaryViewController: UIViewController {
         self.view.backgroundColor = .systemCyan
         
         self.topBar.addSubviews(self.backButton, self.workoutName, self.confirmButton)
-        self.view.addSubviews(self.topBar, self.achievementsCarouselView, self.paginationDots)
+        self.view.addSubviews(self.topBar, self.achievementsCarouselView, self.paginationDots, self.workoutSummaryStatsView, self.workoutNotesSummaryView)
         self.addConstraints()
         
         self.backButton.addTarget(self, action: #selector(self.goBack), for: .touchUpInside)
@@ -95,8 +104,18 @@ class WorkoutSummaryViewController: UIViewController {
             self.achievementsCarouselView.heightAnchor.constraint(equalTo: self.view.safeAreaLayoutGuide.heightAnchor, multiplier: 0.38),
             
             self.paginationDots.topAnchor.constraint(equalTo: self.achievementsCarouselView.bottomAnchor),
-            self.paginationDots.centerXAnchor.constraint(equalTo: self.view.centerXAnchor)
+            self.paginationDots.centerXAnchor.constraint(equalTo: self.view.centerXAnchor),
             
+            self.workoutSummaryStatsView.topAnchor.constraint(equalTo: self.paginationDots.bottomAnchor, constant: 7),
+            self.workoutSummaryStatsView.leftAnchor.constraint(equalTo: self.view.safeAreaLayoutGuide.leftAnchor),
+            self.workoutSummaryStatsView.rightAnchor.constraint(equalTo: self.view.safeAreaLayoutGuide.rightAnchor),
+            self.workoutSummaryStatsView.centerXAnchor.constraint(equalTo: self.view.centerXAnchor),
+            self.workoutSummaryStatsView.heightAnchor.constraint(equalTo: self.view.safeAreaLayoutGuide.heightAnchor, multiplier: 0.25),
+            
+            self.workoutNotesSummaryView.topAnchor.constraint(equalTo: self.workoutSummaryStatsView.bottomAnchor, constant: 7),
+            self.workoutNotesSummaryView.leftAnchor.constraint(equalTo: self.view.safeAreaLayoutGuide.leftAnchor),
+            self.workoutNotesSummaryView.rightAnchor.constraint(equalTo: self.view.safeAreaLayoutGuide.rightAnchor),
+            self.workoutNotesSummaryView.heightAnchor.constraint(equalTo: self.view.heightAnchor, multiplier: 0.20)
         ])
     }
     
