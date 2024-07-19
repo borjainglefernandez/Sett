@@ -65,6 +65,10 @@ final class SettListVM: NSObject {
         self.settCollection?.workoutExercise?.numSetts += 1
         CoreDataBase.save()
     }
+    
+    public func editSettOrder(isEditingSettOrder: Bool) {
+        self.tableView?.isEditing = isEditingSettOrder
+    }
 }
 
 // MARK: - Table View Delegate
@@ -107,6 +111,11 @@ extension SettListVM: UITableViewDataSource, UITableViewDelegate {
     }
     
     func tableView(_ tableView: UITableView, leadingSwipeActionsConfigurationForRowAt indexPath: IndexPath) -> UISwipeActionsConfiguration? {
+        
+        if (indexPath.row > self.cellVMs.count) {
+            return nil
+        }
+        
         let cellVM =  self.cellVMs[indexPath.row]
         
         // Autofill sett action
@@ -201,6 +210,32 @@ extension SettListVM: UITableViewDataSource, UITableViewDelegate {
         deleteSettAction.image = UIImage(systemName: "trash")
         let swipeActions = UISwipeActionsConfiguration(actions: [deleteSettAction])
         return swipeActions
+    }
+    
+    func tableView(_ tableView: UITableView, editingStyleForRowAt indexPath: IndexPath) -> UITableViewCell.EditingStyle {
+        return .none
+    }
+    
+    func tableView(_ tableView: UITableView, moveRowAt sourceIndexPath: IndexPath, to destinationIndexPath: IndexPath) {
+
+        // Convert NSOrderedSet to mutable array
+        if var mutableArray = self.settCollection?.setts?.array as? [Sett] {
+            
+            // Perform reordering
+            let movedObject = mutableArray[sourceIndexPath.row]
+            mutableArray.remove(at: sourceIndexPath.row)
+            mutableArray.insert(movedObject, at: destinationIndexPath.row)
+            
+            // Update NSOrderedSet with reordered array
+            self.settCollection?.setts = NSOrderedSet(array: mutableArray as [AnyObject])
+            
+            // Reload table view to reflect changes (if necessary)
+            tableView.reloadData()
+        }
+    }
+    
+    func tableView(_ tableView: UITableView, canMoveRowAt indexPath: IndexPath) -> Bool {
+        return indexPath.row != self.cellVMs.count
     }
 }
 

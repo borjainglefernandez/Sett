@@ -22,6 +22,9 @@ class SettListActionView: UITableViewCell {
     // Reorder Setts Button
     private let reorderSettsButton: UIButton = IconButton(imageName: "line.3.horizontal", color: .label, fontSize: 15.0, fontWeight: .light)
 
+    // Whether or not we are editing the sett order
+    private var isEditingSettOrder: Bool = false
+    
     // MARK: - Init
     override init(style: UITableViewCell.CellStyle, reuseIdentifier: String?) {
         super.init(style: style, reuseIdentifier: reuseIdentifier)
@@ -43,6 +46,7 @@ class SettListActionView: UITableViewCell {
     
     private func configureSubviews() {
         self.addSettButton.addTarget(self, action: #selector(self.addSett), for: .touchUpInside)
+        self.reorderSettsButton.addTarget(self, action: #selector(self.reorderSetts), for: .touchUpInside)
         self.contentView.addSubviews(self.addSettButton, self.viewStatsButton, self.reorderSettsButton)
     }
     
@@ -68,6 +72,12 @@ class SettListActionView: UITableViewCell {
     // MARK: - Actions
     @objc func addSett() {
         self.viewModel?.addSett()
+    }
+    
+    @objc func reorderSetts() {
+        self.isEditingSettOrder.toggle()
+        self.viewModel?.editSettOrder(isEditingSettOrder: self.isEditingSettOrder)
+        self.reorderSettsButton.layer.backgroundColor = self.isEditingSettOrder ? UIColor.systemGray4.cgColor : UIColor.clear.cgColor
     }
     
 }
